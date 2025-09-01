@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# High-value pages for search engines
+Allow: /festivals/
+Allow: /quiz
+Allow: /what-festival-should-i-go-to
+Allow: /best/
+Allow: /festival/
+
+# Performance optimization
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://getfestiwise.com/sitemap.xml
