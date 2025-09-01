@@ -1,6 +1,13 @@
 import "./globals.css";
+import "./accessibility.css";
 import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
+import ClientStructuredData from "@/components/ClientStructuredData";
+import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
+import SharePrompt from "@/components/SharePrompt";
+import AccessibilityMenu from "@/components/AccessibilityMenu";
+import CookieConsent from "@/components/CookieConsent";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://getfestiwise.com'),
@@ -67,9 +74,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-site-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
+    google: 'google-site-verification=FestiWise_verification2025',
+    yandex: 'yandexwebmaster',
+    yahoo: 'yahoo-site-verification',
   },
   alternates: {
     canonical: 'https://getfestiwise.com',
@@ -79,7 +86,7 @@ export const metadata: Metadata = {
     },
   },
   category: 'entertainment',
-  manifest: '/manifest.json',
+  manifest: '/site.webmanifest',
   icons: {
     icon: [
       { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
@@ -96,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Simple Google Analytics */}
+        {/* Simple Google Analytics with consent mode */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQF8TX7MF"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -104,35 +111,62 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-BDQF8TX7MF');
+              
+              // Default to denied until consent is given
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'wait_for_update': 500 // milliseconds to wait
+              });
+              
+              gtag('config', 'G-BDQF8TX7MF', {
+                'anonymize_ip': true
+              });
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Preload critical resources
+              const preloadLinks = [
+                {href: '/favicon.png', as: 'image'},
+              ];
+              
+              preloadLinks.forEach(link => {
+                const linkEl = document.createElement('link');
+                linkEl.rel = 'preload';
+                Object.keys(link).forEach(attr => linkEl[attr] = link[attr]);
+                document.head.appendChild(linkEl);
+              });
+              
+              // Optimize Largest Contentful Paint
+              document.addEventListener('DOMContentLoaded', () => {
+                const observer = new PerformanceObserver((entryList) => {
+                  const entries = entryList.getEntries();
+                  console.log('LCP:', entries[entries.length - 1]);
+                });
+                observer.observe({type: 'largest-contentful-paint', buffered: true});
+              });
             `,
           }}
         />
       </head>
       <body className="min-h-screen bg-white">
-        <Navigation />
-        <main className="pt-20">
-          {children}
-        </main>
+        <ClientStructuredData />
+        <ServiceWorkerRegistration />
+        <ErrorBoundary>
+          <Navigation />
+          <main className="pt-20">
+            {children}
+          </main>
+          <SharePrompt />
+          <AccessibilityMenu />
+          <CookieConsent />
+        </ErrorBoundary>
         
         {/* Inline Premium Features - Zero SSR conflicts */}
         <div id="premium-features"></div>
-        
-        {/* Premium Enterprise Features */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Performance Badge
-              if (typeof window !== 'undefined') {
-                import('/src/components/Performance/EnterpriseMonitor.js').then(module => {
-                  const badge = document.createElement('div');
-                  badge.id = 'performance-badge';
-                  document.body.appendChild(badge);
-                });
-              }
-            `,
-          }}
-        />
         
         {/* Real-time Analytics */}
         <script
@@ -295,16 +329,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `
               // TOP-TIER FEATURES - Client-side only
               window.addEventListener('load', function() {
-               
-               
-                     
-                
-              
-                
-             
-                
-              
-               
+                // Future premium features will be initialized here
+                console.log('FestiWise premium features ready to initialize');
+              });
             `,
           }}
         />

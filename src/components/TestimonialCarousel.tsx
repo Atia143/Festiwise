@@ -85,7 +85,7 @@ export default function TestimonialCarousel() {
           >
             <span className="text-yellow-500 text-sm md:text-base">⭐⭐⭐⭐⭐</span>
             <span className="font-semibold text-gray-700 text-sm md:text-base">
-              {SITE_STATS.SATISFACTION_RATING}/5 • {SITE_STATS.TOTAL_USERS.toLocaleString()}+ users
+              {SITE_STATS.SATISFACTION_RATING}/5 • {SITE_STATS.TOTAL_USERS.toLocaleString()}
             </span>
           </motion.div>
           

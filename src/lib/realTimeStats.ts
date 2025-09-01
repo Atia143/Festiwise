@@ -35,7 +35,7 @@ class StatsManager {
     
     // Get from localStorage or initialize
     const storedUserCount = typeof window !== 'undefined' ? 
-      parseInt(localStorage.getItem('festivalFinder_totalUsers') || '2847') : 2847;
+      parseInt(localStorage.getItem('festivalFinder_totalUsers') || '2') : 2;
     
     const storedRecommendations = typeof window !== 'undefined' ? 
       parseInt(localStorage.getItem('festivalFinder_totalRecommendations') || '15234') : 15234;

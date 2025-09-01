@@ -36,6 +36,41 @@ const Navigation = () => {
     return false;
   };
 
+  // Prevent hydration mismatch - match motion.header structure exactly
+  if (!mounted) {
+    return (
+      <header
+        className="fixed left-0 right-0 z-[9999] bg-white/90 backdrop-blur-md border-b border-gray/20 shadow-xl"
+        style={{ 
+          top: 'var(--banner-height, 0px)',
+          transition: 'top 0.3s ease-in-out'
+        }}
+        role="banner"
+      >
+        {/* Match the glow effect structure */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-white/10 opacity-100 pointer-events-none" />
+        
+        {/* Match the banner structure */}
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1 text-xs">
+          🎉 World-Class Festival Discovery • Free Forever
+        </div>
+        
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">F</span>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                FestiWise
+              </span>
+            </div>
+          </div>
+        </nav>
+      </header>
+    );
+  }
+
   return (
     <motion.header
       className={`fixed left-0 right-0 z-[9999] transition-all duration-500 ${
@@ -51,6 +86,7 @@ const Navigation = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
       role="banner"
+      suppressHydrationWarning
     >
       {/* Ambient glow effect */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${
@@ -178,20 +214,24 @@ const Navigation = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Language selector inline */}
-            <select 
-              className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => {
-                if (typeof window !== 'undefined' && window.gtag) {
-                  window.gtag('event', 'language_changed', { language: e.target.value });
-                }
-              }}
-            >
-              <option value="en">🇺🇸 EN</option>
-              <option value="es">🇪🇸 ES</option>
-              <option value="fr">🇫🇷 FR</option>
-              <option value="de">🇩🇪 DE</option>
-            </select>
+            {/* Language selector inline - Fixed hydration */}
+            <div className="relative">
+              <select 
+                className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => {
+                  // Client-side only analytics tracking
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'language_changed', { language: e.target.value });
+                  }
+                }}
+                suppressHydrationWarning
+              >
+                <option value="en">🇺🇸 EN</option>
+                <option value="es">🇪🇸 ES</option>
+                <option value="fr">🇫🇷 FR</option>
+                <option value="de">🇩🇪 DE</option>
+              </select>
+            </div>
             
             <motion.div
               whileHover={{ scale: 1.05 }}

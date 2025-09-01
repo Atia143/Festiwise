@@ -97,7 +97,7 @@ This user completed the entire quiz and is highly engaged - prime for conversion
         <p className="text-sm text-red-200 mt-3 text-center">{error}</p>
       )}
       <p className="text-xs text-white/70 mt-3 text-center">
-        ✨ <strong>2,847 festival explorers</strong> already joined this week. No spam, unsubscribe anytime.
+        ✨ <strong>my uncle festival explorers</strong> already joined this week. No spam, unsubscribe anytime.
       </p>
     </div>
   );

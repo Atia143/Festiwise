@@ -3,20 +3,34 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+// Optional: comment out analytics/stats lines if you don't use them
 import { statsManager } from '@/lib/realTimeStats';
 import { analytics } from '@/lib/analytics';
 import SocialProof from './SocialProof';
 
+// Simple translation; swap for your i18n solution as needed
+function useSimpleLanguage(): { t: (key: string) => string } {
+  const translations: Record<string, string> = {
+    'hero.title': 'Find Your Perfect Festival Match',
+    'hero.subtitle': 'Discover, compare, and get matched with music festivals worldwide. Personalized, fast, and free.',
+    'hero.cta': 'Start Quiz',
+  };
+
+  function t(key: string) {
+    return translations[key] || key;
+  }
+
+  return { t };
+}
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
 };
 
-export default function Hero() {
+export default function UltimateHero() {
   const { t } = useSimpleLanguage();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // Initialize with static values to prevent hydration mismatch
   const [stats, setStats] = useState({
     festivals: '100+ festivals',
     users: 'users',
@@ -27,18 +41,13 @@ export default function Hero() {
   });
 
   useEffect(() => {
-    // Initialize analytics
-    analytics.initialize('G-BDQF8TX7MF');
-    
-    // Track homepage visit
-    analytics.trackPageView('/', 'Festival Finder Homepage');
-    
-    // Update with real stats
-    setStats(statsManager.getFormattedStats());
-    
-    // Update stats every 30 seconds
+    // Optional analytics
+    analytics?.initialize?.('G-BDQF8TX7MF');
+    analytics?.trackPageView?.('/', 'Festival Finder Homepage');
+    setStats(statsManager?.getFormattedStats?.() || stats);
+
     const statsInterval = setInterval(() => {
-      setStats(statsManager.getFormattedStats());
+      setStats(statsManager?.getFormattedStats?.() || stats);
     }, 30000);
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -49,21 +58,20 @@ export default function Hero() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearInterval(statsInterval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden px-4 sm:px-6 lg:px-8 py-16">
       {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Gradient Overlay */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/90 via-indigo-900/80 to-pink-800/90" />
-        
-        {/* Floating Elements - Hidden on small screens to prevent layout shift */}
+
+        {/* Parallax floating circles */}
         <motion.div
           className="absolute top-20 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl hidden md:block"
           animate={{
@@ -88,17 +96,17 @@ export default function Hero() {
           }}
           transition={{ type: "spring", stiffness: 50, damping: 10 }}
         />
+
+        {/* Optional: Particle overlay */}
+        <motion.div
+          className="absolute inset-0 opacity-30"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        />
       </div>
 
-      {/* Particle Effect */}
-      <motion.div
-        className="absolute inset-0 opacity-30"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-6xl mx-auto text-center">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -112,7 +120,7 @@ export default function Hero() {
             }
           }}
         >
-          {/* Social Proof (conditional) */}
+          {/* Social Proof */}
           <motion.div
             variants={fadeIn}
             className="mb-6 pt-20"
@@ -138,7 +146,7 @@ export default function Hero() {
             </span>
           </motion.h1>
 
-          {/* Hero Description with Keywords */}
+          {/* Description */}
           <motion.p
             variants={fadeIn}
             className="text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed"
@@ -146,7 +154,7 @@ export default function Hero() {
             {t('hero.subtitle')}
           </motion.p>
 
-          {/* Mobile-Optimized Stats */}
+          {/* Stats */}
           <motion.div
             variants={fadeIn}
             className="mb-8 flex flex-wrap justify-center items-center gap-4 md:gap-8 text-white/80 text-sm"
@@ -169,13 +177,13 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Enhanced CTA Buttons */}
+          {/* CTA Buttons */}
           <motion.div
             variants={fadeIn}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
           >
             <Link
-              href="/quiz"
+              href="/festival-quiz"
               className="group relative w-full sm:max-w-sm px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-base md:text-lg lg:text-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2 transform hover:rotate-1"
               aria-describedby="quiz-description"
             >
@@ -208,12 +216,17 @@ export default function Hero() {
             
             <div className="flex gap-3 text-sm md:text-base">
               <Link
+                href="/festivals"
+                className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
+              >
+                Browse Festivals
+              </Link>
+              <Link
                 href="/blog"
                 className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
               >
                 Guides
               </Link>
-              
               <Link
                 href="/faq"
                 className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
@@ -223,7 +236,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Streamlined Social Proof */}
+          {/* Testimonial */}
           <motion.div
             variants={fadeIn}
             className="mt-12 max-w-xl mx-auto"
@@ -257,18 +270,3 @@ export default function Hero() {
     </section>
   );
 }
-function useSimpleLanguage(): { t: (key: string) => string } {
-  // Simple dictionary for demonstration; in production, use i18n library
-  const translations: Record<string, string> = {
-    'hero.title': 'Find Your Perfect Festival Match',
-    'hero.subtitle': 'Discover, compare, and get matched with music festivals worldwide. Personalized, fast, and free.',
-    'hero.cta': 'Start Quiz',
-  };
-
-  function t(key: string) {
-    return translations[key] || key;
-  }
-
-  return { t };
-}
-
