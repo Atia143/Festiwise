@@ -116,3 +116,6 @@ export default function NotFound() {
     </Suspense>
   );
 }
+
+// Re-export for use in other components
+export { NotFound };
