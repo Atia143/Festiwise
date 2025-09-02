@@ -3,9 +3,12 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 // Wrap the content with Suspense to handle useSearchParams()
 function NotFoundContent() {
+  // Add explicit useSearchParams hook to make sure it's properly handled by Suspense
+  const searchParams = useSearchParams();
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center relative overflow-hidden">
       {/* Background decorations */}
