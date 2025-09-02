@@ -8,6 +8,7 @@ import SharePrompt from "@/components/SharePrompt";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import NotificationSystem from "@/components/NotificationSystem";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://getfestiwise.com'),
@@ -163,6 +164,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SharePrompt />
           <AccessibilityMenu />
           <CookieConsent />
+          <NotificationSystem />
         </ErrorBoundary>
         
         {/* Inline Premium Features - Zero SSR conflicts */}

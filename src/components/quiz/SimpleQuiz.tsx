@@ -133,7 +133,7 @@ function QuizContent() {
   const [timeSpent, setTimeSpent] = useState(0);
   const [stepStartTime, setStepStartTime] = useState(Date.now());
   const [sliderValue, setSliderValue] = useState(0);
-  
+
   // World-class loading experience
   const { isLoading: isInitialLoading, finishLoading } = useSmartLoading(1200, 'quiz');
   const [showQuizContent, setShowQuizContent] = useState(false);
@@ -302,10 +302,10 @@ function QuizContent() {
       icon: '⭐',
       required: true,
       options: [
-        { id: 'music-quality', label: 'Music Quality & Lineup', emoji: '�', description: 'Top-tier artists and perfect sound' },
+        { id: 'music-quality', label: 'Music Quality & Lineup', emoji: '🎶', description: 'Top-tier artists and perfect sound' },
         { id: 'value-money', label: 'Value for Money', emoji: '💰', description: 'Getting the most bang for your buck' },
         { id: 'atmosphere', label: 'Festival Atmosphere', emoji: '✨', description: 'Unique vibes and magical experiences' },
-        { id: 'location', label: 'Location & Setting', emoji: '�️', description: 'Beautiful venues and scenic backdrops' },
+        { id: 'location', label: 'Location & Setting', emoji: '📍', description: 'Beautiful venues and scenic backdrops' },
         { id: 'food-drinks', label: 'Food & Drinks', emoji: '🍕', description: 'Amazing culinary experiences' },
         { id: 'accommodation', label: 'Accommodation Quality', emoji: '🏨', description: 'Comfortable places to rest' },
         { id: 'safety-security', label: 'Safety & Security', emoji: '🛡️', description: 'Well-organized and secure events' },
@@ -362,16 +362,12 @@ function QuizContent() {
 
   const handleNext = async () => {
     setIsTransitioning(true);
-    
-    // Add slight delay for smooth transitions
     await new Promise(resolve => setTimeout(resolve, 200));
-    
     if (state.currentStep < totalSteps - 1) {
       nextStep();
     } else {
       completeQuiz();
     }
-    
     setIsTransitioning(false);
   };
 
@@ -384,11 +380,9 @@ function QuizContent() {
 
   const canProceed = () => {
     if (!currentStepData.required) return true;
-    
     if (currentStepData.type === 'multi') {
       return selectedOptions.length > 0;
     }
-    
     return selectedOptions.length > 0;
   };
 
@@ -575,11 +569,9 @@ function QuizContent() {
                               : 'bg-white/90 backdrop-blur-sm text-gray-700 border-gray-200 hover:border-purple-300 hover:shadow-xl'
                             }
                             ${option.premium ? 'ring-2 ring-yellow-400 ring-opacity-50' : ''}
-                            /* Enhanced mobile touch targets */
                             sm:hover:scale-105 sm:active:scale-95
                           `}
                           style={{
-                            /* Ensure 44px minimum touch target on mobile */
                             minHeight: typeof window !== 'undefined' && window.innerWidth < 768 ? '88px' : undefined
                           }}
                         >
@@ -674,7 +666,7 @@ function QuizContent() {
                         onClick={handlePrevious}
                         disabled={state.currentStep === 0 || isTransitioning}
                         className="group flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 md:py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 touch-manipulation"
-                        style={{ minHeight: '48px' }} // Ensure 48px minimum touch target
+                        style={{ minHeight: '48px' }}
                       >
                         <motion.span
                           className="text-xl"
@@ -701,7 +693,7 @@ function QuizContent() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           className="group bg-gradient-to-r from-purple-600 to-pink-600 text-white w-full sm:w-auto px-6 md:px-8 py-4 md:py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 touch-manipulation order-1 sm:order-2"
-                          style={{ minHeight: '56px' }} // Larger touch target for primary action
+                          style={{ minHeight: '56px' }}
                         >
                           {state.currentStep === totalSteps - 1 ? (
                             <>
@@ -751,12 +743,8 @@ function QuizContent() {
 
 export function SimpleQuiz() {
   const { state } = useQuiz();
-  
-  // If quiz is completed, show results
   if (state.isCompleted) {
     return <FestivalResults />;
   }
-
-  // Otherwise show the quiz content
   return <QuizContent />;
 }

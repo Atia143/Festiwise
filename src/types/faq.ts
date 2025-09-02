@@ -4,7 +4,7 @@ export interface FAQItem {
   question: string;
   answer: string;
   tags: string[];
-  lastUpdated: Date;
+  lastUpdated: string | Date; // Allow both string and Date for flexibility
   helpfulCount: number;
   relatedQuestions: string[];
   relatedGuides: {

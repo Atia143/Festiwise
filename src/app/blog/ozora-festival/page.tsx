@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-
 export default function OzoraFestivalArticle() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-black to-black text-white pb-24">
@@ -69,11 +68,12 @@ export default function OzoraFestivalArticle() {
             <p className="text-gray-700 mb-4">
               Want to be notified when this article goes live? Sign up for our newsletter and be the first to read it!
             </p>
+            {/* Replace href="#" with your actual subscribe page or modal trigger */}
             <Link
-              href="#"
+              href="/blog"
               className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform"
             >
-              Subscribe Now
+              Subscribe Nowßß
             </Link>
           </div>
         </motion.article>

@@ -653,7 +653,7 @@ The FestiWise Team 🎪`,
                 
                 <div className="border-l-4 border-green-500 pl-4">
                   <h4 className="font-semibold text-gray-800">Privacy & Data</h4>
-                  <p className="text-green-600">privacy@festiwise.com</p>
+                  <p className="text-green-600">pixelplus.contact@gmail.com</p>
                   <p className="text-sm text-gray-600">Privacy requests, data deletion, GDPR inquiries</p>
                 </div>
               </div>
