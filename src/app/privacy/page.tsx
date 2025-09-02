@@ -20,7 +20,6 @@ export default function PrivacyPage() {
               <p className="text-gray-600 leading-relaxed">
                 At FestiWise, we are committed to protecting your privacy and ensuring transparency about how we collect, use, and protect your personal information. This policy explains our practices in plain language.
               </p>
-            </div>
 
             <div className="space-y-8">
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
@@ -41,7 +40,6 @@ export default function PrivacyPage() {
                   <li>IP address and general location (country/region)</li>
                   <li>Cookies and similar tracking technologies</li>
                 </ul>
-              </div>
 
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. How We Use Your Information</h2>
@@ -164,21 +162,8 @@ export default function PrivacyPage() {
                 <p className="text-gray-600">Continued use of our service after changes indicates your acceptance of the updated policy.</p>
               </div>
 
-              <div className="bg-purple-50 border border-purple-200 rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-purple-900 mb-4">10. Contact Us</h2>
-                <p className="text-purple-800 mb-4">
-                  If you have questions about this privacy policy or our privacy practices, please contact us:
-                </p>
-                <div className="space-y-2 text-purple-800">
-                  <p><strong>Email:</strong> <a href="mailto:privacy@festiwise.com" className="underline">privacy@festiwise.com</a></p>
-                  <p><strong>Contact Form:</strong> <a href="/contact" className="underline">festiwise.com/contact</a></p>
-                  <p><strong>Response Time:</strong> We aim to respond within 48-72 hours</p>
-                </div>
-                
-                <div className="mt-6 pt-6 border-t border-purple-200">
-                  <p className="text-sm text-purple-700">
-                    <strong>Data Protection Officer:</strong> For EU-related inquiries, contact our DPO at <a href="mailto:dpo@festiwise.com" className="underline">dpo@festiwise.com</a>
-                  </p>
+             
+             
                 </div>
               </div>
             </div>
