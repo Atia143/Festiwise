@@ -558,7 +558,7 @@ The FestiWise Team 🎪`,
                 </h2>
                 
                 <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-                  Join thousands who've discovered their perfect festival match. 
+                  Join ravers who've discovered their perfect festival match. 
                   Take our 2-minute quiz or explore our curated collection.
                 </p>
                 

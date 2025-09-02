@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useQuiz } from './QuizContext';
 import festivalsData from '../../data/festivals.json';
+import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
 
 // Results Page Newsletter Form Component
 function ResultsNewsletterForm() {
@@ -97,7 +98,7 @@ This user completed the entire quiz and is highly engaged - prime for conversion
         <p className="text-sm text-red-200 mt-3 text-center">{error}</p>
       )}
       <p className="text-xs text-white/70 mt-3 text-center">
-        ✨ <strong>my uncle festival explorers</strong> already joined this week. No spam, unsubscribe anytime.
+        ✨ <strong>Join festival explorers</strong> already joined this week. No spam, unsubscribe anytime.
       </p>
     </div>
   );
@@ -139,6 +140,9 @@ export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
   const [matchedFestivals, setMatchedFestivals] = useState<Festival[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Analytics tracking
+  const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
 
   useEffect(() => {
     // Simulate matching algorithm
@@ -258,6 +262,11 @@ export function FestivalResults() {
 
       setMatchedFestivals(sortedFestivals);
       setLoading(false);
+      
+      // Track match results after loading finishes
+      if (sortedFestivals.length > 0) {
+        trackMatchResults(sortedFestivals);
+      }
     };
 
     const timer = setTimeout(calculateMatches, 2000); // Simulate loading
@@ -500,8 +509,20 @@ export function FestivalResults() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
+                          onClick={() => trackFestivalOutboundClick(festival.id, festival.website, festival.matchScore)}
                         >
                           Official Website
+                        </a>
+                      )}
+                      {festival.ticket_official_url && (
+                        <a
+                          href={festival.ticket_official_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-green-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-600 transition-all duration-300"
+                          onClick={() => trackFestivalOutboundClick(festival.id, festival.ticket_official_url, festival.matchScore)}
+                        >
+                          Get Tickets
                         </a>
                       )}
                       <button className="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300">

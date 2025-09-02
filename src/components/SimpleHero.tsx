@@ -11,7 +11,7 @@ import SocialProof from './SocialProof';
 // Simple translation; swap for your i18n solution as needed
 function useSimpleLanguage(): { t: (key: string) => string } {
   const translations: Record<string, string> = {
-    'hero.title': 'Find Your Perfect Festival Match',
+    'hero.title': 'Find Your Perfect Festival Match. No fees. Official tickets',
     'hero.subtitle': 'Discover, compare, and get matched with music festivals worldwide. Personalized, fast, and free.',
     'hero.cta': 'Start Quiz',
   };

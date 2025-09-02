@@ -8,47 +8,44 @@ interface SocialProofProps {
   ratingAsOf?: string;
 }
 
+import FeatureFlag from './FeatureFlag';
+
 export default function SocialProof({ ratingValue, ratingCount, ratingAsOf }: SocialProofProps) {
-  const isEnabled = process.env.NEXT_PUBLIC_SOCIAL_PROOF_ENABLED === 'true';
-  
-  // Don't render if not enabled or missing required props
-  if (!isEnabled || !ratingValue || !ratingCount || !ratingAsOf) {
+  // Validate required props
+  if (!ratingValue || !ratingCount || !ratingAsOf) {
     return null;
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20"
-    >
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1">
-          {[...Array(5)].map((_, i) => (
-            <span
-              key={i}
-              className={`text-yellow-400 ${i < Math.floor(ratingValue) ? 'opacity-100' : 'opacity-30'}`}
-            >
-              ★
-            </span>
-          ))}
+    <FeatureFlag name="social_proof" defaultOff>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20"
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <span
+                key={i}
+                className={`text-yellow-400 ${i < Math.floor(ratingValue) ? 'opacity-100' : 'opacity-30'}`}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+          <span className="text-white font-semibold">
+            {ratingValue}/5 from {ratingCount} verified festival-goers
+          </span>
         </div>
-        <span className="text-white font-semibold">
-          {ratingValue}/5 Trusted by Festival Lovers
-        </span>
-      </div>
-      <p className="text-xs text-white/70 mt-1 text-center">
-        Based on {ratingCount.toLocaleString()} reviews as of {ratingAsOf}
-      </p>
-    </motion.div>
+      </motion.div>
+    </FeatureFlag>
   );
 }
 
-// Testimonial component that also respects social proof setting
+// Testimonial component with feature flag
 export function TestimonialSection({ ratingValue, ratingCount, ratingAsOf }: SocialProofProps) {
-  const isEnabled = process.env.NEXT_PUBLIC_SOCIAL_PROOF_ENABLED === 'true';
-  
-  if (!isEnabled || !ratingValue || !ratingCount || !ratingAsOf) {
+  if (!ratingValue || !ratingCount || !ratingAsOf) {
     return null;
   }
 
@@ -66,10 +63,11 @@ export function TestimonialSection({ ratingValue, ratingCount, ratingAsOf }: Soc
   ];
 
   return (
-    <section className="py-16 px-6 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Loved by Festival Goers</h2>
-        <div className="grid md:grid-cols-2 gap-8">
+    <FeatureFlag name="real_testimonials" defaultOff>
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Verified Festival Experiences</h2>
+          <div className="grid md:grid-cols-2 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
@@ -94,29 +92,26 @@ export function TestimonialSection({ ratingValue, ratingCount, ratingAsOf }: Soc
           ))}
         </div>
         <p className="text-xs text-gray-500 text-center mt-8">
-          Based on {ratingCount.toLocaleString()} reviews as of {ratingAsOf}
+          Based on {ratingCount.toLocaleString()} verified reviews as of {ratingAsOf}
         </p>
       </div>
     </section>
+    </FeatureFlag>
   );
 }
 
 // Live activity ticker component
 export function LiveActivityTicker() {
-  const isEnabled = process.env.NEXT_PUBLIC_SOCIAL_PROOF_ENABLED === 'true';
-  
-  if (!isEnabled) {
-    return null;
-  }
-
   return (
-    <div className="fixed bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 border border-gray-200 z-50">
-      <div className="flex items-center gap-2">
-        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-        <span className="text-sm text-gray-700">
-          Someone just found their perfect festival!
-        </span>
+    <FeatureFlag name="live_activity" defaultOff>
+      <div className="fixed bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 border border-gray-200 z-50">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span className="text-sm text-gray-700">
+            Someone just found their perfect festival!
+          </span>
+        </div>
       </div>
-    </div>
+    </FeatureFlag>
   );
 }

@@ -37,7 +37,8 @@ This is a [Next.js](https://nextjs.org) project with:
 - **SEO**: Comprehensive structured data and metadata optimization
 - **Accessibility**: WCAG 2.1 compliant with full keyboard navigation
 - **Data**: JSON-based festival database with TypeScript validation
-- **Analytics**: Google Analytics with custom event tracking
+- **Analytics**: Comprehensive user journey tracking with GA4 and Vercel Analytics
+- **User Journey**: Full funnel tracking from landing to quiz completion and conversions
 
 ## Getting Started
 

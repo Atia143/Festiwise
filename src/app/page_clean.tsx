@@ -8,6 +8,7 @@ import SimpleFestivalGrid from '@/components/SimpleFestivalGrid';
 import SimpleNewsletter from '@/components/SimpleNewsletter';
 import SimpleFAQ from '@/components/SimpleFAQ';
 import ConversionBanner from '@/components/ConversionBanner';
+import CookieConsent from '@/components/CookieConsent';
 
 export default function HomePage() {
   // State to control loading screen visibility
@@ -74,6 +75,7 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
         >
           <SimpleHero />
+          <CookieConsent />
           <ConversionBanner />
           <SimpleFestivalGrid />
           <SimpleSocialProof />

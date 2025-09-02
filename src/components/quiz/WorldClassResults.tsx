@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useQuiz } from './QuizContext';
 import NewsletterForm from '../NewsletterForm';
+import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
 
 interface Festival {
   id: string;
@@ -62,6 +63,9 @@ export function WorldClassResults() {
   const [loading, setLoading] = useState(true);
   const [selectedFestival, setSelectedFestival] = useState<Festival | null>(null);
   const [showNewsletter, setShowNewsletter] = useState(false);
+  
+  // Analytics tracking
+  const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
 
   // Custom matching algorithm
   const calculateMatches = (festivals: Festival[], userAnswers: any): FestivalMatch[] => {
@@ -301,6 +305,11 @@ export function WorldClassResults() {
         await new Promise(resolve => setTimeout(resolve, 1500));
         
         setMatches(calculatedMatches);
+        
+        // Track match results for analytics
+        if (calculatedMatches.length > 0) {
+          trackMatchResults(calculatedMatches);
+        }
       } catch (error) {
         console.error('Error loading festival matches:', error);
         setMatches([]);
@@ -433,10 +442,10 @@ export function WorldClassResults() {
         >
           <div style={{ fontSize: '64px', marginBottom: '20px' }}>🔍</div>
           <h2 style={{ fontSize: '28px', color: 'white', marginBottom: '16px', fontWeight: 'bold' }}>
-            Let's Expand Your Search!
+            No perfect matches yet.
           </h2>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.8)', marginBottom: '30px', lineHeight: 1.6 }}>
-            We couldn't find perfect matches with your current preferences. Try adjusting your filters for more options!
+            Tweak your vibe, budget, or travel time to see more options!
           </p>
           <button
             onClick={resetQuiz}
@@ -449,11 +458,11 @@ export function WorldClassResults() {
               fontSize: '16px',
               fontWeight: 'bold',
               cursor: 'pointer',
-              boxShadow: '0 8px 32px rgba(139, 92, 246, 0.4)',
-              fontFamily: 'inherit'
+              boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+              transition: 'all 0.2s'
             }}
           >
-            🔄 Try Different Preferences
+            Adjust quiz answers
           </button>
         </motion.div>
       </div>
@@ -768,33 +777,20 @@ export function WorldClassResults() {
                   flexWrap: 'wrap',
                   gap: '6px'
                 }}>
-                  {(match.festival.genres || ['Music']).slice(0, 4).map((genre: string, idx: number) => (
-                    <span
-                      key={idx}
-                      style={{
-                        padding: '4px 8px',
-                        borderRadius: '8px',
-                        background: 'rgba(255,255,255,0.2)',
-                        color: 'white',
-                        fontSize: '11px',
-                        fontWeight: '600'
-                      }}
-                    >
-                      {genre}
-                    </span>
-                  ))}
-                  {(match.festival.genres || []).length > 4 && (
-                    <span style={{
+                  <span
+                    style={{
                       padding: '4px 8px',
                       borderRadius: '8px',
-                      background: 'rgba(255,255,255,0.1)',
-                      color: 'rgba(255,255,255,0.7)',
+                      background: 'rgba(255,255,255,0.2)',
+                      color: 'white',
                       fontSize: '11px',
                       fontWeight: '600'
-                    }}>
-                      +{(match.festival.genres || []).length - 4} more
-                    </span>
-                  )}
+                    }}
+                  >
+                    {(match.festival.genres || ['Music']).slice(0, 4).join(' • ')}
+                    {(match.festival.genres || []).length > 4 && ` • +${(match.festival.genres || []).length - 4} more`}
+                  </span>
+                
                 </div>
               </div>
 
@@ -986,21 +982,18 @@ export function WorldClassResults() {
                     flexWrap: 'wrap',
                     gap: '8px'
                   }}>
-                    {selectedFestival.genres.map((genre: string, idx: number) => (
-                      <span
-                        key={idx}
-                        style={{
-                          padding: '6px 12px',
-                          borderRadius: '12px',
-                          background: 'rgba(255,255,255,0.2)',
-                          color: 'white',
-                          fontSize: '12px',
-                          fontWeight: '600'
-                        }}
-                      >
-                        {genre}
-                      </span>
-                    ))}
+                    <span
+                      style={{
+                        padding: '6px 12px',
+                        borderRadius: '12px',
+                        background: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {selectedFestival.genres.join(' • ')}
+                    </span>
                   </div>
                 </div>
               )}
@@ -1011,6 +1004,7 @@ export function WorldClassResults() {
                     href={selectedFestival.website}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackFestivalOutboundClick(selectedFestival.id, selectedFestival.website || '', 0)}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',

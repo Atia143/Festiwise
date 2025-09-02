@@ -9,6 +9,8 @@ import AccessibilityMenu from "@/components/AccessibilityMenu";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
+import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
+import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://getfestiwise.com'),
@@ -104,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Simple Google Analytics with consent mode */}
+        {/* Google Analytics with strict consent mode */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQF8TX7MF"></script>
         <script
           dangerouslySetInnerHTML={{
@@ -113,16 +115,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               
-              // Default to denied until consent is given
+              // Start with all storage denied until explicit consent
               gtag('consent', 'default', {
                 'analytics_storage': 'denied',
                 'ad_storage': 'denied',
+                'personalization_storage': 'denied',
+                'functionality_storage': 'denied',
+                'security_storage': 'granted', // Always allow security-essential cookies
                 'wait_for_update': 500 // milliseconds to wait
               });
               
+              // Initialize GA with restricted features
               gtag('config', 'G-BDQF8TX7MF', {
-                'anonymize_ip': true
+                'anonymize_ip': true,
+                'restricted_data_processing': true,
+                'client_storage': 'none'
               });
+              
+              // Check for existing consent
+              if (typeof localStorage !== 'undefined') {
+                try {
+                  const savedConsent = localStorage.getItem('cookieConsent');
+                  if (savedConsent) {
+                    const preferences = JSON.parse(savedConsent);
+                    if (preferences.analytics) {
+                      gtag('consent', 'update', {
+                        'analytics_storage': 'granted'
+                      });
+                    }
+                  }
+                } catch (e) {
+                  console.error('Error reading consent data', e);
+                }
+              }
             `,
           }}
         />
@@ -156,6 +181,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-white">
         <ClientStructuredData />
         <ServiceWorkerRegistration />
+        <ClientAnalytics />
+        <SimpleAnalytics />
         <ErrorBoundary>
           <Navigation />
           <main className="pt-20">

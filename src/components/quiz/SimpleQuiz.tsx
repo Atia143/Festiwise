@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { PremiumLoadingScreen, useSmartLoading } from '../LoadingStates/ProgressiveLoader';
 import { QuizStepSkeleton } from '../LoadingStates/SkeletonComponents';
+import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
 
 // Mid-Quiz Newsletter Form Component
 function MidQuizNewsletterForm() {
@@ -133,10 +134,14 @@ function QuizContent() {
   const [timeSpent, setTimeSpent] = useState(0);
   const [stepStartTime, setStepStartTime] = useState(Date.now());
   const [sliderValue, setSliderValue] = useState(0);
+  const [quizStartTime] = useState(() => Date.now());
 
   // World-class loading experience
   const { isLoading: isInitialLoading, finishLoading } = useSmartLoading(1200, 'quiz');
   const [showQuizContent, setShowQuizContent] = useState(false);
+  
+  // Import quiz analytics hook
+  const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
 
   // Premium initialization effect
   useEffect(() => {
@@ -148,7 +153,11 @@ function QuizContent() {
 
   // Timer for analytics and engagement
   useEffect(() => {
-    const timer = setInterval(() => setTimeSpent(prev => prev + 1), 1000);
+    const timer = setInterval(() => {
+      if (typeof window !== 'undefined') {
+        setTimeSpent(prev => prev + 1);
+      }
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -427,7 +436,7 @@ function QuizContent() {
                         Step {state.currentStep + 1} of {totalSteps}
                       </h2>
                       <p className="text-xs text-gray-500 hidden sm:block">
-                        {Math.round((Date.now() - stepStartTime) / 1000)}s on this step
+                        {typeof window !== 'undefined' ? Math.round((Date.now() - stepStartTime) / 1000) : 0}s on this step
                       </p>
                     </div>
                   </div>

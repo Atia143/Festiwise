@@ -19,7 +19,9 @@ const activities: ActivityNotification[] = [
   { id: '6', text: '456 festival recommendations sent today', icon: '📊', type: 'quiz' },
 ];
 
-export default function LiveActivityFeed() {
+import FeatureFlag from './FeatureFlag';
+
+function LiveActivityFeedComponent() {
   const [currentActivity, setCurrentActivity] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -78,5 +80,13 @@ export default function LiveActivityFeed() {
         )}
       </AnimatePresence>
     </motion.div>
+  );
+}
+
+export default function LiveActivityFeed() {
+  return (
+    <FeatureFlag name="live_activity" defaultOff>
+      <LiveActivityFeedComponent />
+    </FeatureFlag>
   );
 }

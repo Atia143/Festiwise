@@ -3,7 +3,7 @@ import festivalsData from '@/data/festivals.json';
 import { seoIndexGenerator } from '@/lib/seoIndexGenerator';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://festivalfinder.com';
+  const baseUrl = 'https://getfestiwise.com';
   const currentDate = new Date();
 
   // Core pages
@@ -37,6 +37,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/seo-demo`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.4,
     }
   ];
 

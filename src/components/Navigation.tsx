@@ -32,10 +32,12 @@ function Logo({ scrolled }: { scrolled: boolean }) {
   );
 }
 
-export default function Navigation() {
+export default function Navigation({ locales = ['en'] }: { locales?: string[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hideMenu, setHideMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const lastScrollY = useRef(0);
   const pathname = usePathname();
   const mobileNavRef = useRef<HTMLDivElement>(null);
 
@@ -265,7 +267,7 @@ export default function Navigation() {
           <Logo scrolled={scrolled} />
           <DesktopNav />
           <div className="hidden lg:flex items-center space-x-4">
-            <LangSelector />
+            {locales && locales.length > 1 && <LangSelector />}
             <CTAButton />
           </div>
           {/* Mobile menu toggle */}
