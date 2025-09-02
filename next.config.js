@@ -8,8 +8,7 @@ const nextConfig = {
     // Temporarily ignore TypeScript warnings for production build  
     ignoreBuildErrors: true,
   },
-  // Skip type checking during build for faster builds
-  skipTypeCheck: true,
+  // Removed skipTypeCheck: not a valid Next.js config option
   // Skip middleware with full static export
   skipMiddlewareUrlNormalize: true,
   images: {

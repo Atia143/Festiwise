@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -100,7 +101,11 @@ function NotFoundContent() {
   );
 }
 
-// Next.js not-found file - does NOT use useSearchParams or other client hooks
+// Defensive: Wrap with Suspense in case any child uses useSearchParams
 export default function NotFound() {
-  return <NotFoundContent />;
+  return (
+    <Suspense fallback={null}>
+      <NotFoundContent />
+    </Suspense>
+  );
 }
