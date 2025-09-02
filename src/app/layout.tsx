@@ -11,6 +11,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
 import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
 import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://getfestiwise.com'),
@@ -181,8 +182,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-white">
         <ClientStructuredData />
         <ServiceWorkerRegistration />
-        <ClientAnalytics />
-        <SimpleAnalytics />
+        <Suspense fallback={null}>
+          <ClientAnalytics />
+          <SimpleAnalytics />
+        </Suspense>
         <ErrorBoundary>
           <Navigation />
           <main className="pt-20">
