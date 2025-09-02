@@ -2,18 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Suspense } from 'react';
 
-// Simple loading fallback
-function LoadingFallback() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
-    </div>
-  );
-}
-
-// Content component that doesn't use any client-side hooks that require Suspense
+// Content component (does not use client hooks like useSearchParams)
 function NotFoundContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center relative overflow-hidden">
@@ -110,11 +100,7 @@ function NotFoundContent() {
   );
 }
 
-// Next.js not-found file - MUST NOT USE ANY CLIENT HOOKS DIRECTLY
+// Next.js not-found file - does NOT use useSearchParams or other client hooks
 export default function NotFound() {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <NotFoundContent />
-    </Suspense>
-  );
+  return <NotFoundContent />;
 }
