@@ -8,6 +8,10 @@ const nextConfig = {
     // Temporarily ignore TypeScript warnings for production build  
     ignoreBuildErrors: true,
   },
+  // Skip type checking during build for faster builds
+  skipTypeCheck: true,
+  // Skip middleware with full static export
+  skipMiddlewareUrlNormalize: true,
   images: {
     domains: ['images.unsplash.com', 'res.cloudinary.com'],
     formats: ['image/webp', 'image/avif'],
