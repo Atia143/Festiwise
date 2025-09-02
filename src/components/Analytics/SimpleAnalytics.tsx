@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 /**
  * Simple analytics component that sends page view data to our internal endpoint
  * This will work even if the user has not consented to cookies/external analytics
  */
-export default function SimpleAnalytics() {
+function SimpleAnalyticsContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   
@@ -66,4 +66,13 @@ export default function SimpleAnalytics() {
   }, [pathname, searchParams]);
 
   return null;
+}
+
+// Export with Suspense
+export default function SimpleAnalytics() {
+  return (
+    <Suspense fallback={null}>
+      <SimpleAnalyticsContent />
+    </Suspense>
+  );
 }

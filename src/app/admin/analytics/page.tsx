@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 interface AnalyticsData {
@@ -12,7 +12,7 @@ interface AnalyticsData {
   lastUpdated: string;
 }
 
-export default function AdminAnalyticsDashboard() {
+function AdminAnalyticsDashboardContent() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -158,5 +158,18 @@ export default function AdminAnalyticsDashboard() {
         Last updated: {new Date(data.lastUpdated).toLocaleString()}
       </div>
     </div>
+  );
+}
+
+// Export with Suspense
+export default function AdminAnalyticsDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    }>
+      <AdminAnalyticsDashboardContent />
+    </Suspense>
   );
 }

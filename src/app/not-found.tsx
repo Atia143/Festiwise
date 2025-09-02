@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function NotFound() {
+// Wrap the content with Suspense to handle useSearchParams()
+function NotFoundContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center relative overflow-hidden">
       {/* Background decorations */}
@@ -96,5 +98,18 @@ export default function NotFound() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+// Export the component wrapped in Suspense
+export default function NotFound() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      </div>
+    }>
+      <NotFoundContent />
+    </Suspense>
   );
 }
