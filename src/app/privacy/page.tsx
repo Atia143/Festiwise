@@ -83,7 +83,7 @@ export default function PrivacyPage() {
                 </ul>
 
                 <h3 className="text-xl font-semibold text-gray-800 mb-3">How to Exercise Your Rights</h3>
-                <p className="text-gray-600 mb-4">Contact us at <a href="mailto:privacy@festiwise.com" className="text-purple-600 underline">privacy@festiwise.com</a> or use our <a href="/contact" className="text-purple-600 underline">contact form</a>. We will respond within 30 days.</p>
+                <p className="text-gray-600 mb-4">Contact us at <a href="/contact" className="text-purple-600 underline">contact form</a>. We will respond within 30 days.</p>
                 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-blue-800"><strong>Newsletter Unsubscribe:</strong> Click the unsubscribe link in any email or contact us directly.</p>
@@ -171,7 +171,6 @@ export default function PrivacyPage() {
                 </p>
                 <div className="space-y-2 text-purple-800">
                   <p><strong>Email:</strong> <a href="mailto:privacy@festiwise.com" className="underline">privacy@festiwise.com</a></p>
-                  <p><strong>General Contact:</strong> <a href="mailto:hello@festiwise.com" className="underline">hello@festiwise.com</a></p>
                   <p><strong>Contact Form:</strong> <a href="/contact" className="underline">festiwise.com/contact</a></p>
                   <p><strong>Response Time:</strong> We aim to respond within 48-72 hours</p>
                 </div>
