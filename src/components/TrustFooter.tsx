@@ -145,12 +145,6 @@ export default function TrustFooter() {
             {/* Contact Info */}
             <div className="bg-white/5 rounded-lg p-3">
               <h5 className="font-medium mb-2">Need Help?</h5>
-              <p className="text-sm text-white/80 mb-2">
-                Email: hello@getfestiwise.com
-              </p>
-              <p className="text-sm text-white/80">
-                Response time: &lt; 24 hours
-              </p>
             </div>
           </div>
         </div>
