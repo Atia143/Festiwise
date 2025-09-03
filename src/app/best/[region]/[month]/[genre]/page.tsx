@@ -282,11 +282,7 @@ export default function BestFestivalsPage({ params }: { params: Promise<Params> 
                     </div>
                     
                     <div className="flex gap-3">
-                      <Link href={`/festival/${festival.id}`} className="flex-1">
-                        <Button variant="primary" size="sm" className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-                          View Details
-                        </Button>
-                      </Link>
+                      
                       <a
                         href={festival.website}
                         target="_blank"

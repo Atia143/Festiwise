@@ -715,7 +715,7 @@ export function WorldClassQuiz() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       {/* LEGENDARY PROGRESS BAR */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-purple-100">
+    <div className="fixed top-9 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-purple-100 mt-16">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">

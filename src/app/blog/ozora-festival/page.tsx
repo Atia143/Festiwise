@@ -73,7 +73,7 @@ export default function OzoraFestivalArticle() {
               href="/blog"
               className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform"
             >
-              Subscribe Nowßß
+              Subscribe Now
             </Link>
           </div>
         </motion.article>

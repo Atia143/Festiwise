@@ -2,10 +2,10 @@
 
 import { useState, useReducer, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { matchFestivals } from '@/utils/match';
-import rawFestivals from '@/data/festivals.json';
-import { SITE_STATS } from '@/lib/stats';
-import type { Festival } from '@/utils/match';
+import { matchFestivals } from '../../utils/match';
+import rawFestivals from '../../data/festivals.json';
+import { SITE_STATS } from '../../lib/stats';
+import type { Festival } from '../../utils/match';
 
 // Quiz state and reducer
 const initialState = {

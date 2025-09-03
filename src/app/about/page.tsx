@@ -731,7 +731,7 @@ The FestiWise Team 🎪`,
               <div className="mt-6 pt-6 border-t border-purple-200">
                 <p className="text-sm text-gray-600">
                   <strong>Company:</strong> FestiWise Ltd.<br/>
-                  <strong>Founded:</strong> 2024<br/>
+                  <strong>Founded:</strong> 2025<br/>
                   <strong>Based:</strong> International (Remote-First)
                 </p>
               </div>

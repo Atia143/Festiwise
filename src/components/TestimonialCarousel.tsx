@@ -33,11 +33,11 @@ export default function TestimonialCarousel() {
     },
     {
       id: '2', 
-      name: 'Marcus K.',
-      location: 'Berlin, Germany',
-      festival: 'Ultra Miami',
+      name: 'David',
+      location: 'Ozora, Hungary',
+      festival: 'Ozora 2025',
       rating: 5,
-      text: 'Best festival recommendation ever! We started out just playing around, but the app predicted our festival plans perfectly.',
+      text: 'Now I understand why people tell me psytrance is the best! i just got back from ozora and it was my first result at the quiz.',
       avatar: '👨‍🎤',
       verified: true,
       date: '1 week ago'

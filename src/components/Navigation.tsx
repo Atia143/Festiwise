@@ -133,7 +133,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
         >
           🚀
         </motion.span>
-        <span>{mobile ? 'Take Quiz Now' : 'Take Quiz'}</span>
+        <span>{mobile ? 'Find My Festival (2 min)' : 'Take Quiz'}</span>
       </Link>
     </motion.div>
   );

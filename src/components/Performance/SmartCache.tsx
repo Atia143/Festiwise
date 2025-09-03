@@ -335,7 +335,7 @@ class SmartPrefetcher {
     if (currentPath === '/') {
       predictions.push('/festivals', '/quiz', '/blog');
     } else if (currentPath === '/quiz') {
-      predictions.push('/festivals', '/festival-quiz');
+      predictions.push('/festivals', 'quiz');
     } else if (currentPath.startsWith('/festival/')) {
       predictions.push('/festivals', '/quiz');
     } else if (currentPath === '/festivals') {

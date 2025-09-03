@@ -520,7 +520,7 @@ export default function SmartRecommendations() {
                     <div className="mb-4">
                       <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">Why it's a match:</h4>
                       <ul className="space-y-1">
-                        {festival.matchReasons.slice(0, 2).map((reason, idx) => (
+                        {festival.matchReasons.slice(0, 2).map((reason: string, idx: number) => (
                           <li key={idx} className="text-sm flex items-start">
                             <svg className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>

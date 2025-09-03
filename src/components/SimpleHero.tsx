@@ -36,7 +36,7 @@ export default function UltimateHero() {
     users: 'users',
     countries: '50 countries',
     currentUsers: '25 users online',
-    recommendations: '1,500 matches made',
+    recommendations: '100 matches made',
     lastUpdated: 'September 1, 2025'
   });
 
@@ -183,7 +183,7 @@ export default function UltimateHero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
           >
             <Link
-              href="/festival-quiz"
+              href="/quiz"
               className="group relative w-full sm:max-w-sm px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-base md:text-lg lg:text-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2 transform hover:rotate-1"
               aria-describedby="quiz-description"
             >
@@ -236,10 +236,31 @@ export default function UltimateHero() {
             </div>
           </motion.div>
 
+          {/* Trust Badge - Added disclaimer in a strategic way */}
+          <motion.div
+            variants={fadeIn}
+            className="mt-6 mb-8"
+          >
+            <div className="flex flex-wrap justify-center items-center">
+              <motion.div 
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mx-auto"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <svg className="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                <span className="text-xs sm:text-sm text-white/90 font-medium">
+                  We're not affiliated with festivals and do not sell tickets. We link directly to official pages.
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+
           {/* Testimonial */}
           <motion.div
             variants={fadeIn}
-            className="mt-12 max-w-xl mx-auto"
+            className="mt-6 max-w-xl mx-auto"
           >
             <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 md:p-6">
               <div className="flex items-center justify-between mb-3">
@@ -265,7 +286,19 @@ export default function UltimateHero() {
               </div>
             </div>
           </motion.div>
+          
+          {/* Community Trust Section */}
+          <motion.div
+            variants={fadeIn}
+            className="mt-12 max-w-3xl mx-auto"
+          >
+          </motion.div>
         </motion.div>
+      </div>
+
+      {/* Current date timestamp - subtle reinforcement of freshness */}
+      <div className="absolute bottom-2 left-4 text-white/30 text-xs">
+        Last updated: September 3, 2025
       </div>
     </section>
   );
