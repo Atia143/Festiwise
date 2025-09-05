@@ -11,6 +11,8 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
 import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
 import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
+import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
+import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -180,6 +182,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-white">
+        {/* Google Tag Manager */}
+        <GoogleTagManager gtmId="GTM-N9Z2SZGP" />
+        
+        {/* GTM Debug Helper (client-side only) */}
+        <GTMDebugWrapper />
+        
         <ClientStructuredData />
         <ServiceWorkerRegistration />
         <Suspense fallback={null}>

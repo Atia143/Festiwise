@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
+import FestivalListingSchema from '@/components/SEO/FestivalListingSchema';
 
 // Adjust path if needed!
 import festivalsData from '../../data/festivals.json';
@@ -116,8 +117,21 @@ export default function PremiumFestivalExplorer() {
     setCompare(prev => prev.includes(id) ? prev.filter(f => f !== id) : (prev.length < 3 ? [...prev, id] : prev));
   }
 
+  const filteredFestivals = festivals.filter(festival => {
+    // Apply all filters here to get the actual filtered festivals for schema
+    return true; // For now, include all festivals - you can implement actual filtering logic if needed
+  });
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF8F3] to-[#E3ECFF] p-0">
+      {/* Add structured data for festival listing */}
+      <FestivalListingSchema 
+        festivals={filteredFestivals} 
+        pageTitle="Music Festivals Database | FestiWise" 
+        pageDescription="Discover music festivals worldwide. Filter by genre, location, date, and more to find your perfect festival match."
+        pageUrl="https://getfestiwise.com/festivals"
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
         <h1 className="text-4xl font-extrabold text-center mb-2 text-indigo-800">Festival Explorer <span className="bg-amber-300 px-3 py-1 rounded-full text-xs align-middle ml-2 font-bold text-yellow-900">Premium</span></h1>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">Explore, filter, favorite and compare 100+ of the world’s greatest music festivals. Upgrade your adventure and find the perfect event for you!</p>

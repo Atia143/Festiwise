@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import rawFestivals from '@/data/festivals.json';
 import type { Festival } from '@/utils/match';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
+import EventSchema from '@/components/SEO/EventSchema';
 
 const festivals = rawFestivals as Festival[];
 
@@ -62,6 +63,8 @@ export default async function FestivalPage({ params }: Props) {
   if (!festival) {
     return notFound();
   }
+  
+  // Add structured data for this festival page
 
   // Helper function to get region from country
   function getRegion(country: string) {
@@ -79,6 +82,9 @@ export default async function FestivalPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-black to-black text-white pb-24">
+      {/* Add structured data for rich results */}
+      <EventSchema festival={festival} />
+      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400 py-20 px-4 text-center overflow-hidden">
         <div className="max-w-4xl mx-auto">

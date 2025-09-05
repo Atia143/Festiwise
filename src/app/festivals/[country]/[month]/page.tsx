@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import rawFestivals from '@/data/festivals.json';
 import FestivalGrid from '@/components/FestivalGrid';
 import Breadcrumbs from '@/components/SEO/Breadcrumbs';
-import SchemaMarkup from '@/components/SEO/SchemaMarkup';
+import FestivalListingSchema from '@/components/SEO/FestivalListingSchema';
 
 interface Festival {
   id: string;
@@ -142,7 +142,12 @@ export default async function CountryMonthFestivalsPage({ params }: { params: Pr
 
   return (
     <>
-      <SchemaMarkup data={schemaData} />
+      <FestivalListingSchema 
+        festivals={filteredFestivals}
+        pageTitle={`${monthName} Music Festivals in ${countryName}`}
+        pageDescription={`Complete guide to ${filteredFestivals.length} music festivals in ${countryName} during ${monthName}`}
+        pageUrl={`https://getfestiwise.com/festivals/${country}/${month}`}
+      />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <Breadcrumbs items={breadcrumbs} />
