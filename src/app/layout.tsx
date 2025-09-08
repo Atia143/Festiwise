@@ -109,8 +109,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics with strict consent mode */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDQF8TX7MF"></script>
+{/* Google Analytics with strict consent mode */}
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-5Y1Z0CMJ44"
+/>
+<script
+  dangerouslySetInnerHTML={{
+    __html: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ if (window.dataLayer) window.dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-5Y1Z0CMJ44');
+    `,
+  }}
+/>
         <script
           dangerouslySetInnerHTML={{
             __html: `

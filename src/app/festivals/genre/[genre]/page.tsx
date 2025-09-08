@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<{ genre: st
       }]
     },
     alternates: {
-      canonical: `https://festiwise.com/festivals/genre/${genre}`
+      canonical: `https://getfestiwise.com/festivals/genre/${genre}`
     }
   };
 }
@@ -111,7 +111,7 @@ export default async function GenreFestivalsPage({ params }: { params: Promise<{
     "@type": "CollectionPage",
     "name": `${genreName} Music Festivals`,
     "description": `Complete guide to ${genreFestivals.length} ${genreName} music festivals worldwide`,
-    "url": `https://festiwise.com/festivals/genre/${genre}`,
+    "url": `https://getfestiwise.com/festivals/genre/${genre}`,
     "mainEntity": {
       "@type": "ItemList",
       "numberOfItems": genreFestivals.length,

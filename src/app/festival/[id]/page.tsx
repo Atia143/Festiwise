@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://festiwise.com/festival/${festival.id}`,
+      url: `https://getfestiwise.com/festival/${festival.id}`,
       type: 'article',
       images: [
         {
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [`/festivals/${festival.id}.jpg`],
     },
     alternates: {
-      canonical: `https://festiwise.com/festival/${festival.id}`,
+      canonical: `https://getfestiwise.com/festival/${festival.id}`,
     }
   };
 }

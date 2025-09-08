@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
       }]
     },
     alternates: {
-      canonical: `https://festiwise.com/festivals/${country}`
+      canonical: `https://getfestiwise.com/festivals/${country}`
     }
   };
 }
@@ -102,7 +102,7 @@ export default async function CountryFestivalsPage({ params }: { params: Promise
     "@type": "CollectionPage",
     "name": `Music Festivals in ${countryName}`,
     "description": `Complete guide to ${countryFestivals.length} music festivals in ${countryName}`,
-    "url": `https://festiwise.com/festivals/${country}`,
+    "url": `https://getfestiwise.com/festivals/${country}`,
     "mainEntity": {
       "@type": "ItemList",
       "numberOfItems": countryFestivals.length,

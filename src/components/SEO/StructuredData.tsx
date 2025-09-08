@@ -17,12 +17,12 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
       case 'WebSite':
         return {
           ...baseData,
-          url: "https://festiwise.com",
+          url: "https://getfestiwise.com",
           potentialAction: {
             "@type": "SearchAction",
             target: {
               "@type": "EntryPoint",
-              urlTemplate: "https://festiwise.com/festivals?search={search_term_string}"
+              urlTemplate: "https://getfestiwise.com/festivals?search={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }

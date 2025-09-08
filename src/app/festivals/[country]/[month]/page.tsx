@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
       }]
     },
     alternates: {
-      canonical: `https://festiwise.com/festivals/${country}/${month}`
+      canonical: `https://getfestiwise.com/festivals/${country}/${month}`
     }
   };
 }
@@ -117,7 +117,7 @@ export default async function CountryMonthFestivalsPage({ params }: { params: Pr
     "@type": "CollectionPage",
     "name": `${monthName} Music Festivals in ${countryName}`,
     "description": `Complete guide to ${filteredFestivals.length} music festivals in ${countryName} during ${monthName}`,
-    "url": `https://festiwise.com/festivals/${country}/${month}`,
+    "url": `https://getfestiwise.com/festivals/${country}/${month}`,
     "temporalCoverage": `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
     "mainEntity": {
       "@type": "ItemList",
