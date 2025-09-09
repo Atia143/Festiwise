@@ -1,0 +1,197 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Social share URLs
+const socialLinks = [
+  {
+    name: 'WhatsApp',
+    icon: (
+      <svg className="w-6 h-6" fill="#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.028-.967-.271-.099-.469-.149-.668.15-.198.297-.767.966-.941 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.61-.915-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.372-.009-.571-.009-.198 0-.521.074-.793.372-.271.298-1.04 1.016-1.04 2.479 0 1.462 1.066 2.875 1.215 3.074.149.198 2.095 3.202 5.077 4.377.709.273 1.262.436 1.693.559.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.415.248-.695.248-1.291.174-1.415-.074-.123-.272-.198-.57-.347z"/></svg>
+    ),
+    url: (text: string, url: string) => `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`
+  },
+  {
+    name: 'Twitter',
+    icon: (
+      <svg className="w-6 h-6" fill="#1DA1F2" viewBox="0 0 24 24"><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.724-.951.555-2.005.959-3.127 1.184-.896-.957-2.175-1.555-3.594-1.555-2.717 0-4.92 2.206-4.92 4.917 0 .39.045.765.126 1.124-4.087-.205-7.713-2.164-10.141-5.144-.424.729-.666 1.577-.666 2.476 0 1.708.87 3.216 2.188 4.099-.807-.026-1.566-.248-2.229-.616v.062c0 2.385 1.697 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.316 0-.624-.03-.924-.086.631 1.953 2.445 3.377 4.6 3.418-1.68 1.317-3.808 2.101-6.102 2.101-.396 0-.787-.023-1.175-.069 2.179 1.394 4.768 2.209 7.557 2.209 9.054 0 14.001-7.496 14.001-13.986 0-.21-.006-.423-.016-.634.962-.689 1.797-1.56 2.457-2.548l-.047-.02z"/></svg>
+    ),
+    url: (text: string, url: string) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+  },
+  {
+    name: 'Facebook',
+    icon: (
+      <svg className="w-6 h-6" fill="#1877F3" viewBox="0 0 24 24"><path d="M22.676 0H1.326C.593 0 0 .586 0 1.312v21.376C0 23.414.593 24 1.326 24H12.82v-9.294H9.692V11.21h3.128V8.414c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.716-1.796 1.765v2.314h3.587l-.467 3.496h-3.12V24h6.116C23.407 24 24 23.414 24 22.688V1.312C24 .586 23.407 0 22.676 0"/></svg>
+    ),
+    url: (_: string, url: string) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+  },
+  {
+    name: 'Telegram',
+    icon: (
+      <svg className="w-6 h-6" fill="#0088cc" viewBox="0 0 24 24"><path d="M12 2C6.476 2 2 6.476 2 12c0 5.524 4.476 10 10 10s10-4.476 10-10c0-5.524-4.476-10-10-10zm4.516 7.516l-1.262 5.278c-.186.782-.668.972-1.352.605l-1.914-1.412-0.924.889c-.102.101-.197.197-.404.197l.144-2.032 3.7-3.34c.163-.144-.035-.225-.254-.081l-4.585 2.887-1.97-.615c-.429-.133-.438-.429.09-.564l7.72-2.164c.429-.133.805.102.668.564z"/></svg>
+    ),
+    url: (text: string, url: string) => `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
+  }
+];
+
+const shareText = "I just found FestiWise — discover music festivals perfectly matched to you! 🎵✨";
+
+export default function SharePrompt() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const lastFocused = useRef<Element | null>(null);
+
+  // Show popup after exactly 60 seconds
+  useEffect(() => {
+    // For testing purposes, use a shorter timeout (e.g., 5 seconds)
+    // In production, set this back to 60000 (60 seconds)
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 5000); // 5 seconds for testing, change to 60000 for production
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Focus trap for accessibility
+  useEffect(() => {
+    if (isVisible) {
+      lastFocused.current = document.activeElement;
+      if (popupRef.current) {
+        popupRef.current.focus();
+      }
+    } else if (lastFocused.current) {
+      (lastFocused.current as HTMLElement).focus();
+    }
+  }, [isVisible]);
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isVisible) {
+        setIsVisible(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isVisible]);
+
+  // Native share
+  const handleNativeShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'FestiWise - Find Your Perfect Music Festival',
+          text: shareText,
+          url: window.location.href,
+        });
+        setIsVisible(false);
+      }
+    } catch (error) {
+      console.error('Share failed:', error);
+    }
+  };
+
+  // Social share
+  const handleSocialShare = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    setIsVisible(false);
+  };
+
+  // Copy link
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 50, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 50, scale: 0.97 }}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 backdrop-blur-sm bg-black/30"
+          onClick={() => setIsVisible(false)}
+        >
+          <motion.div
+            ref={popupRef}
+            className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full border border-purple-200 flex flex-col space-y-4 focus:outline-none"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="share-prompt-title"
+            tabIndex={-1}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3">
+              <img src="/images/festiwise-logo.png" alt="" className="w-10 h-10 rounded-full border border-purple-200" />
+              <div>
+                <h3 id="share-prompt-title" className="font-bold text-xl text-purple-900">Share FestiWise!</h3>
+                <span className="bg-gradient-to-r from-pink-100 to-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-semibold ml-1 animate-pulse">
+                  🎫 Share now to unlock exclusive features!
+                </span>
+              </div>
+            </div>
+            
+            <p className="text-gray-700">{shareText}</p>
+            
+            <div className="grid grid-cols-4 gap-2 mt-2">
+              {navigator.share && (
+                <button
+                  onClick={handleNativeShare}
+                  className="col-span-4 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium flex justify-center items-center gap-2"
+                >
+                  <span role="img" aria-hidden="true">🚀</span> Share Now
+                </button>
+              )}
+              
+              {socialLinks.map((s) => (
+                <button
+                  key={s.name}
+                  onClick={() => handleSocialShare(s.url(shareText, window.location.href))}
+                  className="flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg p-2 text-gray-700"
+                  aria-label={`Share on ${s.name}`}
+                >
+                  {s.icon}
+                </button>
+              ))}
+              
+              <button
+                onClick={handleCopy}
+                className="col-span-4 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg font-medium flex justify-center items-center gap-2"
+              >
+                <span role="img" aria-hidden="true">🔗</span> Copy Link
+              </button>
+            </div>
+            
+            <div className="mt-2 flex justify-end">
+              <button
+                onClick={() => setIsVisible(false)}
+                className="p-2 text-gray-500 hover:text-gray-700"
+                aria-label="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            
+            {copySuccess && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-2 right-6 bg-green-50 text-green-700 px-3 py-1 rounded shadow text-sm"
+              >
+                Link copied!
+              </motion.div>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

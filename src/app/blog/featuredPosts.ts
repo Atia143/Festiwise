@@ -1,5 +1,32 @@
 'use client';
-import { BlogPost } from './page';
+
+// Export the BlogPost interface
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content?: string;
+  date: string;
+  readTime: string;
+  category: string;
+  author: {
+    name: string;
+    avatar: string;
+    bio: string;
+    verified: boolean;
+    socialLinks?: {
+      instagram?: string;
+      twitter?: string;
+    };
+  };
+  tags: string[];
+  featured: boolean;
+  views?: number;
+  likes?: number;
+  image?: string;
+  festivalYear?: string;
+  festivalLocation?: string;
+}
 
 // Featured Posts (add more as you grow)
 export const featuredPosts: BlogPost[] = [

@@ -8,33 +8,12 @@ import { Badge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import { featuredPosts } from './featuredPosts';
+import { useAnalyticsTracker } from '@/lib/analytics-tracker';
+import Head from 'next/head';
+import { Suspense, lazy } from 'react';
+import Image from 'next/image';
 
-export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content?: string;
-  date: string;
-  readTime: string;
-  category: string;
-  author: {
-    name: string;
-    avatar: string;
-    bio: string;
-    verified: boolean;
-    socialLinks?: {
-      instagram?: string;
-      twitter?: string;
-    };
-  };
-  tags: string[];
-  featured: boolean;
-  views?: number;
-  likes?: number;
-  image?: string;
-  festivalYear?: string;
-  festivalLocation?: string;
-}
+import { BlogPost } from './featuredPosts';
 
 interface ContributorApplication {
   email: string;
@@ -89,10 +68,29 @@ export default function BlogPage() {
     experienceType: '',
     message: ''
   });
+  
+  // Analytics tracking
+  const {
+    trackTakeQuiz,
+    trackReadFullStory,
+    trackSubscribeStart,
+    trackSubscribeSuccess,
+    trackFilterChange,
+    trackShareClick
+  } = useAnalyticsTracker();
 
-  // Simulate loading
+  // Simulate loading and prefetch quiz page
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1200);
+    
+    // Prefetch the quiz route for better UX
+    if (typeof window !== 'undefined') {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = '/quiz';
+      document.head.appendChild(link);
+    }
+    
     return () => clearTimeout(timer);
   }, []);
 
@@ -358,7 +356,10 @@ export default function BlogPage() {
               {categories.map((category) => (
                 <motion.button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    trackFilterChange('category', category);
+                  }}
                   className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                     selectedCategory === category
                       ? 'bg-purple-600 text-white shadow-lg'
@@ -375,7 +376,11 @@ export default function BlogPage() {
               <label className="text-sm font-semibold text-gray-700">Sort by:</label>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                onChange={(e) => {
+                  const newSortBy = e.target.value as SortOption;
+                  setSortBy(newSortBy);
+                  trackFilterChange('sort', newSortBy);
+                }}
                 className="px-4 py-2 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all bg-white"
               >
                 <option value="newest">Newest First</option>
@@ -414,8 +419,20 @@ export default function BlogPage() {
                 className="group"
               >
                 <Card className="h-full overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm group-hover:scale-[1.02]">
-                  {/* Premium Image Placeholder */}
+                  {/* Premium Image Placeholder with lazy loading */}
                   <div className="relative h-80 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 overflow-hidden">
+                    {post.image && (
+                      <Image 
+                        src={post.image} 
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYzdhNGZmIiAvPjwvc3ZnPg=="
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent" />
                     {/* Verified Author Badge */}
                     <div className="absolute top-6 left-6">
@@ -505,7 +522,10 @@ export default function BlogPage() {
                       {post.tags.slice(0, 4).map((tag: string) => (
                         <motion.button
                           key={tag}
-                          onClick={() => setSelectedTag(tag)}
+                          onClick={() => {
+                            setSelectedTag(tag);
+                            trackFilterChange('tag', tag);
+                          }}
                           className="text-xs px-3 py-1 bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 rounded-lg font-medium hover:from-blue-100 hover:to-purple-100 transition-all"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
@@ -529,8 +549,31 @@ export default function BlogPage() {
                         </div>
                       </div>
                     )}
+                    
+                    {/* Quiz CTA */}
+                    <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-4 mb-6">
+                      <div className="flex items-center justify-between">
+                        <div className="pr-4">
+                          <h4 className="font-bold text-gray-900">Find Your Perfect Festival</h4>
+                          <p className="text-sm text-gray-700">Like this vibe? Take our 2-minute quiz to discover festivals that match your style.</p>
+                        </div>
+                        <Link href="/quiz">
+                          <motion.button
+                            onClick={() => trackTakeQuiz('blog_post_card')}
+                            className="whitespace-nowrap px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-colors shadow-md"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            Take Quiz →
+                          </motion.button>
+                        </Link>
+                      </div>
+                    </div>
                     {/* Read Button */}
-                    <Link href={`/blog/${post.slug}`}>
+                    <Link 
+                      href={`/blog/${post.slug}`}
+                      onClick={() => trackReadFullStory(post.slug, post.tags)}
+                    >
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}

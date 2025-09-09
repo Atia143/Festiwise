@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useAnalyticsTracker } from '@/lib/analytics-tracker';
 
 const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
 
@@ -7,6 +8,7 @@ export default function SimpleNewsletterForm() {
   const [email, setEmail] = useState('');
   const [state, setState] = useState<'idle'|'loading'|'success'|'error'>('idle');
   const [mounted, setMounted] = useState(false);
+  const { trackSubscribeStart, trackSubscribeSuccess } = useAnalyticsTracker();
 
   useEffect(() => {
     setMounted(true);
@@ -15,6 +17,9 @@ export default function SimpleNewsletterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !mounted) return;
+    
+    // Track subscription start
+    trackSubscribeStart('blog');
     
     setState('loading');
     
@@ -44,6 +49,8 @@ export default function SimpleNewsletterForm() {
       if (data.success) {
         setState('success');
         setEmail('');
+        // Track subscription success
+        trackSubscribeSuccess('blog');
         setTimeout(() => setState('idle'), 3000);
       } else {
         setState('error');

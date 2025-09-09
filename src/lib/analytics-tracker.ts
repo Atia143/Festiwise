@@ -191,6 +191,83 @@ export const trackFestivalSave = (festivalId: string): void => {
 };
 
 /**
+ * Blog Page Event Tracking
+ */
+
+/**
+ * Track when a user clicks a "Take Quiz" button
+ * @param page_section - The section of the blog page where the button was clicked
+ */
+export const trackTakeQuiz = (page_section: string): void => {
+  trackEvent('click_take_quiz', {
+    page_section,
+    device: getDeviceInfo(),
+  });
+};
+
+/**
+ * Track when a user clicks "Read Full Story" link
+ * @param post_id - ID/slug of the blog post
+ * @param tag_list - List of tags associated with the post
+ */
+export const trackReadFullStory = (post_id: string, tag_list: string[]): void => {
+  trackEvent('click_read_full_story', {
+    page_section: 'blog',
+    post_id,
+    tag_list: tag_list.join(','),
+    device: getDeviceInfo(),
+  });
+};
+
+/**
+ * Track when a user starts the newsletter subscription process
+ * @param page_section - The section of the blog page where the form is located
+ */
+export const trackSubscribeStart = (page_section: string): void => {
+  trackEvent('subscribe_start', {
+    page_section,
+    device: getDeviceInfo(),
+  });
+};
+
+/**
+ * Track when a user successfully subscribes to the newsletter
+ * @param page_section - The section of the blog page where the form is located
+ */
+export const trackSubscribeSuccess = (page_section: string): void => {
+  trackEvent('subscribe_success', {
+    page_section,
+    device: getDeviceInfo(),
+  });
+};
+
+/**
+ * Track when a user changes a filter on the blog page
+ * @param filter_type - The type of filter (category, sort)
+ * @param value - The selected value
+ */
+export const trackFilterChange = (filter_type: 'category' | 'sort' | 'tag', value: string): void => {
+  trackEvent('filter_change', {
+    page_section: 'blog',
+    filter_type,
+    value,
+    device: getDeviceInfo(),
+  });
+};
+
+/**
+ * Track when a user clicks on share button
+ * @param method - The sharing method used (social platform, copy link, etc)
+ */
+export const trackShareClick = (method: string): void => {
+  trackEvent('share_click', {
+    page_section: 'blog',
+    method,
+    device: getDeviceInfo(),
+  });
+};
+
+/**
  * Helper functions
  */
 
@@ -260,6 +337,7 @@ export function useAnalyticsTracker() {
   }, [pathname, searchParams]);
   
   return {
+    // Core tracking
     trackLandingPageView,
     trackQuizStart,
     trackQuizComplete,
@@ -269,5 +347,13 @@ export function useAnalyticsTracker() {
     trackBrowseFilterUse,
     trackFestivalSave,
     calculateTimeToComplete,
+    
+    // Blog page tracking
+    trackTakeQuiz,
+    trackReadFullStory,
+    trackSubscribeStart,
+    trackSubscribeSuccess,
+    trackFilterChange,
+    trackShareClick,
   };
 }
