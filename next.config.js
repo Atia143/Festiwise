@@ -1,23 +1,92 @@
-// next.config.js
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Build configuration
   eslint: {
-    // Temporarily ignore ESLint warnings for production build
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Temporarily ignore TypeScript warnings for production build  
     ignoreBuildErrors: true,
   },
-  // Skip middleware with full static export
+  
+  // Core settings
+  reactStrictMode: true,
   skipMiddlewareUrlNormalize: true,
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: true,
+
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['framer-motion'],
+    webpackBuildWorker: true,
+  },
+
+  // Image optimization
   images: {
     domains: ['images.unsplash.com', 'res.cloudinary.com'],
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  // Enable bundle analyzer on demand
-  webpack: (config, { isServer }) => {
+
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          }
+        ],
+      },
+      {
+        source: '/sitemap.xml',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=86400'
+          }
+        ]
+      }
+    ];
+  },
+
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.getfestiwise.com' }],
+        destination: 'https://getfestiwise.com/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*/',
+        destination: '/:path*',
+        permanent: true,
+      }
+    ];
+  },
+
+  // Webpack configuration
+  webpack: (config, { isServer, dev }) => {
+    // Bundle analyzer
     if (process.env.ANALYZE === 'true') {
       const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
       config.plugins.push(
@@ -28,54 +97,44 @@ const nextConfig = {
         })
       );
     }
+
+    // Service worker (production only)
+    if (!isServer && !dev) {
+      config.plugins.push(
+        new InjectManifest({
+          swSrc: './public/sw-source.js',
+          swDest: '../public/sw.js',
+          mode: 'production',
+          additionalManifestEntries: [
+            { url: '/', revision: null },
+            { url: '/quiz', revision: null },
+            { url: '/festivals', revision: null },
+            { url: '/blog', revision: null },
+            { url: '/faq', revision: null },
+          ],
+          exclude: [
+            /\.map$/,
+            /manifest$/,
+            /\.htaccess$/,
+            /service-worker\.js$/,
+            /sw\.js$/,
+          ],
+          manifestTransforms: [
+            (manifestEntries) => {
+              const manifest = manifestEntries.map((entry) => {
+                if (entry.url.includes('/_next/static/')) {
+                  entry.revision = null;
+                }
+                return entry;
+              });
+              return { manifest };
+            },
+          ],
+        })
+      );
+    }
+
     return config;
-  },
-  // Performance optimizations
-  experimental: {
-    optimizePackageImports: ['framer-motion'],
-  },
-  // Compression
-  compress: true,
-  poweredByHeader: false,
-  // Security headers
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-    ];
-  },
-  // Redirects: www → apex, remove trailing slash
-  async redirects() {
-    return [
-      // Redirect www.getfestiwise.com to getfestiwise.com
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.getfestiwise.com' }],
-        destination: 'https://getfestiwise.com/:path*',
-        permanent: true,
-      },
-      // Remove trailing slash (if you want URLs without slash at the end)
-      {
-        source: '/:path*/',
-        destination: '/:path*',
-        permanent: true,
-      },
-    ];
   },
 };
 
