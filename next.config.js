@@ -1,3 +1,5 @@
+// next.config.js
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -8,7 +10,6 @@ const nextConfig = {
     // Temporarily ignore TypeScript warnings for production build  
     ignoreBuildErrors: true,
   },
-  // Removed skipTypeCheck: not a valid Next.js config option
   // Skip middleware with full static export
   skipMiddlewareUrlNormalize: true,
   images: {
@@ -55,6 +56,24 @@ const nextConfig = {
             value: 'origin-when-cross-origin',
           },
         ],
+      },
+    ];
+  },
+  // Redirects: www → apex, remove trailing slash
+  async redirects() {
+    return [
+      // Redirect www.getfestiwise.com to getfestiwise.com
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.getfestiwise.com' }],
+        destination: 'https://getfestiwise.com/:path*',
+        permanent: true,
+      },
+      // Remove trailing slash (if you want URLs without slash at the end)
+      {
+        source: '/:path*/',
+        destination: '/:path*',
+        permanent: true,
       },
     ];
   },
