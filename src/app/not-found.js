@@ -47,6 +47,29 @@ function NotFoundContent() {
           >
             Looks like this page got lost in the crowd. Let's get you back to discovering amazing festivals!
           </motion.p>
+          
+          <motion.div
+            className="text-center mb-8 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <h3 className="text-xl font-bold text-white mb-4">Popular Pages</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Link href="/quiz" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
+                <div className="text-3xl mb-2">🎯</div>
+                <div className="font-semibold">Find Your Perfect Festival</div>
+              </Link>
+              <Link href="/festivals" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
+                <div className="text-3xl mb-2">🎪</div>
+                <div className="font-semibold">Browse All Festivals</div>
+              </Link>
+              <Link href="/blog" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
+                <div className="text-3xl mb-2">📝</div>
+                <div className="font-semibold">Festival Stories</div>
+              </Link>
+            </div>
+          </motion.div>
 
           {/* Action Buttons */}
           <motion.div

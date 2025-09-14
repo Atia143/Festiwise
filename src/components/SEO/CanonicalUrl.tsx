@@ -5,10 +5,18 @@ import { type Metadata } from 'next';
  */
 export function generateCanonicalUrl(path: string, basePath: string = 'https://getfestiwise.com'): Metadata {
   // Clean the pathname to handle trailing slashes consistently
-  const cleanedPathname = path === '/' ? '' : path;
+  // Remove trailing slashes except for the root path
+  const cleanedPathname = path === '/' 
+    ? '' 
+    : path.endsWith('/') 
+      ? path.slice(0, -1) 
+      : path;
+  
+  // Convert all to lowercase for consistency
+  const normalizedPath = cleanedPathname.toLowerCase();
   
   // Build the full canonical URL
-  const canonicalUrl = `${basePath}${cleanedPathname}`;
+  const canonicalUrl = `${basePath}${normalizedPath}`;
 
   return {
     alternates: {

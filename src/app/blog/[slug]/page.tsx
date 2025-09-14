@@ -12,7 +12,7 @@ import Button from '@/components/ui/Button';
 
 export default function BlogPostPage() {
   const params = useParams();
-  const slug = params.slug;
+  const slug = params?.slug as string; // Add type assertion and null check with optional chaining
   const [post, setPost] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pageUrl, setPageUrl] = useState('');

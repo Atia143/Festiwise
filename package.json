@@ -8,7 +8,10 @@
     "start": "./scripts/set-server-start-time.sh && next start",
     "start:prod": "./scripts/set-server-start-time.sh && next start",
     "lint": "eslint",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "seo:check": "node ./scripts/seo-checker.js",
+    "seo:links": "node ./scripts/analyze-internal-links.js",
+    "seo:all": "npm run seo:check && npm run seo:links"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

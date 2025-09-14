@@ -1,15 +1,22 @@
 User-agent: *
 Allow: /
 
-# High-value pages for search engines
+# High-value pages for search engines - explicitly allow all important sections
 Allow: /festivals/
+Allow: /festival/
 Allow: /quiz
 Allow: /what-festival-should-i-go-to
 Allow: /best/
-Allow: /festival/
+Allow: /blog/
+Allow: /about
+Allow: /faq
+Allow: /contact
+Allow: /privacy-policy
+Allow: /terms-of-service
 
-# Performance optimization
+# Optimized for efficient crawling while ensuring all content is indexed
 Crawl-delay: 1
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://getfestiwise.com/sitemap.xml
+Sitemap: https://getfestiwise.com/blog-sitemap.xml
