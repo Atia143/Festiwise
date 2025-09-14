@@ -55,34 +55,25 @@ const nextConfig = {
   // Redirects
   async redirects() {
     return [
-      // Redirect www.getfestiwise.com to getfestiwise.com
+      // Handle www to non-www redirect
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'www.getfestiwise.com' }],
+        destination: 'https://getfestiwise.com',
+        permanent: true,
+      },
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.getfestiwise.com' }],
         destination: 'https://getfestiwise.com/:path*',
         permanent: true,
       },
-      // Remove trailing slash, but exclude root "/"
+      // Handle trailing slashes for non-root paths
       {
-        source: '/:path*/',
-        destination: '/:path*',
+        source: '/:path+/',
+        destination: '/:path+',
         permanent: true,
-        // Exclude root path from redirect
-        has: [
-          {
-            type: 'host',
-            value: 'getfestiwise.com',
-          },
-        ],
-        // Only redirect if path is not empty (i.e., not "/")
-        missing: [
-          {
-            type: 'query',
-            key: 'path',
-            value: '',
-          },
-        ],
-      },
+      }
     ];
   },
 
