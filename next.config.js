@@ -9,7 +9,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  
+
   // Core settings
   reactStrictMode: true,
   skipMiddlewareUrlNormalize: true,
@@ -37,50 +37,52 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          }
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
         ],
       },
       {
         source: '/sitemap.xml',
         headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, s-maxage=86400'
-          }
-        ]
-      }
+          { key: 'Cache-Control', value: 'public, max-age=86400, s-maxage=86400' },
+        ],
+      },
     ];
   },
 
   // Redirects
   async redirects() {
     return [
+      // Redirect www.getfestiwise.com to getfestiwise.com
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.getfestiwise.com' }],
         destination: 'https://getfestiwise.com/:path*',
         permanent: true,
       },
+      // Remove trailing slash, but exclude root "/"
       {
         source: '/:path*/',
         destination: '/:path*',
         permanent: true,
-      }
+        // Exclude root path from redirect
+        has: [
+          {
+            type: 'host',
+            value: 'getfestiwise.com',
+          },
+        ],
+        // Only redirect if path is not empty (i.e., not "/")
+        missing: [
+          {
+            type: 'query',
+            key: 'path',
+            value: '',
+          },
+        ],
+      },
     ];
   },
 
