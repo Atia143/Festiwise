@@ -362,7 +362,7 @@ export default function EnhancedTestimonialSocialProof() {
             <div className="mt-3 flex items-center justify-center">
               <div className="inline-flex items-center text-xs text-gray-500">
                 <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                <span><strong>62,412</strong> matches found today</span>
+                <span><strong>37</strong> matches found today</span>
               </div>
             </div>
           </motion.div>

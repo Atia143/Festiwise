@@ -99,6 +99,6 @@ Use this checklist to ensure everything is ready before the site goes live at ge
 
 ## Additional Notes
 
-- Remember to set `ADMIN_ANALYTICS_TOKEN` in production environment
-- Default development analytics token is `festiwise-dev-token`
-- Access analytics dashboard at `/admin/analytics?token=ADMIN_ANALYTICS_TOKEN`
+- Check Google Analytics for traffic data
+- Monitor site performance via Google Search Console
+- Regular review of server logs recommended

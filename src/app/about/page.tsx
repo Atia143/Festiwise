@@ -98,7 +98,7 @@ The FestiWise Team 🎪`,
     { year: '2024', event: 'FestiWise founded after frustrating festival search experience while traveling' },
     { year: '2025', event: 'AI-powered matching algorithm developed and tested' },
     { year: '2025', event: 'Development of personalized festival recommendations' },
-    { year: '2025', event: "1,000+ successful festival matches made" },
+    { year: '2025', event: "100+ successful festival matches made" },
     { year: 'Future', event: 'Global expansion to 100+ countries and exclusive festival experiences with local and global partnerships to ensure authenticity and diversity in festival recommendations.' }
   ];
 
@@ -568,7 +568,7 @@ The FestiWise Team 🎪`,
                     className="group px-8 py-4 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     <span className="flex items-center gap-2">
-                      🎯 Take the Quiz
+                      Find My Festival (2 min)
                       <span className="group-hover:translate-x-1 transition-transform">→</span>
                     </span>
                   </Link>
