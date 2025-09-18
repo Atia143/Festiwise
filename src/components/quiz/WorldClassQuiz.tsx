@@ -726,13 +726,13 @@ export function WorldClassQuiz() {
                 <h3 className="font-semibold text-gray-900">
                   Step {state.currentStep + 1} of {quizSteps.length}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   {Math.round(progress)}% Complete
                 </p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-sm text-gray-600">Time spent</div>
+              <div className="text-sm text-gray-900">Time spent</div>
               <div className="font-semibold text-purple-600">
                 {Math.floor(timeSpent / 60)}:{String(timeSpent % 60).padStart(2, '0')}
               </div>
@@ -761,8 +761,8 @@ export function WorldClassQuiz() {
               variants={pageVariants}
               transition={pageTransition}
             >
-              {/* QUESTION HEADER */}
-              <div className="text-center mb-12">
+              {/* ENHANCED QUESTION HEADER */}
+              <div className="text-center mb-16 pb-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-8 mx-4 border border-purple-100">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -774,9 +774,10 @@ export function WorldClassQuiz() {
                 <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                   {currentStep.title}
                 </h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="text-xl text-gray-900 max-w-2xl mx-auto">
                   {currentStep.subtitle}
                 </p>
+                <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto rounded-full mt-6"></div>
               </div>
 
               {/* DYNAMIC CONTENT BASED ON STEP TYPE */}
@@ -792,14 +793,14 @@ export function WorldClassQuiz() {
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                     state.currentStep === 0
                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:shadow-lg'
+                      : 'bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 hover:shadow-lg'
                   }`}
                 >
                   ← Previous
                 </motion.button>
 
                 <div className="text-center">
-                  <div className="text-sm text-gray-600 mb-1">
+                  <div className="text-sm text-gray-900 mb-1">
                     {canProceed() ? '✅ Ready to continue' : '⏳ Select at least one option'}
                   </div>
                   {!canProceed() && currentStep.type.startsWith('multi') && (
@@ -859,7 +860,7 @@ function renderStepContent(
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                 isSelected('genres', genre.id)
                   ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-purple-500 shadow-2xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-purple-300 hover:shadow-lg'
               }`}
             >
               <div className="text-4xl mb-3">{genre.emoji}</div>
@@ -871,7 +872,7 @@ function renderStepContent(
                 <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                   isSelected('genres', genre.id) 
                     ? 'bg-white/20 text-white' 
-                    : 'bg-gray-100 text-gray-600'
+                    : 'bg-gray-100 text-gray-900'
                 }`}>
                   {genre.mood}
                 </div>
@@ -900,7 +901,7 @@ function renderStepContent(
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                 state.answers.budget?.min === budget.range.min && state.answers.budget?.max === budget.range.max
                   ? 'bg-gradient-to-br from-green-500 to-emerald-500 text-white border-green-500 shadow-2xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-green-300 hover:shadow-lg'
               }`}
             >
               <div className="text-4xl mb-3">{budget.emoji}</div>
@@ -937,7 +938,7 @@ function renderStepContent(
               className={`p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 text-center ${
                 isSelected('months', month.id)
                   ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-blue-500 shadow-xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-blue-300 hover:shadow-lg'
               }`}
             >
               <div className="text-3xl mb-2">{month.emoji}</div>
@@ -967,7 +968,7 @@ function renderStepContent(
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                 state.answers.region === region.id
                   ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white border-indigo-500 shadow-2xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-indigo-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-indigo-300 hover:shadow-lg'
               }`}
             >
               <div className="text-4xl mb-3">{region.emoji}</div>
@@ -977,7 +978,7 @@ function renderStepContent(
                 <span className={`px-2 py-1 rounded-full ${
                   state.answers.region === region.id 
                     ? 'bg-white/20 text-white' 
-                    : 'bg-gray-100 text-gray-600'
+                    : 'bg-gray-100 text-gray-900'
                 }`}>
                   {region.averageCost}
                 </span>
@@ -1004,7 +1005,7 @@ function renderStepContent(
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                 isSelected('vibes', vibe.id)
                   ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-2xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-pink-300 hover:shadow-lg'
               }`}
             >
               <div className="text-4xl mb-3">{vibe.emoji}</div>
@@ -1038,7 +1039,7 @@ function renderStepContent(
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
                 (state.answers as any)[step.id] === item.id
                   ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-purple-500 shadow-2xl'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 hover:shadow-lg'
+                  : 'bg-white text-gray-900 border-gray-200 hover:border-purple-300 hover:shadow-lg'
               }`}
             >
               <div className="text-4xl mb-3">{item.emoji}</div>
