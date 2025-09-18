@@ -28,7 +28,7 @@ function SimpleAnalyticsContent() {
         const data = {
           page: pathname,
           referrer: document.referrer,
-          query: Object.fromEntries(searchParams.entries()),
+          query: searchParams ? Object.fromEntries(searchParams.entries()) : {},
           language: navigator.language,
           screenWidth: window.innerWidth,
           screenHeight: window.innerHeight,

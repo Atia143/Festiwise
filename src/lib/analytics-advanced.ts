@@ -444,7 +444,7 @@ export function useWorldClassAnalytics(config: AnalyticsConfig = {}) {
   // Track page views
   useEffect(() => {
     if (analyticsRef.current) {
-      const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+      const fullPath = pathname + (searchParams && searchParams.toString() ? `?${searchParams.toString()}` : '');
       analyticsRef.current.trackPageView(fullPath);
     }
   }, [pathname, searchParams]);

@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next';
 import { featuredPosts } from '@/app/blog/featuredPosts';
 
-// Function to generate the blog sitemap
-export default function sitemap(): MetadataRoute.Sitemap {
+// GET function to generate the blog sitemap
+export async function GET(): Promise<Response> {
   const baseUrl = 'https://getfestiwise.com';
   
   // Blog index page
@@ -39,10 +39,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [
+  const sitemap = [
     blogIndex,
     ...blogPosts,
     ...categoryPages,
     ...tagPages,
   ];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemap.map(entry => `
+  <url>
+    <loc>${entry.url}</loc>
+    <lastmod>${entry.lastModified.toISOString()}</lastmod>
+    <changefreq>${entry.changeFrequency}</changefreq>
+    <priority>${entry.priority}</priority>
+  </url>
+`).join('')}
+</urlset>`;
+
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml',
+    },
+  });
 }

@@ -13,9 +13,10 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',
           '/_next/',
           '/private/',
-          '/*.json',
           '/temp/',
-          '/debug/'
+          '/debug/',
+          '/*?*utm_*',  // Block URLs with UTM parameters to avoid duplicate indexing
+          '/*?*fbclid=*'  // Block Facebook click IDs
         ],
       },
       {
@@ -24,6 +25,10 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'ChatGPT-User',
+        disallow: '/',
+      },
+      {
+        userAgent: 'CCBot',
         disallow: '/',
       }
     ],

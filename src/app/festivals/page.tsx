@@ -65,13 +65,15 @@ export default function PremiumFestivalExplorer() {
 
   // Load favorites from localStorage
   useEffect(() => {
-    const fav = JSON.parse(localStorage.getItem('festi_favs') || '[]');
+    const fav = typeof window !== 'undefined' ? JSON.parse(window.localStorage?.getItem('festi_favs') || '[]') : [];
     setFavorites(fav);
   }, []);
 
   // Save favorites to localStorage
   useEffect(() => {
-    localStorage.setItem('festi_favs', JSON.stringify(favorites));
+    if (typeof window !== 'undefined') {
+      window.localStorage?.setItem('festi_favs', JSON.stringify(favorites));
+    }
   }, [favorites]);
 
   const allGenres = useMemo(() => getUnique(festivals.map(f => f.genres)), [festivals]);

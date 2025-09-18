@@ -8,8 +8,8 @@ interface GoogleTagManagerProps {
 }
 
 /**
- * Google Tag Manager implementation that adds the required GTM code
- * to your site and supports debugging mode.
+ * Optimized Google Tag Manager implementation with performance-first loading
+ * Only loads GTM when user interacts with the page to reduce bundle size
  */
 export default function GoogleTagManager({ gtmId }: GoogleTagManagerProps) {
   const pathname = usePathname();
@@ -21,12 +21,39 @@ export default function GoogleTagManager({ gtmId }: GoogleTagManagerProps) {
   // Construct the GTM URL with debug parameter if needed
   const gtmUrl = `https://www.googletagmanager.com/gtm.js?id=${gtmId}${isDebugMode ? '&gtm_debug=x&gtm_auth=&gtm_preview=env-1' : ''}`;
   
-  // The GTM script that initializes dataLayer and loads the GTM container
+  // Optimized GTM script that delays loading until user interaction
   const gtmScript = `
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    '${gtmUrl}';f.parentNode.insertBefore(j,f);
+    (function(w,d,s,l,i){
+      // Initialize dataLayer immediately for early events
+      w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+      
+      // Delay GTM loading until user interaction for better performance
+      const loadGTM = function() {
+        if (w.gtmLoaded) return;
+        w.gtmLoaded = true;
+        
+        var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+        j.async=true;j.src='${gtmUrl}';
+        f.parentNode.insertBefore(j,f);
+      };
+      
+      // Load GTM on first user interaction or after 3 seconds
+      const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+      const loadGTMOnInteraction = function() {
+        loadGTM();
+        events.forEach(function(event) {
+          d.removeEventListener(event, loadGTMOnInteraction);
+        });
+      };
+      
+      events.forEach(function(event) {
+        d.addEventListener(event, loadGTMOnInteraction, { passive: true });
+      });
+      
+      // Fallback: load after 3 seconds anyway
+      setTimeout(loadGTM, 3000);
+      
     })(window,document,'script','dataLayer','${gtmId}');
   `;
   

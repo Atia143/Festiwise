@@ -110,7 +110,7 @@ export default function WorldClassSEO({
         page_location: fullCanonicalUrl,
         custom_parameters: {
           content_group1: 'Festival Finder',
-          content_group2: pathname.split('/')[1] || 'home'
+          content_group2: pathname ? pathname.split('/')[1] || 'home' : 'home'
         }
       });
 

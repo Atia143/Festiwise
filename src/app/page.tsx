@@ -10,17 +10,12 @@ import SimpleFAQ from '@/components/SimpleFAQ';
 import ConversionBanner from '@/components/ConversionBanner';
 
 export default function HomePage() {
-  // State to control loading screen visibility
-  const [isLoading, setIsLoading] = useState(true);
+  // State to control content visibility - no artificial delay for better LCP
+  const [isLoading, setIsLoading] = useState(false); // Changed to false for immediate render
 
   useEffect(() => {
-    // Set a timeout to hide the loading screen after 2 seconds
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    // Clean up the timer if the component unmounts
-    return () => clearTimeout(timer);
+    // No artificial delay - let content render immediately for better Core Web Vitals
+    setIsLoading(false);
   }, []);
 
   return (
@@ -30,13 +25,13 @@ export default function HomePage() {
           key="loading"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }} // Reduced animation time
           className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }} // Faster transition
             className="text-center"
           >
             <motion.div

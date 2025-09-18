@@ -84,7 +84,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
 
   const isActive = (href: string) => {
     if (href === '/' && pathname === '/') return true;
-    if (href !== '/' && pathname.startsWith(href)) return true;
+    if (href !== '/' && pathname && pathname.startsWith(href)) return true;
     return false;
   };
 

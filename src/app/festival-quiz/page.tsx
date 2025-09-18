@@ -54,8 +54,8 @@ const QUIZ_STEPS = [
     title: 'What music genres move your soul?',
     type: 'multiselect',
     options: [
-      'Electronic/EDM', 'Rock', 'Pop', 'Hip-Hop', 'Indie', 'Jazz',
-      'Folk', 'Alternative', 'Classical', 'Reggae', 'Metal', 'Country'
+      '🎧 Electronic/EDM', '🎸 Rock', '✨ Pop', '🎤 Hip-Hop', '🎵 Indie', '🎷 Jazz',
+      '🪕 Folk', '🎭 Alternative', '🎼 Classical', '🌴 Reggae', '⚡ Metal', '🤠 Country'
     ],
   },
   {
@@ -63,10 +63,10 @@ const QUIZ_STEPS = [
     title: 'What\'s your festival budget?',
     type: 'budget',
     ranges: [
-      { label: 'Budget-friendly', min: 0, max: 200 },
-      { label: 'Mid-range', min: 200, max: 500 },
-      { label: 'Premium', min: 500, max: 1000 },
-      { label: 'Luxury', min: 1000, max: 2500 },
+      { label: '💚 Budget-friendly', min: 0, max: 200 },
+      { label: '💙 Mid-range', min: 200, max: 500 },
+      { label: '💜 Premium', min: 500, max: 1000 },
+      { label: '👑 Luxury', min: 1000, max: 2500 },
     ],
   },
   {
@@ -74,8 +74,8 @@ const QUIZ_STEPS = [
     title: 'When can you escape to festival paradise?',
     type: 'multiselect',
     options: [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      '❄️ January', '🌨️ February', '🌸 March', '🌷 April', '🌼 May', '☀️ June',
+      '🏖️ July', '🌞 August', '🍂 September', '🎃 October', '🍁 November', '🎄 December'
     ],
   },
   {
@@ -83,8 +83,8 @@ const QUIZ_STEPS = [
     title: 'Where in the world do you want to dance?',
     type: 'select',
     options: [
-      'North America', 'Europe', 'Asia', 'South America', 
-      'Australia/Oceania', 'Africa', 'Anywhere!'
+      '🇺🇸 North America', '🇪🇺 Europe', '🇯🇵 Asia', '🇧🇷 South America', 
+      '🇦🇺 Australia/Oceania', '🌍 Africa', '🌎 Anywhere!'
     ],
   },
   {
@@ -92,9 +92,9 @@ const QUIZ_STEPS = [
     title: 'What festival vibes are you seeking?',
     type: 'multiselect',
     options: [
-      'Underground/Alternative', 'Mainstream/Commercial', 'Cultural/Arts',
-      'Bohemian/Hippie', 'High-energy/Party', 'Intimate/Boutique',
-      'Spiritual/Mindful', 'Adventure/Outdoors'
+      '🌑 Underground/Alternative', '🎪 Mainstream/Commercial', '🎨 Cultural/Arts',
+      '🌻 Bohemian/Hippie', '🚀 High-energy/Party', '💎 Intimate/Boutique',
+      '🧘 Spiritual/Mindful', '🏔️ Adventure/Outdoors'
     ],
   },
 ];
@@ -109,16 +109,21 @@ export default function WorldClassQuiz() {
   const intelligentMatches = useMemo(() => {
     if (!state.isCompleted) return [];
     
+    // Helper function to clean emoji prefixes from selections
+    const cleanSelection = (item: string) => {
+      return item.replace(/^[🎧🎸✨🎤🎵🎷🪕🎭🎼🌴⚡🤠💚💙💜👑❄️🌨️🌸🌷🌼☀️🏖️🌞🍂🎃🍁🎄🇺🇸🇪🇺🇯🇵🇧🇷🇦🇺🌍🌎🌑🎪🎨🌻🚀💎🧘🏔️]\s*/, '');
+    };
+    
     const matchInput = {
-      preferredGenres: state.answers.genres,
-      monthWindow: state.answers.months,
+      preferredGenres: state.answers.genres.map(cleanSelection),
+      monthWindow: state.answers.months.map(cleanSelection),
       maxBudget: state.answers.budget.max,
       minBudget: state.answers.budget.min,
       audiencePref: state.answers.audienceSize,
       duration: state.answers.duration,
       familyFriendly: state.answers.familyFriendly,
       wantsCamping: state.answers.camping,
-      regions: state.answers.region === 'Anywhere' || !state.answers.region ? [] : [state.answers.region],
+      regions: state.answers.region === '🌎 Anywhere!' || !state.answers.region ? [] : [cleanSelection(state.answers.region)],
       genreImportance: state.answers.genreImportance,
       budgetFlexibility: state.answers.budgetFlexibility,
       dateFlexibility: state.answers.dateFlexibility,
@@ -159,14 +164,14 @@ export default function WorldClassQuiz() {
           className="max-w-4xl mx-auto text-center"
         >
           <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            🎵 FestiWise Quiz
+            FestiWise Quiz 🎉
           </h1>
-          <p className="text-2xl text-gray-600 mb-8">
+          <p className="text-2xl text-gray-900 mb-8">
             Discover your perfect music festival match with our AI-powered quiz
           </p>
           
           <div className="bg-white rounded-3xl p-12 shadow-2xl border border-purple-100 mb-8">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-3xl font-semibold text-gray-900 mb-6">
               World-Class Festival Matching ✨
             </h2>
             
@@ -209,11 +214,11 @@ export default function WorldClassQuiz() {
           className="max-w-4xl mx-auto"
         >
           <div className="text-center mb-8">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              🎉 Your AI-Powered Festival Matches!
+                        <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Finding Your Festivals... 🔍
             </h1>
-            <p className="text-xl text-gray-600 mb-2">
-              Based on your preferences, here are your perfect festival matches
+            <p className="text-xl text-gray-900 mb-2">
+              Let's analyze your music taste profile...
             </p>
             
             {/* Dynamic User Profile Summary */}
@@ -265,7 +270,7 @@ export default function WorldClassQuiz() {
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="text-lg">⭐</span>
                 ))}
-                <span className="ml-1 text-sm font-medium text-gray-600">
+                <span className="ml-1 text-sm font-medium text-gray-900">
                   {SITE_STATS.SATISFACTION_RATING}/5 from {SITE_STATS.TOTAL_USERS.toLocaleString()} verified users
                 </span>
               </motion.div>
@@ -286,13 +291,13 @@ export default function WorldClassQuiz() {
                 className="bg-white rounded-2xl p-6 shadow-xl border border-purple-100 hover:shadow-2xl hover:scale-105 transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-800">{match.festival.name}</h3>
+                  <h3 className="text-xl font-bold text-gray-900">{match.festival.name}</h3>
                   <span className="bg-gradient-to-r from-green-400 to-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                     {match.normalizedScore}% match ✨
                   </span>
                 </div>
-                <p className="text-gray-600 mb-2">📍 {match.festival.city}, {match.festival.country}</p>
-                <p className="text-gray-600 mb-3">🎵 {match.festival.genres?.slice(0, 2).join(', ')}</p>
+                <p className="text-gray-900 mb-2">📍 {match.festival.city}, {match.festival.country}</p>
+                <p className="text-gray-900 mb-3">🎵 {match.festival.genres?.slice(0, 2).join(', ')}</p>
                 
                 {/* AI-Generated Match Reasons */}
                 <div className="mb-4">
@@ -318,8 +323,8 @@ export default function WorldClassQuiz() {
                   className="bg-white rounded-2xl p-6 shadow-xl border border-purple-100"
                 >
                   <div className="text-center">
-                    <h3 className="text-lg font-bold text-gray-800 mb-2">Discover Amazing Festivals</h3>
-                    <p className="text-gray-600 mb-4">We're finding perfect matches for your taste!</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">Discover Amazing Festivals</h3>
+                    <p className="text-gray-900 mb-4">We're finding perfect matches for your taste!</p>
                     <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold">
                       Explore More 🎭
                     </button>
@@ -331,7 +336,7 @@ export default function WorldClassQuiz() {
 
           <div className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100 text-center">
             <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">🎯 Lock In These Perfect Matches!</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">🎯 Lock In These Perfect Matches!</h3>
               <p className="text-gray-600">Get instant alerts when early bird tickets drop + exclusive festival insider tips</p>
               
               {/* LEGENDARY URGENCY INDICATORS */}
@@ -364,6 +369,24 @@ export default function WorldClassQuiz() {
               ✅ Early bird discounts • ✅ Lineup announcements • ✅ Travel deals • ✅ Unsubscribe anytime
             </p>
           </div>
+
+          {/* Reset Quiz Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0 }}
+            className="mt-8 text-center"
+          >
+            <button
+              onClick={() => {
+                dispatch({ type: 'RESET_QUIZ' });
+                setIsStarted(false);
+              }}
+              className="text-purple-600 hover:text-purple-800 font-medium underline transition-colors duration-300"
+            >
+              Take Quiz Again 🔄
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     );
@@ -402,7 +425,7 @@ export default function WorldClassQuiz() {
             transition={{ duration: 0.5 }}
             className="bg-white rounded-3xl p-8 shadow-2xl border border-purple-100"
           >
-            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
               {currentStepData.title}
             </h2>
 
@@ -423,7 +446,7 @@ export default function WorldClassQuiz() {
                     className={`p-4 rounded-xl font-medium transition-all duration-300 ${
                       (state.answers[currentStepData.id] || []).includes(option)
                         ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-50 text-gray-900 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
                     {option}
@@ -443,7 +466,7 @@ export default function WorldClassQuiz() {
                     className={`p-6 rounded-xl font-medium transition-all duration-300 ${
                       state.answers[currentStepData.id] === option
                         ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-50 text-gray-900 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
                     {option}
@@ -463,7 +486,7 @@ export default function WorldClassQuiz() {
                     className={`p-6 rounded-xl transition-all duration-300 ${
                       state.answers.budget.min === range.min && state.answers.budget.max === range.max
                         ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-50 text-gray-900 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
                     <div className="font-bold text-lg">{range.label}</div>
@@ -483,7 +506,7 @@ export default function WorldClassQuiz() {
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
                   state.currentStep === 0
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 }`}
               >
                 ← Previous

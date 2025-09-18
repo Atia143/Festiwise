@@ -1,5 +1,3 @@
-'use client';
-
 // Export the BlogPost interface
 export interface BlogPost {
   slug: string;

@@ -5,11 +5,33 @@ export const metadata: Metadata = {
   title: 'Festival Packing List 2025 - Complete Checklist for Music Festivals',
   description: 'Ultimate festival packing list 2025! Complete checklist for camping festivals, day events & international travel. Never forget essentials again.',
   keywords: 'festival packing list, music festival checklist, camping festival packing, festival essentials, what to pack for festivals',
+  alternates: {
+    canonical: 'https://getfestiwise.com/festival-packing-list-2025'
+  },
   openGraph: {
     title: 'Festival Packing List 2025 - Complete Checklist',
     description: 'Never forget festival essentials again with our complete packing guide',
     url: 'https://getfestiwise.com/festival-packing-list-2025',
+    type: 'website',
+    images: [
+      {
+        url: 'https://getfestiwise.com/api/og/festival-packing-list',
+        width: 1200,
+        height: 630,
+        alt: 'Festival Packing List 2025'
+      }
+    ]
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Festival Packing List 2025 - Complete Checklist',
+    description: 'Never forget festival essentials again with our complete packing guide'
+  },
+  other: {
+    'article:author': 'FestiWise Team',
+    'article:section': 'Festival Guides',
+    'og:type': 'article'
+  }
 };
 
 const packingCategories = [

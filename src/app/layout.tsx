@@ -1,4 +1,7 @@
 import "./globals.css";
+import "./core-web-vitals.css";
+import "./brand-system.css";
+import "./brand-enhancements.css";
 import "./accessibility.css";
 import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
@@ -13,6 +16,7 @@ import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
 import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
+import { generateHrefLangMetadata } from "@/components/SEO/HrefLangTags";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -87,7 +91,17 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://getfestiwise.com',
     languages: {
+      'en': 'https://getfestiwise.com',
       'en-US': 'https://getfestiwise.com',
+      'en-GB': 'https://getfestiwise.com',
+      'es': 'https://getfestiwise.com/es',
+      'es-ES': 'https://getfestiwise.com/es',
+      'de': 'https://getfestiwise.com/de',
+      'de-DE': 'https://getfestiwise.com/de',
+      'fr': 'https://getfestiwise.com/fr',
+      'fr-FR': 'https://getfestiwise.com/fr',
+      'nl': 'https://getfestiwise.com/nl',
+      'nl-NL': 'https://getfestiwise.com/nl',
       'x-default': 'https://getfestiwise.com',
     },
   },
@@ -109,21 +123,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-{/* Google Analytics with strict consent mode */}
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=G-5Y1Z0CMJ44"
-/>
-<script
-  dangerouslySetInnerHTML={{
-    __html: `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ if (window.dataLayer) window.dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-5Y1Z0CMJ44');
-    `,
-  }}
-/>
+        {/* Critical Resource Preconnects */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        
+        {/* Critical Resource Preloads */}
+        <link rel="preload" href="/favicon.png" as="image" type="image/png" />
+        
+        {/* Optimize Web Fonts */}
+        <link 
+          rel="stylesheet" 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        />
+
+        {/* Google Analytics with strict consent mode */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-5Y1Z0CMJ44"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){ if (window.dataLayer) window.dataLayer.push(arguments); }
+              gtag('js', new Date());
+              gtag('config', 'G-5Y1Z0CMJ44');
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

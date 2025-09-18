@@ -1,15 +1,33 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import GuidePageSchema from '@/components/SEO/GuidePageSchema';
 
 export const metadata: Metadata = {
   title: 'Cheap Music Festivals Europe 2025 - Best Budget Festival Guide',
   description: 'Discover 25+ affordable music festivals across Europe under €200! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more.',
   keywords: 'cheap music festivals europe, budget festivals, affordable festivals europe, music festivals under 200 euros, festival deals europe',
+  alternates: {
+    canonical: 'https://getfestiwise.com/cheap-music-festivals-europe-2025'
+  },
   openGraph: {
     title: 'Cheap Music Festivals Europe 2025 - Budget Guide',
     description: 'Find amazing music festivals across Europe for under €200',
     url: 'https://getfestiwise.com/cheap-music-festivals-europe-2025',
+    type: 'website',
+    images: [
+      {
+        url: 'https://getfestiwise.com/api/og/cheap-festivals-europe',
+        width: 1200,
+        height: 630,
+        alt: 'Cheap Music Festivals Europe 2025'
+      }
+    ]
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cheap Music Festivals Europe 2025 - Budget Guide',
+    description: 'Find amazing music festivals across Europe for under €200'
+  }
 };
 
 const budgetFestivals = [
@@ -142,7 +160,16 @@ const budgetTips = [
 
 export default function CheapMusicFestivalsEurope() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+    <>
+      <GuidePageSchema 
+        title="Cheap Music Festivals Europe 2025 - Best Budget Festival Guide"
+        description="Discover 25+ affordable music festivals across Europe under €200! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more."
+        url="https://getfestiwise.com/cheap-music-festivals-europe-2025"
+        category="Budget Festival Guide"
+        datePublished="2024-09-01T00:00:00Z"
+        dateModified={new Date().toISOString()}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-green-600 via-blue-600 to-purple-600 py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -382,5 +409,6 @@ export default function CheapMusicFestivalsEurope() {
         </div>
       </section>
     </div>
+    </>
   );
 }

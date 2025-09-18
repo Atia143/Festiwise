@@ -408,7 +408,7 @@ class AIRecommendationEngine {
 
   private loadUserProfile(): void {
     try {
-      const stored = localStorage.getItem('festiwise_user_profile');
+      const stored = typeof window !== 'undefined' ? window.localStorage?.getItem('festiwise_user_profile') : null;
       if (stored) {
         this.userProfile = JSON.parse(stored);
       }
@@ -419,7 +419,9 @@ class AIRecommendationEngine {
 
   private saveUserProfile(profile: UserProfile): void {
     try {
-      localStorage.setItem('festiwise_user_profile', JSON.stringify(profile));
+      if (typeof window !== 'undefined') {
+        window.localStorage?.setItem('festiwise_user_profile', JSON.stringify(profile));
+      }
     } catch (error) {
       console.warn('Failed to save user profile:', error);
     }

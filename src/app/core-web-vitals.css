@@ -1,0 +1,274 @@
+/* Core Web Vitals Optimization - Zero Layout Shift CSS */
+:root {
+  --animation-duration: 0.3s;
+  --transition-duration: 0.3s;
+  --banner-height: 0px; /* Default: no banner */
+  /* CLS Prevention */
+  --hero-height: 100vh;
+  --card-min-height: 400px;
+  --carousel-height: 320px;
+  --testimonial-height: 280px;
+}
+
+/* Optimized animations for better performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Zero CLS Skeletons */
+.skeleton-container {
+  min-height: var(--card-min-height);
+  width: 100%;
+}
+
+.skeleton-text {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-image {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Optimized keyframes for 60fps */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Testimonial Carousel CLS Prevention */
+.testimonial-carousel {
+  height: var(--testimonial-height);
+  min-height: var(--testimonial-height);
+  overflow: hidden;
+}
+
+.testimonial-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: var(--testimonial-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Festival Card Layout Stability */
+.festival-card {
+  min-height: var(--card-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.festival-card-image {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.festival-card-content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Banner positioning to prevent CLS */
+.conversion-banner-top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.conversion-banner-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.main-content {
+  margin-top: var(--banner-height);
+}
+
+/* Performance-optimized transforms */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Image loading states */
+.image-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.image-loaded {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Carousel dots to prevent layout shift */
+.carousel-dots {
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.carousel-dot-active {
+  width: 24px;
+  border-radius: 12px;
+}
+
+/* Mobile-first responsive optimizations */
+@media (max-width: 768px) {
+  :root {
+    --card-min-height: 350px;
+    --carousel-height: 280px;
+    --testimonial-height: 240px;
+  }
+  
+  .testimonial-card {
+    padding: 1rem;
+  }
+  
+  .festival-card-content {
+    padding: 1rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeleton-text,
+  .skeleton-image {
+    background: linear-gradient(90deg, #666 25%, #333 50%, #666 75%);
+  }
+}
+
+/* Print styles for SEO */
+@media print {
+  .testimonial-carousel,
+  .conversion-banner-top,
+  .conversion-banner-bottom,
+  .floating-elements {
+    display: none !important;
+  }
+  
+  .festival-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* Focus management for accessibility */
+.focus-trap:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling with performance optimization */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Critical Above-the-fold styles inline in layout.tsx */
+.critical-hero {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.critical-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+  color: white;
+}
+
+/* Intersection observer optimization */
+.lazy-load {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lazy-load.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Performance monitoring styles (dev only) */
+.perf-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.perf-good { background-color: #16a34a; }
+.perf-needs-improvement { background-color: #d97706; }
+.perf-poor { background-color: #dc2626; }

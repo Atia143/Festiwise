@@ -36,7 +36,7 @@ export default function StructuredData() {
       };
     }
     
-    if (pathname.startsWith('/festival/')) {
+    if (pathname && pathname.startsWith('/festival/')) {
       // This would be dynamic based on the actual festival data
       return {
         "@context": "https://schema.org",

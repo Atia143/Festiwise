@@ -244,7 +244,7 @@ export function useFilters() {
   const searchParams = useSearchParams();
   
   const filterManager = useMemo(
-    () => new FilterManager(router, pathname, searchParams),
+    () => new FilterManager(router, pathname || '/', searchParams || new URLSearchParams()),
     [router, pathname, searchParams]
   );
 

@@ -1,6 +1,9 @@
 @tailwind base;
-@tailwind components;
+@tailwind components; 
 @tailwind utilities;
+
+/* Core Web Vitals Optimizations */
+@import './core-web-vitals.css';
 
 /* CSS Variables for accessibility and dynamic layout */
 :root {
