@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+
 export default function FeedbackWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [feedbackType, setFeedbackType] = useState<'bug' | 'feature' | 'experience' | null>(null);
@@ -15,18 +17,39 @@ export default function FeedbackWidget() {
     e.preventDefault();
     setSubmitting(true);
     
-    // Simulate API call - in production, replace with actual API
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Log feedback for now (replace with actual submission logic)
-    console.log({
-      type: feedbackType,
-      text: feedbackText,
-      email: email || 'Anonymous',
-      timestamp: new Date().toISOString(),
-      url: window.location.href,
-      userAgent: navigator.userAgent
-    });
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `🎯 Feedback: ${feedbackType}`,
+          email: email || 'Anonymous',
+          message: feedbackText,
+          type: feedbackType,
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString(),
+          _template: 'box',
+          _cc: email,
+          to_name: 'FestiWise Team',
+          _captcha: false,
+          _next: window.location.href,
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Feedback submission error:', error);
+    } finally {
+      setSubmitting(false);
+    }
     
     setSubmitting(false);
     setSubmitted(true);

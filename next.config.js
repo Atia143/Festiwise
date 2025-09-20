@@ -61,7 +61,7 @@ const nextConfig = {
           { key: 'X-XSS-Protection', value: '1; mode=block' },
           { 
             key: 'Content-Security-Policy', 
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://res.cloudinary.com data: blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-ancestors 'none';" 
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://res.cloudinary.com data: blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://api.web3forms.com; frame-ancestors 'none';" 
           },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' }
         ],

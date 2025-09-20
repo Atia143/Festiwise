@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Important pages for crawling priority
+Allow: /quiz
+Allow: /festivals
+Allow: /blog
+Allow: /festival/*
+
+# Sitemaps
+Sitemap: https://getfestiwise.com/sitemap.xml

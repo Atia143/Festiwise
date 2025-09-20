@@ -39,6 +39,13 @@ export default function ContactPage() {
       formSubmissionData.append('subject', formData.subject || 'Contact Form Submission');
       formSubmissionData.append('message', formData.message);
       
+      // Add notification settings
+      formSubmissionData.append('_cc', formData.email); // Send copy to user
+      formSubmissionData.append('to_name', 'FestiWise Team');
+      formSubmissionData.append('_template', 'box');
+      formSubmissionData.append('_captcha', 'false'); // We already have other protections
+      formSubmissionData.append('_next', window.location.href); // Redirect back to same page
+      
       // Add custom fields for better organization
       formSubmissionData.append('from_name', 'FestiWise Contact Form');
       formSubmissionData.append('form_type', 'Contact Form');

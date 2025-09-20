@@ -58,7 +58,7 @@ export default function NewsletterPopup({ isOpen, onClose, trigger }: Newsletter
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
+          access_key: '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33',
           subject: `🎪 New Newsletter Signup - ${trigger} trigger`,
           from_name: 'FestiWise',
           name: name || 'Festival Lover',

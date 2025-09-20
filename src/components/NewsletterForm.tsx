@@ -32,8 +32,11 @@ export default function NewsletterForm() {
           name: name || 'Festival Lover',
           email: email,
           message: `New newsletter subscription from ${name || 'a festival enthusiast'}`,
-          _template: 'table',
+          _template: 'box',
           _cc: email,
+          to_name: 'FestiWise Team',
+          _captcha: false,
+          _next: window.location.href,
           _subject: 'Welcome to FestiWise! 🎵 Your Festival Journey Starts Here',
           _autoresponse: `Welcome to the FestiWise family! 🎉
 
