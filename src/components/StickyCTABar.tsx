@@ -3,19 +3,22 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function StickyCTABar() {
   const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling past 300px
-      setIsVisible(window.scrollY > 300);
+      // Show after scrolling past 300px, but not on quiz page
+      const isQuizPage = pathname?.includes('/quiz') ?? false;
+      setIsVisible(window.scrollY > 300 && !isQuizPage);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <AnimatePresence>
