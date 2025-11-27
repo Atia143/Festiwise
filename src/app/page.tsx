@@ -8,6 +8,9 @@ import SimpleFestivalGrid from '@/components/SimpleFestivalGrid';
 import SimpleNewsletter from '@/components/SimpleNewsletter';
 import SimpleFAQ from '@/components/SimpleFAQ';
 import ConversionBanner from '@/components/ConversionBanner';
+import ImprovedExitModal from '@/components/ImprovedExitModal';
+import RealtimeSocialProof from '@/components/RealtimeSocialProof';
+import FestivalPreviewCarousel from '@/components/FestivalPreviewCarousel';
 
 export default function HomePage() {
   // State to control content visibility - no artificial delay for better LCP
@@ -68,12 +71,28 @@ export default function HomePage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-{/* === ADD YOUR BANNER HERE === */}
+          {/* Exit Intent Modal - Captures abandoning users */}
+          <ImprovedExitModal />
+
+          {/* Conversion Banner */}
           <ConversionBanner variant="quiz" position="bottom" autoHide={30} />
 
-
-
           <SimpleHero />
+          
+          {/* Realtime Social Proof - Shows live user activity */}
+          <section className="py-12 px-4 bg-white">
+            <div className="max-w-4xl mx-auto">
+              <RealtimeSocialProof />
+            </div>
+          </section>
+
+          {/* Festival Preview Carousel - Shows sample results without quiz */}
+          <section className="py-16 px-4 bg-gradient-to-br from-gray-50 to-purple-50">
+            <div className="max-w-5xl mx-auto">
+              <FestivalPreviewCarousel />
+            </div>
+          </section>
+
           <SimpleFestivalGrid />
           <SimpleSocialProof />
           <SimpleNewsletter />
