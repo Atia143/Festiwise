@@ -9,6 +9,7 @@ import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import SharePrompt from "@/components/SharePrompt";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
 import StickyCTABar from "@/components/StickyCTABar";
+import MobileOptimizedBottomSheet from "@/components/MobileOptimizedBottomSheet";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
@@ -53,6 +54,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <Navigation />
           <StickyCTABar />
+          <MobileOptimizedBottomSheet />
           <main className="pt-20">
             {children}
           </main>
