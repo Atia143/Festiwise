@@ -119,6 +119,8 @@ export const AccessibleImage = ({
     width={width}
     height={height}
     role="img"
+    data-optimized={true}
+    style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
   />
 );
 

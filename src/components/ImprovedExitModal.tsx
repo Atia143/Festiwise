@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import OptimizedImg from './OptimizedImg';
 
 interface Festival {
   name: string;
@@ -84,7 +85,7 @@ export default function ImprovedExitModal() {
           >
             {/* Festival Preview Image */}
             <div className="relative h-48 overflow-hidden bg-gradient-to-br from-purple-400 to-pink-400">
-              <img
+              <OptimizedImg
                 src={festival.image}
                 alt={festival.name}
                 className="w-full h-full object-cover"

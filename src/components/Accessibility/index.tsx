@@ -117,6 +117,8 @@ export const Image = ({
     className={className}
     width={width}
     height={height}
+    data-optimized={true}
+    style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
     {...props}
   />
 );

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import OptimizedImg from './OptimizedImg';
 
 const howItWorks = {
   title: "How It Works",
@@ -153,7 +154,7 @@ export default function FestivalShowcaseSection() {
               className="relative group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow border border-gray-100"
             >
               <div className="h-52 sm:h-60 overflow-hidden relative">
-                <img
+                <OptimizedImg
                   src={festival.image}
                   alt={festival.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

@@ -103,7 +103,7 @@ export default function HomePage() {
           </section>
 
           <SimpleFestivalGrid />
-          <SimpleSocialProof />
+            {/* Removed duplicate SimpleSocialProof rendering */}
 
           {/* Gamification Badges - Increase Engagement */}
           <section className="py-12 px-4 bg-gradient-to-br from-orange-50 to-yellow-50">

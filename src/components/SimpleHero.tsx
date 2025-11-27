@@ -11,9 +11,9 @@ import SocialProof from './SocialProof';
 // Simple translation; swap for your i18n solution as needed
 function useSimpleLanguage(): { t: (key: string) => string } {
   const translations: Record<string, string> = {
-    'hero.title': 'Find Your Perfect Festival Match. No fees. Official tickets',
-    'hero.subtitle': 'Discover, compare, and get matched with music festivals worldwide. Personalized, fast, and free.',
-    'hero.cta': 'Start Quiz',
+    'hero.title': 'Find My Perfect Festival',
+    'hero.subtitle': 'Discover festivals matched to your taste, budget and vibe — fast, private, and free.',
+    'hero.cta': 'Find My Perfect Festival',
   };
 
   function t(key: string) {
@@ -50,14 +50,23 @@ export default function UltimateHero() {
       setStats(statsManager?.getFormattedStats?.() || stats);
     }, 30000);
 
+    // Respect user preference for reduced motion
+    let prefersReduced = false;
+    try {
+      prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (e) {
+      prefersReduced = false;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
+      if (prefersReduced) return;
       const { clientX, clientY } = e;
       const x = (clientX / window.innerWidth - 0.5) * 20;
       const y = (clientY / window.innerHeight - 0.5) * 20;
       setMousePosition({ x, y });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    if (!prefersReduced) window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearInterval(statsInterval);

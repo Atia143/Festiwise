@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import OptimizedImg from './OptimizedImg';
 
 // 📱 COMPREHENSIVE MOBILE OPTIMIZATION SUITE
 // Ensures FestiWise delivers premium mobile experience across all devices
@@ -184,8 +185,8 @@ export const MobileOptimizedFestivalCard: React.FC<MobileCardProps> = ({
     >
       {/* Image Section */}
       <div className="relative h-48 overflow-hidden">
-        <img 
-          src={festival.image || '/api/placeholder/400/300'} 
+        <OptimizedImg
+          src={festival.image || '/api/placeholder/400/300'}
           alt={festival.name}
           className="w-full h-full object-cover"
         />
