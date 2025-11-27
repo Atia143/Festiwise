@@ -11,6 +11,8 @@ import ConversionBanner from '@/components/ConversionBanner';
 import ImprovedExitModal from '@/components/ImprovedExitModal';
 import RealtimeSocialProof from '@/components/RealtimeSocialProof';
 import FestivalPreviewCarousel from '@/components/FestivalPreviewCarousel';
+import GamificationBadges from '@/components/GamificationBadges';
+import InstantTestimonialsCarousel from '@/components/InstantTestimonialsCarousel';
 
 export default function HomePage() {
   // State to control content visibility - no artificial delay for better LCP
@@ -93,8 +95,23 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* Instant Testimonials - Social Proof from Real Users */}
+          <section className="py-16 px-4 bg-white">
+            <div className="max-w-5xl mx-auto">
+              <InstantTestimonialsCarousel />
+            </div>
+          </section>
+
           <SimpleFestivalGrid />
           <SimpleSocialProof />
+
+          {/* Gamification Badges - Increase Engagement */}
+          <section className="py-12 px-4 bg-gradient-to-br from-orange-50 to-yellow-50">
+            <div className="max-w-5xl mx-auto">
+              <GamificationBadges />
+            </div>
+          </section>
+
           <SimpleNewsletter />
           <SimpleFAQ />
         </motion.div>
