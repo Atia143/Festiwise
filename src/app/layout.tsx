@@ -10,6 +10,7 @@ import SharePrompt from "@/components/SharePrompt";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
 import StickyCTABar from "@/components/StickyCTABar";
 import MobileOptimizedBottomSheet from "@/components/MobileOptimizedBottomSheet";
+import PerformanceOptimizer, { ConnectionAwareComponent } from "@/components/PerformanceOptimizer";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
@@ -43,6 +44,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-white">
+        {/* Performance Optimizers - Invisible but powerful */}
+        <PerformanceOptimizer />
+        <ConnectionAwareComponent />
+        
         <GoogleTagManager gtmId="GTM-N9Z2SZGP" />
         <GTMDebugWrapper />
         <ClientStructuredData />
