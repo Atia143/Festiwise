@@ -18,6 +18,7 @@ import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
 import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
+import { ToastProvider } from "@/components/Toast/ToastProvider";
 import { generateHrefLangMetadata } from "@/components/SEO/HrefLangTags";
 import { Suspense } from "react";
 
@@ -57,16 +58,18 @@ export default function RootLayout({
           <SimpleAnalytics />
         </Suspense>
         <ErrorBoundary>
-          <Navigation />
-          <StickyCTABar />
-          <MobileOptimizedBottomSheet />
-          <main className="pt-20">
-            {children}
-          </main>
-          <SharePrompt />
-          <AccessibilityMenu />
-          <CookieConsent />
-          <NotificationSystem />
+          <ToastProvider>
+            <Navigation />
+            <StickyCTABar />
+            <MobileOptimizedBottomSheet />
+            <main className="pt-20">
+              {children}
+            </main>
+            <SharePrompt />
+            <AccessibilityMenu />
+            <CookieConsent />
+            <NotificationSystem />
+          </ToastProvider>
         </ErrorBoundary>
         <div id="premium-features" />
       </body>
