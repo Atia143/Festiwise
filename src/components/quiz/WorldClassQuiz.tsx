@@ -3,6 +3,7 @@
 import { useQuiz } from './QuizContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import QuizHeader from './QuizHeader';
 import { FestivalResults } from './FestivalResults';
 
 interface GenreOption {
@@ -77,7 +78,6 @@ interface QuizStep {
 export function WorldClassQuiz() {
   const { state, setAnswer, nextStep, prevStep, completeQuiz } = useQuiz();
   const [progress, setProgress] = useState(0);
-  const [timeSpent, setTimeSpent] = useState(0);
 
   // Calculate progress based on actual quiz steps
   useEffect(() => {
@@ -85,15 +85,14 @@ export function WorldClassQuiz() {
     setProgress((state.currentStep / totalSteps) * 100);
   }, [state.currentStep]);
 
-  // Track time spent (for analytics)
-  useEffect(() => {
-    const timer = setInterval(() => setTimeSpent(prev => prev + 1), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // Timer is now centralized in QuizContext (state.timeSpent)
 
   if (state.isCompleted) {
     return <FestivalResults />;
   }
+
+  // Header with progress and timer + save
+  // totalSteps derived from quizSteps length (defined below)
 
   // LEGENDARY DATA - More comprehensive than any competitor
   const quizSteps: QuizStep[] = [
@@ -715,37 +714,9 @@ export function WorldClassQuiz() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       {/* LEGENDARY PROGRESS BAR */}
-    <div className="fixed top-9 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-purple-100 mt-16">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
-                {currentStep.icon}
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">
-                  Step {state.currentStep + 1} of {quizSteps.length}
-                </h3>
-                <p className="text-sm text-gray-900">
-                  {Math.round(progress)}% Complete
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm text-gray-900">Time spent</div>
-              <div className="font-semibold text-purple-600">
-                {Math.floor(timeSpent / 60)}:{String(timeSpent % 60).padStart(2, '0')}
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-            <motion.div
-              className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
-          </div>
+      <div className="fixed top-9 left-0 right-0 z-50 mt-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <QuizHeader totalSteps={quizSteps.length} />
         </div>
       </div>
 

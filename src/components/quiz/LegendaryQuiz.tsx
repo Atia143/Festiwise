@@ -20,7 +20,6 @@ const pageTransition = {
 export function WorldClassQuiz() {
   const { state, setAnswer, nextStep, prevStep, completeQuiz } = useQuiz();
   const [progress, setProgress] = useState(0);
-  const [timeSpent, setTimeSpent] = useState(0);
   const [currentStepStartTime, setCurrentStepStartTime] = useState(Date.now());
 
   // Calculate progress
@@ -33,11 +32,6 @@ export function WorldClassQuiz() {
   useEffect(() => {
     setCurrentStepStartTime(Date.now());
   }, [state.currentStep]);
-
-  useEffect(() => {
-    const timer = setInterval(() => setTimeSpent(prev => prev + 1), 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   if (state.isCompleted) {
     return <WorldClassResults />;
@@ -783,7 +777,7 @@ export function WorldClassQuiz() {
             <div className="text-right">
               <div className="text-sm text-gray-600">Time spent</div>
               <div className="font-semibold text-purple-600">
-                {Math.floor(timeSpent / 60)}:{String(timeSpent % 60).padStart(2, '0')}
+                {Math.floor(state.timeSpent / 60)}:{String(state.timeSpent % 60).padStart(2, '0')}
               </div>
             </div>
           </div>

@@ -124,7 +124,6 @@ function QuizContent() {
   const { state, nextStep, prevStep, setAnswer, completeQuiz, resetQuiz } = useQuiz();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [timeSpent, setTimeSpent] = useState(0);
   const [stepStartTime, setStepStartTime] = useState(Date.now());
   const [sliderValue, setSliderValue] = useState(0);
   const [quizStartTime] = useState(() => Date.now());
@@ -143,16 +142,6 @@ function QuizContent() {
       return () => clearTimeout(timer);
     }
   }, [isInitialLoading]);
-
-  // Timer for analytics and engagement
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (typeof window !== 'undefined') {
-        setTimeSpent(prev => prev + 1);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Reset step timer on step change
   useEffect(() => {
@@ -435,7 +424,7 @@ function QuizContent() {
                   </div>
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="text-xs text-gray-500 hidden sm:block">
-                      {timeSpent}s total
+                      {state.timeSpent}s total
                     </div>
                     <button
                       onClick={resetQuiz}
