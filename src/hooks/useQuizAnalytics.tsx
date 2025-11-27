@@ -67,18 +67,20 @@ export function useQuizAnalytics() {
     addToast('🎉 Your festival matches are ready!', 'success', 4000);
   }, [trackEvent, addToast]);
 
-  const trackQuizSaved = useCallback(() => {
+  const trackQuizSaved = useCallback((timeSpent?: number) => {
     trackEvent({
       event: 'quiz_saved',
       timestamp: Date.now(),
+      timeSpent,
     });
     addToast('✓ Quiz progress saved', 'success', 2000);
   }, [trackEvent, addToast]);
 
-  const trackQuizResumed = useCallback(() => {
+  const trackQuizResumed = useCallback((timeSpent?: number) => {
     trackEvent({
       event: 'quiz_resumed',
       timestamp: Date.now(),
+      timeSpent,
     });
     addToast('✓ Quiz resumed from your last session', 'info', 2000);
   }, [trackEvent, addToast]);

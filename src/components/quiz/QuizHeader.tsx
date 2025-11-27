@@ -79,7 +79,7 @@ export default function QuizHeader({ totalSteps = 8 }: { totalSteps?: number }) 
       }
       setResumePayload(null);
       addToast('✓ Quiz resumed from your last session', 'info', 2000);
-      trackQuizResumed();
+      trackQuizResumed(resumePayload.timeSpent);
     } catch (e) {
       addToast('Failed to resume quiz', 'error', 2000);
     }
