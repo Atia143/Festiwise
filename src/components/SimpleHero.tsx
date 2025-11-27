@@ -307,7 +307,7 @@ export default function UltimateHero() {
 
       {/* Current date timestamp - subtle reinforcement of freshness */}
       <div className="absolute bottom-2 left-4 text-white/30 text-xs">
-        Last updated: September 3, 2025
+        Last updated: November 27, 2025
       </div>
     </section>
   );
