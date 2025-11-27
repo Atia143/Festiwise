@@ -126,7 +126,7 @@ export default function ExplorePage() {
             <div className="flex justify-center">
               <Link href="/quiz" className="block w-full sm:w-auto">
                 <Button size="lg" className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto">
-                  Start the Quiz Now
+                  Find My Perfect Festival →
                 </Button>
               </Link>
             </div>

@@ -1,6 +1,8 @@
 import type { ComponentType, ElementType, ReactNode } from 'react';
 import { forwardRef } from 'react';
 
+/* eslint-disable react/display-name */
+
 interface WithAccessibilityProps {
   id?: string;
   className?: string;
@@ -15,7 +17,7 @@ export const withAccessibility = <P extends WithAccessibilityProps>(
   Component: ElementType,
   defaultProps: Partial<P> = {}
 ) => {
-  return forwardRef<HTMLElement, P>(({ className, children, ariaLabel, ariaDescribedBy, ...props }, ref) => {
+  const Wrapped = forwardRef<HTMLElement, P>(({ className, children, ariaLabel, ariaDescribedBy, ...props }, ref) => {
     const accessibilityProps = {
       ...defaultProps,
       ...props,
@@ -27,6 +29,15 @@ export const withAccessibility = <P extends WithAccessibilityProps>(
 
     return <Component {...accessibilityProps}>{children}</Component>;
   });
+
+  try {
+    const compName = typeof Component === 'string' ? Component : (Component as any).displayName || (Component as any).name || 'Component';
+    (Wrapped as any).displayName = `Accessible(${compName})`;
+  } catch (e) {
+    // ignore
+  }
+
+  return Wrapped;
 };
 
 export const AccessibleButton = withAccessibility('button', {
@@ -81,6 +92,7 @@ export const AccessibleHeading = forwardRef<HTMLHeadingElement, HeadingProps>(
     );
   }
 );
+(AccessibleHeading as any).displayName = 'AccessibleHeading';
 
 interface AccessibleImageProps {
   src: string;

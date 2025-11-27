@@ -159,9 +159,8 @@ export default function BlogPage() {
     setSubmitSuccess(false);
 
     try {
-      // Web3Forms submission
+      // Use server proxy at /api/submit; access key is injected server-side
       const formData = new FormData();
-      formData.append('access_key', '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33');
       formData.append('email', contributorForm.email);
       formData.append('festival_name', contributorForm.festivalName);
       formData.append('festival_year', contributorForm.festivalYear);
@@ -172,7 +171,7 @@ export default function BlogPage() {
       formData.append('from_name', contributorForm.email);
       formData.append('form_type', 'Blog Contributor Application');
 
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         body: formData
       });
@@ -564,7 +563,7 @@ export default function BlogPage() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            Take Quiz →
+                            Find My Perfect Festival →
                           </motion.button>
                         </Link>
                       </div>

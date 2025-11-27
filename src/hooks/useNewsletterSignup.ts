@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useNewsletterAnalytics } from '@/hooks/useNewsletterAnalytics';
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Server-side key lives in env; client posts to /api/submit
 
 interface NewsletterSignupHookProps {
   placement: 'hero' | 'footer' | 'popup' | 'quiz-results' | 'other';
@@ -23,14 +23,13 @@ export default function useNewsletterSignup({ placement }: NewsletterSignupHookP
     
     const result = await handleNewsletterSubmit(email, placement, async (email: string) => {
       // Call the actual API
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
           subject: `🎪 Newsletter Signup - ${placement}`,
           from_name: 'FestiWise',
           name: name || 'Festival Lover',
@@ -56,7 +55,7 @@ The FestiWise Team`,
           botcheck: '',
         })
       });
-      
+
       const data = await res.json();
       return { success: !!data.success };
     });

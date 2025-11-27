@@ -9,7 +9,7 @@ interface NewsletterPopupProps {
   trigger: 'exit-intent' | 'time-based' | 'scroll-based' | 'manual';
 }
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Web3Forms key moved to server; client posts to /api/submit
 
 export default function NewsletterPopup({ isOpen, onClose, trigger }: NewsletterPopupProps) {
   const [email, setEmail] = useState('');
@@ -51,14 +51,13 @@ export default function NewsletterPopup({ isOpen, onClose, trigger }: Newsletter
     setState('loading');
     
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33',
           subject: `🎪 New Newsletter Signup - ${trigger} trigger`,
           from_name: 'FestiWise',
           name: name || 'Festival Lover',

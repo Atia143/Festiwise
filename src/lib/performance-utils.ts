@@ -127,7 +127,7 @@ export const initVitalsMonitoring = () => {
 
     // Cumulative Layout Shift
     let clsValue = 0;
-    let clsEntries: PerformanceEntry[] = [];
+    const clsEntries: PerformanceEntry[] = [];
     
     new PerformanceObserver((entryList) => {
       const entries = entryList.getEntries() as LayoutShiftEntry[];

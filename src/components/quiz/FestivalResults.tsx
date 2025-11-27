@@ -21,22 +21,15 @@ function ResultsNewsletterForm() {
     setError('');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33',
           email: email,
           subject: '🎉 Quiz Completed - Save Results & Weekly Updates',
-          message: `User completed the festival quiz and wants to save results + receive weekly updates.
-          
-Email: ${email}
-Source: Post-Quiz Results Page CTA 
-Timestamp: ${new Date().toLocaleString()}
-          
-This user completed the entire quiz and is highly engaged - prime for conversion!`,
+          message: `User completed the festival quiz and wants to save results + receive weekly updates.\n\nEmail: ${email}\nSource: Post-Quiz Results Page CTA \nTimestamp: ${new Date().toLocaleString()}\n\nThis user completed the entire quiz and is highly engaged - prime for conversion!`,
           from_name: 'Festival Finder Quiz Results',
           to_name: 'Festival Finder Team'
         }),

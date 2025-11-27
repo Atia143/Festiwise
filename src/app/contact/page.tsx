@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import TextArea from '@/components/ui/TextArea';
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Web3Forms access key moved to server env var; client posts to `/api/submit`.
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -30,8 +30,7 @@ export default function ContactPage() {
       // Web3Forms submission
       const formSubmissionData = new FormData();
       
-      // Add Web3Forms access key
-      formSubmissionData.append('access_key', WEB3FORMS_ACCESS_KEY);
+      // Access key is added server-side by the `/api/submit` proxy
       
       // Add form fields
       formSubmissionData.append('name', formData.name);
@@ -50,7 +49,7 @@ export default function ContactPage() {
       formSubmissionData.append('from_name', 'FestiWise Contact Form');
       formSubmissionData.append('form_type', 'Contact Form');
       
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         body: formSubmissionData
       });

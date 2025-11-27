@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SITE_STATS } from '@/lib/stats';
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Server will provide the access key; client posts to /api/submit
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -19,14 +19,13 @@ export default function NewsletterForm() {
     setErrorMessage('');
     
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
           subject: '🎪 New FestiWise Newsletter Subscription',
           from_name: 'FestiWise',
           name: name || 'Festival Lover',
@@ -62,7 +61,7 @@ The FestiWise Team`,
         setState('success');
         setEmail('');
         setName('');
-        setTimeout(() => setState('idle'), 8000);
+        setTimeout(() => setState('idle'), 12000);
       } else {
         setState('error');
         setErrorMessage(data.message || 'Something went wrong. Please try again.');

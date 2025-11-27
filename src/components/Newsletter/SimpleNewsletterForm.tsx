@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAnalyticsTracker } from '@/lib/analytics-tracker';
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Server-side key is kept in env; client posts to /api/submit
 
 export default function SimpleNewsletterForm() {
   const [email, setEmail] = useState('');
@@ -24,14 +24,13 @@ export default function SimpleNewsletterForm() {
     setState('loading');
     
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
           subject: '🎪 New Newsletter Subscription',
           from_name: 'FestiWise',
           email: email,
@@ -51,7 +50,7 @@ export default function SimpleNewsletterForm() {
         setEmail('');
         // Track subscription success
         trackSubscribeSuccess('blog');
-        setTimeout(() => setState('idle'), 3000);
+        setTimeout(() => setState('idle'), 10000);
       } else {
         setState('error');
       }

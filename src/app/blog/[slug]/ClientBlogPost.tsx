@@ -103,7 +103,7 @@ export default function ClientBlogPost({ post, slug }: ClientBlogPostProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Take Quiz Now →
+              Find My Perfect Festival →
             </motion.button>
           </Link>
         </motion.div>

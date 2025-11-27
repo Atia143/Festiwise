@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+// Use server proxy at /api/submit; access key kept server-side
 
 export default function FeedbackWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,13 +18,12 @@ export default function FeedbackWidget() {
     setSubmitting(true);
     
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
           subject: `🎯 Feedback: ${feedbackType}`,
           email: email || 'Anonymous',
           message: feedbackText,

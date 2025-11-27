@@ -13,8 +13,7 @@ export default function AboutPage() {
   const [email, setEmail] = useState('');
   const [newsletterState, setNewsletterState] = useState<'idle'|'loading'|'success'|'error'>('idle');
 
-  // Web3Forms access key
-  const WEB3FORMS_ACCESS_KEY = '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33';
+  // Web3Forms access key moved to server; client posts to `/api/submit`
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,14 +22,13 @@ export default function AboutPage() {
     setNewsletterState('loading');
     
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json' 
         },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
           subject: '🎪 New About Page Newsletter Subscription',
           from_name: 'FestiWise About Page',
           email: email,

@@ -20,7 +20,7 @@ export default function OfflinePage() {
             href="/quiz"
             className="block bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors"
           >
-            Take Quiz Offline
+            Find My Perfect Festival →
           </a>
           
           <button

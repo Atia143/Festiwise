@@ -31,22 +31,16 @@ export default function EnhancedNewsletterForm() {
     setStatus('idle');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33',
           email: email,
           name: name || 'Anonymous',
           subject: '🎪 Newsletter Subscription - FestiWise',
-          message: `New newsletter subscription:
-          
-Email: ${email}
-Name: ${name || 'Not provided'}
-Source: Homepage Newsletter Form
-Timestamp: ${new Date().toLocaleString()}`,
+          message: `New newsletter subscription:\n\nEmail: ${email}\nName: ${name || 'Not provided'}\nSource: Homepage Newsletter Form\nTimestamp: ${new Date().toLocaleString()}`,
           from_name: 'FestiWise Newsletter',
           to_name: 'FestiWise Team'
         }),

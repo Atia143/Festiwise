@@ -23,22 +23,15 @@ function MidQuizNewsletterForm() {
     setError('');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: '00cc72fb-5e1a-4b24-b293-38bbdb1a9f33',
           email: email,
           subject: '🎪 Quiz Progress Save Request - Festival Finder',
-          message: `User requested to save quiz progress and receive weekly festival picks.
-          
-Email: ${email}
-Source: Mid-Quiz Abandonment Prevention CTA (Step 3)
-Timestamp: ${new Date().toLocaleString()}
-          
-This user was engaged enough to reach step 3 of the quiz and wants to save their progress.`,
+          message: `User requested to save quiz progress and receive weekly festival picks.\n\nEmail: ${email}\nSource: Mid-Quiz Abandonment Prevention CTA (Step 3)\nTimestamp: ${new Date().toLocaleString()}\n\nThis user was engaged enough to reach step 3 of the quiz and wants to save their progress.`,
           from_name: 'Festival Finder Quiz',
           to_name: 'Festival Finder Team'
         }),

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { statsManager } from '@/lib/realTimeStats';
 import { analytics } from '@/lib/analytics';
 import SocialProof from './SocialProof';
+import TrustBadges from './TrustBadges';
 
 
 const fadeIn = {
@@ -169,6 +170,14 @@ export default function Hero() {
             </div>
           </motion.div>
 
+          {/* Trust Badges */}
+          <motion.div
+            variants={fadeIn}
+            className="mb-8"
+          >
+            <TrustBadges />
+          </motion.div>
+
           {/* Enhanced CTA Buttons */}
           <motion.div
             variants={fadeIn}
@@ -185,7 +194,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
               />
               <span className="relative z-10 flex items-center justify-center">
-                {t('hero.cta')}
+                Find My Perfect Festival
                 <motion.span
                   className="inline-block ml-2"
                   animate={{ x: [0, 6, 0] }}

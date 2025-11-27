@@ -8,6 +8,7 @@ import ClientStructuredData from "@/components/ClientStructuredData";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import SharePrompt from "@/components/SharePrompt";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
+import StickyCTABar from "@/components/StickyCTABar";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationSystem from "@/components/NotificationSystem";
@@ -51,6 +52,7 @@ export default function RootLayout({
         </Suspense>
         <ErrorBoundary>
           <Navigation />
+          <StickyCTABar />
           <main className="pt-20">
             {children}
           </main>

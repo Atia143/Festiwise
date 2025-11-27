@@ -86,6 +86,7 @@ export default function SEO({
       {schemas.map((schema, index) => (
         <Script
           key={`schema-${index}`}
+          id={`schema-${index}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(schema)
