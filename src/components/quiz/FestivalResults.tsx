@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useQuiz } from './QuizContext';
 import festivalsData from '../../data/festivals.json';
 import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
+import { getTopFestivalMatches } from '@/utils/quizScoringAlgorithm';
 
 // Results Page Newsletter Form Component
 function ResultsNewsletterForm() {
@@ -138,131 +139,27 @@ export function FestivalResults() {
   const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
 
   useEffect(() => {
-    // Simulate matching algorithm
+    // Use advanced scoring algorithm
     const calculateMatches = () => {
-      // Development logging disabled for production
-      // console.log('🔍 Quiz answers:', state.answers);
+      // Use the advanced 50-factor scoring algorithm
+      const matches = getTopFestivalMatches(FESTIVALS, state.answers, 6);
       
-      const festivals = FESTIVALS.map(festival => {
-        let score = 0;
-        let maxScore = 0;
+      // Convert to Festival interface format with matchScore
+      const festivals = matches.map(match => ({
+        ...match.festival,
+        matchScore: match.score
+      }));
 
-        // Genre matching (40% weight)
-        const genreWeight = 40;
-        maxScore += genreWeight;
-        const userGenres = state.answers.genres || [];
-        // console.log('🎵 User genres:', userGenres);
-        // console.log('🎪 Festival genres:', festival.genres);
-        
-        if (userGenres.length > 0) {
-          const genreMatches = festival.genres.filter(genre => 
-            userGenres.some(userGenre => 
-              genre.toLowerCase().includes(userGenre.toLowerCase()) ||
-              userGenre.toLowerCase().includes(genre.toLowerCase()) ||
-              // Handle quiz genre mappings
-              (userGenre === 'electronic' && genre.toLowerCase().includes('edm')) ||
-              (userGenre === 'electronic' && genre.toLowerCase().includes('electronic')) ||
-              (userGenre === 'hiphop' && genre.toLowerCase().includes('hip-hop')) ||
-              (userGenre === 'rock' && genre.toLowerCase().includes('metal'))
-            )
-          ).length;
-          score += (genreMatches / Math.max(festival.genres.length, 1)) * genreWeight;
-          // console.log(`🎵 ${festival.name} genre matches:`, genreMatches, 'score:', (genreMatches / Math.max(festival.genres.length, 1)) * genreWeight);
-        }
-
-        // Budget matching (25% weight)
-        const budgetWeight = 25;
-        maxScore += budgetWeight;
-        // console.log('💰 User budget:', state.answers.budget);
-        if (state.answers.budget && state.answers.budget.min !== undefined && state.answers.budget.max !== undefined) {
-          const festivalAvgCost = (festival.estimated_cost_usd.min + festival.estimated_cost_usd.max) / 2;
-          const userAvgBudget = (state.answers.budget.min + state.answers.budget.max) / 2;
-          const budgetDiff = Math.abs(festivalAvgCost - userAvgBudget);
-          const maxBudgetDiff = Math.max(festivalAvgCost, userAvgBudget);
-          const budgetScore = Math.max(0, (1 - budgetDiff / maxBudgetDiff)) * budgetWeight;
-          score += budgetScore;
-          // console.log(`💰 ${festival.name} budget score:`, budgetScore);
-        }
-
-        // Region matching (20% weight)  
-        const regionWeight = 20;
-        maxScore += regionWeight;
-        // console.log('🌍 User region:', state.answers.region);
-        if (state.answers.region) {
-          // Handle quiz region mappings
-          const userRegions = Array.isArray(state.answers.region) ? state.answers.region : [state.answers.region];
-          const hasMatch = userRegions.some(userRegion => {
-            if (userRegion === 'anywhere') return true;
-            if (userRegion === 'western-europe' && festival.region === 'Western-Europe') return true;
-            if (userRegion === 'eastern-europe' && festival.region === 'Eastern-Europe') return true;
-            if (userRegion === 'north-america' && festival.region === 'North-America') return true;
-            if (userRegion === 'south-america' && festival.region === 'South-America') return true;
-            if (userRegion === 'asia-pacific' && festival.region === 'Asia') return true;
-            return userRegion === festival.region;
-          });
-          if (hasMatch) {
-            score += regionWeight;
-            // console.log(`🌍 ${festival.name} region match!`);
-          }
-        }
-
-        // Vibe matching (15% weight) - use 'vibes' field from QuizContext
-        const vibeWeight = 15;
-        maxScore += vibeWeight;
-        const userVibes = state.answers.vibes || [];
-        // console.log('✨ User vibes:', userVibes);
-        // console.log('✨ Festival vibes:', festival.vibe);
-        
-        if (userVibes.length > 0) {
-          const vibeMatches = festival.vibe.filter(vibe => 
-            userVibes.includes(vibe)
-          ).length;
-          if (vibeMatches > 0) {
-            const vibeScore = (vibeMatches / Math.max(festival.vibe.length, 1)) * vibeWeight;
-            score += vibeScore;
-            // console.log(`✨ ${festival.name} vibe matches:`, vibeMatches, 'score:', vibeScore);
-          }
-        }
-
-        // Month/timing matching (bonus points)
-        const userMonths = state.answers.months || [];
-        // console.log('📅 User months:', userMonths);
-        // console.log('📅 Festival months:', festival.months);
-        
-        if (userMonths.length > 0) {
-          const monthMatches = festival.months.filter(month => 
-            userMonths.includes(month.toLowerCase()) || userMonths.includes(month)
-          ).length;
-          if (monthMatches > 0) {
-            // Give bonus points for month matching (10% of total score)
-            const monthBonus = 10;
-            score += monthBonus;
-            // console.log(`📅 ${festival.name} month matches:`, monthMatches, 'bonus:', monthBonus);
-          }
-        }
-
-        return {
-          ...festival,
-          matchScore: Math.round((score / maxScore) * 100)
-        };
-      });
-
-      // Sort by match score and take top 6 (more results with comprehensive database)
-      const sortedFestivals = festivals
-        .filter(f => f.matchScore && f.matchScore > 15) // Lower threshold for more results
-        .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0))
-        .slice(0, 6);
-
-      setMatchedFestivals(sortedFestivals);
+      setMatchedFestivals(festivals);
       setLoading(false);
       
       // Track match results after loading finishes
-      if (sortedFestivals.length > 0) {
-        trackMatchResults(sortedFestivals);
+      if (festivals.length > 0) {
+        trackMatchResults(festivals);
       }
     };
 
-    const timer = setTimeout(calculateMatches, 2000); // Simulate loading
+    const timer = setTimeout(calculateMatches, 1500); // Quick load with advanced algorithm
     return () => clearTimeout(timer);
   }, [state.answers]);
 

@@ -1,7 +1,6 @@
 'use client';
 
-
-import { WorldClassQuiz } from '@/components/quiz/WorldClassQuiz';
+import { WorldClassQuiz } from '@/components/quiz/WorldClassQuizV2';
 import { QuizProvider } from '@/components/quiz/QuizContext';
 
 export default function QuizPage() {
