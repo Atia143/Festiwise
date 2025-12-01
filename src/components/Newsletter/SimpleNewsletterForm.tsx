@@ -62,16 +62,16 @@ export default function SimpleNewsletterForm() {
   if (!mounted) return null;
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-3xl p-8 my-12">
+    <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-8 sm:p-10 my-8 sm:my-12">
       <div className="text-center max-w-md mx-auto">
         <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="text-2xl">📧</span>
         </div>
         
-        <h3 className="text-2xl font-bold text-gray-900 mb-3">
-          Never Miss a Beat! 🎵
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          Never Miss an Epic Festival! 🎵
         </h3>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-6 leading-relaxed">
           Get personalized festival recommendations and exclusive early-bird deals delivered to your inbox.
         </p>
         
@@ -81,16 +81,17 @@ export default function SimpleNewsletterForm() {
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all outline-none"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all outline-none text-base"
             required
+            aria-label="Email address"
           />
           <button
             type="submit"
             disabled={state === 'loading'}
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
+            className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 active:scale-95 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {state === 'loading' ? 'Joining...' : 
-             state === 'success' ? '🎉 Welcome to the family!' : 
+             state === 'success' ? '🎉 Welcome to FestiWise!' : 
              'Get My Festival Updates'}
           </button>
         </form>

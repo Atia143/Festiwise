@@ -124,8 +124,8 @@ class EnterpriseSEOEngine {
       this.addFestivalListingStructuredData();
     } else if (this.currentPage === '/quiz') {
       this.addQuizStructuredData();
-    } else if (this.currentPage === '/blog') {
-      this.addBlogStructuredData();
+    } else if (this.currentPage === '/discover') {
+      this.addDiscoverStructuredData();
     }
   }
 
@@ -197,19 +197,26 @@ class EnterpriseSEOEngine {
     this.injectStructuredData('quiz-schema', structuredData);
   }
 
-  private addBlogStructuredData() {
+  private addDiscoverStructuredData() {
     const structuredData = {
       '@context': 'https://schema.org',
-      '@type': 'Blog',
-      name: 'FestiWise Blog',
-      description: 'Festival guides, tips, and experiences from music festival experts',
+      '@type': 'CollectionPage',
+      name: 'FestiWise Festival Discovery',
+      description: 'Discover and filter 100+ world-class music festivals by genre, budget, vibe, and location',
       publisher: {
         '@type': 'Organization',
         name: 'FestiWise'
+      },
+      mainEntity: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://festiwise.com/discover?genre={genre}&budget={budget}&vibe={vibe}'
+        }
       }
     };
 
-    this.injectStructuredData('blog-schema', structuredData);
+    this.injectStructuredData('discover-schema', structuredData);
   }
 
   private injectStructuredData(id: string, data: any) {
@@ -397,7 +404,7 @@ class EnterpriseSEOEngine {
       { url: '/', priority: 1.0, changefreq: 'daily' },
       { url: '/festivals', priority: 0.9, changefreq: 'daily' },
       { url: '/quiz', priority: 0.8, changefreq: 'weekly' },
-      { url: '/blog', priority: 0.7, changefreq: 'weekly' },
+      { url: '/discover', priority: 0.8, changefreq: 'weekly' },
       { url: '/about', priority: 0.6, changefreq: 'monthly' },
       { url: '/contact', priority: 0.5, changefreq: 'monthly' },
       { url: '/faq', priority: 0.5, changefreq: 'monthly' }

@@ -144,7 +144,7 @@ export default function UltimateHero() {
           {/* Main Heading */}
           <motion.h1
             variants={fadeIn}
-            className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight"
           >
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-100">
               {t('hero.title').split(' ').slice(0, 2).join(' ')}
@@ -231,10 +231,10 @@ export default function UltimateHero() {
                 Browse Festivals
               </Link>
               <Link
-                href="/blog"
+                href="/discover"
                 className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
               >
-                Guides
+                Guides & Tips
               </Link>
               <Link
                 href="/faq"

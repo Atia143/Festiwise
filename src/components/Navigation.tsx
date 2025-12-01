@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { href: '/', label: 'Home', icon: '🏠' },
   { href: '/quiz', label: 'Quiz', icon: '🎯' },
   { href: '/festivals', label: 'Festivals', icon: '🎪' },
-  { href: '/blog', label: 'Blog', icon: '📝' },
+  { href: '/discover', label: 'Discover', icon: '🗺️' },
   { href: '/faq', label: 'FAQ', icon: '❓' },
 ];
 
@@ -90,7 +90,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
 
   // Banner always at top
   const Banner = () => (
-    <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1 text-xs">
+    <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-2 text-xs font-medium">
       🎉 World-Class Festival Discovery • Free Forever
     </div>
   );
@@ -98,7 +98,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
   // Language selector (optional - can extract)
   const LangSelector = () => (
     <select
-      className="bg-white border border-gray-200 rounded-lg px-2 py-2 text-sm"
+      className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:border-gray-300"
       aria-label="Language"
       onChange={e => {
         if (typeof window !== 'undefined' && window.gtag) {
@@ -124,7 +124,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
       <Link
         href="/quiz"
         onClick={onClick}
-        className={`relative px-8 py-3 ${mobile ? 'w-full block text-center text-lg' : ''} bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 group`}
+      className={`relative px-8 py-3 ${mobile ? 'w-full block text-center text-base md:text-lg' : ''} bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group`}
       >
         <motion.span
           className="text-xl"
@@ -141,7 +141,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
   // Desktop nav
   const DesktopNav = () => (
     <nav className="hidden lg:flex items-center" aria-label="Main navigation">
-      <div className={`flex items-center space-x-2 px-3 py-2 rounded-2xl transition-all duration-500 ${
+      <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl transition-all duration-500 ${
         scrolled
           ? 'bg-gray-50/80 backdrop-blur-xl border border-gray-200/50 shadow-lg'
           : 'bg-white/10 backdrop-blur-xl border border-white/20'
@@ -200,7 +200,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
             exit={{ y: -40 }}
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
           >
-            <div className="relative px-6 py-8 space-y-6">
+            <div className="relative px-6 py-8 space-y-3">
               {/* Items */}
               <div className="space-y-2">
                 {NAV_ITEMS.map(item => (
@@ -208,19 +208,19 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center space-x-4 px-6 py-4 rounded-2xl font-medium group relative overflow-hidden transition-all duration-300 ${
+                    className={`flex items-center gap-4 px-6 py-3 rounded-xl font-medium group relative overflow-hidden transition-all duration-300 text-sm ${
                       isActive(item.href)
                         ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg'
                         : 'text-gray-700 hover:text-gray-900 hover:bg-white/80 border border-gray-100'
                     }`}
                   >
-                    <span className="text-2xl">{item.icon}</span>
-                    <span className="text-lg">{item.label}</span>
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="text-base">{item.label}</span>
                   </Link>
                 ))}
               </div>
               {/* CTA */}
-              <div className="pt-6 border-t border-gray-200/50">
+              <div className="pt-4 border-t border-gray-200/50">
                 <CTAButton mobile onClick={() => setIsOpen(false)} />
               </div>
             </div>
@@ -250,7 +250,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
           <Logo scrolled={scrolled && mounted} />
           {mounted && <DesktopNav />}
           {mounted && (
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center gap-4">
               {locales && locales.length > 1 && <LangSelector />}
               <CTAButton />
             </div>

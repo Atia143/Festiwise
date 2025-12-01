@@ -27,7 +27,7 @@ export default function TrustFooter() {
   const quickLinks = [
     { href: '/quiz', label: 'Festival Quiz', popular: true },
     { href: '/festivals', label: 'Browse Festivals' },
-    { href: '/blog', label: 'Festival Guide' },
+    { href: '/discover', label: 'Festival Discovery' },
     { href: '/faq', label: 'Help Center' }
   ];
 
@@ -35,7 +35,7 @@ export default function TrustFooter() {
     <footer className="bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 text-white">
       {/* Trust Signals Section */}
       <div className="border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {trustSignals.map((signal, index) => (
               <motion.div
@@ -56,7 +56,7 @@ export default function TrustFooter() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="md:col-span-2">
@@ -152,13 +152,13 @@ export default function TrustFooter() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-sm text-white/70 mb-4 md:mb-0">
-            © {currentYear} FestiWise. All rights reserved. Made with ❤️  for festival lovers worldwide.
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+          <div className="text-sm text-white/70 text-center md:text-left">
+            © {currentYear} FestiWise. All rights reserved. Made with ❤️ for festival lovers worldwide.
           </div>
           
-          <div className="flex items-center space-x-6 text-sm text-white/70">
-            <span className="flex items-center space-x-1">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm text-white/70">
+            <span className="flex items-center gap-2">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
               <span>All systems operational</span>
             </span>

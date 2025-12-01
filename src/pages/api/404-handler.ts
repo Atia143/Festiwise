@@ -9,7 +9,8 @@ const REDIRECT_MAP: Record<string, string> = {
   '/festivals-guide': '/festivals',
   '/festval-finder': '/quiz',
   '/find-festival': '/quiz',
-  '/blog-posts': '/blog',
+  '/blog-posts': '/discover',
+  '/blog': '/discover',
   '/music-festivals': '/festivals',
   '/events': '/festivals',
   // Add more common misspellings or old URLs as needed
@@ -41,7 +42,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     suggestedPages: [
       { title: 'Find your perfect festival', url: '/quiz' },
       { title: 'Browse all festivals', url: '/festivals' },
-      { title: 'Festival stories & guides', url: '/blog' }
+      { title: 'Festival discovery', url: '/discover' }
     ]
   });
 }
