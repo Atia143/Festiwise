@@ -122,7 +122,7 @@ const PriceBadge = ({ min, max }: { min: number; max: number }) => {
   );
 };
 
-export default function WorldClassFestivalExplorer() {
+export default function FestivalMarketplace() {
   const [festivals, setFestivals] = useState<Festival[]>(() => {
     // Initialize festivals immediately on client
     try {
@@ -294,7 +294,7 @@ export default function WorldClassFestivalExplorer() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
       <FestivalListingSchema
         festivals={sorted}
-        pageTitle="World-Class Festival Explorer | FestiWise"
+        pageTitle="Festival Marketplace | FestiWise"
         pageDescription="Discover, explore, and compare the world's best music festivals with advanced filtering, comparisons, and personalized recommendations."
         pageUrl="https://getfestiwise.com/festivals"
       />
@@ -304,7 +304,7 @@ export default function WorldClassFestivalExplorer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
-              Festival Explorer
+              Festival Marketplace
             </h1>
             <p className="text-sm text-gray-600 mt-1">
               {sorted.length} festivals • {activeFilterCount > 0 && `${activeFilterCount} active filters`}

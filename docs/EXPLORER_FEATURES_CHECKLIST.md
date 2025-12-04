@@ -1,4 +1,4 @@
-# 🎯 Festival Explorer - Feature Implementation Checklist
+# 🎯 Festival Marketplace - Feature Implementation Checklist
 
 ## ✅ Completed Features (Ready Now)
 

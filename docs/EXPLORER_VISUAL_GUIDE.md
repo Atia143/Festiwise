@@ -1,4 +1,4 @@
-# 🎪 Festival Explorer - Visual & Implementation Guide
+# 🎪 Festival Marketplace - Visual & Implementation Guide
 
 ## 📐 Layout Structure
 

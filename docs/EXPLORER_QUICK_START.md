@@ -1,4 +1,4 @@
-# 🎪 Festival Explorer - Quick Start Guide
+# 🎪 Festival Marketplace - Quick Start Guide
 
 ## 🚀 Get Started in 30 Seconds
 

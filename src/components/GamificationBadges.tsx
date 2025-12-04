@@ -14,7 +14,7 @@ interface UserAchievement {
 const achievements: UserAchievement[] = [
   {
     id: 'first_quiz',
-    name: 'Festival Explorer',
+    name: 'Marketplace Explorer',
     description: 'Completed your first quiz',
     icon: '🎫'
   },

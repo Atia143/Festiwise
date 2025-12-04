@@ -210,7 +210,7 @@ The FestiWise Team 🎪`,
                       </div>
                     </div>
                     <div className="mt-6 text-center">
-                      <div className="text-gray-700 font-medium">Trusted by 1,247+ Festival Explorers</div>
+                      <div className="text-gray-700 font-medium">Trusted by 1,247+ Festival Enthusiasts</div>
                     </div>
                   </div>
                 </div>

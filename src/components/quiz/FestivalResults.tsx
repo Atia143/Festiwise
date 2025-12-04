@@ -92,7 +92,7 @@ function ResultsNewsletterForm() {
         <p className="text-sm text-red-200 mt-3 text-center">{error}</p>
       )}
       <p className="text-xs text-white/70 mt-3 text-center">
-        ✨ <strong>Join festival explorers</strong> already joined this week. No spam, unsubscribe anytime.
+        ✨ <strong>Join festival enthusiasts</strong> already joined this week. No spam, unsubscribe anytime.
       </p>
     </div>
   );

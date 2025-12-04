@@ -1,8 +1,8 @@
-# 📚 Festival Explorer Documentation
+# 📚 Festival Marketplace Documentation
 
 ## 📖 Complete Documentation Package
 
-This folder contains comprehensive documentation for the world-class Festival Explorer upgrade.
+This folder contains comprehensive documentation for the world-class Festival Marketplace upgrade.
 
 ---
 
