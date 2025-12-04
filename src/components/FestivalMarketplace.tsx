@@ -300,11 +300,11 @@ export default function FestivalMarketplace() {
       />
 
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
+      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
-              Festival Marketplace
+               Marketplace(Coming Soon)
             </h1>
             <p className="text-sm text-gray-600 mt-1">
               {sorted.length} festivals • {activeFilterCount > 0 && `${activeFilterCount} active filters`}

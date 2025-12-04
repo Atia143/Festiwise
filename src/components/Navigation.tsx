@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const NAV_ITEMS = [
   { href: '/', label: 'Home', icon: '🏠' },
   { href: '/quiz', label: 'Quiz', icon: '🎯' },
-  { href: '/festivals', label: 'Festivals', icon: '🎪' },
+  { href: '/festivals', label: 'Marketplace(Soon)', icon: '🎪' },
   { href: '/discover', label: 'Discover', icon: '🗺️' },
   { href: '/faq', label: 'FAQ', icon: '❓' },
 ];

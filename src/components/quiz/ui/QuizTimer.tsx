@@ -41,7 +41,7 @@ export function QuizTimer({ seconds, onReset, isActive }: QuizTimerProps) {
       <button
         onClick={handleReset}
         aria-label="Reset timer"
-        className="ml-1 px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-xs text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        className="ml-1 px-2 py-8 text-xs text-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-400"
       >
         Reset
       </button>
