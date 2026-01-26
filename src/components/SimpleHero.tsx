@@ -11,9 +11,9 @@ import SocialProof from './SocialProof';
 // Simple translation; swap for your i18n solution as needed
 function useSimpleLanguage(): { t: (key: string) => string } {
   const translations: Record<string, string> = {
-    'hero.title': 'Find My Perfect Festival',
-    'hero.subtitle': 'Discover festivals matched to your taste, budget and vibe — fast, private, and free.',
-    'hero.cta': 'Find My Perfect Festival',
+    'hero.title': 'Stop Scrolling. Start Celebrating.',
+    'hero.subtitle': "Tired of spending hours researching festivals, only to pick the wrong one? We'll match you with festivals that fit your music taste, budget, and vibe—in 2 minutes. No spam. No affiliation. 100% free.",
+    'hero.cta': 'Find My Festival Now',
   };
 
   function t(key: string) {
@@ -129,71 +129,33 @@ export default function UltimateHero() {
             }
           }}
         >
-          {/* Social Proof */}
-          <motion.div
-            variants={fadeIn}
-            className="mb-6 pt-20"
-          >
-            <SocialProof 
-              ratingValue={4.9}
-              ratingCount={parseInt(stats.users.replace(/[^\d]/g, ''))}
-              ratingAsOf="December 2024"
-            />
-          </motion.div>
 
-          {/* Main Heading */}
+          {/* Main Heading - Emotional, benefit-focused */}
           <motion.h1
             variants={fadeIn}
-            className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight max-w-3xl mx-auto"
           >
-            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-100">
-              {t('hero.title').split(' ').slice(0, 2).join(' ')}
-            </span>
-            <br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
-              {t('hero.title').split(' ').slice(2).join(' ')}
+              {t('hero.title')}
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* Description - Problem + Solution */}
           <motion.p
             variants={fadeIn}
-            className="text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
             {t('hero.subtitle')}
           </motion.p>
 
-          {/* Stats */}
-          <motion.div
-            variants={fadeIn}
-            className="mb-8 flex flex-wrap justify-center items-center gap-4 md:gap-8 text-white/80 text-sm"
-          >
-            <div className="text-center min-w-[60px]">
-              <div className="text-base md:text-xl lg:text-2xl font-bold text-yellow-300">{stats.festivals}</div>
-              <div className="text-xs md:text-sm">Festivals</div>
-            </div>
-            <div className="text-center min-w-[60px]">
-              <div className="text-base md:text-xl lg:text-2xl font-bold text-yellow-300">2 min</div>
-              <div className="text-xs md:text-sm">Quick Quiz</div>
-            </div>
-            <div className="text-center min-w-[60px]">
-              <div className="text-base md:text-xl lg:text-2xl font-bold text-yellow-300">100%</div>
-              <div className="text-xs md:text-sm">Free</div>
-            </div>
-            <div className="text-center min-w-[60px]">
-              <div className="text-base md:text-xl lg:text-2xl font-bold text-green-300">{stats.countries}</div>
-              <div className="text-xs md:text-sm">Countries</div>
-            </div>
-          </motion.div>
-
           {/* CTA Buttons */}
           <motion.div
             variants={fadeIn}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
+            className="flex flex-col items-center justify-center gap-4 px-4 mb-8"
           >
             <Link
               href="/quiz"
-              className="group relative w-full sm:max-w-sm px-6 md:px-8 py-3 md:py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-base md:text-lg lg:text-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2 transform hover:rotate-1"
+              className="group relative w-full sm:max-w-sm px-8 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-lg shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2"
               aria-describedby="quiz-description"
             >
               <motion.span
@@ -215,61 +177,23 @@ export default function UltimateHero() {
                   →
                 </motion.span>
               </span>
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold animate-pulse">
-                2 MIN
-              </div>
             </Link>
             <div id="quiz-description" className="sr-only">
               Take our personalized quiz to find music festivals that match your taste, budget, and location preferences
             </div>
             
-            <div className="flex gap-3 text-sm md:text-base">
-              <Link
-                href="/festivals"
-                className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
-              >
-                Browse Festivals
-              </Link>
-              <Link
-                href="/discover"
-                className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
-              >
-                Guides & Tips
-              </Link>
-              <Link
-                href="/faq"
-                className="px-4 py-2 md:px-6 md:py-3 rounded-xl border border-white/60 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:scale-105"
-              >
-                FAQ
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Trust Badge - Added disclaimer in a strategic way */}
-          <motion.div
-            variants={fadeIn}
-            className="mt-6 mb-8"
-          >
-            <div className="flex flex-wrap justify-center items-center">
-              <motion.div 
-                className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mx-auto"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <svg className="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                </svg>
-                <span className="text-xs sm:text-sm text-white/90 font-medium">
-                  We're not affiliated with festivals and do not sell tickets. We link directly to official pages.
-                </span>
-              </motion.div>
+            {/* Micro-trust below CTA */}
+            <div className="flex flex-wrap justify-center items-center gap-4 text-white/80 text-sm">
+              <span>✓ Takes 2 minutes</span>
+              <span>✓ 100% free</span>
+              <span>✓ Your data is private</span>
             </div>
           </motion.div>
 
           {/* Testimonial */}
           <motion.div
             variants={fadeIn}
-            className="mt-6 max-w-xl mx-auto"
+            className="mt-12 max-w-xl mx-auto"
           >
             <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 md:p-6">
               <div className="flex items-center justify-between mb-3">
@@ -287,11 +211,11 @@ export default function UltimateHero() {
                 </div>
               </div>
               <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                "Best festival recommendation ever! We started out just playing around, but the app predicted our festival plans perfectly."
+                "I was overwhelmed by festival options until I tried FestiWise. The 2-minute quiz matched me with the perfect festival!"
               </p>
               <div className="mt-3 flex items-center gap-2 text-xs text-white/60">
-                <span className="bg-purple-500/20 px-2 py-1 rounded">Ultra Miami</span>
-                <span>• 1 week ago</span>
+                <span className="bg-purple-500/20 px-2 py-1 rounded">Verified Match</span>
+                <span>• Matched to festival</span>
               </div>
             </div>
           </motion.div>

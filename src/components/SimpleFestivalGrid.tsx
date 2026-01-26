@@ -6,24 +6,24 @@ import OptimizedImg from './OptimizedImg';
 
 const howItWorks = {
   title: "How It Works",
-  subtitle: "Find your perfect festival match in 3 simple steps",
+  subtitle: "Three steps to your festival match",
   steps: [
     {
       number: 1,
-      title: "Tell us your vibe",
-      description: "Share your music taste, budget, and travel preferences in our 2-minute quiz",
+      title: "What's Your Festival Personality?",
+      description: "Answer 10 quick questions about your music taste, energy level, travel distance, and budget. No right or wrong answers—just honest ones.",
       gradient: "from-purple-400 to-blue-400",
     },
     {
       number: 2,
-      title: "Get ranked matches", 
-      description: "We match by genre affinity, budget range, and travel-time tolerance to find your perfect festivals",
+      title: "See Festivals Built for You", 
+      description: "Our algorithm ranks 100+ real festivals by how well they match YOUR taste. See your top picks with lineup, dates, cost, and travel info.",
       gradient: "from-blue-400 to-cyan-400",
     },
     {
       number: 3,
-      title: "Book with confidence",
-      description: "We only link to official ticket pages. No extra fees. Get direct access plus travel tips for your festival",
+      title: "Book Direct, Save Big",
+      description: "We link straight to official festival websites. No hidden fees, no markup. You're in complete control. Change your mind? Take the quiz again anytime.",
       gradient: "from-green-400 to-purple-400",
     }
   ]
@@ -137,14 +137,14 @@ export default function FestivalShowcaseSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Festivals</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover some of the world's most iconic music festivals spanning various genres and locations.
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Festivals in Our Network</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Curated, verified, and ready to match with YOUR taste.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {festivals.map((festival, index) => (
+          {festivals.slice(0, 6).map((festival, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -192,9 +192,9 @@ export default function FestivalShowcaseSection() {
         </div>
 
         <div className="mt-14 text-center">
-          <Link href="/festivals">
-            <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-full shadow-xl transform transition-transform hover:scale-105 text-lg tracking-wide">
-              View All Festivals
+          <Link href="/quiz">
+            <button className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold rounded-full shadow-xl transform transition-transform hover:scale-105 text-lg tracking-wide">
+              Get Your Personalized Matches →
             </button>
           </Link>
         </div>

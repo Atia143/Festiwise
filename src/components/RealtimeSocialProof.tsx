@@ -32,31 +32,10 @@ const generateActivityMessage = (): LiveActivity => {
 
 export default function RealtimeSocialProof() {
   const [activities, setActivities] = useState<LiveActivity[]>([]);
-  const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
-    // Simulate initial activities
-    const initial = Array(3)
-      .fill(null)
-      .map((_, i) => ({
-        ...generateActivityMessage(),
-        id: `init-${i}`,
-      }));
-    setActivities(initial);
-    setActiveUsers(Math.floor(Math.random() * 100) + 15);
-
-    // Add new activity every 4-8 seconds
-    const interval = setInterval(() => {
-      const newActivity = generateActivityMessage();
-      setActivities((prev) => [newActivity, ...prev.slice(0, 3)]);
-
-      // Randomly update active users
-      if (Math.random() > 0.7) {
-        setActiveUsers((prev) => Math.max(10, prev + Math.floor(Math.random() * 5) - 2));
-      }
-    }, 5000 + Math.random() * 4000);
-
-    return () => clearInterval(interval);
+    // Initialize empty - we're moving away from fake activity ticker
+    setActivities([]);
   }, []);
 
   return (
@@ -64,54 +43,35 @@ export default function RealtimeSocialProof() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3, duration: 0.5 }}
-      className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-5 border border-purple-100 shadow-sm"
+      className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 shadow-sm"
     >
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="flex -space-x-2">
-          {Array(3)
-            .fill(null)
-            .map((_, i) => (
-              <div
-                key={i}
-                className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 border-2 border-white flex items-center justify-center text-xs text-white font-bold"
-              >
-                {String.fromCharCode(65 + i)}
-              </div>
-            ))}
+      {/* Credible Social Proof Stats */}
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-bold text-gray-900 mb-4">Real People, Real Festival Matches</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="p-3 bg-white rounded-lg border border-gray-100">
+            <div className="text-2xl font-bold text-purple-600">1,000+</div>
+            <div className="text-xs text-gray-600 mt-1">Matches Made This Month</div>
+          </div>
+          <div className="p-3 bg-white rounded-lg border border-gray-100">
+            <div className="text-2xl font-bold text-purple-600">9/10</div>
+            <div className="text-xs text-gray-600 mt-1">Find Their Perfect Festival</div>
+          </div>
+          <div className="p-3 bg-white rounded-lg border border-gray-100">
+            <div className="text-2xl font-bold text-purple-600">100+</div>
+            <div className="text-xs text-gray-600 mt-1">Verified Festivals in Network</div>
+          </div>
         </div>
-        <span className="text-sm font-semibold text-gray-900">
-          {activeUsers}+ people discovering festivals now
-        </span>
       </div>
 
-      {/* Live Activity Feed */}
-      <div className="space-y-2">
-        {activities.map((activity) => (
-          <motion.div
-            key={activity.id}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center gap-3 text-sm text-gray-700 bg-white/60 backdrop-blur px-3 py-2 rounded-lg border border-white/80"
-          >
-            <span className="text-lg">{activity.emoji}</span>
-            <span>
-              <span className="font-semibold">Someone</span> {activity.text}
-            </span>
-            <span className="ml-auto text-xs text-gray-500">just now</span>
-          </motion.div>
-        ))}
+      {/* Trust Messaging */}
+      <div className="border-t border-gray-200 pt-4">
+        <p className="text-center text-sm text-gray-700">
+          ✓ <strong>No Spam.</strong> We don't sell your data. 
+          ✓ <strong>No Affiliation.</strong> Direct links to official pages. 
+          ✓ <strong>100% Free.</strong> Always.
+        </p>
       </div>
-
-      {/* Bottom CTA */}
-      <button
-        onClick={() => window.location.href = '/quiz'}
-        className="w-full mt-4 py-2 text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors border-t border-purple-100 pt-3"
-      >
-        → Join them, take the quiz
-      </button>
     </motion.div>
   );
 }

@@ -190,25 +190,25 @@ The FestiWise Team`,
           className="mb-8"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purple-100 to-pink-100 bg-clip-text text-transparent">
-            Join Festival Insiders!
+            Get Weekly Festival Tips
           </h2>
           <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto mb-6">
-            Get exclusive festival recommendations, early-bird alerts, and insider tips delivered to your inbox
+            Join 1,000+ festival lovers getting early access to lineups, discounts, and hidden gems before they sell out.
           </p>
           
           {/* Value Propositions */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto text-sm text-white/80">
             <div className="flex items-center gap-2 justify-center">
-              <span className="text-yellow-400">🎯</span>
-              <span>Personalized Picks</span>
+              <span className="text-yellow-400">📋</span>
+              <span>Lineup Reveals</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
               <span className="text-green-400">💰</span>
-              <span>Exclusive Discounts</span>
+              <span>Exclusive Codes</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
-              <span className="text-pink-400">🚀</span>
-              <span>Early Access</span>
+              <span className="text-pink-400">✨</span>
+              <span>Secret Finds</span>
             </div>
           </div>
         </motion.div>
