@@ -1,0 +1,110 @@
+{
+  "common": {
+    "appName": "FestiWise",
+    "tagline": "Finden Sie Ihr Perfektes Musikfestival in 2 Minuten",
+    "description": "Entdecken Sie Ihr ideales Musikfestival aus 100+ weltklasse Events",
+    "searchPlaceholder": "Festivals, Genres, Länder durchsuchen...",
+    "loading": "Wird geladen...",
+    "error": "Etwas ist schief gelaufen",
+    "tryAgain": "Erneut Versuchen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "submit": "Absenden",
+    "explore": "Erkunden",
+    "discover": "Entdecken",
+    "share": "Teilen"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "quiz": "Quiz",
+    "festivals": "Festivals",
+    "explore": "Erkunden",
+    "discover": "Entdeckungszentrum",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "faq": "Häufig gestellte Fragen",
+    "blog": "Blog",
+    "profile": "Profil",
+    "logout": "Abmelden",
+    "language": "Sprache"
+  },
+  "hero": {
+    "headline": "Finden Sie Ihr Perfektes Musikfestival in 2 Minuten",
+    "subheading": "Beantworten Sie ein kurzes Quiz und entdecken Sie Festivals, die zu Ihrem Musikgeschmack, Budget und Gefühl passen",
+    "cta": "Quiz Starten",
+    "secondary": "Alle Festivals Erkunden"
+  },
+  "quiz": {
+    "title": "Festival-Finder-Quiz",
+    "subtitle": "Beantworten Sie 5 schnelle Fragen, um Ihr perfektes Festival zu finden",
+    "question1": "Was ist Ihr liebstes Musikgenre?",
+    "question2": "Was ist Ihr Budget für ein Festival-Ticket?",
+    "question3": "Wie weit sind Sie bereit zu reisen?",
+    "question4": "Wann bevorzugen Sie Festivals zu besuchen?",
+    "question5": "Was ist Ihnen wichtig?",
+    "results": "Ihr Festival-Match",
+    "matchScore": "Match-Punktzahl",
+    "shareYourResult": "Teilen Sie Ihr Ergebnis",
+    "viewMore": "Weitere Empfehlungen Anzeigen",
+    "retake": "Quiz Wiederholen"
+  },
+  "festivals": {
+    "allFestivals": "Alle Festivals",
+    "filterBy": "Filtern nach",
+    "genre": "Genre",
+    "country": "Land",
+    "budget": "Budget",
+    "month": "Monat",
+    "search": "Festivals Durchsuchen",
+    "noResults": "Keine Festivals gefunden",
+    "ticketLink": "Tickets Erhalten",
+    "dates": "Termine",
+    "location": "Ort",
+    "price": "Preis",
+    "capacity": "Kapazität"
+  },
+  "marketplace": {
+    "affiliateTickets": "Tickets Suchen",
+    "buyNow": "Jetzt Kaufen",
+    "trustedPartnershipWith": "Vertrauenspartnerschaft mit",
+    "securePurchase": "Sichere Zahlung",
+    "premiumExperience": "Premium-Erlebnis"
+  },
+  "social": {
+    "shareOnTwitter": "Auf 𝕏 Teilen",
+    "shareOnFacebook": "Auf Facebook Teilen",
+    "shareOnWhatsApp": "Auf WhatsApp Teilen",
+    "copyLink": "Link Kopieren",
+    "shareYourDiscovery": "Teilen Sie Ihre Festival-Entdeckung mit Freunden!"
+  },
+  "testimonials": {
+    "greatService": "Großartiger Service",
+    "realUsers": "Echte Benutzer",
+    "satisfaction": "Zufriedenheit",
+    "usersSay": "Das Sagen Nutzer"
+  },
+  "footer": {
+    "about": "Über uns",
+    "privacy": "Datenschutz",
+    "terms": "Bedingungen",
+    "contact": "Kontakt",
+    "followUs": "Folgen Sie uns",
+    "copyright": "© 2025 FestiWise. Alle Rechte vorbehalten."
+  },
+  "errors": {
+    "pageNotFound": "Seite Nicht Gefunden",
+    "notFoundDescription": "Entschuldigung, die gesuchte Seite existiert nicht",
+    "goHome": "Zur Startseite",
+    "serverError": "Serverfehler",
+    "serverErrorDescription": "Auf unserer Seite ist ein Fehler aufgetreten"
+  },
+  "seo": {
+    "metaDescription": "Entdecken Sie Ihr ideales Musikfestival aus 100+ weltklasse Events",
+    "keywords": "Musikfestival-Finder, Festival-Quiz, Musikfestivals 2025, Festival-Empfehlungen"
+  }
+}
