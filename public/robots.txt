@@ -9,7 +9,6 @@ Disallow: /go/
 Allow: /quiz
 Allow: /festivals
 Allow: /discover
-Allow: /blog
 Allow: /festival/*
 
 # Sitemaps

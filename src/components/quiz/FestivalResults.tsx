@@ -9,91 +9,91 @@ import { getTopFestivalMatches } from '@/utils/quizScoringAlgorithm';
 import QuizResultsShare from '@/components/QuizResultsShare';
 
 // Results Page Newsletter Form Component
-function ResultsNewsletterForm() {
+function ResultsNewsletterForm({ topMatch }: { topMatch?: Festival }) {
   const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-
-    setIsSubmitting(true);
-    setError('');
+    setState('loading');
 
     try {
       const response = await fetch('/api/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          email: email,
-          subject: '🎉 Quiz Completed - Save Results & Weekly Updates',
-          message: `User completed the festival quiz and wants to save results + receive weekly updates.\n\nEmail: ${email}\nSource: Post-Quiz Results Page CTA \nTimestamp: ${new Date().toLocaleString()}\n\nThis user completed the entire quiz and is highly engaged - prime for conversion!`,
-          from_name: 'Festival Finder Quiz Results',
-          to_name: 'Festival Finder Team'
+          email,
+          subject: topMatch
+            ? `Quiz Result — Alert for ${topMatch.name}`
+            : 'Quiz Completed — Save Results & Weekly Updates',
+          from_name: 'FestiWise Quiz',
+          message: `User completed the festival quiz.\n\nEmail: ${email}\nTop match: ${topMatch?.name ?? 'unknown'} (${topMatch?.city ?? ''}, ${topMatch?.country ?? ''})\nTimestamp: ${new Date().toISOString()}`,
+          _cc: email,
+          _subject: topMatch
+            ? `Your FestiWise match: ${topMatch.name}`
+            : 'Your FestiWise festival matches',
+          _autoresponse: topMatch
+            ? `Great news! Based on your quiz, ${topMatch.name} is your top match. We'll keep you updated with ticket alerts and personalised picks.`
+            : "You're in! We'll send you weekly personalised festival recommendations.",
+          botcheck: '',
         }),
       });
 
-      if (response.ok) {
-        setIsSuccess(true);
+      const data = await response.json();
+      if (data.success) {
+        setState('success');
         setEmail('');
       } else {
-        throw new Error('Failed to submit');
+        setState('error');
       }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    } catch {
+      setState('error');
     }
   };
 
-  if (isSuccess) {
+  if (state === 'success') {
     return (
-      <div className="max-w-md mx-auto bg-white/15 backdrop-blur rounded-2xl p-6">
-        <div className="text-center">
-          <div className="text-3xl mb-3">🎉</div>
-          <div className="font-bold text-lg mb-2">Results Saved!</div>
-          <div className="text-white/90 text-sm mb-4">
-            Perfect! We've saved your festival matches and you'll get weekly personalized picks sent to your inbox.
-          </div>
-          <div className="bg-white/10 rounded-xl p-3">
-            <div className="text-xs text-white/80">
-              ✨ <strong>Next:</strong> Check your email for instant access to your personalized festival calendar
-            </div>
-          </div>
+      <div className="max-w-md mx-auto bg-white/15 backdrop-blur rounded-2xl p-6 text-center">
+        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <span className="text-xl">✓</span>
         </div>
+        <p className="font-bold text-white text-lg mb-1">You&apos;re in!</p>
+        <p className="text-white/80 text-sm">
+          {topMatch
+            ? `We saved your match with ${topMatch.name}. Ticket alerts and weekly picks are coming to your inbox.`
+            : "Weekly personalised festival picks are on their way to your inbox."}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white/15 backdrop-blur rounded-2xl p-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email to save these results"
-          className="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:border-white/60 focus:ring-2 focus:ring-white/30"
+          placeholder={topMatch ? `Get alerts for ${topMatch.name}` : 'Enter your email address'}
+          className="w-full px-4 py-3.5 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white/70 focus:ring-2 focus:ring-white/30 text-sm"
           required
-          disabled={isSubmitting}
+          disabled={state === 'loading'}
+          aria-label="Email address"
         />
         <button
           type="submit"
-          disabled={isSubmitting || !email}
-          className="w-full py-3 bg-white text-purple-600 font-bold rounded-xl hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
+          disabled={state === 'loading' || !email}
+          className="w-full py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 text-sm"
         >
-          {isSubmitting ? '🔄 Saving...' : '🎪 Save My Results + Get Weekly Picks'}
+          {state === 'loading' ? 'Saving...' : 'Save My Results + Get Ticket Alerts'}
         </button>
       </form>
-      {error && (
-        <p className="text-sm text-red-200 mt-3 text-center">{error}</p>
+      {state === 'error' && (
+        <p className="text-red-300 text-xs mt-2 text-center">Something went wrong. Please try again.</p>
       )}
-      <p className="text-xs text-white/70 mt-3 text-center">
-        ✨ <strong>Join festival enthusiasts</strong> already joined this week. No spam, unsubscribe anytime.
+      <p className="text-xs text-white/60 mt-3 text-center">
+        No spam. Ticket alerts + weekly picks only. Unsubscribe anytime.
       </p>
     </div>
   );
@@ -540,7 +540,7 @@ export function FestivalResults() {
                 </div>
               </div>
               
-                            <ResultsNewsletterForm />
+                            <ResultsNewsletterForm topMatch={matchedFestivals[0]} />
               
               <div className="mt-6 text-center">
                 <p className="text-sm text-white/80">
