@@ -3,7 +3,7 @@
  * ============================================================
  * Sophisticated multi-factor scoring system for festival matching
  * Based on 50+ matching criteria and preference weighting
- * 
+ *
  * Features:
  * - Preference strength analysis
  * - Multi-factor genre matching
@@ -16,8 +16,10 @@
  * - And 40+ more factors
  */
 
+import type { Festival } from '@/types/festival';
+
 interface FestivalMatch {
-  festival: any;
+  festival: Festival;
   score: number;
   breakdown: {
     genreScore: number;
@@ -32,6 +34,8 @@ interface FestivalMatch {
   };
   reasons: string[];
 }
+
+type ScoreBreakdown = FestivalMatch['breakdown'];
 
 interface QuizAnswers {
   genres: string[];
@@ -65,7 +69,7 @@ interface QuizAnswers {
  * Calculates a comprehensive match score (0-100) between user preferences and festival
  */
 export function calculateFestivalScore(
-  festival: any,
+  festival: Festival,
   answers: QuizAnswers
 ): FestivalMatch {
   const breakdown = {
@@ -123,269 +127,183 @@ export function calculateFestivalScore(
 
 /**
  * Genre matching (25% weight)
- * Analyzes user's genre preferences against festival's lineup
  */
-function scoreGenreMatch(festival: any, answers: QuizAnswers): number {
-  if (!answers.genres || answers.genres.length === 0) return 50; // Neutral
+function scoreGenreMatch(festival: Festival, answers: QuizAnswers): number {
+  if (!answers.genres || answers.genres.length === 0) return 50;
 
-  const festivalGenres = (festival.genres || []).map((g: string) => g.toLowerCase());
-  const userGenres = answers.genres.map((g) => g.toLowerCase());
+  const festivalGenres = (festival.genres || []).map(g => g.toLowerCase());
+  const userGenres = answers.genres.map(g => g.toLowerCase());
 
-  // Direct matches
   let matchCount = 0;
-  const matches: string[] = [];
-
-  userGenres.forEach((userGenre) => {
-    if (festivalGenres.some((fGenre: string) => fGenre.includes(userGenre) || userGenre.includes(fGenre))) {
+  userGenres.forEach(userGenre => {
+    if (festivalGenres.some(fg => fg.includes(userGenre) || userGenre.includes(fg))) {
       matchCount++;
-      matches.push(userGenre);
     }
   });
 
-  // Calculate match percentage
-  const directMatchScore = (matchCount / userGenres.length) * 100;
-
-  // Apply discovery preference modifier
-  let discoveryModifier = 0;
-  if (answers.musicDiscovery === 'mainstream' && festival.popularity >= 0.7) {
-    discoveryModifier = 10;
-  } else if (answers.musicDiscovery === 'underground' && festival.popularity < 0.5) {
-    discoveryModifier = 10;
-  } else if (answers.musicDiscovery === 'mixed') {
-    discoveryModifier = 5;
-  }
-
-  return Math.min(100, directMatchScore + discoveryModifier);
+  return Math.min(100, (matchCount / userGenres.length) * 100);
 }
 
 /**
  * Budget matching (20% weight)
- * Compares festival costs against user's budget and flexibility
  */
-function scoreBudgetMatch(festival: any, answers: QuizAnswers): number {
+function scoreBudgetMatch(festival: Festival, answers: QuizAnswers): number {
   const festivalCost = estimateFestivalCost(festival);
   const userBudgetMin = answers.budget.min;
   const userBudgetMax = answers.budget.max;
 
-  // Strict budget checking
   if (answers.budgetFlexibility === 'strict') {
-    if (festivalCost >= userBudgetMin && festivalCost <= userBudgetMax) {
-      return 100; // Perfect match
-    } else if (festivalCost < userBudgetMin) {
-      return Math.max(50, 100 - (userBudgetMin - festivalCost) / userBudgetMin * 20);
-    } else {
-      return Math.max(0, 100 - (festivalCost - userBudgetMax) / userBudgetMax * 20);
-    }
+    if (festivalCost >= userBudgetMin && festivalCost <= userBudgetMax) return 100;
+    if (festivalCost < userBudgetMin) return Math.max(50, 100 - (userBudgetMin - festivalCost) / userBudgetMin * 20);
+    return Math.max(0, 100 - (festivalCost - userBudgetMax) / userBudgetMax * 20);
   }
 
-  // Flexible budget - wider tolerance
-  const tolerance = (userBudgetMax - userBudgetMin) * 0.3; // 30% tolerance
+  const tolerance = (userBudgetMax - userBudgetMin) * 0.3;
   const adjustedMin = userBudgetMin - tolerance;
   const adjustedMax = userBudgetMax + tolerance;
 
   if (festivalCost >= adjustedMin && festivalCost <= adjustedMax) {
-    if (festivalCost >= userBudgetMin && festivalCost <= userBudgetMax) {
-      return 100;
-    }
-    return 85;
-  } else if (festivalCost < adjustedMin) {
-    return Math.max(40, 85 - (adjustedMin - festivalCost) / adjustedMin * 15);
-  } else {
-    return Math.max(40, 85 - (festivalCost - adjustedMax) / adjustedMax * 15);
+    return festivalCost >= userBudgetMin && festivalCost <= userBudgetMax ? 100 : 85;
   }
+  if (festivalCost < adjustedMin) return Math.max(40, 85 - (adjustedMin - festivalCost) / adjustedMin * 15);
+  return Math.max(40, 85 - (festivalCost - adjustedMax) / adjustedMax * 15);
 }
 
 /**
  * Season/Month matching (15% weight)
- * Checks if festival timing aligns with user's preferred months
  */
-function scoreSeasonMatch(festival: any, answers: QuizAnswers): number {
-  if (!answers.months || answers.months.length === 0) return 60; // Neutral
-
-  const festivalMonth = extractMonth(festival.date);
-  if (!festivalMonth) return 50;
+function scoreSeasonMatch(festival: Festival, answers: QuizAnswers): number {
+  if (!answers.months || answers.months.length === 0) return 60;
 
   // Direct month match
-  if (answers.months.includes(festivalMonth)) {
-    return 100;
-  }
+  if (festival.months.some(fm => answers.months.includes(fm))) return 100;
 
-  // Season match - if festival is adjacent month
-  const monthIndex = getMonthIndex(festivalMonth);
-  const userMonthIndices = answers.months.map(getMonthIndex);
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ];
 
-  const isAdjacent = userMonthIndices.some((idx) => Math.abs(idx - monthIndex) === 1 || Math.abs(idx - monthIndex) === 11);
+  const festivalIndices = festival.months.map(m => monthNames.indexOf(m)).filter(i => i !== -1);
+  const userIndices = answers.months.map(m => monthNames.indexOf(m)).filter(i => i !== -1);
 
-  if (isAdjacent) {
-    return answers.dateFlexibility === 'flexible' ? 75 : 50;
-  }
+  const isAdjacent = festivalIndices.some(fi =>
+    userIndices.some(ui => Math.abs(fi - ui) === 1 || Math.abs(fi - ui) === 11)
+  );
+  if (isAdjacent) return answers.dateFlexibility === 'flexible' ? 75 : 50;
 
-  // Check if same season
-  const festivalSeason = getSeasonFromMonth(monthIndex);
-  const userSeasons = answers.months.map((m) => getSeasonFromMonth(getMonthIndex(m)));
+  const getSeason = (idx: number) => {
+    if (idx <= 1 || idx === 11) return 'winter';
+    if (idx <= 4) return 'spring';
+    if (idx <= 7) return 'summer';
+    return 'autumn';
+  };
 
-  if (userSeasons.includes(festivalSeason)) {
+  const festivalSeasons = new Set(festivalIndices.map(getSeason));
+  const userSeasons = new Set(userIndices.map(getSeason));
+  if ([...festivalSeasons].some(s => userSeasons.has(s))) {
     return answers.dateFlexibility === 'very flexible' ? 60 : 40;
   }
 
-  return 20; // Very low match
+  return 20;
 }
 
 /**
  * Region matching (12% weight)
- * Checks geographic alignment with festival location
  */
-function scoreRegionMatch(festival: any, answers: QuizAnswers): number {
+function scoreRegionMatch(festival: Festival, answers: QuizAnswers): number {
   if (!answers.region) return 50;
 
   const regionMap: Record<string, string[]> = {
-    'north-america': ['USA', 'Canada', 'Mexico', 'US', 'North America'],
-    'europe': ['UK', 'Germany', 'France', 'Spain', 'Netherlands', 'Europe', 'Italy', 'Poland'],
-    'south-america': ['Brazil', 'Colombia', 'Argentina', 'Chile', 'South America'],
-    'asia-pacific': ['Japan', 'Australia', 'Thailand', 'India', 'Asia', 'Pacific'],
-    'middle-east': ['UAE', 'Egypt', 'South Africa', 'Morocco', 'Middle East', 'Africa'],
-    'caribbean': ['Jamaica', 'Barbados', 'Trinidad', 'Caribbean', 'Islands'],
-    'local': ['Local', 'Regional', 'Near', 'Your area'],
+    'north-america': ['USA', 'Canada', 'Mexico'],
+    'europe': [
+      'UK', 'Germany', 'France', 'Spain', 'Netherlands', 'Italy', 'Poland',
+      'Belgium', 'Portugal', 'Sweden', 'Denmark', 'Norway', 'Finland',
+      'Switzerland', 'Austria', 'Hungary', 'Romania', 'Serbia', 'Croatia',
+    ],
+    'south-america': ['Brazil', 'Colombia', 'Argentina', 'Chile', 'Costa Rica'],
+    'asia-pacific': ['Japan', 'Australia', 'Thailand', 'India', 'New Zealand'],
+    'middle-east': ['UAE', 'Egypt', 'South Africa', 'Morocco'],
+    'caribbean': ['Jamaica', 'Barbados', 'Trinidad'],
   };
 
-  const festivalLocation = (festival.location || '').toLowerCase();
-  const targetRegions = regionMap[answers.region] || [];
-
-  const isMatch = targetRegions.some((region) => festivalLocation.includes(region.toLowerCase()));
-
-  return isMatch ? 100 : 25;
+  const targetCountries = regionMap[answers.region] ?? [];
+  return targetCountries.some(c => festival.country.toLowerCase().includes(c.toLowerCase())) ? 100 : 25;
 }
 
 /**
  * Vibe/atmosphere matching (12% weight)
- * Analyzes if festival atmosphere matches user's vibe preferences
  */
-function scoreVibeMatch(festival: any, answers: QuizAnswers): number {
+function scoreVibeMatch(festival: Festival, answers: QuizAnswers): number {
   if (!answers.vibes || answers.vibes.length === 0) return 60;
 
-  const festivalVibes = (festival.vibes || []).map((v: string) => v.toLowerCase());
-  const userVibes = answers.vibes.map((v) => v.toLowerCase());
+  const festivalVibes = (festival.vibe || []).map(v => v.toLowerCase());
+  const userVibes = answers.vibes.map(v => v.toLowerCase());
 
   let matchCount = 0;
-  userVibes.forEach((userVibe) => {
+  userVibes.forEach(userVibe => {
     if (
-      festivalVibes.some((fVibe: string) => fVibe.includes(userVibe) || userVibe.includes(fVibe)) ||
+      festivalVibes.some(fv => fv.includes(userVibe) || userVibe.includes(fv)) ||
       isVibeCompatible(userVibe, festivalVibes)
     ) {
       matchCount++;
     }
   });
 
-  const vibeMatchScore = (matchCount / userVibes.length) * 100;
-
-  // Apply social level modifier
-  if (answers.socialLevel === 'introverted' && festival.attendanceEstimate > 100000) {
-    return Math.max(30, vibeMatchScore - 20);
-  } else if (answers.socialLevel === 'extroverted' && festival.attendanceEstimate < 5000) {
-    return Math.max(30, vibeMatchScore - 15);
-  }
-
-  return Math.min(100, vibeMatchScore);
+  return Math.min(100, (matchCount / userVibes.length) * 100);
 }
 
 /**
  * Duration matching (8% weight)
- * Checks if festival duration matches user's time commitment preference
  */
-function scoreDurationMatch(festival: any, answers: QuizAnswers): number {
-  const festivalDays = calculateFestivalDuration(festival);
-
-  if (answers.duration === 'day') {
-    return festivalDays <= 1 ? 100 : festivalDays === 2 ? 70 : 40;
-  } else if (answers.duration === 'weekend') {
-    return festivalDays >= 2 && festivalDays <= 4 ? 100 : festivalDays <= 1 ? 60 : 70;
-  } else if (answers.duration === 'week+') {
-    return festivalDays >= 5 ? 100 : festivalDays >= 3 ? 80 : 50;
-  }
-
+function scoreDurationMatch(festival: Festival, answers: QuizAnswers): number {
+  const days = festival.duration_days;
+  if (answers.duration === 'day') return days <= 1 ? 100 : days === 2 ? 70 : 40;
+  if (answers.duration === 'weekend') return days >= 2 && days <= 4 ? 100 : days <= 1 ? 60 : 70;
+  if (answers.duration === 'week+') return days >= 5 ? 100 : days >= 3 ? 80 : 50;
   return 70;
 }
 
 /**
  * Crowd size preference matching (5% weight)
  */
-function scoreCrowdMatch(festival: any, answers: QuizAnswers): number {
+function scoreCrowdMatch(festival: Festival, answers: QuizAnswers): number {
   if (answers.audienceSize === 'any') return 100;
 
-  const attendees = festival.attendanceEstimate || 50000;
+  const sizeMap: Record<string, 'intimate' | 'medium' | 'massive'> = {
+    intimate: 'intimate',
+    small: 'intimate',
+    medium: 'medium',
+    large: 'massive',
+    massive: 'massive',
+  };
 
-  if (answers.audienceSize === 'intimate' && attendees < 5000) return 100;
-  if (answers.audienceSize === 'intimate' && attendees < 20000) return 70;
-  if (answers.audienceSize === 'intimate') return 30;
+  const festivalSize = sizeMap[festival.audience_size.toLowerCase()] ?? 'medium';
 
-  if (answers.audienceSize === 'medium' && attendees >= 5000 && attendees < 100000) return 100;
-  if (answers.audienceSize === 'medium' && attendees < 5000) return 50;
-  if (answers.audienceSize === 'medium') return 70;
-
-  if (answers.audienceSize === 'massive' && attendees >= 100000) return 100;
-  if (answers.audienceSize === 'massive' && attendees >= 50000) return 80;
-  if (answers.audienceSize === 'massive') return 40;
-
-  return 60;
+  if (answers.audienceSize === festivalSize) return 100;
+  if (answers.audienceSize === 'medium') return 60;
+  if (answers.audienceSize === 'intimate' && festivalSize === 'medium') return 50;
+  if (answers.audienceSize === 'massive' && festivalSize === 'medium') return 70;
+  return 30;
 }
 
 /**
  * Accessibility matching (2% weight)
+ * Festival accessibility data not available in dataset — neutral score
  */
-function scoreAccessibilityMatch(festival: any, answers: QuizAnswers): number {
-  if (!answers.accessibility || answers.accessibility.length === 0) return 100;
-
-  const festivalAccessibility = (festival.accessibility || []).map((a: string) => a.toLowerCase());
-  let matches = 0;
-
-  answers.accessibility.forEach((userReq) => {
-    if (festivalAccessibility.some((fAccess: string) => fAccess.includes(userReq.toLowerCase()))) {
-      matches++;
-    }
-  });
-
-  // All accessibility requirements must be met for high score
-  return matches === answers.accessibility.length ? 100 : (matches / answers.accessibility.length) * 60 + 30;
+function scoreAccessibilityMatch(_festival: Festival, _answers: QuizAnswers): number {
+  return 80;
 }
 
 /**
  * Unique factors scoring (1% weight)
- * Bonuses for special interests like photography, networking, food, etc.
  */
-function scoreUniqueFactors(festival: any, answers: QuizAnswers): number {
+function scoreUniqueFactors(festival: Festival, answers: QuizAnswers): number {
   let uniqueScore = 70;
 
-  // Photography interest
-  if (answers.photographyFocus && festival.photographyOpportunities) {
-    uniqueScore += 15;
+  if (answers.familyFriendly === true && festival.family_friendly) {
+    uniqueScore += 20;
   }
-
-  // Networking interest
-  if (answers.networkingInterest && festival.networkingOpportunities) {
-    uniqueScore += 15;
-  }
-
-  // Food preferences
-  if (answers.foodPreferences.length > 0) {
-    const festivalFood = (festival.foodOptions || []).map((f: string) => f.toLowerCase());
-    const userFood = answers.foodPreferences.map((f) => f.toLowerCase());
-
-    const foodMatches = userFood.filter((uf) =>
-      festivalFood.some((ff: string) => ff.includes(uf) || uf.includes(ff))
-    ).length;
-
-    if (foodMatches > 0) {
-      uniqueScore += (foodMatches / userFood.length) * 10;
-    }
-  }
-
-  // Sustainability interest
-  if (answers.sustainabilityImportance >= 4 && festival.sustainability >= 0.7) {
-    uniqueScore += 10;
-  }
-
-  // Family friendly interest
-  if (answers.familyFriendly && festival.familyFriendly) {
+  if (answers.camping && festival.camping) {
     uniqueScore += 10;
   }
 
@@ -396,131 +314,60 @@ function scoreUniqueFactors(festival: any, answers: QuizAnswers): number {
 // HELPER FUNCTIONS
 // ============================================================
 
-/**
- * Estimate total cost of attending a festival
- */
-function estimateFestivalCost(festival: any): number {
-  let totalCost = festival.ticketPrice || 200;
-
-  if (festival.accommodation) {
-    totalCost += festival.accommodation.averageCost || 500;
-  }
-
-  if (festival.travel) {
-    totalCost += festival.travel.averageCost || 300;
-  }
-
-  if (festival.food) {
-    totalCost += festival.food.averageCost || 200;
-  }
-
-  return totalCost;
+function estimateFestivalCost(festival: Festival): number {
+  return (festival.estimated_cost_usd.min + festival.estimated_cost_usd.max) / 2;
 }
 
-/**
- * Extract month from festival date
- */
-function extractMonth(dateStr: string): string {
-  if (!dateStr) return '';
-
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  for (const month of months) {
-    if (dateStr.includes(month)) return month;
-  }
-
-  return '';
-}
-
-/**
- * Get month index (0-11)
- */
-function getMonthIndex(month: string): number {
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  return months.findIndex((m) => m.toLowerCase().includes(month.toLowerCase()));
-}
-
-/**
- * Get season from month index
- */
-function getSeasonFromMonth(monthIndex: number): string {
-  if (monthIndex === -1) return 'unknown';
-  if (monthIndex <= 1 || monthIndex === 11) return 'winter';
-  if (monthIndex >= 2 && monthIndex <= 4) return 'spring';
-  if (monthIndex >= 5 && monthIndex <= 7) return 'summer';
-  return 'autumn';
-}
-
-/**
- * Check if vibes are compatible
- */
 function isVibeCompatible(userVibe: string, festivalVibes: string[]): boolean {
   const vibeGroups: Record<string, string[]> = {
-    'party': ['party', 'edm', 'electronic', 'dancing', 'nightlife'],
-    'chill': ['chill', 'relaxed', 'laid-back', 'camping', 'nature'],
-    'immersive': ['art', 'interactive', 'experience', 'creative', 'burning'],
+    'party': ['party', 'edm', 'electronic', 'dancing', 'nightlife', 'mainstream'],
+    'chill': ['chill', 'relaxed', 'laid-back', 'camping', 'nature', 'intimate'],
+    'immersive': ['art', 'interactive', 'experience', 'creative', 'cultural'],
     'discovery': ['underground', 'indie', 'emerging', 'experimental'],
     'cultural': ['world', 'traditional', 'heritage', 'cultural'],
-    'vip': ['luxury', 'premium', 'exclusive', 'vip'],
+    'vip': ['luxury', 'premium', 'exclusive'],
   };
 
   const userGroup = vibeGroups[userVibe] || [userVibe];
-  return festivalVibes.some((fv) =>
-    userGroup.some((ug) => fv.includes(ug) || ug.includes(fv))
+  return festivalVibes.some(fv =>
+    userGroup.some(ug => fv.includes(ug) || ug.includes(fv))
   );
 }
 
-/**
- * Calculate festival duration in days
- */
-function calculateFestivalDuration(festival: any): number {
-  if (!festival.dates) return 3; // Default
-
-  const startDate = new Date(festival.dates.start);
-  const endDate = new Date(festival.dates.end);
-
-  const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-}
-
-/**
- * Generate human-readable match reasons
- */
 function generateReasons(
-  festival: any,
+  festival: Festival,
   answers: QuizAnswers,
-  breakdown: any,
+  breakdown: ScoreBreakdown,
   reasons: string[]
 ): void {
-  // Add top 3 reasons based on scores
   const scoreReasons = [
-    { score: breakdown.genreScore, reason: `Plays your favorite genres` },
-    { score: breakdown.budgetScore, reason: `Within your budget range` },
-    { score: breakdown.seasonScore, reason: `Perfect timing for you` },
-    { score: breakdown.vibeScore, reason: `Matches your festival vibe` },
-    { score: breakdown.regionScore, reason: `In your preferred region` },
-    { score: breakdown.durationScore, reason: `Right duration for you` },
+    { score: breakdown.genreScore, reason: 'Plays your favorite genres' },
+    { score: breakdown.budgetScore, reason: 'Within your budget range' },
+    { score: breakdown.seasonScore, reason: 'Perfect timing for you' },
+    { score: breakdown.vibeScore, reason: 'Matches your festival vibe' },
+    { score: breakdown.regionScore, reason: 'In your preferred region' },
+    { score: breakdown.durationScore, reason: 'Right duration for you' },
   ];
 
   scoreReasons
-    .filter((sr) => sr.score >= 80)
+    .filter(sr => sr.score >= 80)
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
-    .forEach((sr) => reasons.push(sr.reason));
+    .forEach(sr => reasons.push(sr.reason));
 
-  // Add specific details
-  if (festival.year && festival.year === new Date().getFullYear()) {
-    reasons.push('Happening this year');
+  if (festival.audience_size === 'massive') {
+    reasons.push('Major festival with big lineup');
   }
 
-  if (festival.attendanceEstimate > 100000) {
-    reasons.push('Major festival with big lineup');
+  if (answers.genres.length > 0 && breakdown.genreScore >= 80) {
+    const matched = festival.genres.filter(g =>
+      answers.genres.some(ag =>
+        g.toLowerCase().includes(ag.toLowerCase()) || ag.toLowerCase().includes(g.toLowerCase())
+      )
+    );
+    if (matched.length > 0) {
+      reasons.push(`Features ${matched.slice(0, 2).join(' & ')} music`);
+    }
   }
 }
 
@@ -528,13 +375,13 @@ function generateReasons(
  * Sort festivals by score and return top matches
  */
 export function getTopFestivalMatches(
-  festivals: any[],
+  festivals: Festival[],
   answers: QuizAnswers,
   limit: number = 10
 ): FestivalMatch[] {
   return festivals
-    .map((festival) => calculateFestivalScore(festival, answers))
-    .filter((match) => match.score >= 40) // Filter out very poor matches
+    .map(festival => calculateFestivalScore(festival, answers))
+    .filter(match => match.score >= 40)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 }

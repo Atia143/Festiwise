@@ -6,6 +6,7 @@ export interface Festival {
   name: string;
   country: string;
   city: string;
+  region?: string;
   months: string[];
   genres: string[];
   estimated_cost_usd: { min: number; max: number };

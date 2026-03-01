@@ -80,6 +80,112 @@ const itemVariants = {
 const getUnique = (arr: string[][] | string[]) =>
   Array.from(new Set(Array.isArray(arr[0]) ? (arr as string[][]).flat() : (arr as string[]))).filter(Boolean);
 
+// Pro Tips per festival — insider knowledge to boost conversions
+const PRO_TIPS: Record<string, string[]> = {
+  'tomorrowland': [
+    'Book DreamVille camping in January — it sells out in under 30 minutes.',
+    'Weekend 2 resale tickets are typically 15-20% cheaper than Weekend 1.',
+    'The Mainstage is spectacular but Atmosphere & Freedom stage have the best acts.',
+  ],
+  'coachella': [
+    'Weekend 2 resale tickets average 20-40% cheaper than Weekend 1.',
+    'Car camping requires a separate wristband — book it at the same time as your ticket.',
+    'The Sahara and Gobi tents run until after the headliner — perfect for EDM fans.',
+  ],
+  'glastonbury': [
+    'You must register (with photo) before you can buy a ticket — registration is free.',
+    'The Park and Strummerville stages are hidden gems away from the main crowds.',
+    'Pack wellies and a poncho — rain is almost guaranteed at some point.',
+  ],
+  'burning-man': [
+    'Tickets are released in waves via a pre-sale lottery — join the mailing list early.',
+    'This is a cashless event: bring gifts, not cash. Coffee and ice are the only things sold.',
+    'Alkaline dust storms hit daily — a quality dust mask and goggles are non-negotiable.',
+  ],
+  'ultra-miami': [
+    'Park & Ride from Marlins Park is the easiest way to avoid traffic and parking fees.',
+    'VIP day tickets often become available closer to the event when corporate passes go unsold.',
+  ],
+  'primavera': [
+    'Buy the 3-day pass — it is significantly cheaper than individual day tickets.',
+    'The venue is split across Parc del Forum and Poble Espanyol: plan your route in advance.',
+    'Book accommodation in Poblenou for easy walking distance to the Parc del Forum stages.',
+  ],
+  'roskilde': [
+    'Volunteer tickets are available — you work ~32 hours in exchange for free entry.',
+    'Camping opens days before the music: arrive early for the best spots near the stages.',
+    'The Orange Stage headliner lineup is announced just weeks before the festival.',
+  ],
+  'exit': [
+    'The fortress opens at sunset and the main stage is set inside the medieval walls.',
+    'Accommodation in Novi Sad city centre is far cheaper than festival camping packages.',
+    'Night swim spots on the Danube are a local secret — ask at your hostel.',
+  ],
+  'sonar': [
+    'Day (SonarDay) and Night (SonarNight) events are held at different venues — check which stage your artist plays.',
+    'Book Fira de Barcelona hotels early — they block up 6+ months in advance.',
+    'The SonarLab installations are free and an underrated part of the experience.',
+  ],
+  'rock-werchter': [
+    'Camping tickets include all festival days — the campsite atmosphere is as good as the music.',
+    'The VIP Golden Circle offers a massive close-up view of the Main Stage.',
+    'The Barn and Club stages run until 5am — pace yourself across the weekend.',
+  ],
+  'fuji-rock': [
+    'Book accommodation in Naeba (at the ski resort) for the closest lodging to the stages.',
+    'Bring waterproof gear — summer rain in the mountains is common.',
+    'The trek to the Field of Heaven stage takes 30+ minutes — plan extra time.',
+  ],
+  'sziget': [
+    'Week-long "A-to-Z" tickets offer the best value if you can attend the full 7 days.',
+    'The island has its own ferry service from Budapest — cheaper than taxi.',
+    'Arrive by Wednesday for the best campsite spots before the main crowds arrive.',
+  ],
+  'electric-daisy-carnival': [
+    'The festival runs overnight (9pm–7am) — bring layers for the desert cold before sunrise.',
+    'Shuttle passes from Las Vegas Strip hotels are worth every dollar — avoid the traffic.',
+    'The art installations around the venue are best explored just before dawn.',
+  ],
+  'lollapalooza': [
+    'The festival is split between two distinct weekend lineups — check which artists play your weekend.',
+    'Grant Park\'s shade is rare: bring sunscreen and a portable fan.',
+    'VIP Platinum experience includes dedicated entrances and lounge areas.',
+  ],
+  'melt': [
+    'The industrial steelworks setting is unlike any other festival in Europe.',
+    'Book early-bird tickets — the price increases in three tiers.',
+    'Head to the Ferropolis lake side for silent disco and the best sunrise views.',
+  ],
+};
+
+// Collapsible Pro Tips widget used inside cards
+function ProTips({ festivalId }: { festivalId: string }) {
+  const tips = PRO_TIPS[festivalId];
+  const [open, setOpen] = useState(false);
+  if (!tips || tips.length === 0) return null;
+  return (
+    <div className="mb-3">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1 hover:bg-amber-100 transition-colors"
+      >
+        <span>PRO TIPS</span>
+        {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+      </button>
+      {open && (
+        <ul className="mt-2 space-y-1.5">
+          {tips.map((tip, i) => (
+            <li key={i} className="flex gap-2 text-xs text-gray-700 bg-amber-50 rounded-lg px-3 py-2">
+              <span className="text-amber-500 font-bold shrink-0">★</span>
+              {tip}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 const MockRating = () => {
   const rating = Math.round((Math.random() * 20 + 80)) / 10; // 8.0 - 10.0
   const reviews = Math.floor(Math.random() * 3000 + 500);
@@ -876,6 +982,8 @@ function FestivalCard({
             </div>
           )}
 
+          <ProTips festivalId={festival.id} />
+
           {/* CTA Buttons */}
           <div className="flex gap-2 mt-auto pt-4 border-t border-gray-100">
             <a
@@ -980,7 +1088,7 @@ function FestivalListItem({
           </div>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-3">
             {festival.family_friendly && <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Family</span>}
             {festival.camping && <span className="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs font-medium">Camping</span>}
             {festival.vibe.map(v => (
@@ -989,6 +1097,8 @@ function FestivalListItem({
               </span>
             ))}
           </div>
+
+          <ProTips festivalId={festival.id} />
         </div>
 
         {/* Quick CTAs */}

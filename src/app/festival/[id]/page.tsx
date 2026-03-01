@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import rawFestivals from '@/data/festivals.json';
-import type { Festival } from '@/utils/match';
+import type { Festival } from '@/types/festival';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import EventSchema from '@/components/SEO/EventSchema';
 
@@ -113,11 +113,9 @@ export default async function FestivalPage({ params }: Props) {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {(festival as any).ticket_official_url && (
+            {festival.ticket_official_url && (
               <a
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                href={(festival as any).ticket_official_url}
+                href={festival.ticket_official_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg shadow-lg hover:scale-105 transition-transform"
@@ -177,12 +175,10 @@ export default async function FestivalPage({ params }: Props) {
                   <span className="text-green-600 font-semibold">✨ Available</span>
                 </div>
               )}
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {(festival as any).min_age && (
+              {festival.min_age && (
                 <div className="flex justify-between items-center py-2">
                   <span className="font-semibold text-gray-700">Minimum Age:</span>
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  <span className="text-purple-800">{(festival as any).min_age}+</span>
+                  <span className="text-purple-800">{festival.min_age}+</span>
                 </div>
               )}
             </div>

@@ -6,14 +6,17 @@ export type Festival = {
   months: string[];
   genres: string[];
   estimated_cost_usd: { min: number; max: number };
-  audience_size: 'intimate' | 'medium' | 'massive';
+  audience_size: string;
   duration_days: number;
   family_friendly: boolean;
   camping: boolean;
-  glamping: boolean;
+  glamping?: boolean;
   weather_profile: string[];
   vibe: string[];
   website: string;
+  status?: string;
+  min_age?: number;
+  ticket_official_url?: string;
 };
 
 export type QuizInput = {

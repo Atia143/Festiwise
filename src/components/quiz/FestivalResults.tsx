@@ -6,6 +6,7 @@ import { useQuiz } from './QuizContext';
 import festivalsData from '../../data/festivals.json';
 import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
 import { getTopFestivalMatches } from '@/utils/quizScoringAlgorithm';
+import QuizResultsShare from '@/components/QuizResultsShare';
 
 // Results Page Newsletter Form Component
 function ResultsNewsletterForm() {
@@ -103,7 +104,7 @@ interface Festival {
   name: string;
   city: string;
   country: string;
-  region: string;
+  region?: string;
   months: string[];
   genres: string[];
   duration_days: number;
@@ -115,11 +116,11 @@ interface Festival {
   vibe: string[];
   website: string;
   status: string;
-  min_age: number;
+  min_age?: number;
   ticket_official_url: string;
   family_friendly: boolean;
   camping: boolean;
-  glamping: boolean;
+  glamping?: boolean;
   weather_profile: string[];
   description?: string;
   image?: string;
@@ -134,6 +135,7 @@ export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
   const [matchedFestivals, setMatchedFestivals] = useState<Festival[]>([]);
   const [loading, setLoading] = useState(true);
+  const [challengeCopied, setChallengeCopied] = useState(false);
   
   // Analytics tracking
   const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
@@ -229,13 +231,13 @@ export function FestivalResults() {
         {matchedFestivals.length > 0 ? (
           <div className="space-y-8">
             {matchedFestivals.map((festival, index) => (
+              <React.Fragment key={festival.id}>
               <motion.div
-                key={festival.id}
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
                 whileHover={{ y: -10 }}
-                transition={{ 
+                transition={{
                   duration: 0.6,
                   delay: index * 0.2
                 }}
@@ -422,6 +424,25 @@ export function FestivalResults() {
                   </div>
                 </div>
               </motion.div>
+
+              {/* Share section shown after #1 match */}
+              {index === 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  <div className="text-center mb-3">
+                    <h2 className="text-xl font-bold text-gray-800">Love your top match? Share it!</h2>
+                    <p className="text-sm text-gray-500">Let your friends discover their perfect festival too</p>
+                  </div>
+                  <QuizResultsShare
+                    festival={festival}
+                    matchScore={festival.matchScore ?? 0}
+                  />
+                </motion.div>
+              )}
+              </React.Fragment>
             ))}
           </div>
         ) : (
@@ -466,8 +487,21 @@ export function FestivalResults() {
               <button className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300">
                 Browse All Festivals
               </button>
-              <button className="bg-gray-100 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300">
-                Share Results
+              <button
+                onClick={async () => {
+                  const quizUrl = 'https://getfestiwise.com/quiz';
+                  const text = 'Can you beat my festival match? Take the quiz and find YOUR perfect festival!';
+                  if (typeof navigator !== 'undefined' && navigator.share) {
+                    await navigator.share({ title: 'Challenge a Friend — FestiWise', text, url: quizUrl }).catch(() => {});
+                  } else {
+                    await navigator.clipboard.writeText(quizUrl);
+                    setChallengeCopied(true);
+                    setTimeout(() => setChallengeCopied(false), 2500);
+                  }
+                }}
+                className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                {challengeCopied ? '✓ Link Copied!' : 'Challenge a Friend'}
               </button>
             </div>
           </div>
