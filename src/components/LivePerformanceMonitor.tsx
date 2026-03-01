@@ -38,6 +38,7 @@ export default function LivePerformanceMonitor() {
       measurePerformance();
       startLiveMonitoring();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const measurePerformance = () => {
@@ -58,7 +59,8 @@ export default function LivePerformanceMonitor() {
       // Get LCP
       new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1] as any;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const lastEntry = entries[entries.length - 1] as any;
         if (lastEntry) {
           lcp = lastEntry.startTime;
         }
@@ -67,6 +69,7 @@ export default function LivePerformanceMonitor() {
       // Get CLS
       let cls = 0;
       new PerformanceObserver((list) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         list.getEntries().forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             cls += entry.value;
@@ -79,10 +82,12 @@ export default function LivePerformanceMonitor() {
       const timeToInteractive = navigation.domInteractive - navigation.fetchStart;
       
       // Memory usage (if available)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const memoryInfo = (performance as any).memory;
       const memoryUsage = memoryInfo ? memoryInfo.usedJSHeapSize / (1024 * 1024) : 0;
 
       // Connection info
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const connection = (navigator as any).connection;
       const connectionSpeed = connection ? connection.effectiveType : 'unknown';
 
@@ -115,6 +120,7 @@ export default function LivePerformanceMonitor() {
 
       // Send to analytics
       if (typeof window !== 'undefined' && 'gtag' in window) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).gtag('event', 'performance_metrics', {
           event_category: 'performance',
           page_load_time: performanceMetrics.pageLoadTime,
@@ -127,6 +133,7 @@ export default function LivePerformanceMonitor() {
     }, 2000);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const calculatePerformanceScore = (metrics: any): number => {
     let score = 100;
 

@@ -35,9 +35,7 @@ function Logo({ scrolled }: { scrolled: boolean }) {
 export default function Navigation({ locales = ['en'] }: { locales?: string[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hideMenu, setHideMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const lastScrollY = useRef(0);
   const pathname = usePathname();
   const mobileNavRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +144,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
           ? 'bg-gray-50/80 backdrop-blur-xl border border-gray-200/50 shadow-lg'
           : 'bg-white/10 backdrop-blur-xl border border-white/20'
       }`}>
-        {NAV_ITEMS.map((item, i) => (
+        {NAV_ITEMS.map((item, _i) => (
           <Link
             key={item.href}
             href={item.href}

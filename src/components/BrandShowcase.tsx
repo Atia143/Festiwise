@@ -1,7 +1,6 @@
 import { HeroWorldClassImage, CardWorldClassImage, AvatarWorldClassImage } from "@/components/WorldClassImage";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
 
 interface BrandPreviewCardProps {
   title: string;

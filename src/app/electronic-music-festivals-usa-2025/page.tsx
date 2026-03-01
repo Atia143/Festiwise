@@ -174,7 +174,7 @@ export default function ElectronicMusicFestivalsUSA() {
           </p>
           
           <div className="space-y-8">
-            {topEDMFestivals.map((festival, index) => (
+            {topEDMFestivals.map((festival, _index) => (
               <div
                 key={festival.name}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden border border-cyan-100"
@@ -254,7 +254,7 @@ export default function ElectronicMusicFestivalsUSA() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {regionalFestivals.map((region, index) => (
+            {regionalFestivals.map((region, _index) => (
               <div
                 key={region.region}
                 className="bg-white rounded-xl p-8 shadow-lg border border-purple-100"
@@ -286,7 +286,7 @@ export default function ElectronicMusicFestivalsUSA() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {edmGenres.map((genre, index) => (
+            {edmGenres.map((genre, _index) => (
               <div
                 key={genre.genre}
                 className="bg-gradient-to-br from-cyan-50 to-purple-50 rounded-xl p-8 border border-cyan-100"

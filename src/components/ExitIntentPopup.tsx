@@ -17,6 +17,7 @@ export default function ExitIntentPopup() {
         
         // Track exit intent
         if (typeof window !== 'undefined' && 'gtag' in window) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).gtag('event', 'exit_intent_triggered', {
             event_category: 'engagement',
             event_label: 'popup_shown'
@@ -32,6 +33,7 @@ export default function ExitIntentPopup() {
   const handleTakeQuiz = () => {
     // Track conversion
     if (typeof window !== 'undefined' && 'gtag' in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).gtag('event', 'exit_intent_conversion', {
         event_category: 'engagement',
         event_label: 'popup_quiz_click'

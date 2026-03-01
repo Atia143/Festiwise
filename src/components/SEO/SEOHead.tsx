@@ -10,6 +10,7 @@ interface SEOProps {
   canonicalUrl?: string;
   ogImage?: string;
   ogType?: 'website' | 'article' | 'profile' | 'event';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   structuredData?: WithContext<Organization> | any;
   noIndex?: boolean;
   hrefLangs?: Array<{

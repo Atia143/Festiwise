@@ -41,7 +41,8 @@ export default function InternationalSEO() {
     const addFestivalSchema = () => {
       const festivalData = document.querySelector('[data-festival-id]');
       if (festivalData) {
-        const festivalId = festivalData.getAttribute('data-festival-id');
+        // festivalId is unused but kept for potential future use
+        festivalData.getAttribute('data-festival-id');
         const festivalName = festivalData.getAttribute('data-festival-name');
         const festivalLocation = festivalData.getAttribute('data-festival-location');
         const festivalDate = festivalData.getAttribute('data-festival-date');

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import useNewsletterTriggers from '@/components/Newsletter/useNewsletterTriggers';
-import NewsletterBanner from '@/components/Newsletter/NewsletterBanner';
 
 // Dynamically import components that depend on window
 const DynamicNewsletterBanner = dynamic(
@@ -13,11 +12,10 @@ const DynamicNewsletterBanner = dynamic(
 export default function NewsletterSystem() {
   const [mounted, setMounted] = useState(false);
   const [currentPath, setCurrentPath] = useState('');
-  const { 
-    NewsletterPopup, 
-    isPopupOpen, 
+  const {
+    NewsletterPopup,
+    isPopupOpen,
     trigger,
-    closePopup 
   } = useNewsletterTriggers({
     exitIntentEnabled: true,
     timeBasedEnabled: true,
@@ -37,6 +35,7 @@ export default function NewsletterSystem() {
   // Google Analytics integration
   useEffect(() => {
     if (mounted && typeof window !== 'undefined' && 'gtag' in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).gtag('event', 'newsletter_popup_viewed', {
         trigger_type: trigger,
         event_category: 'engagement'

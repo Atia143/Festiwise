@@ -110,6 +110,7 @@ export const Image = ({
   alt: string;
   loading?: 'lazy' | 'eager';
 }) => (
+  // eslint-disable-next-line @next/next/no-img-element
   <img
     src={src}
     alt={alt}
@@ -130,7 +131,9 @@ export const List = ({
   ordered = false,
   ariaLabel
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderItem: (item: any, index: number) => React.ReactNode;
   className?: string;
   ordered?: boolean;

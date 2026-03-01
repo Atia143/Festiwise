@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useAnalyticsTracker } from '@/lib/analytics-tracker';
 import { type BlogPost } from '../featuredPosts';
 
@@ -65,9 +66,11 @@ export default function ClientBlogPost({ post, slug }: ClientBlogPostProps) {
           {/* Featured Image */}
           {post.image && (
             <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl">
-              <img 
-                src={post.image} 
+              <Image
+                src={post.image}
                 alt={post.title}
+                width={1200}
+                height={384}
                 className="w-full h-64 md:h-96 object-cover"
               />
             </div>

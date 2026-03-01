@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import BlogPost from '@/app/blog/page';
 
 type BlogPostType = {
   title: string;

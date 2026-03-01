@@ -7,8 +7,6 @@ import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState('story');
-  const [showEarlyAccess, setShowEarlyAccess] = useState(false);
-  
   // Newsletter form state
   const [email, setEmail] = useState('');
   const [newsletterState, setNewsletterState] = useState<'idle'|'loading'|'success'|'error'>('idle');

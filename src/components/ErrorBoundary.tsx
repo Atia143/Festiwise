@@ -134,7 +134,7 @@ export function withErrorBoundary<P extends object>(
 }
 
 // Custom error fallback components
-export const QuizErrorFallback: React.FC<{ error: Error; reset: () => void }> = ({ error, reset }) => (
+export const QuizErrorFallback: React.FC<{ error: Error; reset: () => void }> = ({ error: _error, reset }) => (
   <div className="text-center p-8 bg-red-50 rounded-lg border border-red-200">
     <div className="text-4xl mb-4">🔧</div>
     <h3 className="text-lg font-semibold text-red-800 mb-2">Quiz Temporarily Unavailable</h3>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, X, Zap, Crown, Users, Rocket } from 'lucide-react';
+import { Check, X, Zap, Crown, Rocket } from 'lucide-react';
 
 interface PricingTier {
   name: string;
@@ -78,7 +78,6 @@ const PRICING_TIERS: PricingTier[] = [
 ];
 
 export default function PricingPage() {
-  const [selectedTier, setSelectedTier] = useState(1);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   return (
@@ -140,7 +139,6 @@ export default function PricingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={tier.highlight ? { scale: 1.05 } : undefined}
-                onClick={() => setSelectedTier(idx)}
                 className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all ${
                   tier.highlight
                     ? 'border-2 border-yellow-400 shadow-2xl shadow-yellow-400/50'

@@ -107,6 +107,7 @@ export function PremiumLoader({ type = 'festivals', message }: PremiumLoaderProp
     }, 400);
 
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   return (

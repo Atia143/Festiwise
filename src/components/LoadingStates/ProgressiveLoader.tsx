@@ -231,7 +231,7 @@ export function SmartContentLoader({
 }
 
 // Advanced loading hook with intelligent timing
-export function useSmartLoading(minDuration = 1000, context = 'default') {
+export function useSmartLoading(minDuration = 1000, _context = 'default') {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingComplete, setLoadingComplete] = useState(false);
 

@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 // Window interface is already declared in global.d.ts
 
 // Core Analytics Events for FestiWise
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const trackEvent = (eventName: string, parameters: Record<string, any> = {}) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', eventName, {
@@ -43,6 +44,7 @@ export const festivalTracking = {
     });
   },
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   viewFestivalList: (filters: Record<string, any>, resultCount: number) => {
     trackEvent('view_festival_list', {
       filters,
@@ -93,6 +95,7 @@ export const festivalTracking = {
     trackEvent('start_quiz', {});
   },
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   completeQuiz: (answers: Record<string, any>, recommendationCount: number) => {
     trackEvent('complete_quiz', {
       answers,

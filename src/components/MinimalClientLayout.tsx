@@ -27,7 +27,7 @@ const PremiumLoader = () => (
 
 export default function MinimalClientLayout({ children }: MinimalClientLayoutProps) {
   // Initialize performance monitoring
-  const { getMetrics } = usePerformanceMonitoring();
+  const { getMetrics: _getMetrics } = usePerformanceMonitoring();
   
   useEffect(() => {
     // Premium performance tracking

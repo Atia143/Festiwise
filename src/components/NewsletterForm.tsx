@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SITE_STATS } from '@/lib/stats';
 
 // Server will provide the access key; client posts to /api/submit
 
@@ -66,7 +65,7 @@ The FestiWise Team`,
         setState('error');
         setErrorMessage(data.message || 'Something went wrong. Please try again.');
       }
-    } catch (error) {
+    } catch (_error) {
       setState('error');
       setErrorMessage('Network error. Please check your connection and try again.');
     }

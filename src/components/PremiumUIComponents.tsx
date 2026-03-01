@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 
 // Advanced UI Components for World-Class Experience
 
@@ -11,6 +11,7 @@ interface AdvancedLoadingProps {
   progress?: number;
   stage?: string;
   estimatedTime?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userContext?: any;
 }
 
@@ -62,10 +63,11 @@ export const PremiumLoadingExperience: React.FC<AdvancedLoadingProps> = ({
     }, 2000);
     
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 bg-gradient-to-br from-purple-900/95 to-blue-900/95 backdrop-blur-lg z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -155,6 +157,7 @@ export const PremiumLoadingExperience: React.FC<AdvancedLoadingProps> = ({
 
 // 2. Advanced Festival Card with Micro-Interactions
 interface PremiumFestivalCardProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festival: any;
   matchScore?: number;
   onSave?: () => void;
@@ -368,6 +371,7 @@ export const PremiumFestivalCard: React.FC<PremiumFestivalCardProps> = ({
 
 // 3. Advanced Search Interface
 interface SmartSearchProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSearch: (query: string, filters: any) => void;
   suggestions?: string[];
   recentSearches?: string[];
@@ -545,6 +549,7 @@ export const SmartSearchInterface: React.FC<SmartSearchProps> = ({
 
 // 4. Interactive Results Grid
 interface ResultsGridProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festivals: any[];
   loading?: boolean;
   viewMode?: 'grid' | 'list' | 'map';
@@ -561,7 +566,6 @@ export const InteractiveResultsGrid: React.FC<ResultsGridProps> = ({
   onSort,
   onViewModeChange
 }) => {
-  const [animationDelay, setAnimationDelay] = useState(0);
 
   if (loading) {
     return (
@@ -616,6 +620,7 @@ export const InteractiveResultsGrid: React.FC<ResultsGridProps> = ({
             {['grid', 'list', 'map'].map((mode) => (
               <motion.button
                 key={mode}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onClick={() => onViewModeChange?.(mode as any)}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors touch-manipulation ${
                   viewMode === mode 

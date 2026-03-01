@@ -9,7 +9,7 @@ const rateMap = new Map<string, { count: number; windowStart: number }>();
 
 async function forwardWithRetry(input: RequestInfo, init?: RequestInit, retries = 2) {
   let attempt = 0;
-  let lastErr: any = null;
+  let lastErr: unknown = null;
   while (attempt <= retries) {
     try {
       const res = await fetch(input, init);
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
       try {
         const data = JSON.parse(text);
         return NextResponse.json(data, { status: forwardRes.status });
-      } catch (e) {
+      } catch (_e) {
         return new Response(text, { status: forwardRes.status });
       }
     } else {
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
       try {
         const data = JSON.parse(text);
         return NextResponse.json(data, { status: forwardRes.status });
-      } catch (e) {
+      } catch (_e) {
         return new Response(text, { status: forwardRes.status });
       }
     }

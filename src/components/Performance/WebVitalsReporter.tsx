@@ -10,8 +10,10 @@ export default function WebVitalsReporter() {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         // Report to analytics if available
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ((window as any).gtag && entry.entryType === 'navigation') {
           const navigation = entry as PerformanceNavigationTiming;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).gtag('event', 'page_timing', {
             event_category: 'Performance',
             page_load_time: Math.round(navigation.loadEventEnd - navigation.fetchStart),

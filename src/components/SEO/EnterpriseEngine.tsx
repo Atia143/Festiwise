@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Head from 'next/head';
 
 // 🔍 Enterprise SEO Engine - Zero Cost but Premium Features
 // Dynamic meta generation, structured data, social optimization
@@ -12,6 +11,7 @@ interface SEOConfig {
   keywords?: string[];
   canonicalUrl?: string;
   ogImage?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   structuredData?: any;
   noIndex?: boolean;
   priority?: number;
@@ -131,7 +131,8 @@ class EnterpriseSEOEngine {
 
   private addFestivalStructuredData() {
     // Extract festival ID from URL
-    const festivalId = this.currentPage.split('/').pop();
+    // Extract festival ID from URL (unused but kept for context)
+    this.currentPage.split('/').pop();
     
     // This would typically fetch festival data
     const structuredData = {
@@ -219,6 +220,7 @@ class EnterpriseSEOEngine {
     this.injectStructuredData('discover-schema', structuredData);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private injectStructuredData(id: string, data: any) {
     // Remove existing schema
     const existing = document.getElementById(id);

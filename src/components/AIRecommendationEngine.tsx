@@ -56,6 +56,7 @@ class AIRecommendationEngine {
   }
 
   // Build user profile from interactions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   buildUserProfile(quizAnswers: any, interactions: any[]): UserProfile {
     const profile: UserProfile = {
       preferredGenres: quizAnswers.genres || [],
@@ -330,7 +331,7 @@ class AIRecommendationEngine {
       'asia': ['japan', 'south korea', 'thailand', 'singapore']
     };
 
-    for (const [region, countries] of Object.entries(regions)) {
+    for (const [_region, countries] of Object.entries(regions)) {
       if (countries.includes(festivalCountry)) {
         const hasUserCountryInRegion = userCountries.some(uc => countries.includes(uc));
         if (hasUserCountryInRegion) return 0.7;
@@ -434,7 +435,7 @@ interface SmartRecommendationCardProps {
 }
 
 export function SmartRecommendationCard({ recommendation, onView }: SmartRecommendationCardProps) {
-  const { festival, score, confidence, reasons, category } = recommendation;
+  const { festival, score, reasons, category } = recommendation;
 
   const categoryConfig = {
     perfect: { color: 'from-green-500 to-emerald-600', emoji: '🎯', label: 'Perfect Match' },

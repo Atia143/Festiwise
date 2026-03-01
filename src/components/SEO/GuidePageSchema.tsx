@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 
 interface GuidePageSchemaProps {
   title: string;

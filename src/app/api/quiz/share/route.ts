@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { v4 as uuidv4 } from 'crypto';
 
 /**
  * POST /api/quiz/share
@@ -19,37 +18,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate share ID for tracking
-    const shareId = uuidv4().substring(0, 8);
+    // Generate share ID for tracking (Node built-in, no package needed)
+    const shareId = crypto.randomUUID().replace(/-/g, '').substring(0, 8);
     const timestamp = new Date().toISOString();
 
-    // Create referral data
-    const referralData = {
-      id: shareId,
-      festivalId,
-      matchScore,
-      platform,
-      userGenre: userGenre || 'unknown',
-      userBudget: userBudget || 'unknown',
-      timestamp,
-      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
-      clicks: 0,
-      conversions: 0,
-    };
-
-    // Track the share in analytics
-    // In a real implementation, this would be saved to a database
-    // For now, we'll just return the data
-
-    // Add tracking to response headers for analytics
     const response = NextResponse.json({
       success: true,
       shareId,
       referralUrl: `/quiz?ref=${shareId}`,
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       analytics: {
         festivalName: festivalId,
         matchScore,
         platform,
+        userGenre: userGenre || 'unknown',
+        userBudget: userBudget || 'unknown',
         sharedAt: timestamp,
       },
     });

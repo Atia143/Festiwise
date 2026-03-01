@@ -102,7 +102,7 @@ const FILTER_CONFIGS: Record<string, {
 
 export default function FilterLandingPage() {
   const params = useParams();
-  const filterSlug = params.filter as string;
+  const filterSlug = params?.filter ? String(params.filter) : '';
   const [savedFestivals, setSavedFestivals] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import ClientStructuredData from '@/components/ClientStructuredData';
+import Image from 'next/image';
 
 // Dynamically import the SEO Analyzer so it only loads during development
 const SEOAnalyzer = dynamic(
@@ -60,20 +59,24 @@ export default function SEODemoPage() {
         <h2 className="text-2xl font-semibold mb-4">Images with Alt Text</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <img 
-              src="/og-image.jpg" 
-              alt="Music festival crowd enjoying a concert with dynamic lighting effects" 
+            <Image
+              src="/og-image.jpg"
+              alt="Music festival crowd enjoying a concert with dynamic lighting effects"
               className="rounded-lg"
+              width={600}
+              height={400}
             />
             <p className="text-sm text-gray-600 mt-2">
               Image with descriptive alt text for accessibility and SEO.
             </p>
           </div>
           <div>
-            <img 
-              src="/favicon.png" 
-              alt="FestiWise logo" 
+            <Image
+              src="/favicon.png"
+              alt="FestiWise logo"
               className="rounded-lg"
+              width={200}
+              height={200}
             />
             <p className="text-sm text-gray-600 mt-2">
               Brand logo with proper alt text.

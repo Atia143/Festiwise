@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
@@ -10,12 +10,10 @@ import {
   Map,
   Clock,
   Heart,
-  Share2,
   Filter,
   X,
   Check,
   Star,
-  Users,
   DollarSign,
   MapPin,
   Calendar,
@@ -103,7 +101,7 @@ const TrendingBadge = ({ trend }: { trend: 'hot' | 'popular' | 'rising' }) => {
   );
 };
 
-const PriceBadge = ({ min, max }: { min: number; max: number }) => {
+const PriceBadge = ({ min: _min, max }: { min: number; max: number }) => {
   const level = max <= 300 ? 'budget' : max <= 700 ? 'mid' : 'premium';
   const colors = {
     budget: 'bg-green-50 text-green-700 border-green-200',
@@ -138,7 +136,6 @@ export default function FestivalMarketplace() {
   const [expandedFilters, setExpandedFilters] = useState<Set<string>>(new Set(['genres']));
   const [favorites, setFavorites] = useState<string[]>([]);
   const [compare, setCompare] = useState<string[]>([]);
-  const [selectedFestival, setSelectedFestival] = useState<Festival | null>(null);
   const [hoveredFestival, setHoveredFestival] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -188,7 +185,6 @@ export default function FestivalMarketplace() {
   const allMonths = useMemo(() => getUnique(festivals.map(f => f.months)), [festivals]);
   const allRegions = useMemo(() => getUnique(festivals.map(f => f.region)), [festivals]);
   const allVibes = useMemo(() => getUnique(festivals.map(f => f.vibe)), [festivals]);
-  const allAudience = useMemo(() => getUnique(festivals.map(f => f.audience_size)), [festivals]);
 
   // Memoized filtering
   const filtered = useMemo(() => {
@@ -301,10 +297,10 @@ export default function FestivalMarketplace() {
 
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 flex items-center justify-between gap-4 flex-wrap">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
-               Marketplace(Coming Soon)
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+              Festival Marketplace
             </h1>
             <p className="text-sm text-gray-600 mt-1">
               {sorted.length} festivals • {activeFilterCount > 0 && `${activeFilterCount} active filters`}
@@ -687,7 +683,7 @@ export default function FestivalMarketplace() {
 function FilterSection({
   title,
   icon: Icon,
-  section,
+  section: _section,
   expanded,
   onToggle,
   options,
@@ -739,7 +735,7 @@ function FestivalCard({
   festival,
   isFavorite,
   isComparing,
-  isHovered,
+  isHovered: _isHovered,
   onFavorite,
   onCompare,
   onHover,
@@ -767,9 +763,12 @@ function FestivalCard({
       <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
         {/* Image Container */}
         <div className="relative overflow-hidden h-48 bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400">
-          {/* Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20" />
-          
+          {/* Dark overlay + festival name watermark */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+          <div className="absolute bottom-12 left-4 right-16">
+            <p className="text-white/80 text-xs font-bold uppercase tracking-widest truncate">{festival.city}, {festival.country}</p>
+          </div>
+
           {/* Badges */}
           <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2">
             <TrendingBadge trend={trend} />
@@ -880,20 +879,20 @@ function FestivalCard({
           {/* CTA Buttons */}
           <div className="flex gap-2 mt-auto pt-4 border-t border-gray-100">
             <a
+              href={`${festival.ticket_official_url}?utm_source=festiwise&utm_medium=marketplace&utm_campaign=tickets`}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="flex-1 px-3 py-2.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-sm hover:from-orange-600 hover:to-rose-600 transition-all text-center shadow-sm"
+            >
+              Get Tickets →
+            </a>
+            <a
               href={festival.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all text-center"
+              className="flex-1 px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-all text-center"
             >
               Learn More
-            </a>
-            <a
-              href={festival.ticket_official_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 px-3 py-2 bg-gray-100 text-gray-900 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-all text-center"
-            >
-              Tickets
             </a>
           </div>
         </div>
@@ -916,7 +915,7 @@ function FestivalListItem({
   onFavorite: () => void;
   onCompare: () => void;
 }) {
-  const { rating, reviews } = MockRating();
+  const { rating } = MockRating();
 
   return (
     <motion.div variants={itemVariants}>
@@ -992,15 +991,23 @@ function FestivalListItem({
           </div>
         </div>
 
-        {/* Quick CTA */}
+        {/* Quick CTAs */}
         <div className="flex gap-2 flex-shrink-0">
+          <a
+            href={`${festival.ticket_official_url}?utm_source=festiwise&utm_medium=marketplace&utm_campaign=tickets`}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="px-4 py-2 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-sm hover:from-orange-600 hover:to-rose-600 transition-all shadow-sm whitespace-nowrap"
+          >
+            Get Tickets →
+          </a>
           <a
             href={festival.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold text-sm hover:bg-purple-700 transition-all"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-all"
           >
-            Learn More
+            Info
           </a>
         </div>
       </div>

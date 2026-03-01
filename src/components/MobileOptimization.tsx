@@ -126,6 +126,7 @@ export const MobileOptimizedHero: React.FC<MobileOptimizedHeroProps> = ({
 
 // Mobile-Optimized Festival Grid
 interface MobileFestivalGridProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festivals: any[];
   loading?: boolean;
 }
@@ -165,6 +166,7 @@ export const MobileFestivalGrid: React.FC<MobileFestivalGridProps> = ({
 
 // Mobile-First Festival Card
 interface MobileCardProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festival: any;
   index: number;
 }
@@ -420,6 +422,7 @@ export function useMobileOptimization() {
   useEffect(() => {
     // Check connection speed
     if ('connection' in navigator) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const connection = (navigator as any).connection;
       setIsSlowConnection(connection?.effectiveType === 'slow-2g' || connection?.effectiveType === '2g');
     }

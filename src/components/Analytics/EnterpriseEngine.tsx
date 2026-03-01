@@ -21,6 +21,7 @@ interface UserJourney {
 interface AnalyticsEvent {
   id: string;
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   properties: Record<string, any>;
   timestamp: number;
   page: string;
@@ -122,6 +123,7 @@ class EnterpriseAnalytics {
       deviceType,
       browser,
       os,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connectionType: (navigator as any)?.connection?.effectiveType || 'unknown'
     };
   }
@@ -148,6 +150,7 @@ class EnterpriseAnalytics {
       return { loadTime: 0 };
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const navigation = performance.getEntriesByType('navigation')[0] as any;
     const loadTime = navigation ? navigation.loadEventEnd - navigation.navigationStart : 0;
 
@@ -319,9 +322,11 @@ class EnterpriseAnalytics {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private sendToAnalytics(data: any) {
     // Send to Google Analytics 4 (free)
     if (typeof window !== 'undefined' && 'gtag' in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).gtag('event', 'user_journey_update', {
         session_id: data.journey.sessionId,
         page_views: data.journey.pageViews.length,
@@ -337,6 +342,7 @@ class EnterpriseAnalytics {
     // - Amplitude (free up to 10M events)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public trackEvent(name: string, properties: Record<string, any> = {}) {
     const event: AnalyticsEvent = {
       id: Math.random().toString(36).substr(2, 9),
@@ -416,7 +422,7 @@ class EnterpriseAnalytics {
     const results: ConversionFunnel[] = [];
     let previousUsers = events.filter(e => e.name === 'page_view').length || 1;
 
-    funnelSteps.forEach((step, index) => {
+    funnelSteps.forEach((step, _index) => {
       const currentUsers = events.filter(e => e.name === step.event).length;
       const conversionRate = previousUsers > 0 ? (currentUsers / previousUsers) * 100 : 0;
       const dropOffRate = 100 - conversionRate;
@@ -493,6 +499,7 @@ export function useEnterpriseAnalytics() {
   const [metrics, setMetrics] = useState(analytics.getEngagementMetrics());
   const [funnel, setFunnel] = useState(analytics.getConversionFunnel());
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const trackEvent = useCallback((name: string, properties?: Record<string, any>) => {
     analytics.trackEvent(name, properties);
     setMetrics(analytics.getEngagementMetrics());
@@ -558,7 +565,7 @@ export function AnalyticsDashboard() {
 
       <div className="mt-3 pt-2 border-t">
         <h4 className="text-xs font-semibold mb-1">Conversion Funnel:</h4>
-        {funnel.slice(0, 3).map((step, index) => (
+        {funnel.slice(0, 3).map((step, _index) => (
           <div key={step.step} className="flex justify-between text-xs">
             <span>{step.step}:</span>
             <span>{step.conversionRate}%</span>

@@ -1,5 +1,6 @@
-import type { ComponentType, ElementType, ReactNode } from 'react';
+import type { ElementType, ReactNode } from 'react';
 import { forwardRef } from 'react';
+import Image from 'next/image';
 
 /* eslint-disable react/display-name */
 
@@ -31,9 +32,11 @@ export const withAccessibility = <P extends WithAccessibilityProps>(
   });
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const compName = typeof Component === 'string' ? Component : (Component as any).displayName || (Component as any).name || 'Component';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (Wrapped as any).displayName = `Accessible(${compName})`;
-  } catch (e) {
+  } catch (_e) {
     // ignore
   }
 
@@ -92,6 +95,7 @@ export const AccessibleHeading = forwardRef<HTMLHeadingElement, HeadingProps>(
     );
   }
 );
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (AccessibleHeading as any).displayName = 'AccessibleHeading';
 
 interface AccessibleImageProps {
@@ -106,19 +110,17 @@ interface AccessibleImageProps {
 export const AccessibleImage = ({
   src,
   alt,
-  loading = 'lazy',
+  loading: _loading = 'lazy',
   className,
   width,
   height
 }: AccessibleImageProps) => (
-  <img
+  <Image
     src={src}
     alt={alt}
-    loading={loading}
     className={className}
-    width={width}
-    height={height}
-    role="img"
+    width={width || 800}
+    height={height || 600}
     data-optimized={true}
     style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
   />
@@ -131,7 +133,9 @@ export const AccessibleList = ({
   ordered = false,
   ariaLabel
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderItem: (item: any) => ReactNode;
   className?: string;
   ordered?: boolean;
@@ -220,6 +224,7 @@ export const AccessibleInput = ({
   type?: string;
   required?: boolean;
   error?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }) => (
   <div className="form-field">

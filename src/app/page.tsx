@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimpleHero from '@/components/SimpleHero';
-import SimpleSocialProof from '@/components/SimpleSocialProof';
 import SimpleFestivalGrid from '@/components/SimpleFestivalGrid';
 import SimpleNewsletter from '@/components/SimpleNewsletter';
 import SimpleFAQ from '@/components/SimpleFAQ';

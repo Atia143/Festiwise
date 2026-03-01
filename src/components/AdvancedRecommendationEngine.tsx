@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Heart, Music, MapPin, Calendar } from 'lucide-react';
 
@@ -42,6 +43,7 @@ interface RecommendationCard {
 
 // Advanced matching algorithm
 function calculateFestivalMatch(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festival: any,
   answers: QuizAnswers
 ): FestivalMatch {
@@ -309,6 +311,7 @@ export default function AdvancedRecommendationEngine({
     }, 800);
 
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizAnswers]);
 
   if (loading) {
@@ -433,10 +436,11 @@ export default function AdvancedRecommendationEngine({
                   >
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
-                      <img
+                      <Image
                         src={festival.image}
                         alt={festival.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       {/* Match Score Badge */}
                       <motion.div

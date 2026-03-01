@@ -2,14 +2,6 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Build configuration
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
   // Core settings
   reactStrictMode: true,
   skipMiddlewareUrlNormalize: true,

@@ -50,9 +50,6 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
   }
 
   const topGenres = [...new Set(countryFestivals.flatMap(f => f.genres))].slice(0, 3);
-  const avgPrice = Math.round(
-    countryFestivals.reduce((sum, f) => sum + (f.estimated_cost_usd.min + f.estimated_cost_usd.max) / 2, 0) / countryFestivals.length
-  );
 
   return {
     title: `${countryFestivals.length} Music Festivals in ${countryName} | ${new Date().getFullYear()} Guide`,
@@ -96,43 +93,6 @@ export default async function CountryFestivalsPage({ params }: { params: Promise
     { label: 'Festivals', href: '/festivals' },
     { label: countryName, href: `/festivals/${country}` }
   ];
-
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": `Music Festivals in ${countryName}`,
-    "description": `Complete guide to ${countryFestivals.length} music festivals in ${countryName}`,
-    "url": `https://getfestiwise.com/festivals/${country}`,
-    "mainEntity": {
-      "@type": "ItemList",
-      "numberOfItems": countryFestivals.length,
-      "itemListElement": countryFestivals.map((festival, index) => ({
-        "@type": "Event",
-        "position": index + 1,
-        "name": festival.name,
-        "location": {
-          "@type": "Place",
-          "name": `${festival.city}, ${festival.country}`,
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": festival.country,
-            "addressLocality": festival.city
-          }
-        },
-        "organizer": {
-          "@type": "Organization",
-          "name": festival.name,
-          "url": festival.website
-        },
-        "offers": {
-          "@type": "Offer",
-          "lowPrice": festival.estimated_cost_usd.min,
-          "highPrice": festival.estimated_cost_usd.max,
-          "priceCurrency": "USD"
-        }
-      }))
-    }
-  };
 
   return (
     <>

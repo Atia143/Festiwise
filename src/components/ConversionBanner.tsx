@@ -158,7 +158,9 @@ export default function ConversionBanner({
                 href={config.href}
                 className="group relative bg-white text-gray-900 px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl min-w-[190px] text-center border border-white/30"
                 onClick={() => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   if (typeof window !== 'undefined' && (window as any).gtag) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (window as any).gtag('event', 'conversion_banner_click', {
                       banner_variant: variant,
                       banner_position: position,

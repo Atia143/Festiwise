@@ -4,6 +4,7 @@ import React from 'react';
 import Script from 'next/script';
 
 interface FestivalListingSchemaProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   festivals: any[]; // Using any[] since different pages may have slightly different festival types
   pageTitle: string;
   pageDescription: string;

@@ -54,7 +54,7 @@ export default function EnhancedNewsletterForm() {
       } else {
         throw new Error('Failed to submit');
       }
-    } catch (err) {
+    } catch (_err) {
       setStatus('error');
       setMessage(t.errorMessage);
     } finally {

@@ -209,7 +209,7 @@ export default function CheapMusicFestivalsEurope() {
           </p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {budgetFestivals.map((festival, index) => (
+            {budgetFestivals.map((festival, _index) => (
               <div
                 key={festival.name}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden border border-green-100"
@@ -268,7 +268,7 @@ export default function CheapMusicFestivalsEurope() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {countryGuides.map((guide, index) => (
+            {countryGuides.map((guide, _index) => (
               <div
                 key={guide.country}
                 className="bg-white rounded-xl p-8 shadow-lg border border-blue-100"
@@ -315,7 +315,7 @@ export default function CheapMusicFestivalsEurope() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {budgetTips.map((tip, index) => (
+            {budgetTips.map((tip, _index) => (
               <div
                 key={tip.title}
                 className="bg-white rounded-xl p-6 shadow-lg border border-green-100 text-center"

@@ -50,13 +50,14 @@ class EnterprisePerformanceMonitor {
     try {
       const observer = new PerformanceObserver((entryList) => {
         const entries = entryList.getEntries();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const lastEntry = entries[entries.length - 1] as any;
         this.metrics.lcp = Math.round(lastEntry.startTime);
         this.analyzeAndReport();
       });
       observer.observe({ entryTypes: ['largest-contentful-paint'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('LCP monitoring not supported');
     }
   }
@@ -65,6 +66,7 @@ class EnterprisePerformanceMonitor {
     try {
       const observer = new PerformanceObserver((entryList) => {
         const entries = entryList.getEntries();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         entries.forEach((entry: any) => {
           this.metrics.fid = Math.round(entry.processingStart - entry.startTime);
           this.analyzeAndReport();
@@ -72,7 +74,7 @@ class EnterprisePerformanceMonitor {
       });
       observer.observe({ entryTypes: ['first-input'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('FID monitoring not supported');
     }
   }
@@ -82,6 +84,7 @@ class EnterprisePerformanceMonitor {
       let clsValue = 0;
       const observer = new PerformanceObserver((entryList) => {
         const entries = entryList.getEntries();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         entries.forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
@@ -92,7 +95,7 @@ class EnterprisePerformanceMonitor {
       });
       observer.observe({ entryTypes: ['layout-shift'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('CLS monitoring not supported');
     }
   }
@@ -101,6 +104,7 @@ class EnterprisePerformanceMonitor {
     try {
       const observer = new PerformanceObserver((entryList) => {
         const entries = entryList.getEntries();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         entries.forEach((entry: any) => {
           if (entry.name === 'first-contentful-paint') {
             this.metrics.fcp = Math.round(entry.startTime);
@@ -110,7 +114,7 @@ class EnterprisePerformanceMonitor {
       });
       observer.observe({ entryTypes: ['paint'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('FCP monitoring not supported');
     }
   }
@@ -125,6 +129,7 @@ class EnterprisePerformanceMonitor {
   private measureLoadTimes() {
     window.addEventListener('load', () => {
       setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const navigation = performance.getEntriesByType('navigation')[0] as any;
         if (navigation) {
           this.metrics.domLoad = Math.round(navigation.domContentLoadedEventEnd - navigation.navigationStart);
@@ -137,6 +142,7 @@ class EnterprisePerformanceMonitor {
 
   private measureMemoryUsage() {
     if ('memory' in performance) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const memory = (performance as any).memory;
       this.metrics.memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024 * 100) / 100;
     }
@@ -144,6 +150,7 @@ class EnterprisePerformanceMonitor {
 
   private detectConnectionSpeed() {
     if ('connection' in navigator) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const connection = (navigator as any).connection;
       this.metrics.connectionSpeed = connection.effectiveType || 'unknown';
     }
@@ -154,6 +161,7 @@ class EnterprisePerformanceMonitor {
     
     // Send to analytics (no external cost)
     if (typeof window !== 'undefined' && 'gtag' in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).gtag('event', 'performance_metrics', {
         fcp: this.metrics.fcp,
         lcp: this.metrics.lcp,

@@ -40,7 +40,7 @@ export default function EnhancedFestivalCard({
   festival,
   viewMode = 'grid',
   showSaveButton = true,
-  showComparison = false,
+  showComparison: _showComparison = false,
   savedFestivals = [],
   onSave,
   index = 0

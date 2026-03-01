@@ -73,6 +73,7 @@ export default function NewsletterBanner({ variant, context = '', onSubscribe }:
         
         // Track conversion
         if (mounted && typeof window !== 'undefined' && 'gtag' in window) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).gtag('event', 'newsletter_signup', {
             method: variant,
             context: context,

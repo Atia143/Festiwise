@@ -8,6 +8,7 @@ import { validateEventSchema, validateFestivalListingSchema } from './SchemaVali
  * Only use this component during development - remove in production
  */
 export default function SchemaDebugTool() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [results, setResults] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
@@ -86,6 +87,7 @@ export default function SchemaDebugTool() {
         <div className="mt-4">
           <h3 className="font-medium">Results:</h3>
           <div className="mt-2 space-y-3">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {results.map((result: any, index: number) => (
               <div key={index} className={`p-3 rounded ${result.validation.valid ? 'bg-green-50' : 'bg-red-50'}`}>
                 <div className="flex items-center justify-between">

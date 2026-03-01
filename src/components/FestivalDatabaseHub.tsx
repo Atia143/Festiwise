@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Search, Filter, Heart, MapPin, Calendar, Users, DollarSign } from 'lucide-react';
 
 interface Festival {
@@ -307,10 +308,11 @@ export default function FestivalDatabase() {
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img
+                  <Image
                     src={festival.image}
                     alt={festival.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
 

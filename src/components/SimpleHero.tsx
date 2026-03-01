@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 // Optional: comment out analytics/stats lines if you don't use them
 import { statsManager } from '@/lib/realTimeStats';
 import { analytics } from '@/lib/analytics';
-import SocialProof from './SocialProof';
 
 // Simple translation; swap for your i18n solution as needed
 function useSimpleLanguage(): { t: (key: string) => string } {
@@ -54,7 +53,7 @@ export default function UltimateHero() {
     let prefersReduced = false;
     try {
       prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    } catch (e) {
+    } catch (_e) {
       prefersReduced = false;
     }
 

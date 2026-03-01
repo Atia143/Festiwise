@@ -3,14 +3,12 @@
 import Link from 'next/link';
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import { featuredPosts } from './featuredPosts';
 import { useAnalyticsTracker } from '@/lib/analytics-tracker';
-import Head from 'next/head';
-import { Suspense, lazy } from 'react';
 import Image from 'next/image';
 
 import { BlogPost } from './featuredPosts';
@@ -73,10 +71,7 @@ export default function BlogPage() {
   const {
     trackTakeQuiz,
     trackReadFullStory,
-    trackSubscribeStart,
-    trackSubscribeSuccess,
     trackFilterChange,
-    trackShareClick
   } = useAnalyticsTracker();
 
   // Simulate loading and prefetch quiz page
@@ -112,7 +107,6 @@ export default function BlogPage() {
   };
 
   const allPosts = featuredPosts;
-  const allTags = ['All', ...Array.from(new Set(featuredPosts.flatMap(post => post.tags)))];
 
   const filteredPosts = useMemo(() => {
     if (isLoading) return [];

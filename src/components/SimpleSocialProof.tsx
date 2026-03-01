@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SITE_STATS } from '@/lib/stats';
 import Link from 'next/link';
 
 // --- Testimonial Carousel with Social Proof Grid Combined ---
@@ -64,36 +63,6 @@ const carouselTestimonials: Testimonial[] = [
     date: '5 days ago'
   }
 ];
-
-// Simple social proof testimonials for the grid
-const socialProofTestimonials = [
-  { name: "Alex S.", festival: "Tomorrowland", quote: "FestiWise matched me with my dream festival! I'd have never discovered it otherwise." },
-  { name: "Maya J.", festival: "Glastonbury", quote: "The recommendation was spot on. Best festival experience of my life." },
-  { name: "Sam T.", festival: "Burning Man", quote: "I was skeptical at first, but wow - perfect match for my tastes and budget!" }
-];
-
-function LiveActivity({ name, action, festival, time }: {
-  name: string;
-  action: string;
-  festival: string;
-  time: string;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      className="flex items-center justify-between py-2 px-3 bg-purple-50 rounded-lg"
-    >
-      <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
-        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse flex-shrink-0"></div>
-        <span className="text-sm text-gray-700 truncate">
-          <strong>{name}</strong> {action} → <span className="text-purple-600">{festival}</span>
-        </span>
-      </div>
-      <span className="text-xs text-gray-500 flex-shrink-0 ml-2">{time}</span>
-    </motion.div>
-  );
-}
 
 export default function EnhancedTestimonialSocialProof() {
   const [currentIndex, setCurrentIndex] = useState(0);

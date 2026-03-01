@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 /**
  * CRITICAL PERFORMANCE & UX ENHANCEMENTS
@@ -108,6 +107,7 @@ export function ConnectionAwareComponent() {
 
   useEffect(() => {
     if ('connection' in navigator) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const nav = navigator as any;
       setConnection(nav.connection?.effectiveType || '4g');
 

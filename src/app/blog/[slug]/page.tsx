@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPostStructuredData from '@/components/SEO/BlogPostStructuredData';
-import { featuredPosts, type BlogPost } from '../featuredPosts';
+import { featuredPosts } from '../featuredPosts';
 import ClientBlogPost from './ClientBlogPost';
 
 interface BlogPostPageProps {

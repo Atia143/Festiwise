@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * Health check endpoint for monitoring the application's status
  * Returns basic health information including uptime and environment
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const startTime = process.env.NEXT_PUBLIC_SERVER_START_TIME || Date.now().toString();
   const uptime = Date.now() - parseInt(startTime);
 

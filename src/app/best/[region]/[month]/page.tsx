@@ -2,10 +2,10 @@
 
 import { notFound } from "next/navigation";
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import data from "@/data/festivals.json";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';

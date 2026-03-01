@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Gift, Sparkles } from 'lucide-react';
 
@@ -93,6 +93,7 @@ The FestiWise Team
         setStep(2);
         // Track conversion
         if (typeof window !== 'undefined' && 'gtag' in window) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).gtag('event', 'newsletter_signup', {
             method: trigger,
             event_category: 'engagement',

@@ -2,6 +2,7 @@ import Script from 'next/script';
 
 interface StructuredDataProps {
   type: 'WebSite' | 'Organization' | 'Quiz' | 'Event' | 'LocalBusiness';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
 }
 

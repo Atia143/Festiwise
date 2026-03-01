@@ -3,9 +3,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import Button from '@/components/ui/Button';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import festivalsData from '@/data/festivals.json';
 
@@ -45,7 +44,7 @@ const LEADERBOARDS: Record<LeaderboardType, {
     title: 'Trending This Week',
     emoji: '🔥',
     description: 'Hottest festivals gaining momentum right now',
-    scoreFn: (f) => Math.random() * 100, // Simulated trending score
+    scoreFn: (_f) => Math.random() * 100, // Simulated trending score
     reason: (f) => `${f.name} is trending in ${f.region}!`
   },
   'budget-friendly': {

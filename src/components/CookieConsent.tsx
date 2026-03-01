@@ -40,6 +40,7 @@ export default function CookieConsent() {
       
       return () => clearTimeout(timer);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAcceptAll = () => {
@@ -94,17 +95,22 @@ export default function CookieConsent() {
     }
     
     // Apply Vercel Analytics consent if available
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof window !== 'undefined' && (window as any).va) {
       if (!preferences.analytics) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).va('disable');
       }
     }
-    
+
     // Apply PostHog consent if available
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (typeof window !== 'undefined' && (window as any).posthog) {
       if (!preferences.analytics) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).posthog.opt_out_capturing();
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).posthog.opt_in_capturing();
       }
     }

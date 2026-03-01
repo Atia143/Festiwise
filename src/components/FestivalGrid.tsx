@@ -3,10 +3,9 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import Button from '@/components/ui/Button';
-import type { Festival, FestivalGridProps } from '@/types/festival';
+import type { FestivalGridProps } from '@/types/festival';
 
 export default function FestivalGrid({ festivals }: FestivalGridProps) {
   const [favorites, setFavorites] = useState<string[]>([]);

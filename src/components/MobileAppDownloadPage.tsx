@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Smartphone, Apple, Download, Star, Users, Zap } from 'lucide-react';
 
 interface Feature {
@@ -296,10 +297,11 @@ export default function MobileAppPage() {
                 className="relative group cursor-pointer"
               >
                 <div className="relative rounded-2xl overflow-hidden border-2 border-white/10">
-                  <img
+                  <Image
                     src={screenshot.image}
                     alt={screenshot.title}
-                    className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent group-hover:opacity-100 opacity-0 transition-opacity duration-300 flex items-end p-4">
                     <div>

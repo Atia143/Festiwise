@@ -1,39 +1,73 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
-interface ShareableResult {
-  festivalName: string;
-  matchScore: number;
-  userGenres: string[];
-  budget: string;
+interface Festival {
+  id: string;
+  name: string;
+  genres: string[];
+  estimated_cost_usd: { min: number; max: number };
+  country: string;
 }
 
-export default function QuizResultsShare({ festival, matchScore }: { festival: any; matchScore: number }) {
-  const generateShareText = () => {
-    const text = `I just discovered ${festival.name} as my perfect festival match on FestiWise! 🎪🎵`;
-    return text;
+export default function QuizResultsShare({
+  festival,
+  matchScore,
+}: {
+  festival: Festival;
+  matchScore: number;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const genre = festival.genres?.[0] ?? 'Music';
+  const budget = `$${festival.estimated_cost_usd?.min ?? 0}-${festival.estimated_cost_usd?.max ?? 999}`;
+  const country = festival.country ?? '';
+
+  const getShareUrl = () => {
+    const base = typeof window !== 'undefined' ? window.location.origin : 'https://getfestiwise.com';
+    const params = new URLSearchParams({
+      score: String(matchScore),
+      genre,
+      budget,
+      ...(country ? { country } : {}),
+    });
+    return `${base}/share/${festival.id}?${params.toString()}`;
+  };
+
+  const shareText = `I matched ${matchScore}% with ${festival.name} on FestiWise! 🎪 Find your perfect festival:`;
+
+  const handleNativeShare = async () => {
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${matchScore}% match with ${festival.name}!`,
+          text: shareText,
+          url: getShareUrl(),
+        });
+      } catch (_e) {
+        // User cancelled
+      }
+    }
   };
 
   const handleShare = (platform: 'twitter' | 'facebook' | 'whatsapp') => {
-    const text = generateShareText();
-    const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/quiz`;
-
-    const shareUrls = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`
+    const shareUrl = getShareUrl();
+    const urls = {
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`,
     };
-
-    window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+    window.open(urls[platform], '_blank', 'width=600,height=400');
   };
 
-  const copyLink = () => {
-    const text = generateShareText();
-    navigator.clipboard.writeText(text);
-    alert('Copied to clipboard! Share it with friends.');
+  const copyLink = async () => {
+    await navigator.clipboard.writeText(getShareUrl());
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
+
+  const hasNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
 
   return (
     <motion.div
@@ -41,55 +75,68 @@ export default function QuizResultsShare({ festival, matchScore }: { festival: a
       animate={{ opacity: 1, y: 0 }}
       className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 shadow-sm"
     >
-      <div className="text-center mb-4">
-        <h3 className="text-lg font-bold text-gray-900 mb-2">
-          🎉 Share Your Match!
-        </h3>
-        <p className="text-sm text-gray-600">
-          Let your friends know about your perfect festival
-        </p>
+      <div className="text-center mb-5">
+        <h3 className="text-lg font-bold text-gray-900 mb-1">Share Your Match!</h3>
+        <p className="text-sm text-gray-500">Friends will see a personalised preview card</p>
       </div>
 
-      <div className="flex flex-wrap gap-3 justify-center mb-4">
+      {/* Native share button (mobile) */}
+      {hasNativeShare && (
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={handleNativeShare}
+          className="w-full mb-3 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md"
+        >
+          Share {festival.name} — {matchScore}% match
+        </motion.button>
+      )}
+
+      {/* Platform buttons */}
+      <div className="flex flex-wrap gap-2 justify-center mb-4">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => handleShare('twitter')}
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-black hover:bg-gray-900 text-white rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors"
         >
-          <span>𝕏</span> Tweet
+          𝕏 Tweet
         </motion.button>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => handleShare('facebook')}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors"
         >
-          <span>f</span> Share
+          f Facebook
         </motion.button>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => handleShare('whatsapp')}
-          className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors"
         >
-          <span>💬</span> WhatsApp
+          WhatsApp
         </motion.button>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={copyLink}
-          className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold text-sm transition-colors flex items-center gap-2"
+          className={`px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors ${
+            copied
+              ? 'bg-green-500 text-white'
+              : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+          }`}
         >
-          <span>📋</span> Copy
+          {copied ? '✓ Copied!' : '📋 Copy link'}
         </motion.button>
       </div>
 
-      <p className="text-xs text-gray-600 text-center">
-        Share your discovery and help friends find their perfect festival! 🎵
+      <p className="text-xs text-gray-400 text-center">
+        Shared links show a personalised festival card with your match details
       </p>
     </motion.div>
   );

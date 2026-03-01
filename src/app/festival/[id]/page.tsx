@@ -113,8 +113,10 @@ export default async function FestivalPage({ params }: Props) {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(festival as any).ticket_official_url && (
               <a
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 href={(festival as any).ticket_official_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -175,9 +177,11 @@ export default async function FestivalPage({ params }: Props) {
                   <span className="text-green-600 font-semibold">✨ Available</span>
                 </div>
               )}
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {(festival as any).min_age && (
                 <div className="flex justify-between items-center py-2">
                   <span className="font-semibold text-gray-700">Minimum Age:</span>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   <span className="text-purple-800">{(festival as any).min_age}+</span>
                 </div>
               )}

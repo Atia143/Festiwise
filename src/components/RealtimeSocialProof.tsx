@@ -1,41 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-interface LiveActivity {
-  id: string;
-  type: 'quiz_started' | 'quiz_completed' | 'user_online' | 'match_found';
-  text: string;
-  emoji: string;
-  timestamp: number;
-}
-
-// Simulated live activity generator
-const generateActivityMessage = (): LiveActivity => {
-  const activities = [
-    { type: 'quiz_started' as const, text: 'Someone just started the quiz', emoji: '🎪', weight: 0.3 },
-    { type: 'quiz_completed' as const, text: 'Found their perfect festival!', emoji: '🎉', weight: 0.2 },
-    { type: 'user_online' as const, text: 'person exploring festivals', emoji: '🔍', weight: 0.3 },
-    { type: 'match_found' as const, text: 'got matched to Coachella', emoji: '✨', weight: 0.2 },
-  ];
-
-  const weighted = activities.sort(() => Math.random() - 0.5)[0];
-  return {
-    id: `${Date.now()}-${Math.random()}`,
-    type: weighted.type as any,
-    text: weighted.text,
-    emoji: weighted.emoji,
-    timestamp: Date.now(),
-  };
-};
-
 export default function RealtimeSocialProof() {
-  const [activities, setActivities] = useState<LiveActivity[]>([]);
-
   useEffect(() => {
     // Initialize empty - we're moving away from fake activity ticker
-    setActivities([]);
   }, []);
 
   return (

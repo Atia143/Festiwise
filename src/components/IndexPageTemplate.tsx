@@ -14,15 +14,16 @@ interface IndexPageProps {
   value: string;
   title: string;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialFilters: Record<string, any>;
 }
 
-export default function IndexPageTemplate({ 
-  type, 
-  value, 
-  title, 
-  description, 
-  initialFilters 
+export default function IndexPageTemplate({
+  type: _type,
+  value: _value,
+  title,
+  description,
+  initialFilters
 }: IndexPageProps) {
   const { results, filters, updateFilters, filterOptions } = useFilters();
 
@@ -32,6 +33,7 @@ export default function IndexPageTemplate({
     
     // Track page view
     analytics.trackPageView(window.location.pathname, title);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const breadcrumbs = [

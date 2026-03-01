@@ -6,7 +6,7 @@ interface HrefLangTagsProps {
   currentLocale?: string;
 }
 
-export function generateHrefLangMetadata(pathname: string, currentLocale: string = defaultLocale): Metadata {
+export function generateHrefLangMetadata(pathname: string, _currentLocale: string = defaultLocale): Metadata {
   const languages: Record<string, string> = {};
   
   // Add hreflang for each supported locale
@@ -34,7 +34,7 @@ export function generateHrefLangMetadata(pathname: string, currentLocale: string
   };
 }
 
-export default function HrefLangTags({ pathname, currentLocale = defaultLocale }: HrefLangTagsProps) {
+export default function HrefLangTags({ pathname, currentLocale: _currentLocale = defaultLocale }: HrefLangTagsProps) {
   const hrefLangTags = [];
   
   // Generate hreflang tags for each locale

@@ -1,4 +1,3 @@
-import { MetadataRoute } from 'next';
 import { featuredPosts } from '@/app/blog/featuredPosts';
 
 // GET function to generate the blog sitemap

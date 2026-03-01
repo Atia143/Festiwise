@@ -19,7 +19,6 @@ import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
-import { generateHrefLangMetadata } from "@/components/SEO/HrefLangTags";
 import { Suspense } from "react";
 
 export { generateMetadata as metadata } from '@/lib/metadata';

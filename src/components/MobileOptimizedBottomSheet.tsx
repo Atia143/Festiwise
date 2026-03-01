@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 
 export default function MobileOptimizedBottomSheet() {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollDepth, setScrollDepth] = useState(0);
   const pathname = usePathname();
 
   // Don't show on quiz page
@@ -19,8 +18,6 @@ export default function MobileOptimizedBottomSheet() {
     const handleScroll = () => {
       const scrollPercent =
         (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-      setScrollDepth(scrollPercent);
-
       // Show after user scrolls 40% down the page, only once
       if (scrollPercent > 40 && !hasShown && !isQuizPage) {
         setIsVisible(true);

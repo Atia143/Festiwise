@@ -35,6 +35,7 @@ export type EventSchema = {
     availability?: string;
     url: string;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 };
 
@@ -91,6 +92,7 @@ export const validateEventSchema = (schema: EventSchema): {
 /**
  * Validates event items in a ListingSchema
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateFestivalListingSchema = (schema: any): {
   valid: boolean;
   criticalErrors: string[];
@@ -105,6 +107,7 @@ export const validateFestivalListingSchema = (schema: any): {
   }
   
   // Validate each event in the list
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema.mainEntity.itemListElement.forEach((listItem: any, index: number) => {
     if (!listItem.item || listItem.item['@type'] !== 'MusicEvent') {
       criticalErrors.push(`Item at position ${index + 1} is not a valid MusicEvent`);

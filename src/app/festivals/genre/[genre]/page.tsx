@@ -106,28 +106,6 @@ export default async function GenreFestivalsPage({ params }: { params: Promise<{
     genreFestivals.reduce((sum, f) => sum + (f.estimated_cost_usd.min + f.estimated_cost_usd.max) / 2, 0) / genreFestivals.length
   );
 
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": `${genreName} Music Festivals`,
-    "description": `Complete guide to ${genreFestivals.length} ${genreName} music festivals worldwide`,
-    "url": `https://getfestiwise.com/festivals/genre/${genre}`,
-    "mainEntity": {
-      "@type": "ItemList",
-      "numberOfItems": genreFestivals.length,
-      "itemListElement": genreFestivals.map((festival, index) => ({
-        "@type": "Event",
-        "position": index + 1,
-        "name": festival.name,
-        "genre": genreName,
-        "location": {
-          "@type": "Place",
-          "name": `${festival.city}, ${festival.country}`
-        }
-      }))
-    }
-  };
-
   return (
     <>
       <FestivalListingSchema 

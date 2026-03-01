@@ -112,34 +112,6 @@ export default async function CountryMonthFestivalsPage({ params }: { params: Pr
     { label: monthName, href: `/festivals/${country}/${month}` }
   ];
 
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": `${monthName} Music Festivals in ${countryName}`,
-    "description": `Complete guide to ${filteredFestivals.length} music festivals in ${countryName} during ${monthName}`,
-    "url": `https://getfestiwise.com/festivals/${country}/${month}`,
-    "temporalCoverage": `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
-    "mainEntity": {
-      "@type": "ItemList",
-      "numberOfItems": filteredFestivals.length,
-      "itemListElement": filteredFestivals.map((festival, index) => ({
-        "@type": "Event",
-        "position": index + 1,
-        "name": festival.name,
-        "startDate": `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`,
-        "location": {
-          "@type": "Place",
-          "name": `${festival.city}, ${festival.country}`,
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": festival.country,
-            "addressLocality": festival.city
-          }
-        }
-      }))
-    }
-  };
-
   return (
     <>
       <FestivalListingSchema 

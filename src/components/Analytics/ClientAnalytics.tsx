@@ -70,7 +70,9 @@ export default function ClientAnalytics() {
         }
         
         // Track in Vercel Analytics if available
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ((window as any).va) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).va('page_view');
         }
       }
