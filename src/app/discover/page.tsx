@@ -1,10 +1,10 @@
-import FestivalDatabaseHub from '@/components/FestivalDatabaseHub'
+import FestivalRadar from '@/components/FestivalRadar'
 
 export const metadata = {
-  title: 'Discover Festivals - FestiWise',
-  description: 'Search and filter 500+ festivals by genre, budget, and features',
+  title: 'Festival Radar & Insider Insights — FestiWise',
+  description: 'Live trending festivals, insider pro tips, and real-time discovery across 100+ global events. Stop scrolling. Start celebrating.',
 }
 
 export default function DiscoverPage() {
-  return <FestivalDatabaseHub />
+  return <FestivalRadar />
 }

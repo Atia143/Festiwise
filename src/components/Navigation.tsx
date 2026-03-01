@@ -9,8 +9,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const NAV_ITEMS = [
   { href: '/', label: 'Home', icon: '🏠' },
   { href: '/quiz', label: 'Quiz', icon: '🎯' },
-  { href: '/festivals', label: 'Marketplace(Soon)', icon: '🎪' },
-  { href: '/discover', label: 'Discover', icon: '🗺️' },
+  { href: '/festivals', label: 'Marketplace', icon: '🎪' },
+  { href: '/discover', label: 'Radar', icon: '📡' },
   { href: '/faq', label: 'FAQ', icon: '❓' },
 ];
 
@@ -32,7 +32,7 @@ function Logo({ scrolled }: { scrolled: boolean }) {
   );
 }
 
-export default function Navigation({ locales = ['en'] }: { locales?: string[] }) {
+export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -249,7 +249,7 @@ export default function Navigation({ locales = ['en'] }: { locales?: string[] })
           {mounted && <DesktopNav />}
           {mounted && (
             <div className="hidden lg:flex items-center gap-4">
-              {locales && locales.length > 1 && <LangSelector />}
+              <LangSelector />
               <CTAButton />
             </div>
           )}
