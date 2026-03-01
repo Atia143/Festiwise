@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useAnalyticsTracker } from '@/lib/analytics-tracker';
+import { useToast } from '@/components/Toast/ToastProvider';
 
 // Server-side key is kept in env; client posts to /api/submit
 
@@ -9,6 +10,7 @@ export default function SimpleNewsletterForm() {
   const [state, setState] = useState<'idle'|'loading'|'success'|'error'>('idle');
   const [mounted, setMounted] = useState(false);
   const { trackSubscribeStart, trackSubscribeSuccess } = useAnalyticsTracker();
+  const { addToast } = useToast();
 
   useEffect(() => {
     setMounted(true);
@@ -48,8 +50,8 @@ export default function SimpleNewsletterForm() {
       if (data.success) {
         setState('success');
         setEmail('');
-        // Track subscription success
         trackSubscribeSuccess('blog');
+        addToast('Welcome to the Insider Club! Check your inbox.', 'success', 4000);
         setTimeout(() => setState('idle'), 10000);
       } else {
         setState('error');
@@ -69,10 +71,10 @@ export default function SimpleNewsletterForm() {
         </div>
         
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          Never Miss an Epic Festival! 🎵
+          Join 5,000+ Festival Insiders.
         </h3>
         <p className="text-gray-600 mb-6 leading-relaxed">
-          Get personalized festival recommendations and exclusive early-bird deals delivered to your inbox.
+          Get the lineups before your friends do. Exclusive early-bird alerts and insider picks — straight to your inbox.
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -90,9 +92,9 @@ export default function SimpleNewsletterForm() {
             disabled={state === 'loading'}
             className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 active:scale-95 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {state === 'loading' ? 'Joining...' : 
-             state === 'success' ? '🎉 Welcome to FestiWise!' : 
-             'Get My Festival Updates'}
+            {state === 'loading' ? 'Joining the club...' :
+             state === 'success' ? 'Welcome to the Insider Club!' :
+             'Join the Insider Club'}
           </button>
         </form>
         

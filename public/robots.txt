@@ -1,9 +1,14 @@
 User-agent: *
 Allow: /
 
-# Important pages for crawling priority
+# Disallow server-only routes from indexing
+Disallow: /api/
+Disallow: /go/
+
+# Crawl priority hints
 Allow: /quiz
 Allow: /festivals
+Allow: /discover
 Allow: /blog
 Allow: /festival/*
 
