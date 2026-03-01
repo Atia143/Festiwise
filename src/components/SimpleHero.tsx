@@ -202,7 +202,7 @@ export default function UltimateHero() {
                   </div>
                   <div>
                     <div className="text-white font-medium text-sm md:text-base">Marcus K.</div>
-                    <div className="text-white/60 text-xs">Berlin • Verified</div>
+                    <div className="text-white/60 text-xs">Berlin, Germany</div>
                   </div>
                 </div>
                 <div className="flex text-yellow-400 text-sm">
@@ -213,8 +213,7 @@ export default function UltimateHero() {
                 "I was overwhelmed by festival options until I tried FestiWise. The 2-minute quiz matched me with the perfect festival!"
               </p>
               <div className="mt-3 flex items-center gap-2 text-xs text-white/60">
-                <span className="bg-purple-500/20 px-2 py-1 rounded">Verified Match</span>
-                <span>• Matched to festival</span>
+                <span>Matched via FestiWise Quiz</span>
               </div>
             </div>
           </motion.div>
@@ -228,10 +227,6 @@ export default function UltimateHero() {
         </motion.div>
       </div>
 
-      {/* Current date timestamp - subtle reinforcement of freshness */}
-      <div className="absolute bottom-2 left-4 text-white/30 text-xs">
-        Last updated: November 27, 2025
-      </div>
     </section>
   );
 }

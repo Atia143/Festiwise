@@ -128,7 +128,7 @@ export default function ImprovedExitModal() {
 
               {/* Message */}
               <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-                <strong>Wait!</strong> We found festivals you'll love. Take our 2-minute quiz to discover more matches based on your exact preferences.
+                Before you go — answer 8 quick questions and we&apos;ll rank 100+ festivals by how well they fit your taste, budget, and vibe.
               </p>
 
               {/* Festival Carousel Indicator */}
@@ -155,8 +155,7 @@ export default function ImprovedExitModal() {
                     className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                     onClick={() => setShowModal(false)}
                   >
-                    <span>🎯 Find My Perfect Festival</span>
-                    <span>→</span>
+                    Find My Perfect Festival →
                   </motion.button>
                 </Link>
                 <button

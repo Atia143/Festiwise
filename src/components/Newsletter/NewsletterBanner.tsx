@@ -117,8 +117,8 @@ export default function NewsletterBanner({ variant, context = '', onSubscribe }:
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Sparkles className="w-5 h-5" />
-              <span className="font-medium">🎪 Join 50,000+ festival lovers!</span>
-              <span className="hidden sm:inline text-purple-100">Get exclusive early-bird deals & personalized recommendations</span>
+              <span className="font-medium">Get personalized festival picks in your inbox</span>
+              <span className="hidden sm:inline text-purple-100">Personalized recommendations for 100+ curated festivals</span>
             </div>
             
             <div className="flex items-center space-x-3">
@@ -171,7 +171,7 @@ export default function NewsletterBanner({ variant, context = '', onSubscribe }:
             Never Miss a Beat! 🎵
           </h3>
           <p className="text-gray-600 mb-6">
-            Get personalized festival recommendations and exclusive early-bird deals delivered to your inbox.
+            Get personalized festival recommendations and new festival discoveries delivered to your inbox.
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -238,7 +238,7 @@ export default function NewsletterBanner({ variant, context = '', onSubscribe }:
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">🎪 Love discovering festivals?</p>
-                  <p className="text-sm text-gray-600">Join our newsletter for exclusive deals and recommendations!</p>
+                  <p className="text-sm text-gray-600">Get personalized festival recommendations in your inbox.</p>
                 </div>
               </div>
               
@@ -282,7 +282,7 @@ export default function NewsletterBanner({ variant, context = '', onSubscribe }:
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-900">📧 Get notified about similar festivals!</p>
-            <p className="text-xs text-gray-600">Join 50,000+ festival lovers</p>
+            <p className="text-xs text-gray-600">Festival picks and alerts, free</p>
           </div>
           <form onSubmit={handleSubmit} className="flex items-center space-x-2">
             <input

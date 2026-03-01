@@ -35,20 +35,17 @@ export default function AboutPage() {
           _template: 'table',
           _cc: email,
           _subject: 'Welcome to FestiWise! 🎵 Your Festival Journey Begins',
-          _autoresponse: `Welcome to the FestiWise family! 🎉
+          _autoresponse: `Welcome to FestiWise!
 
-You're now part of an exclusive community of festival lovers who get:
+You'll now get:
 
-✨ Weekly personalized festival recommendations
-🎯 Early-bird ticket notifications  
-💰 Exclusive discount codes
-📍 Secret lineup reveals
-🌟 VIP experiences & insider access
+🎯 Personalized festival recommendations
+🎪 New festivals added to our database
+📅 Festival tips and planning guides
 
-Ready to discover your perfect festival? Take our 2-minute quiz: ${typeof window !== 'undefined' ? window.location.origin : ''}/quiz
+Take our 2-minute quiz to find your perfect festival match: https://getfestiwise.com/quiz
 
-Rock on,
-The FestiWise Team 🎪`,
+The FestiWise Team`,
           botcheck: '',
         })
       });
@@ -95,7 +92,7 @@ The FestiWise Team 🎪`,
     { year: '2025', event: 'AI-powered matching algorithm developed and tested' },
     { year: '2025', event: 'Development of personalized festival recommendations' },
     { year: '2025', event: "100+ successful festival matches made" },
-    { year: 'Future', event: 'Global expansion to 100+ countries and exclusive festival experiences with local and global partnerships to ensure authenticity and diversity in festival recommendations.' }
+    { year: 'Future', event: 'Expand festival coverage to more regions and languages, and launch a native mobile app.' }
   ];
 
   return (

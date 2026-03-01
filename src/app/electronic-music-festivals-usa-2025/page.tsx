@@ -321,7 +321,7 @@ export default function ElectronicMusicFestivalsUSA() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Stay Connected to the Beat 🎵</h2>
           <p className="text-xl text-gray-100 mb-8">
-            Get exclusive EDM festival announcements, early-bird tickets, and lineup reveals.
+            Get personalized EDM festival picks and new additions to our database delivered to your inbox.
           </p>
           <Link href="/" className="bg-white text-cyan-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 inline-block">
             Join the EDM Community

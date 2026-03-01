@@ -388,7 +388,7 @@ export default function CheapMusicFestivalsEurope() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Never Miss a Festival Deal 💌</h2>
           <p className="text-xl text-gray-100 mb-8">
-            Get exclusive early-bird discounts and budget festival alerts delivered to your inbox.
+            Get personalized budget festival picks and new festival discoveries delivered to your inbox.
           </p>
           <Link href="/" className="bg-white text-green-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 inline-block">
             Join 50,000+ Festival Lovers

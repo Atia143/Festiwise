@@ -22,9 +22,6 @@ interface Festival {
   ticketUrl: string;
   description: string;
   highlights: string[];
-  safetyRating: number;
-  reviews: number;
-  reviewScore: number;
 }
 
 const SAMPLE_RESULTS: Festival[] = [
@@ -45,9 +42,6 @@ const SAMPLE_RESULTS: Festival[] = [
     ticketUrl: 'https://www.tomorrowland.com',
     description: 'The world\'s most iconic EDM festival with top-tier production, multiple stages, and artists from around the globe.',
     highlights: ['World-famous mainstage', 'Intimate garden stages', 'Art installations', 'Camping village'],
-    safetyRating: 9.2,
-    reviews: 2847,
-    reviewScore: 4.8,
   },
   {
     id: 'glastonbury',
@@ -66,9 +60,6 @@ const SAMPLE_RESULTS: Festival[] = [
     ticketUrl: 'https://www.glastonburyfestivals.co.uk',
     description: 'The world\'s longest-running festival with legendary status, diverse lineups across 100+ stages, and strong environmental mission.',
     highlights: ['5+ main stages', '100+ performance areas', 'Strong environmental focus', 'Iconic Pyramid Stage'],
-    safetyRating: 9.0,
-    reviews: 4231,
-    reviewScore: 4.9,
   },
   {
     id: 'burning-man',
@@ -87,9 +78,6 @@ const SAMPLE_RESULTS: Festival[] = [
     ticketUrl: 'https://www.burningman.org',
     description: 'Transformational festival in the desert focused on art, self-expression, and community. More experience than concert.',
     highlights: ['The Burn (Thursday)', 'Art installations', 'No sponsors', 'Leave No Trace ethos'],
-    safetyRating: 8.5,
-    reviews: 1956,
-    reviewScore: 4.7,
   },
 ];
 
@@ -239,9 +227,9 @@ export default function WorldClassResultsPage() {
                         <div className="font-bold text-white text-sm">{selectedFestival.budget}</div>
                       </div>
                       <div className="text-center">
-                        <span className="text-2xl mb-2 block">⭐</span>
-                        <div className="text-sm text-gray-400">Rating</div>
-                        <div className="font-bold text-white text-sm">{selectedFestival.reviewScore}/5 ({selectedFestival.reviews.toLocaleString()})</div>
+                        <Users className="w-6 h-6 mx-auto mb-2 text-purple-400" />
+                        <div className="text-sm text-gray-400">Attendance</div>
+                        <div className="font-bold text-white text-sm">{selectedFestival.attendees.toLocaleString()}+</div>
                       </div>
                     </div>
                   </div>

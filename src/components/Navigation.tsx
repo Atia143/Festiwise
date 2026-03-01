@@ -282,7 +282,7 @@ export default function Navigation() {
       className={`fixed left-0 right-0 z-[9999] transition-all duration-500 ${
         scrolled
           ? 'bg-white/95 backdrop-blur-2xl shadow-2xl border-b border-white/30'
-          : 'bg-white/90 backdrop-blur-md border-b border-gray/20 shadow-xl'
+          : 'bg-white/90 backdrop-blur-md border-b border-gray-200/20 shadow-xl'
       }`}
       style={{ top: 'var(--banner-height, 0px)' }}
       initial={{ y: -100 }}

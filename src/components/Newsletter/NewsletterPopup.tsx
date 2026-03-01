@@ -21,26 +21,26 @@ export default function NewsletterPopup({ isOpen, onClose, trigger }: Newsletter
   const getHeadline = () => {
     switch (trigger) {
       case 'exit-intent':
-        return "Wait! Don't miss out on exclusive festival deals! 🎪";
+        return "Before you go — get festival picks in your inbox";
       case 'scroll-based':
-        return "Loving what you see? Get our best festival picks! 🎵";
+        return "Get our best festival picks delivered to you";
       case 'time-based':
-        return "Ready for your next festival adventure? 🚀";
+        return "Ready for your next festival?";
       default:
-        return "Join 50,000+ Festival Lovers! 🎉";
+        return "Stay updated on the best festivals";
     }
   };
 
   const getSubheadline = () => {
     switch (trigger) {
       case 'exit-intent':
-        return "Get exclusive early-bird discounts and secret festival announcements before they sell out!";
+        return "Get personalized festival recommendations and new festival discoveries sent to your inbox.";
       case 'scroll-based':
-        return "Join our community and get personalized festival recommendations based on your vibe!";
+        return "Get personalized festival recommendations based on your music taste and travel style.";
       case 'time-based':
-        return "Discover hidden gems and get insider access to the world's best music festivals!";
+        return "Discover 100+ curated festivals worldwide and get picks matched to your vibe.";
       default:
-        return "Discover the world's best festivals with personalized recommendations and exclusive early access!";
+        return "Discover the world's best festivals with personalized recommendations.";
     }
   };
 
@@ -67,21 +67,17 @@ export default function NewsletterPopup({ isOpen, onClose, trigger }: Newsletter
           _template: 'table',
           _cc: email,
           _subject: 'Welcome to FestiWise! Your Festival Journey Starts Now 🎵',
-          _autoresponse: `
-Welcome to the FestiWise family, ${name || 'Festival Lover'}! 🎉
+          _autoresponse: `Welcome to FestiWise${name ? `, ${name}` : ''}!
 
-You've just unlocked access to:
-🎪 Exclusive early-bird festival discounts
-🎵 Personalized festival recommendations
-🚀 Insider tips from festival veterans
-📅 New festival announcements before anyone else
-🎁 Monthly curated festival guides
+You'll now get:
 
-Your next unforgettable experience is just one email away!
+🎯 Personalized festival recommendations
+🎪 New festivals added to our database
+📅 Festival tips and planning guides
 
-Rock on,
-The FestiWise Team
-          `,
+Take our 2-minute quiz to find your perfect festival match: https://getfestiwise.com/quiz
+
+The FestiWise Team`,
           botcheck: '',
         })
       });
@@ -178,10 +174,10 @@ The FestiWise Team
                   {/* Benefits */}
                   <div className="space-y-3 mb-6">
                     {[
-                      "🎟️ Exclusive early-bird discounts",
-                      "🎵 Personalized festival recommendations",
-                      "📅 New festival announcements first",
-                      "🎁 Monthly curated guides"
+                      "🎯 Personalized festival recommendations",
+                      "🎪 New festivals added to our database",
+                      "📅 Festival planning tips and guides",
+                      "🔍 100+ curated festivals worldwide"
                     ].map((benefit, index) => (
                       <motion.div
                         key={index}
@@ -277,7 +273,7 @@ The FestiWise Team
                   Welcome to the family! 🎉
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  Check your email for exclusive festival recommendations and early-bird deals!
+                  Check your email for your first festival recommendations.
                 </p>
                 <div className="text-4xl mb-4">🎪🎵🎸</div>
               </div>

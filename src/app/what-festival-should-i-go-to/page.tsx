@@ -57,7 +57,7 @@ export default function FAQ() {
                   Is this really unbiased?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Yes. We never accept paid placements or let affiliate links affect your results. Our recommendations are independent and curated by our team of festival experts.
+                  Yes. FestiWise has no affiliation with any festival or ticket seller. We never accept paid placements. Rankings are determined solely by your quiz answers.
                 </p>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function FAQ() {
                   How do I get updates?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Subscribe to our newsletter for festival drops, deals, and hand‑picked picks—no spam, ever. Be the first to know about new festivals and early-bird tickets.
+                  Subscribe to our newsletter for personalized festival recommendations and new festival discoveries — no spam, ever.
                 </p>
               </div>
             </div>

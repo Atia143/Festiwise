@@ -36,19 +36,16 @@ export default function NewsletterForm() {
           _captcha: false,
           _next: window.location.href,
           _subject: 'Welcome to FestiWise! 🎵 Your Festival Journey Starts Here',
-          _autoresponse: `Welcome to the FestiWise family! 🎉
+          _autoresponse: `Welcome to FestiWise!
 
-You're now part of festival lovers who get:
+You'll now get:
 
-✨ Early-bird festival announcements
-🎯 Personalized festival recommendations  
-💰 Exclusive discount codes
-📍 Secret lineup reveals
-🌟 VIP experiences & contests
+🎯 Personalized festival recommendations
+🎪 New festivals added to our database
+📅 Festival tips and planning guides
 
-Your first insider tip: Check out our quiz to find your perfect festival match in 2 minutes!
+Take our 2-minute quiz to find your perfect festival match: https://getfestiwise.com/quiz
 
-Rock on,
 The FestiWise Team`,
           botcheck: '',
         })

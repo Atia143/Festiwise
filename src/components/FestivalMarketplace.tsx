@@ -13,16 +13,13 @@ import {
   Filter,
   X,
   Check,
-  Star,
   DollarSign,
   MapPin,
   Calendar,
   Music,
   Search,
   Zap,
-  TrendingUp,
   Award,
-  Flame,
   AlertCircle,
 } from 'lucide-react';
 import FestivalListingSchema from '@/components/SEO/FestivalListingSchema';
@@ -64,7 +61,7 @@ type Filters = {
 };
 
 type ViewMode = 'grid' | 'list' | 'map' | 'timeline';
-type SortOption = 'trending' | 'rating' | 'price-low' | 'price-high' | 'name' | 'duration' | 'audience';
+type SortOption = 'trending' | 'price-low' | 'price-high' | 'name' | 'duration' | 'audience';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -201,26 +198,6 @@ function ProTips({ festivalId }: { festivalId: string }) {
   );
 }
 
-const MockRating = () => {
-  const rating = Math.round((Math.random() * 20 + 80)) / 10; // 8.0 - 10.0
-  const reviews = Math.floor(Math.random() * 3000 + 500);
-  return { rating, reviews };
-};
-
-const TrendingBadge = ({ trend }: { trend: 'hot' | 'popular' | 'rising' }) => {
-  const config = {
-    hot: { icon: Flame, color: 'text-red-500', bg: 'bg-red-50', label: 'Hot' },
-    popular: { icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50', label: 'Trending' },
-    rising: { icon: Zap, color: 'text-yellow-600', bg: 'bg-yellow-50', label: 'Rising' },
-  };
-  const Icon = config[trend].icon;
-  return (
-    <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full ${config[trend].bg} text-xs font-semibold`}>
-      <Icon className={`w-3 h-3 ${config[trend].color}`} />
-      <span className={config[trend].color}>{config[trend].label}</span>
-    </div>
-  );
-};
 
 const PriceBadge = ({ min: _min, max }: { min: number; max: number }) => {
   const level = max <= 300 ? 'budget' : max <= 700 ? 'mid' : 'premium';
@@ -351,9 +328,15 @@ export default function FestivalMarketplace() {
         break;
       }
       case 'trending':
-      case 'rating':
-      default:
-        arr.sort(() => (Math.random() > 0.5 ? 1 : -1)); // Randomize for visual diversity
+      default: {
+        const sizeOrder = { 'massive': 4, 'large': 3, 'medium': 2, 'small': 1 };
+        arr.sort(
+          (a, b) =>
+            (sizeOrder[b.audience_size as keyof typeof sizeOrder] || 0) -
+            (sizeOrder[a.audience_size as keyof typeof sizeOrder] || 0)
+        );
+        break;
+      }
     }
     return arr;
   }, [filtered, sortBy]);
@@ -457,7 +440,6 @@ export default function FestivalMarketplace() {
               className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 text-sm hover:border-gray-400 transition-colors"
             >
               <option value="trending">Trending</option>
-              <option value="rating">Top Rated</option>
               <option value="price-low">Price (Low to High)</option>
               <option value="price-high">Price (High to Low)</option>
               <option value="duration">Duration</option>
@@ -871,9 +853,6 @@ function FestivalCard({
   onHover: () => void;
   onUnhover: () => void;
 }) {
-  const { rating, reviews } = MockRating();
-  const trend = Math.random() > 0.6 ? ('hot' as const) : Math.random() > 0.5 ? ('popular' as const) : ('rising' as const);
-
   return (
     <motion.div
       variants={itemVariants}
@@ -892,7 +871,6 @@ function FestivalCard({
 
           {/* Badges */}
           <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2">
-            <TrendingBadge trend={trend} />
             {VERIFIED_FESTIVALS.has(festival.id) && <VerifiedBadge />}
             {festival.family_friendly && (
               <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
@@ -947,24 +925,6 @@ function FestivalCard({
               <MapPin className="w-4 h-4" />
               {festival.city}, {festival.country}
             </p>
-          </div>
-
-          {/* Rating */}
-          <div className="flex items-center gap-2 mb-3">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(rating)
-                      ? 'fill-yellow-400 text-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm font-semibold text-gray-900">{rating}</span>
-            <span className="text-xs text-gray-600">({reviews})</span>
           </div>
 
           {/* Details Grid */}
@@ -1042,7 +1002,6 @@ function FestivalListItem({
   onFavorite: () => void;
   onCompare: () => void;
 }) {
-  const { rating } = MockRating();
 
   return (
     <motion.div variants={itemVariants}>
@@ -1086,19 +1045,6 @@ function FestivalListItem({
 
           {/* Stats Row */}
           <div className="flex items-center gap-4 text-sm mb-3">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-3 h-3 ${
-                    i < Math.floor(rating)
-                      ? 'fill-yellow-400 text-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
-              ))}
-              <span className="font-semibold ml-1">{rating}</span>
-            </div>
             <span className="text-gray-600">
               ${festival.estimated_cost_usd.min} - ${festival.estimated_cost_usd.max}
             </span>

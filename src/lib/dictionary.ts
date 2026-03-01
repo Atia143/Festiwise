@@ -33,7 +33,7 @@ export const dictionary = {
     },
     newsletter: {
       title: "Never Miss Epic Festivals Again",
-      subtitle: "Get exclusive early-bird tickets, secret lineups, and curated festival picks delivered weekly. Join 25,000+ festival hunters worldwide.",
+      subtitle: "Get personalized festival picks and new festival discoveries delivered to your inbox.",
       emailPlaceholder: "Enter your email",
       namePlaceholder: "Your name (optional)",
       submitButton: "Get Free Festival Intel",

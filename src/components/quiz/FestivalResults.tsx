@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuiz } from './QuizContext';
 import festivalsData from '../../data/festivals.json';
@@ -479,9 +480,12 @@ export function FestivalResults() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-4">
-                      <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <Link
+                        href={`/festival/${festival.id}`}
+                        className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                      >
                         View Details
-                      </button>
+                      </Link>
                       {festival.website && (
                         <a
                           href={festival.website}
@@ -504,9 +508,6 @@ export function FestivalResults() {
                           Get Tickets
                         </a>
                       )}
-                      <button className="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300">
-                        Save to Wishlist
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -558,9 +559,12 @@ export function FestivalResults() {
               >
                 Take Quiz Again
               </button>
-              <button className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300">
+              <Link
+                href="/festivals"
+                className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
+              >
                 Browse All Festivals
-              </button>
+              </Link>
               <button
                 onClick={async () => {
                   const quizUrl = 'https://getfestiwise.com/quiz';
@@ -592,8 +596,8 @@ export function FestivalResults() {
                 Love Your Results? Get More Like This! 
               </h3>
               <p className="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
-                You just discovered your perfect festival matches! Join festival lovers who get 
-                <strong> weekly personalized recommendations</strong> and <strong>exclusive early-bird access</strong> to tickets.
+                You just discovered your perfect festival matches! Join our newsletter for
+                <strong> personalized recommendations</strong> and new festivals added to our database.
               </p>
               
               <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">

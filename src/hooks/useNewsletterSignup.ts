@@ -39,18 +39,16 @@ export default function useNewsletterSignup({ placement }: NewsletterSignupHookP
           _template: 'table',
           _cc: email,
           _subject: 'Welcome to FestiWise! 🎵 Your Festival Journey Starts Here',
-          _autoresponse: `Welcome to the FestiWise family, ${name || 'Festival Lover'}! 🎉
+          _autoresponse: `Welcome to FestiWise${name ? `, ${name}` : ''}!
 
-You've just unlocked access to:
-🎪 Exclusive early-bird festival discounts
-🎵 Personalized festival recommendations
-🚀 Insider tips from festival veterans
-📅 New festival announcements before anyone else
-🎁 Monthly curated festival guides
+You'll now get:
 
-Your next unforgettable experience is just one email away!
+🎯 Personalized festival recommendations
+🎪 New festivals added to our database
+📅 Festival tips and planning guides
 
-Rock on,
+Take our 2-minute quiz to find your perfect festival match: https://getfestiwise.com/quiz
+
 The FestiWise Team`,
           botcheck: '',
         })

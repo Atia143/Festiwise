@@ -51,8 +51,7 @@ export default function NewsletterSystem() {
   return (
     <>
       {/* Top banner - only show on certain pages */}
-      {!currentPath.includes('/quiz') && 
-       !currentPath.includes('/blog') && (
+      {!currentPath.includes('/quiz') && (
         <DynamicNewsletterBanner variant="top-bar" />
       )}
       
