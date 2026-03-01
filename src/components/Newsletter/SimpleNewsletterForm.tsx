@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAnalyticsTracker } from '@/lib/analytics-tracker';
 import { useToast } from '@/components/Toast/ToastProvider';
+import ConfettiBurst from '@/components/ui/ConfettiBurst';
 
 // Server-side key is kept in env; client posts to /api/submit
 
@@ -9,6 +10,7 @@ export default function SimpleNewsletterForm() {
   const [email, setEmail] = useState('');
   const [state, setState] = useState<'idle'|'loading'|'success'|'error'>('idle');
   const [mounted, setMounted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { trackSubscribeStart, trackSubscribeSuccess } = useAnalyticsTracker();
   const { addToast } = useToast();
 
@@ -52,6 +54,9 @@ export default function SimpleNewsletterForm() {
         setEmail('');
         trackSubscribeSuccess('blog');
         addToast('Welcome to the Insider Club! Check your inbox.', 'success', 4000);
+        // Trigger confetti burst
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 1200);
         setTimeout(() => setState('idle'), 10000);
       } else {
         setState('error');
@@ -65,7 +70,13 @@ export default function SimpleNewsletterForm() {
 
   return (
     <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-8 sm:p-10 my-8 sm:my-12">
-      <div className="text-center max-w-md mx-auto">
+      <div className="text-center max-w-md mx-auto relative">
+        {/* Confetti burst anchored to the submit button area */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="relative w-0 h-0">
+            <ConfettiBurst show={showConfetti} radius={120} />
+          </div>
+        </div>
         <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="text-2xl">📧</span>
         </div>

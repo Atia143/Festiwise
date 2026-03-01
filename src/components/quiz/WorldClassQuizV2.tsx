@@ -599,8 +599,8 @@ export function WorldClassQuiz() {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-    hover: { scale: 1.05, transition: { duration: 0.2 } },
-    tap: { scale: 0.95 }
+    hover: { scale: 1.04, transition: { duration: 0.15 } },
+    tap: { scale: 1.07, transition: { type: 'spring', stiffness: 500, damping: 15 } }
   };
 
   const pageVariants = {
@@ -723,55 +723,55 @@ export function WorldClassQuiz() {
               )}
 
               {/* NAVIGATION BUTTONS */}
-              <div className="flex justify-between items-center gap-4 mt-12 px-2 md:px-4">
+              <div className="flex justify-between items-center gap-3 mt-12 px-2 md:px-4">
+                {/* Previous */}
                 <motion.button
                   onClick={handlePrevious}
                   disabled={state.currentStep === 0}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                  whileHover={state.currentStep > 0 ? { scale: 1.03 } : {}}
+                  whileTap={state.currentStep > 0 ? { scale: 0.97 } : {}}
+                  className={`flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
                     state.currentStep === 0
-                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 hover:shadow-lg'
+                      ? 'text-gray-300 cursor-not-allowed'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:text-gray-900 hover:shadow-md'
                   }`}
                   aria-label="Go to previous question"
                 >
-                  ← Previous
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  Back
                 </motion.button>
 
-                <div className="text-center hidden md:block">
+                {/* Hint */}
+                <div className="text-center hidden sm:block">
                   {!canProceed() && currentStep.type !== 'confirmation' && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-sm text-purple-600 font-medium"
+                    <motion.p
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xs text-gray-400"
                     >
-                      💡 Select at least one option
-                    </motion.div>
+                      Select at least one option to continue
+                    </motion.p>
                   )}
                 </div>
 
+                {/* Next / Submit */}
                 <motion.button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  whileHover={canProceed() ? { scale: 1.05 } : {}}
-                  whileTap={canProceed() ? { scale: 0.95 } : {}}
-                  className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                  whileHover={canProceed() ? { scale: 1.04 } : {}}
+                  whileTap={canProceed() ? { scale: 0.96 } : {}}
+                  className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm transition-all duration-200 ${
                     canProceed()
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-xl hover:from-purple-700 hover:to-pink-700'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-purple-700 hover:to-pink-700'
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
                   aria-label={state.currentStep === quizSteps.length - 1 ? 'Get personalized festival matches' : 'Go to next question'}
                 >
-                  {state.currentStep === quizSteps.length - 1 ? 'Get My Matches! 🎉' : 'Next →'}
+                  {state.currentStep === quizSteps.length - 1 ? 'Get My Matches' : 'Continue'}
+                  {canProceed() && (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  )}
                 </motion.button>
-              </div>
-
-              {/* STEP COUNTER */}
-              <div className="text-center mt-8">
-                <p className="text-sm text-gray-600">
-                  Step {state.currentStep + 1} of {quizSteps.length}
-                </p>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -797,7 +797,7 @@ function renderStepContent(
   switch (type) {
     case 'multiGenre':
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {(data as GenreOption[]).map((genre, index) => (
             <motion.div
               key={genre.id}
@@ -808,7 +808,7 @@ function renderStepContent(
               whileTap="tap"
               transition={{ delay: index * 0.08 }}
               onClick={() => handleMultiSelect('genres', genre.id)}
-              className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
+              className={`p-4 md:p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
                 isSelected('genres', genre.id)
                   ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-purple-500 shadow-2xl'
                   : 'bg-white text-gray-900 border-gray-200 hover:border-purple-300 hover:shadow-lg'

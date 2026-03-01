@@ -663,7 +663,7 @@ export default function WorldClassFestivalExplorer() {
                     animate={{ opacity: 1 }}
                     className="text-center py-16 text-gray-600"
                   >
-                    Coming soon: {viewMode} view
+                    Switch to grid view to browse festivals
                   </motion.div>
                 )}
               </AnimatePresence>

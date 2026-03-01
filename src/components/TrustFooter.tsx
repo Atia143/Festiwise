@@ -1,168 +1,173 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
-/**
- * Trust-Building Footer for International Markets
- * Optimized for conversion and credibility
- */
+// SVG social icons — monochromatic, no emoji
+function IconXTwitter() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.632 5.903-5.632Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+function IconInstagram() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+    </svg>
+  );
+}
+function IconTikTok() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z" />
+    </svg>
+  );
+}
+function IconYouTube() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+      <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
 export default function TrustFooter() {
   const currentYear = new Date().getFullYear();
 
-  const trustSignals = [
-    { icon: '🔒', text: 'SSL Encrypted', detail: 'Your data is secure' },
-    { icon: '🌍', text: '100% Free', detail: 'No hidden costs' },
-    { icon: '⚡', text: 'Instant Results', detail: '2-minute quiz' },
-    { icon: '🎯', text: '100+ Festivals', detail: 'Curated worldwide' }
+  const navigateLinks = [
+    { href: '/quiz', label: 'Festival Quiz' },
+    { href: '/festivals', label: 'Browse Festivals' },
+    { href: '/discover', label: 'Discover' },
+    { href: '/faq', label: 'FAQ' },
   ];
 
-  const legalLinks = [
+  const supportLinks = [
+    { href: '/about', label: 'About Us' },
+    { href: '/contact', label: 'Contact' },
     { href: '/privacy', label: 'Privacy Policy' },
     { href: '/terms', label: 'Terms of Service' },
-    { href: '/about', label: 'About Us' },
-    { href: '/contact', label: 'Contact' }
   ];
 
-  const quickLinks = [
-    { href: '/quiz', label: 'Festival Quiz', popular: true },
-    { href: '/festivals', label: 'Browse Festivals' },
-    { href: '/discover', label: 'Festival Discovery' },
-    { href: '/faq', label: 'Help Center' }
+  const socialLinks = [
+    { href: 'https://twitter.com/getfestiwise', label: 'X (Twitter)', icon: <IconXTwitter /> },
+    { href: 'https://instagram.com/getfestiwise', label: 'Instagram', icon: <IconInstagram /> },
+    { href: 'https://tiktok.com/@getfestiwise', label: 'TikTok', icon: <IconTikTok /> },
+    { href: 'https://youtube.com/@getfestiwise', label: 'YouTube', icon: <IconYouTube /> },
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 text-white">
-      {/* Trust Signals Section */}
-      <div className="border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {trustSignals.map((signal, index) => (
-              <motion.div
-                key={index}
-                className="text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="text-2xl mb-2">{signal.icon}</div>
-                <div className="font-semibold text-sm">{signal.text}</div>
-                <div className="text-xs text-white/70">{signal.detail}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
+    <footer className="bg-gray-950 text-white">
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="md:col-span-2">
-            <Link href="/" className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+          {/* Brand Column */}
+          <div className="md:col-span-1">
+            <Link href="/" className="flex items-center gap-3 mb-5 group">
+              <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-base">F</span>
               </div>
-              <span className="font-bold text-xl">FestiWise</span>
+              <span className="font-bold text-lg tracking-tight">FestiWise</span>
             </Link>
-            <p className="text-white/80 mb-6 max-w-md">
-              Discover your perfect music festival from 100+ world-class events. 
-              Our intelligent matching algorithm finds festivals that match your 
-              taste, budget, and travel preferences.
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              Intelligent festival matching for music lovers worldwide. Find your perfect event in under 2 minutes.
             </p>
-            
-            {/* Social Proof */}
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-sm">★</span>
-                  ))}
-                </div>
-                <span className="text-white/80 text-sm">4.9/5 from 10,000+ users</span>
+            {/* Social row */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/8 hover:bg-white/16 text-gray-400 hover:text-white transition-all duration-200"
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigate Column */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-5">Navigate</h4>
+            <ul className="space-y-3">
+              {navigateLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support Column */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-5">Company</h4>
+            <ul className="space-y-3">
+              {supportLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter CTA Column */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-5">Stay in the loop</h4>
+            <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+              Get early-bird ticket alerts and curated festival picks — free, every week.
+            </p>
+            <Link
+              href="/#newsletter"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-purple-900/30 hover:shadow-purple-900/50"
+            >
+              Get Festival Alerts
+            </Link>
+            {/* Credibility micro-signals */}
+            <div className="mt-5 space-y-2">
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                100+ curated festivals worldwide
+              </div>
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                Free forever — no hidden costs
+              </div>
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                Results in under 2 minutes
               </div>
             </div>
-
-            {/* Newsletter CTA */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <h4 className="font-semibold mb-2">🎉 Never Miss Epic Festivals</h4>
-              <p className="text-sm text-white/80 mb-3">
-                Get exclusive early-bird alerts & secret lineup reveals
-              </p>
-              <Link
-                href="/#newsletter"
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 rounded-lg text-sm font-medium hover:shadow-lg transition-all"
-              >
-                <span>Join 25,000+ Festival Hunters</span>
-                <span>→</span>
-              </Link>
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="flex items-center text-white/80 hover:text-white transition-colors group"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform">
-                      {link.label}
-                    </span>
-                    {link.popular && (
-                      <span className="ml-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-black text-xs px-2 py-0.5 rounded-full font-medium">
-                        Popular
-                      </span>
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal Links & Support */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4">Support & Legal</h4>
-            <ul className="space-y-3 mb-6">
-              {legalLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/80 hover:text-white transition-colors group"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform inline-block">
-                      {link.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            {/* Contact Info */}
-            <div className="bg-white/5 rounded-lg p-3">
-              <h5 className="font-medium mb-2">Need Help?</h5>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-          <div className="text-sm text-white/70 text-center md:text-left">
-            © {currentYear} FestiWise. All rights reserved. Made with ❤️ for festival lovers worldwide.
-          </div>
-          
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm text-white/70">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span>All systems operational</span>
+      <div className="border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-gray-600">
+            &copy; {currentYear} FestiWise. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-xs text-gray-600">
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+              All systems operational
             </span>
-            <span>🌍 Available globally</span>
+            <span className="text-xs text-gray-600">Available globally</span>
           </div>
         </div>
       </div>

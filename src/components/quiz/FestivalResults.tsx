@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useQuiz } from './QuizContext';
 import festivalsData from '../../data/festivals.json';
 import { useQuizAnalytics } from '@/hooks/useQuizAnalytics';
 import { getTopFestivalMatches } from '@/utils/quizScoringAlgorithm';
 import QuizResultsShare from '@/components/QuizResultsShare';
+import ConfettiBurst from '@/components/ui/ConfettiBurst';
 
 // Results Page Newsletter Form Component
 function ResultsNewsletterForm({ topMatch }: { topMatch?: Festival }) {
@@ -131,11 +132,84 @@ interface Festival {
 // Use the real festival database
 const FESTIVALS = festivalsData as Festival[];
 
+// ── Animated score counter ────────────────────────────────────────────────────
+function AnimatedScore({ target }: { target: number }) {
+  const [display, setDisplay] = useState(0);
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const start = performance.now();
+    const duration = 900;
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+      setDisplay(Math.round(eased * target));
+      if (progress < 1) rafRef.current = requestAnimationFrame(tick);
+    }
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [target]);
+
+  return <>{display}</>;
+}
+
+// ── Collapsible share section (compact on mobile, full on desktop) ────────────
+function ShareSection({ festival, matchScore }: { festival: Festival; matchScore: number }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7 }}
+      className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden"
+    >
+      {/* Header row — always visible */}
+      <button
+        onClick={() => setExpanded(v => !v)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left"
+        aria-expanded={expanded}
+      >
+        <div>
+          <p className="font-semibold text-gray-900 text-sm">Love your top match? Share it</p>
+          <p className="text-xs text-gray-400 mt-0.5">Let friends discover their perfect festival too</p>
+        </div>
+        <motion.div
+          animate={{ rotate: expanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-gray-400 text-lg leading-none ml-4"
+        >
+          &#8964;
+        </motion.div>
+      </button>
+
+      {/* Expandable body */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5">
+              <QuizResultsShare festival={festival} matchScore={matchScore} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
   const [matchedFestivals, setMatchedFestivals] = useState<Festival[]>([]);
   const [loading, setLoading] = useState(true);
   const [challengeCopied, setChallengeCopied] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   
   // Analytics tracking
   const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
@@ -154,9 +228,13 @@ export function FestivalResults() {
 
       setMatchedFestivals(festivals);
       setLoading(false);
-      
-      // Track match results after loading finishes
+
+      // Trigger confetti burst on reveal
       if (festivals.length > 0) {
+        setTimeout(() => {
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 1400);
+        }, 400);
         trackMatchResults(festivals);
       }
     };
@@ -218,7 +296,16 @@ export function FestivalResults() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <div className="text-6xl mb-4">🎉</div>
+          <div className="relative inline-flex items-center justify-center mb-4">
+            <motion.div
+              className="text-6xl"
+              animate={showConfetti ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
+              transition={{ duration: 0.5 }}
+            >
+              🎉
+            </motion.div>
+            <ConfettiBurst show={showConfetti} radius={110} />
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Your Perfect Festival Matches!
           </h1>
@@ -298,8 +385,8 @@ export function FestivalResults() {
                         </div>
                       </div>
                       <div className="text-right ml-4">
-                        <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                          {festival.matchScore}% Match
+                        <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg tabular-nums">
+                          {index === 0 ? <><AnimatedScore target={festival.matchScore ?? 0} />%</> : `${festival.matchScore}%`} Match
                         </div>
                         <div className="text-xl font-bold text-gray-900 mt-3">
                           ${festival.estimated_cost_usd.min.toLocaleString()} - ${festival.estimated_cost_usd.max.toLocaleString()}
@@ -427,20 +514,7 @@ export function FestivalResults() {
 
               {/* Share section shown after #1 match */}
               {index === 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  <div className="text-center mb-3">
-                    <h2 className="text-xl font-bold text-gray-800">Love your top match? Share it!</h2>
-                    <p className="text-sm text-gray-500">Let your friends discover their perfect festival too</p>
-                  </div>
-                  <QuizResultsShare
-                    festival={festival}
-                    matchScore={festival.matchScore ?? 0}
-                  />
-                </motion.div>
+                <ShareSection festival={festival} matchScore={festival.matchScore ?? 0} />
               )}
               </React.Fragment>
             ))}

@@ -8,11 +8,11 @@ import { ChevronDown, Check } from 'lucide-react';
 
 // Nav items config
 const NAV_ITEMS = [
-  { href: '/', label: 'Home', icon: '🏠' },
-  { href: '/quiz', label: 'Quiz', icon: '🎯' },
-  { href: '/festivals', label: 'Marketplace', icon: '🎪' },
-  { href: '/discover', label: 'Radar', icon: '📡' },
-  { href: '/faq', label: 'FAQ', icon: '❓' },
+  { href: '/', label: 'Home' },
+  { href: '/quiz', label: 'Quiz' },
+  { href: '/festivals', label: 'Festivals' },
+  { href: '/discover', label: 'Discover' },
+  { href: '/faq', label: 'FAQ' },
 ];
 
 // Logo component (could expand with SVG, etc.)
@@ -160,8 +160,8 @@ export default function Navigation() {
 
   // Banner always at top
   const Banner = () => (
-    <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-2 text-xs font-medium">
-      🎉 World-Class Festival Discovery • Free Forever
+    <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1.5 text-xs font-medium tracking-wide">
+      World-Class Festival Discovery &mdash; Free Forever
     </div>
   );
 
@@ -211,10 +211,7 @@ export default function Navigation() {
                 : 'text-white/90 hover:text-white hover:bg-white/20'
             }`}
           >
-            <span className="flex items-center space-x-2">
-              <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
-            </span>
+            <span>{item.label}</span>
             {isActive(item.href) && (
               <motion.div
                 className="absolute inset-0 rounded-xl"
@@ -265,7 +262,6 @@ export default function Navigation() {
                         : 'text-gray-700 hover:text-gray-900 hover:bg-white/80 border border-gray-100'
                     }`}
                   >
-                    <span className="text-xl">{item.icon}</span>
                     <span className="text-base">{item.label}</span>
                   </Link>
                 ))}

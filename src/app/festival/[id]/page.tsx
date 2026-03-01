@@ -11,6 +11,8 @@ import type { Festival } from '@/types/festival';
 import EventSchema from '@/components/SEO/EventSchema';
 import TicketAlertForm from '@/components/TicketAlertForm';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
+import SaveFavoriteButton from '@/components/SaveFavoriteButton';
+import FestivalViewCount from '@/components/FestivalViewCount';
 
 const festivals = rawFestivals as Festival[];
 
@@ -174,14 +176,18 @@ export default async function FestivalPage({ params }: Props) {
             {/* CTAs */}
             <div className="flex flex-col gap-3 min-w-[200px]">
               {festival.ticket_official_url && (
-                <Link
-                  href={`/go/${festival.id}`}
-                  className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
-                >
-                  <Ticket className="w-4 h-4" />
-                  Get Tickets
-                </Link>
+                <div className="text-center">
+                  <Link
+                    href={`/go/${festival.id}`}
+                    className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+                  >
+                    <Ticket className="w-4 h-4" />
+                    Get Tickets
+                  </Link>
+                  <FestivalViewCount festivalId={festival.id} />
+                </div>
               )}
+              <SaveFavoriteButton festivalId={festival.id} festivalName={festival.name} />
               {festival.website && (
                 <a
                   href={festival.website}

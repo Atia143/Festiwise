@@ -6,27 +6,24 @@ interface EnhancedProgressBarProps {
 }
 
 export function EnhancedProgressBar({ currentStep, totalSteps }: EnhancedProgressBarProps) {
+  const pct = Math.round((currentStep / totalSteps) * 100);
+
   return (
-    <div className="flex items-center gap-2 w-full">
-      {[...Array(totalSteps)].map((_, idx) => {
-        const isCompleted = idx < currentStep;
-        const isCurrent = idx === currentStep;
-        return (
-          <motion.div
-            key={idx}
-            className={`flex-1 h-2 rounded-full transition-all duration-300 mx-0.5 ${
-              isCompleted
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500'
-                : isCurrent
-                ? 'bg-purple-400'
-                : 'bg-gray-200'
-            }`}
-            initial={{ scaleX: 0.8 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.4, delay: idx * 0.05 }}
-          />
-        );
-      })}
+    <div className="flex items-center gap-3 w-full">
+      {/* Thin continuous bar */}
+      <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-gradient-to-r from-purple-400 to-pink-400 rounded-full origin-left"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: pct / 100 }}
+          transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+          style={{ transformOrigin: 'left' }}
+        />
+      </div>
+      {/* Step label */}
+      <span className="text-xs font-medium text-white/70 tabular-nums flex-shrink-0">
+        {currentStep}/{totalSteps}
+      </span>
     </div>
   );
 }
