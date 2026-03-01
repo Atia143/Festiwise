@@ -161,17 +161,19 @@ export default function FestivalRadar() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.07 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 group transition-all duration-300"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 border border-gray-100 group transition-all duration-300"
               >
-                <div className={`h-28 bg-gradient-to-br ${gradient} relative flex items-end p-4`}>
-                  <span className="absolute top-3 left-3">
-                    <span className={`inline-flex items-center gap-1 ${badge.color} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow`}>
+                <div className={`h-32 bg-gradient-to-br ${gradient} relative flex items-end p-4 overflow-hidden`}>
+                  {/* Subtle noise/dot texture overlay */}
+                  <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
+                  <span className="absolute top-3 left-3 z-10">
+                    <span className={`inline-flex items-center gap-1 ${badge.color} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg`}>
                       <badge.Icon className="w-3 h-3" />
                       {badge.label}
                     </span>
                   </span>
-                  <span className="text-white/30 text-5xl font-black absolute top-1 right-4 select-none">
-                    #{idx + 1}
+                  <span className="text-white/20 text-6xl font-black absolute -bottom-2 right-3 select-none leading-none">
+                    {idx + 1}
                   </span>
                 </div>
 
