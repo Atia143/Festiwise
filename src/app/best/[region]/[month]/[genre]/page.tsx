@@ -5,16 +5,13 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import data from "@/data/festivals.json";
 import Link from "next/link";
-import dynamic from 'next/dynamic';
 import { faqData } from "@/data/faq";
 import type { FAQItem } from '@/types/faq';
+import { ChevronDown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 
-const FAQSection = dynamic(() => import('@/components/faq/FAQSection'), {
-  ssr: false,
-});
 
 type Params = {
   region: string;
@@ -55,6 +52,7 @@ function validateAndNormalizeParams(params: Params) {
 export default function BestFestivalsPage({ params }: { params: Promise<Params> }) {
   const [resolvedParams, setResolvedParams] = useState<Params | null>(null);
   const [loading, setLoading] = useState(true);
+  const [openFAQ, setOpenFAQ] = useState<string | null>(null);
 
   useEffect(() => {
     params.then(p => {
@@ -320,7 +318,36 @@ export default function BestFestivalsPage({ params }: { params: Promise<Params> 
             </p>
           </div>
           <div className="glass rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <FAQSection items={relevantFAQs} />
+            <div className="divide-y divide-white/10 space-y-1">
+              {relevantFAQs.map((faq) => (
+                <div key={faq.id}>
+                  <button
+                    className="w-full flex items-center justify-between py-4 text-left hover:text-purple-300 transition-colors"
+                    onClick={() => setOpenFAQ(openFAQ === faq.id ? null : faq.id)}
+                    aria-expanded={openFAQ === faq.id}
+                  >
+                    <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-200 ${openFAQ === faq.id ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {openFAQ === faq.id && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-4 text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.section>
       )}
