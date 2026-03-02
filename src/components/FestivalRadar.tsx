@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { TrendingUp, Flame, Zap, ChevronDown, ChevronRight, MapPin, Users, Calendar } from 'lucide-react';
 import festivalsData from '@/data/festivals.json';
-import FestivalDatabaseHub from './FestivalDatabaseHub';
 
 interface FestivalData {
   id: string;
@@ -277,19 +276,53 @@ export default function FestivalRadar() {
         </div>
       </section>
 
-      {/* Full Database Hub */}
-      <div className="border-t-2 border-purple-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 pt-10 pb-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-2xl font-extrabold text-gray-900">Full Festival Database</h2>
-            <span className="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">
-              100+ Festivals
-            </span>
-          </div>
-          <p className="text-gray-500 text-sm mt-1">Search, filter, and compare every festival in our database</p>
+      {/* Quiz CTA */}
+      <section className="relative bg-gradient-to-br from-gray-900 via-purple-950 to-black overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 75% 30%, #ec4899, transparent 50%), radial-gradient(circle at 25% 70%, #7c3aed, transparent 50%)',
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto px-4 py-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-2 text-white/70 text-sm font-medium mb-6">
+              <Zap className="w-4 h-4 text-yellow-400" />
+              Personalized for you
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
+              You&apos;ve seen what&apos;s trending.{' '}
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Now find your match.
+              </span>
+            </h2>
+            <p className="text-lg text-white/60 max-w-xl mx-auto mb-10 leading-relaxed">
+              Answer 8 questions about your vibe, budget, and travel style — we rank every festival in our database by how well it fits you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/quiz"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-8 py-4 rounded-2xl shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all duration-300"
+              >
+                Find My Festival Match
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/festivals"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-8 py-4 rounded-2xl hover:bg-white/20 transition-all duration-300"
+              >
+                Browse All 100+ Festivals
+              </Link>
+            </div>
+          </motion.div>
         </div>
-        <FestivalDatabaseHub />
-      </div>
+      </section>
     </div>
   );
 }

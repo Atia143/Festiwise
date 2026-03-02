@@ -5,7 +5,7 @@ export const faqData: FAQItem[] = [
     id: "general-1",
     category: "Festival Basics",
     question: "How do you pick the festivals?",
-    answer: "We curate festivals based on genre, region, and month, using official data and user feedback. Our selection process considers multiple factors including historical attendance, user reviews, and cultural significance.",
+    answer: "We curate festivals based on genre, region, and month, using publicly available data from official festival sources. Our selection process considers factors including historical attendance, cultural significance, and geographic diversity.",
     tags: ["selection", "curation", "quick"],
     lastUpdated: new Date("2025-08-01"),
     helpfulCount: 0,
@@ -75,7 +75,7 @@ export const faqData: FAQItem[] = [
     id: "international-1",
     category: "International Travel",
     question: "Do you include festivals outside the US?",
-    answer: "Yes! We feature festivals from 24+ countries including Belgium (Tomorrowland), UK (Glastonbury), Spain (Primavera Sound), Germany (Love Parade), Australia (Rainbow Serpent), and many more. Our platform specializes in helping you discover amazing festivals worldwide.",
+    answer: "Yes! We feature festivals from 30+ countries including Belgium (Tomorrowland), UK (Glastonbury), Spain (Primavera Sound), Germany (Rock am Ring), Australia (Splendour in the Grass), Japan (Fuji Rock), and many more. Our platform specializes in helping you discover festivals worldwide.",
     tags: ["international", "countries", "global"],
     lastUpdated: new Date("2025-09-01"),
     helpfulCount: 0,
@@ -237,7 +237,7 @@ export const faqData: FAQItem[] = [
     relatedGuides: []
   },
   {
-    id: "budget-1",
+    id: "budget-3",
     category: "Festival Basics",
     question: "What costs should I consider beyond tickets?",
     answer: "Consider transportation (flights/gas), accommodation (camping gear/hotel), food and drinks, merchandise, and emergency funds. We recommend budgeting an additional 50-100% of the ticket price for these expenses.",

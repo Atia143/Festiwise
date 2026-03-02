@@ -27,31 +27,18 @@ export default function ContactPage() {
     setSubmitSuccess(false);
     
     try {
-      // Web3Forms submission
-      const formSubmissionData = new FormData();
-      
-      // Access key is added server-side by the `/api/submit` proxy
-      
-      // Add form fields
-      formSubmissionData.append('name', formData.name);
-      formSubmissionData.append('email', formData.email);
-      formSubmissionData.append('subject', formData.subject || 'Contact Form Submission');
-      formSubmissionData.append('message', formData.message);
-      
-      // Add notification settings
-      formSubmissionData.append('_cc', formData.email); // Send copy to user
-      formSubmissionData.append('to_name', 'FestiWise Team');
-      formSubmissionData.append('_template', 'box');
-      formSubmissionData.append('_captcha', 'false'); // We already have other protections
-      formSubmissionData.append('_next', window.location.href); // Redirect back to same page
-      
-      // Add custom fields for better organization
-      formSubmissionData.append('from_name', 'FestiWise Contact Form');
-      formSubmissionData.append('form_type', 'Contact Form');
-      
       const response = await fetch('/api/submit', {
         method: 'POST',
-        body: formSubmissionData
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          from_name: formData.name,
+          email: formData.email,
+          subject: `[FestiWise Contact] ${formData.subject || 'General Inquiry'}`,
+          message: formData.message,
+          _template: 'box',
+          _cc: formData.email,
+          botcheck: '',
+        }),
       });
 
       const result = await response.json();
@@ -238,20 +225,8 @@ export default function ContactPage() {
                       <span className="text-2xl">📧</span>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">Email Us</p>
+                      <p className="font-medium text-gray-900">General & Support</p>
                       <a href="mailto:pixelplus.contact@gmail.com" className="text-purple-600 hover:text-purple-700">
-                        pixelplus.contact@gmail.com
-                      </a>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <span className="text-2xl">🎧</span>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">Support</p>
-                      <a href="mailto:pixelplus.contact@gmail.com" className="text-blue-600 hover:text-blue-700">
                         pixelplus.contact@gmail.com
                       </a>
                     </div>
@@ -259,10 +234,10 @@ export default function ContactPage() {
 
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <span className="text-2xl">🤝</span>
+                      <span className="text-2xl">💼</span>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">Partnerships</p>
+                      <p className="font-medium text-gray-900">Press & Business</p>
                       <a href="mailto:yuval.atia@icloud.com" className="text-green-600 hover:text-green-700">
                         yuval.atia@icloud.com
                       </a>
@@ -292,19 +267,19 @@ export default function ContactPage() {
                 <div className="space-y-3 text-gray-600">
                   <div className="flex justify-between">
                     <span>General Inquiries</span>
-                    <span className="font-medium">24-48 hours</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Support Issues</span>
-                    <span className="font-medium">12-24 hours</span>
+                    <span className="font-medium">1-3 days</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Bug Reports</span>
-                    <span className="font-medium">4-12 hours</span>
+                    <span className="font-medium">1-3 days</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Press & Media</span>
-                    <span className="font-medium">Same day</span>
+                    <span>Festival Suggestions</span>
+                    <span className="font-medium">1-3 days</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Press & Business</span>
+                    <span className="font-medium">1-3 days</span>
                   </div>
                 </div>
               </div>

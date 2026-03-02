@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimpleHero from '@/components/SimpleHero';
-import SimpleFestivalGrid from '@/components/SimpleFestivalGrid';
 import SimpleNewsletter from '@/components/SimpleNewsletter';
 import SimpleFAQ from '@/components/SimpleFAQ';
 import ConversionBanner from '@/components/ConversionBanner';
@@ -88,8 +87,6 @@ export default function HomePage() {
               <RealtimeSocialProof />
             </div>
           </section>
-
-          <SimpleFestivalGrid />
 
           {/* Instant Testimonials - Social Proof from Real Users */}
           <section className="py-16 px-4 bg-white">
