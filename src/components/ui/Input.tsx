@@ -54,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       propOnBlur?.(e);
     };
     
-    const baseClasses = 'w-full px-4 py-3 border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
+    const baseClasses = 'w-full px-4 py-3 border rounded-xl text-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
     const normalClasses = 'border-gray-300 focus:border-purple-500 focus:ring-purple-500/50';
     const errorClasses = 'border-red-300 focus:border-red-500 focus:ring-red-500/50 bg-red-50';
     
@@ -98,7 +98,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           
           {isFocused && (
             <motion.div
-              className="absolute inset-0 border-2 border-purple-500 rounded-lg pointer-events-none"
+              className="absolute inset-0 border-2 border-purple-500 rounded-xl pointer-events-none"
               initial={{ opacity: 0, scale: 1.02 }}
               animate={{ opacity: 0.5, scale: 1 }}
               exit={{ opacity: 0, scale: 1.02 }}

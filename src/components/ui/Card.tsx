@@ -42,9 +42,10 @@ export function Card({
       } : undefined}
       whileTap={interactive || onClick ? { scale: 0.98 } : undefined}
       onClick={onClick}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
     >
       {glow && (
         <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-pink-400/10 to-blue-400/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />

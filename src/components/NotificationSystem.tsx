@@ -1,7 +1,0 @@
-'use client';
-
-// This component is no longer used
-// We've moved the share functionality to a simple popup in SharePrompt component
-export default function NotificationSystem() {
-  return null;
-}

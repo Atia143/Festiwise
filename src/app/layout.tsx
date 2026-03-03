@@ -13,7 +13,6 @@ import MobileOptimizedBottomSheet from "@/components/MobileOptimizedBottomSheet"
 import PerformanceOptimizer, { ConnectionAwareComponent } from "@/components/PerformanceOptimizer";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import NotificationSystem from "@/components/NotificationSystem";
 import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
 import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
@@ -67,7 +66,6 @@ export default function RootLayout({
             <SharePrompt />
             <AccessibilityMenu />
             <CookieConsent />
-            <NotificationSystem />
           </ToastProvider>
         </ErrorBoundary>
         <div id="premium-features" />

@@ -3,70 +3,59 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+type Settings = {
+  highContrast: boolean;
+  largeText: boolean;
+  reducedMotion: boolean;
+  dyslexiaFont: boolean;
+};
+
+const ITEMS: { key: keyof Settings; label: string; description: string }[] = [
+  { key: 'highContrast', label: 'High Contrast', description: 'Enhances color contrast for better visibility' },
+  { key: 'largeText', label: 'Larger Text', description: 'Increases text size throughout the app' },
+  { key: 'reducedMotion', label: 'Reduced Motion', description: 'Minimizes animations and movement' },
+  { key: 'dyslexiaFont', label: 'Dyslexia-Friendly Font', description: "Changes to a font that's easier to read" },
+];
+
+const DEFAULT_SETTINGS: Settings = {
+  highContrast: false,
+  largeText: false,
+  reducedMotion: false,
+  dyslexiaFont: false,
+};
+
 export default function AccessibilityMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [settings, setSettings] = useState({
-    highContrast: false,
-    largeText: false,
-    reducedMotion: false,
-    dyslexiaFont: false,
-  });
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
 
-  // Apply accessibility settings when they change
   useEffect(() => {
-    // High contrast mode
-    if (settings.highContrast) {
-      document.documentElement.classList.add('high-contrast-mode');
-    } else {
-      document.documentElement.classList.remove('high-contrast-mode');
-    }
-
-    // Large text
-    if (settings.largeText) {
-      document.documentElement.classList.add('large-text-mode');
-    } else {
-      document.documentElement.classList.remove('large-text-mode');
-    }
-
-    // Reduced motion
-    if (settings.reducedMotion) {
-      document.documentElement.classList.add('reduced-motion-mode');
-    } else {
-      document.documentElement.classList.remove('reduced-motion-mode');
-    }
-
-    // Dyslexia-friendly font
-    if (settings.dyslexiaFont) {
-      document.documentElement.classList.add('dyslexia-font-mode');
-    } else {
-      document.documentElement.classList.remove('dyslexia-font-mode');
-    }
-
-    // Save preferences
-    localStorage.setItem('a11ySettings', JSON.stringify(settings));
-  }, [settings]);
-
-  // Load saved preferences on initial mount
-  useEffect(() => {
-    const savedSettings = localStorage.getItem('a11ySettings');
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
+    const saved = localStorage.getItem('a11ySettings');
+    if (saved) {
+      try {
+        setSettings(JSON.parse(saved));
+      } catch (_e) {
+        // ignore malformed data
+      }
     }
   }, []);
 
-  const toggleSetting = (setting: keyof typeof settings) => {
-    setSettings({
-      ...settings,
-      [setting]: !settings[setting],
-    });
-  };
+  useEffect(() => {
+    const { highContrast, largeText, reducedMotion, dyslexiaFont } = settings;
+    document.documentElement.classList.toggle('high-contrast-mode', highContrast);
+    document.documentElement.classList.toggle('large-text-mode', largeText);
+    document.documentElement.classList.toggle('reduced-motion-mode', reducedMotion);
+    document.documentElement.classList.toggle('dyslexia-font-mode', dyslexiaFont);
+    localStorage.setItem('a11ySettings', JSON.stringify(settings));
+  }, [settings]);
+
+  const toggle = (key: keyof Settings) =>
+    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
 
   return (
     <>
-      {/* Accessibility button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed z-50 bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+        className="fixed z-50 bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 tap-highlight-none touch-manipulation"
         aria-label="Accessibility options"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,115 +63,83 @@ export default function AccessibilityMenu() {
         </svg>
       </button>
 
-      {/* Accessibility menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed inset-0 z-50 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center px-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="a11y-title"
           >
-            <div className="flex items-center justify-center min-h-screen px-4">
-              {/* Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black"
-                onClick={() => setIsOpen(false)}
-              />
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black"
+              onClick={() => setIsOpen(false)}
+            />
 
-              {/* Panel */}
-              <motion.div
-                className="bg-white rounded-lg max-w-md w-full mx-auto z-10 shadow-xl overflow-hidden"
-                role="document"
-              >
-                <div className="px-6 py-4 bg-blue-600 text-white">
-                  <h2 id="a11y-title" className="text-xl font-medium">Accessibility Settings</h2>
-                </div>
+            {/* Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="relative bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden z-10"
+              role="document"
+            >
+              <div className="px-6 py-4 bg-blue-600 text-white">
+                <h2 id="a11y-title" className="text-xl font-semibold">Accessibility Settings</h2>
+              </div>
 
-                <div className="p-6 space-y-6">
-                  <div className="space-y-4">
+              <div className="p-5 space-y-3">
+                {ITEMS.map(({ key, label, description }) => {
+                  const active = settings[key];
+                  return (
                     <button
-                      onClick={() => toggleSetting('highContrast')}
-                      className={`flex items-center justify-between w-full p-4 rounded-lg ${
-                        settings.highContrast ? 'bg-blue-100 border-blue-500 border' : 'bg-gray-100'
+                      key={key}
+                      onClick={() => toggle(key)}
+                      aria-pressed={active}
+                      className={`flex items-center justify-between w-full p-4 rounded-xl text-left transition-colors duration-200 tap-highlight-none touch-manipulation ${
+                        active
+                          ? 'bg-blue-50 border border-blue-300'
+                          : 'bg-gray-50 border border-transparent'
                       }`}
-                      aria-pressed={settings.highContrast}
                     >
-                      <div className="text-left">
-                        <h3 className="font-medium">High Contrast</h3>
-                        <p className="text-sm text-gray-600">Enhances color contrast for better visibility</p>
+                      <div>
+                        <div className="font-medium text-gray-900 text-sm">{label}</div>
+                        <div className="text-xs text-gray-500 mt-0.5">{description}</div>
                       </div>
-                      <span className={`w-10 h-6 bg-${settings.highContrast ? 'blue-600' : 'gray-300'} rounded-full flex items-center transition-all duration-300`}>
-                        <span className={`w-4 h-4 bg-white rounded-full shadow transform ${settings.highContrast ? 'translate-x-5' : 'translate-x-1'} transition-all duration-300`}></span>
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => toggleSetting('largeText')}
-                      className={`flex items-center justify-between w-full p-4 rounded-lg ${
-                        settings.largeText ? 'bg-blue-100 border-blue-500 border' : 'bg-gray-100'
-                      }`}
-                      aria-pressed={settings.largeText}
-                    >
-                      <div className="text-left">
-                        <h3 className="font-medium">Larger Text</h3>
-                        <p className="text-sm text-gray-600">Increases text size throughout the app</p>
+                      {/* Toggle pill — static classes, no dynamic interpolation */}
+                      <div
+                        className={`relative ml-4 flex-shrink-0 w-10 h-6 rounded-full transition-colors duration-200 ${
+                          active ? 'bg-blue-600' : 'bg-gray-300'
+                        }`}
+                      >
+                        <span
+                          className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${
+                            active ? 'translate-x-5' : 'translate-x-1'
+                          }`}
+                        />
                       </div>
-                      <span className={`w-10 h-6 bg-${settings.largeText ? 'blue-600' : 'gray-300'} rounded-full flex items-center transition-all duration-300`}>
-                        <span className={`w-4 h-4 bg-white rounded-full shadow transform ${settings.largeText ? 'translate-x-5' : 'translate-x-1'} transition-all duration-300`}></span>
-                      </span>
                     </button>
+                  );
+                })}
+              </div>
 
-                    <button
-                      onClick={() => toggleSetting('reducedMotion')}
-                      className={`flex items-center justify-between w-full p-4 rounded-lg ${
-                        settings.reducedMotion ? 'bg-blue-100 border-blue-500 border' : 'bg-gray-100'
-                      }`}
-                      aria-pressed={settings.reducedMotion}
-                    >
-                      <div className="text-left">
-                        <h3 className="font-medium">Reduced Motion</h3>
-                        <p className="text-sm text-gray-600">Minimizes animations and movement</p>
-                      </div>
-                      <span className={`w-10 h-6 bg-${settings.reducedMotion ? 'blue-600' : 'gray-300'} rounded-full flex items-center transition-all duration-300`}>
-                        <span className={`w-4 h-4 bg-white rounded-full shadow transform ${settings.reducedMotion ? 'translate-x-5' : 'translate-x-1'} transition-all duration-300`}></span>
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => toggleSetting('dyslexiaFont')}
-                      className={`flex items-center justify-between w-full p-4 rounded-lg ${
-                        settings.dyslexiaFont ? 'bg-blue-100 border-blue-500 border' : 'bg-gray-100'
-                      }`}
-                      aria-pressed={settings.dyslexiaFont}
-                    >
-                      <div className="text-left">
-                        <h3 className="font-medium">Dyslexia-Friendly Font</h3>
-                        <p className="text-sm text-gray-600">Changes to a font that's easier to read</p>
-                      </div>
-                      <span className={`w-10 h-6 bg-${settings.dyslexiaFont ? 'blue-600' : 'gray-300'} rounded-full flex items-center transition-all duration-300`}>
-                        <span className={`w-4 h-4 bg-white rounded-full shadow transform ${settings.dyslexiaFont ? 'translate-x-5' : 'translate-x-1'} transition-all duration-300`}></span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="px-6 py-4 bg-gray-50 flex justify-end">
-                  <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </motion.div>
-            </div>
+              <div className="px-5 py-4 bg-gray-50 flex justify-end">
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="bg-blue-600 text-white px-5 py-2.5 rounded-xl min-h-[44px] font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 tap-highlight-none touch-manipulation transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

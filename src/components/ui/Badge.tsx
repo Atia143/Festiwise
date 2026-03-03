@@ -39,7 +39,7 @@ export function Badge({
   return (
     <motion.span
       className={cn(
-        'inline-flex items-center font-medium rounded-full border transition-all duration-200',
+        'relative inline-flex items-center font-medium rounded-full border transition-all duration-200 overflow-hidden',
         variants[variant],
         sizes[size],
         {
