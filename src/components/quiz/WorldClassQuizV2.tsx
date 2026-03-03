@@ -600,7 +600,7 @@ export function WorldClassQuiz() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
     hover: { scale: 1.04, transition: { duration: 0.15 } },
-    tap: { scale: 1.07, transition: { type: 'spring', stiffness: 500, damping: 15 } }
+    tap: { scale: 0.95, transition: { duration: 0.1 } }
   };
 
   const pageVariants = {

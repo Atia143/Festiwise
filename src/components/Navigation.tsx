@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Check } from 'lucide-react';
 
 // Nav items config
 const NAV_ITEMS = [
@@ -33,76 +32,6 @@ function Logo({ scrolled }: { scrolled: boolean }) {
   );
 }
 
-// ── Premium language selector (module-level to preserve state across nav re-renders) ──
-const LANGS = [
-  { code: 'en', flag: '🇺🇸', label: 'EN' },
-  { code: 'es', flag: '🇪🇸', label: 'ES' },
-  { code: 'fr', flag: '🇫🇷', label: 'FR' },
-  { code: 'de', flag: '🇩🇪', label: 'DE' },
-] as const;
-type LangCode = (typeof LANGS)[number]['code'];
-
-function LangSelector() {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<LangCode>('en');
-  const ref = useRef<HTMLDivElement>(null);
-  const current = LANGS.find(l => l.code === selected)!;
-
-  useEffect(() => {
-    const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('mousedown', close);
-    return () => document.removeEventListener('mousedown', close);
-  }, []);
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(v => !v)}
-        aria-label="Select language"
-        aria-expanded={open}
-        className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200/70 hover:border-gray-300 bg-white/80 backdrop-blur text-sm font-medium text-gray-700 transition-all duration-200 shadow-sm"
-      >
-        <span className="text-base leading-none">{current.flag}</span>
-        <span>{current.label}</span>
-        <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 6, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.96 }}
-            transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
-            className="absolute right-0 top-full mt-2 bg-white rounded-2xl border border-gray-100 shadow-2xl shadow-gray-900/10 overflow-hidden min-w-[120px] z-[10000]"
-          >
-            {LANGS.map(lang => (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  setSelected(lang.code);
-                  setOpen(false);
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'language_changed', { language: lang.code });
-                  }
-                }}
-                className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors ${
-                  selected === lang.code ? 'text-purple-600 bg-purple-50/80' : 'text-gray-700'
-                }`}
-              >
-                <span>{lang.flag}</span>
-                <span>{lang.label}</span>
-                {selected === lang.code && <Check className="w-3.5 h-3.5 ml-auto" />}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -267,12 +196,6 @@ export default function Navigation() {
                 ))}
               </div>
 
-              {/* Language selector in mobile menu */}
-              <div className="pt-3 pb-1 border-t border-gray-100 flex items-center gap-3 px-1">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Language</span>
-                <LangSelector />
-              </div>
-
               {/* CTA */}
               <div className="pt-2">
                 <CTAButton mobile onClick={() => setIsOpen(false)} />
@@ -305,7 +228,6 @@ export default function Navigation() {
           {mounted && <DesktopNav />}
           {mounted && (
             <div className="hidden lg:flex items-center gap-4">
-              <LangSelector />
               <CTAButton />
             </div>
           )}

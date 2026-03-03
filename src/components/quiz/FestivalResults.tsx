@@ -10,97 +10,6 @@ import { getTopFestivalMatches } from '@/utils/quizScoringAlgorithm';
 import QuizResultsShare from '@/components/QuizResultsShare';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 
-// Results Page Newsletter Form Component
-function ResultsNewsletterForm({ topMatch }: { topMatch?: Festival }) {
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setState('loading');
-
-    try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          email,
-          subject: topMatch
-            ? `Quiz Result — Alert for ${topMatch.name}`
-            : 'Quiz Completed — Save Results & Weekly Updates',
-          from_name: 'FestiWise Quiz',
-          message: `User completed the festival quiz.\n\nEmail: ${email}\nTop match: ${topMatch?.name ?? 'unknown'} (${topMatch?.city ?? ''}, ${topMatch?.country ?? ''})\nTimestamp: ${new Date().toISOString()}`,
-          _cc: email,
-          _subject: topMatch
-            ? `Your FestiWise match: ${topMatch.name}`
-            : 'Your FestiWise festival matches',
-          _autoresponse: topMatch
-            ? `Great news! Based on your quiz, ${topMatch.name} is your top match. We'll keep you updated with ticket alerts and personalised picks.`
-            : "You're in! We'll send you weekly personalised festival recommendations.",
-          botcheck: '',
-        }),
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        setState('success');
-        setEmail('');
-      } else {
-        setState('error');
-      }
-    } catch {
-      setState('error');
-    }
-  };
-
-  if (state === 'success') {
-    return (
-      <div className="max-w-md mx-auto bg-white/15 backdrop-blur rounded-2xl p-6 text-center">
-        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-          <span className="text-xl">✓</span>
-        </div>
-        <p className="font-bold text-white text-lg mb-1">You&apos;re in!</p>
-        <p className="text-white/80 text-sm">
-          {topMatch
-            ? `We saved your match with ${topMatch.name}. Ticket alerts and weekly picks are coming to your inbox.`
-            : "Weekly personalised festival picks are on their way to your inbox."}
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={topMatch ? `Get alerts for ${topMatch.name}` : 'Enter your email address'}
-          className="w-full px-4 py-3.5 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white/70 focus:ring-2 focus:ring-white/30 text-sm"
-          required
-          disabled={state === 'loading'}
-          aria-label="Email address"
-        />
-        <button
-          type="submit"
-          disabled={state === 'loading' || !email}
-          className="w-full py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 text-sm"
-        >
-          {state === 'loading' ? 'Saving...' : 'Save My Results + Get Ticket Alerts'}
-        </button>
-      </form>
-      {state === 'error' && (
-        <p className="text-red-300 text-xs mt-2 text-center">Something went wrong. Please try again.</p>
-      )}
-      <p className="text-xs text-white/60 mt-3 text-center">
-        No spam. Ticket alerts + weekly picks only. Unsubscribe anytime.
-      </p>
-    </div>
-  );
-}
-
 interface Festival {
   id: string;
   name: string;
@@ -111,10 +20,7 @@ interface Festival {
   genres: string[];
   duration_days: number;
   audience_size: string;
-  estimated_cost_usd: {
-    min: number;
-    max: number;
-  };
+  estimated_cost_usd: { min: number; max: number };
   vibe: string[];
   website: string;
   status: string;
@@ -130,10 +36,14 @@ interface Festival {
   highlights?: string[];
 }
 
-// Use the real festival database
+interface FestivalWithMatch extends Festival {
+  matchScore: number;
+  reasons: string[];
+}
+
 const FESTIVALS = festivalsData as Festival[];
 
-// ── Animated score counter ────────────────────────────────────────────────────
+// ── Animated score counter ─────────────────────────────────────────────────────
 function AnimatedScore({ target }: { target: number }) {
   const [display, setDisplay] = useState(0);
   const rafRef = useRef<number>(0);
@@ -144,7 +54,7 @@ function AnimatedScore({ target }: { target: number }) {
     function tick(now: number) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+      const eased = 1 - Math.pow(1 - progress, 3);
       setDisplay(Math.round(eased * target));
       if (progress < 1) rafRef.current = requestAnimationFrame(tick);
     }
@@ -155,37 +65,292 @@ function AnimatedScore({ target }: { target: number }) {
   return <>{display}</>;
 }
 
-// ── Collapsible share section (compact on mobile, full on desktop) ────────────
-function ShareSection({ festival, matchScore }: { festival: Festival; matchScore: number }) {
-  const [expanded, setExpanded] = useState(false);
+// ── Ticket alert form — inline, honest copy ────────────────────────────────────
+function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setState('loading');
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          email,
+          subject: `Ticket Alert — ${festival.name}`,
+          from_name: 'FestiWise Quiz',
+          message: `User requested ticket alerts.\n\nEmail: ${email}\nFestival: ${festival.name} (${festival.city}, ${festival.country})\nMatch score: ${festival.matchScore}%\nTimestamp: ${new Date().toISOString()}`,
+          _cc: email,
+          _subject: `You're on the list for ${festival.name}`,
+          _autoresponse: `We'll notify you when ${festival.name} ticket sales open. In the meantime, check out the full festival details at getfestiwise.com.`,
+          botcheck: '',
+        }),
+      });
+      const data = await res.json();
+      setState(data.success ? 'success' : 'error');
+      if (data.success) setEmail('');
+    } catch {
+      setState('error');
+    }
+  };
+
+  if (state === 'success') {
+    return (
+      <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-4 py-3.5">
+        <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <p className="font-semibold text-green-800 text-sm">You&apos;re on the list!</p>
+          <p className="text-green-600 text-xs">We&apos;ll email you when {festival.name} tickets open.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="your@email.com"
+        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-400 text-gray-900 placeholder-gray-400 min-h-[44px]"
+        required
+        disabled={state === 'loading'}
+        aria-label="Email address"
+      />
+      <button
+        type="submit"
+        disabled={state === 'loading' || !email}
+        className="px-5 py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 text-sm whitespace-nowrap min-h-[44px] tap-highlight-none touch-manipulation"
+      >
+        {state === 'loading' ? 'Saving…' : 'Notify Me'}
+      </button>
+      {state === 'error' && (
+        <p className="text-red-500 text-xs mt-1 sm:col-span-2">Something went wrong — try again.</p>
+      )}
+    </form>
+  );
+}
+
+// ── Hero card — #1 match, mobile-first, fits one viewport ─────────────────────
+function HeroMatchCard({
+  festival,
+  showConfetti,
+  onGetTickets,
+}: {
+  festival: FestivalWithMatch;
+  showConfetti: boolean;
+  onGetTickets: () => void;
+}) {
+  const months = festival.months.slice(0, 2).join(', ');
+  const topReasons = festival.reasons.slice(0, 4);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="bg-white rounded-3xl shadow-xl overflow-hidden"
+    >
+      {/* Top gradient bar with #1 label + score */}
+      <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 px-5 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <motion.span
+              className="text-3xl"
+              animate={showConfetti ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
+              transition={{ duration: 0.5 }}
+            >
+              🥇
+            </motion.span>
+            <ConfettiBurst show={showConfetti} radius={90} />
+          </div>
+          <div>
+            <div className="text-white/70 text-xs font-medium uppercase tracking-wider">Your top match</div>
+            <div className="text-white font-bold text-sm">{festival.genres.slice(0, 2).join(' · ')}</div>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-white font-black text-3xl leading-none tabular-nums">
+            <AnimatedScore target={festival.matchScore} />%
+          </div>
+          <div className="text-white/70 text-xs mt-0.5">match score</div>
+        </div>
+      </div>
+
+      {/* Festival name + location */}
+      <div className="px-5 pt-5 pb-3">
+        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight mb-1">
+          {festival.name}
+        </h2>
+        <p className="text-gray-500 text-sm flex items-center gap-1">
+          <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+          </svg>
+          {festival.city}, {festival.country}
+        </p>
+      </div>
+
+      {/* Why you matched — criteria pills */}
+      {topReasons.length > 0 && (
+        <div className="px-5 pb-4">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Why you matched</p>
+          <div className="flex flex-wrap gap-2">
+            {topReasons.map((reason) => (
+              <span
+                key={reason}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-50 border border-green-200 text-green-700 rounded-full text-xs font-medium"
+              >
+                <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                {reason}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quick stats bar */}
+      <div className="mx-5 mb-4 flex items-center gap-4 bg-gray-50 rounded-2xl px-4 py-3 text-sm">
+        <div className="flex flex-col items-center">
+          <span className="text-gray-400 text-xs">Cost</span>
+          <span className="font-bold text-gray-900 text-sm">
+            ${festival.estimated_cost_usd.min.toLocaleString()}–${festival.estimated_cost_usd.max.toLocaleString()}
+          </span>
+        </div>
+        <div className="w-px h-8 bg-gray-200" />
+        <div className="flex flex-col items-center">
+          <span className="text-gray-400 text-xs">Duration</span>
+          <span className="font-bold text-gray-900 text-sm">{festival.duration_days} days</span>
+        </div>
+        <div className="w-px h-8 bg-gray-200" />
+        <div className="flex flex-col items-center">
+          <span className="text-gray-400 text-xs">When</span>
+          <span className="font-bold text-gray-900 text-sm">{months}</span>
+        </div>
+      </div>
+
+      {/* CTAs */}
+      <div className="px-5 pb-5 flex flex-col sm:flex-row gap-3">
+        <Link
+          href={`/festival/${festival.id}`}
+          className="flex-1 flex items-center justify-center py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg active:scale-95 transition-all text-sm tap-highlight-none touch-manipulation min-h-[48px]"
+        >
+          View Full Details
+        </Link>
+        {festival.ticket_official_url ? (
+          <a
+            href={festival.ticket_official_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onGetTickets}
+            className="flex-1 flex items-center justify-center py-3.5 bg-green-500 text-white font-bold rounded-2xl hover:bg-green-600 active:scale-95 transition-all text-sm tap-highlight-none touch-manipulation min-h-[48px]"
+          >
+            Get Tickets →
+          </a>
+        ) : (
+          <a
+            href={festival.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onGetTickets}
+            className="flex-1 flex items-center justify-center py-3.5 border-2 border-purple-600 text-purple-600 font-bold rounded-2xl hover:bg-purple-50 active:scale-95 transition-all text-sm tap-highlight-none touch-manipulation min-h-[48px]"
+          >
+            Official Website →
+          </a>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Compact card for secondary matches (#2–6) ─────────────────────────────────
+function CompactMatchCard({
+  festival,
+  index,
+  onGetTickets,
+}: {
+  festival: FestivalWithMatch;
+  index: number;
+  onGetTickets: () => void;
+}) {
+  const medals = ['🥈', '🥉', '4️⃣', '5️⃣', '6️⃣'];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.7 }}
-      className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden"
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className="flex-shrink-0 w-[220px] snap-start bg-white rounded-2xl shadow-md overflow-hidden flex flex-col"
     >
-      {/* Header row — always visible */}
+      {/* Header */}
+      <div className="bg-gradient-to-r from-gray-700 to-gray-900 px-3.5 py-2.5 flex items-center justify-between">
+        <span className="text-base">{medals[index]}</span>
+        <span className="text-white font-bold text-sm tabular-nums">{festival.matchScore}%</span>
+      </div>
+
+      {/* Content */}
+      <div className="p-3.5 flex-1 flex flex-col">
+        <h3 className="font-bold text-gray-900 text-sm leading-tight mb-1 line-clamp-2">
+          {festival.name}
+        </h3>
+        <p className="text-gray-400 text-xs mb-2">
+          {festival.city}, {festival.country}
+        </p>
+        <div className="flex flex-wrap gap-1 mb-3">
+          {festival.genres.slice(0, 2).map((g) => (
+            <span key={g} className="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-full text-xs capitalize">
+              {g}
+            </span>
+          ))}
+        </div>
+        <p className="text-xs text-gray-500 mb-3 mt-auto">
+          ${festival.estimated_cost_usd.min.toLocaleString()}–${festival.estimated_cost_usd.max.toLocaleString()}
+        </p>
+
+        <Link
+          href={`/festival/${festival.id}`}
+          className="block text-center py-2.5 bg-gray-100 hover:bg-purple-50 text-gray-700 hover:text-purple-700 font-semibold rounded-xl text-xs transition-colors active:scale-95 tap-highlight-none touch-manipulation"
+        >
+          View Details
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Share section (collapsible) ────────────────────────────────────────────────
+function ShareSection({ festival, matchScore }: { festival: FestivalWithMatch; matchScore: number }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
       <button
-        onClick={() => setExpanded(v => !v)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left"
+        onClick={() => setExpanded((v) => !v)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left tap-highlight-none touch-manipulation"
         aria-expanded={expanded}
       >
         <div>
-          <p className="font-semibold text-gray-900 text-sm">Love your top match? Share it</p>
-          <p className="text-xs text-gray-400 mt-0.5">Let friends discover their perfect festival too</p>
+          <p className="font-semibold text-gray-900 text-sm">Challenge a friend</p>
+          <p className="text-xs text-gray-400 mt-0.5">Share your match and see what they get</p>
         </div>
-        <motion.div
+        <motion.span
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
           className="text-gray-400 text-lg leading-none ml-4"
         >
           &#8964;
-        </motion.div>
+        </motion.span>
       </button>
 
-      {/* Expandable body */}
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div
@@ -201,433 +366,216 @@ function ShareSection({ festival, matchScore }: { festival: Festival; matchScore
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
+// ── Main component ─────────────────────────────────────────────────────────────
 export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
-  const [matchedFestivals, setMatchedFestivals] = useState<Festival[]>([]);
+  const [matches, setMatches] = useState<FestivalWithMatch[]>([]);
   const [loading, setLoading] = useState(true);
-  const [challengeCopied, setChallengeCopied] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  
-  // Analytics tracking
+  const [challengeCopied, setChallengeCopied] = useState(false);
+
   const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
 
   useEffect(() => {
-    // Use advanced scoring algorithm
-    const calculateMatches = () => {
-      // Use the advanced 50-factor scoring algorithm
-      const matches = getTopFestivalMatches(FESTIVALS, state.answers, 6);
-      
-      // Convert to Festival interface format with matchScore
-      const festivals = matches.map(match => ({
-        ...match.festival,
-        matchScore: match.score
+    const timer = setTimeout(() => {
+      const raw = getTopFestivalMatches(FESTIVALS, state.answers, 6);
+      const withReasons: FestivalWithMatch[] = raw.map((m) => ({
+        ...(m.festival as Festival),
+        matchScore: m.score,
+        reasons: m.reasons,
       }));
-
-      setMatchedFestivals(festivals);
+      setMatches(withReasons);
       setLoading(false);
 
-      // Trigger confetti burst on reveal
-      if (festivals.length > 0) {
+      if (withReasons.length > 0) {
         setTimeout(() => {
           setShowConfetti(true);
           setTimeout(() => setShowConfetti(false), 1400);
-        }, 400);
-        trackMatchResults(festivals);
+        }, 350);
+        trackMatchResults(withReasons);
       }
-    };
+    }, 1400);
 
-    const timer = setTimeout(calculateMatches, 1500); // Quick load with advanced algorithm
     return () => clearTimeout(timer);
   }, [state.answers]);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0
-    }
-  };
-
+  // ── Loading state ────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
+          className="text-center max-w-sm w-full"
         >
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-6"
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            className="w-14 h-14 border-4 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-5"
           />
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Finding Your Perfect Festivals...</h2>
-          <p className="text-gray-600">Analyzing your preferences and matching with the best events worldwide</p>
-          <div className="mt-6 space-y-2">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Finding Your Matches…</h2>
+          <p className="text-gray-500 text-sm leading-relaxed">
+            Analyzing your preferences across 100+ global festivals
+          </p>
+          <div className="mt-5 h-1.5 bg-purple-100 rounded-full overflow-hidden">
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.5, delay: 0.5 }}
-              className="h-2 bg-purple-200 rounded-full overflow-hidden"
-            >
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "100%" }}
-                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full bg-gradient-to-r from-purple-600 to-pink-600 w-1/3"
-              />
-            </motion.div>
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="h-full w-1/2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"
+            />
           </div>
         </motion.div>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-12 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+  // ── No matches ───────────────────────────────────────────────────────────────
+  if (matches.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4">
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center max-w-sm"
         >
-          <div className="relative inline-flex items-center justify-center mb-4">
-            <motion.div
-              className="text-6xl"
-              animate={showConfetti ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
-              transition={{ duration: 0.5 }}
-            >
-              🎉
-            </motion.div>
-            <ConfettiBurst show={showConfetti} radius={110} />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Your Perfect Festival Matches!
+          <div className="text-5xl mb-4">🔍</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">No matches found</h3>
+          <p className="text-gray-500 mb-6 text-sm leading-relaxed">
+            Try broadening your preferences — adjust your budget or region and take the quiz again.
+          </p>
+          <button
+            onClick={resetQuiz}
+            className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg active:scale-95 transition-all tap-highlight-none touch-manipulation"
+          >
+            Try Again
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  const topMatch = matches[0];
+  const secondaryMatches = matches.slice(1);
+
+  // ── Results ──────────────────────────────────────────────────────────────────
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-8 px-4 sm:px-6">
+      <div className="max-w-2xl mx-auto space-y-4">
+
+        {/* Page header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center pb-2"
+        >
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-1">
+            Your Festival Matches
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Based on your preferences, we've found {matchedFestivals.length} amazing festivals that match your vibe.
+          <p className="text-gray-500 text-sm">
+            Based on your preferences — {matches.length} festivals found
           </p>
         </motion.div>
 
-        {/* Results */}
-        {matchedFestivals.length > 0 ? (
-          <div className="space-y-8">
-            {matchedFestivals.map((festival, index) => (
-              <React.Fragment key={festival.id}>
-              <motion.div
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ y: -10 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.2
-                }}
-                className="bg-white rounded-3xl shadow-xl overflow-hidden"
-              >
-                <div className="md:flex">
-                  {/* Festival Image */}
-                  <div className="md:w-1/3 h-64 md:h-auto bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center relative overflow-hidden">
-                    <div className="text-6xl relative z-10">🎪</div>
-                    {/* Animated background elements */}
-                    <motion.div
-                      animate={{ 
-                        scale: [1, 1.2, 1],
-                        rotate: [0, 180, 360]
-                      }}
-                      transition={{ 
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                      className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-400/20"
-                    />
-                  </div>
+        {/* 1. Hero card — #1 match */}
+        <HeroMatchCard
+          festival={topMatch}
+          showConfetti={showConfetti}
+          onGetTickets={() => trackFestivalOutboundClick(topMatch.id, topMatch.ticket_official_url, topMatch.matchScore)}
+        />
 
-                  {/* Festival Details */}
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="flex-1">
-                        <h3 className="text-3xl font-bold text-gray-900 mb-2">{festival.name}</h3>
-                        <p className="text-lg text-gray-600 mb-3 flex items-center">
-                          <span className="mr-2">📍</span>
-                          {festival.city}, {festival.country}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-4">
-                          <span className="flex items-center">
-                            <span className="mr-1">⏱️</span>
-                            {festival.duration_days} days
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center">
-                            <span className="mr-1">📅</span>
-                            {festival.months.join(', ')}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center capitalize">
-                            <span className="mr-1">👥</span>
-                            {festival.audience_size} crowd
-                          </span>
-                          {festival.family_friendly && (
-                            <>
-                              <span>•</span>
-                              <span className="flex items-center text-green-600">
-                                <span className="mr-1">👨‍👩‍👧‍👦</span>
-                                Family-friendly
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="text-right ml-4">
-                        <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg tabular-nums">
-                          {index === 0 ? <><AnimatedScore target={festival.matchScore ?? 0} />%</> : `${festival.matchScore}%`} Match
-                        </div>
-                        <div className="text-xl font-bold text-gray-900 mt-3">
-                          ${festival.estimated_cost_usd.min.toLocaleString()} - ${festival.estimated_cost_usd.max.toLocaleString()}
-                        </div>
-                        <div className="text-sm text-gray-500">USD total cost</div>
-                      </div>
-                    </div>
-
-                    {/* Genres & Vibes */}
-                    <div className="grid md:grid-cols-2 gap-6 mb-6">
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                          <span className="mr-2">🎵</span>
-                          Music Genres
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {festival.genres.map(genre => (
-                            <span
-                              key={genre}
-                              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium capitalize"
-                            >
-                              {genre}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                          <span className="mr-2">✨</span>
-                          Festival Vibes
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {festival.vibe.map(vibe => (
-                            <span
-                              key={vibe}
-                              className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium capitalize"
-                            >
-                              {vibe}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Festival Features */}
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                        <span className="mr-2">🏕️</span>
-                        What's Available
-                      </h4>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                        <div className={`flex items-center ${festival.camping ? 'text-green-600' : 'text-gray-400'}`}>
-                          <span className="mr-1">{festival.camping ? '✅' : '❌'}</span>
-                          Camping
-                        </div>
-                        <div className={`flex items-center ${festival.glamping ? 'text-green-600' : 'text-gray-400'}`}>
-                          <span className="mr-1">{festival.glamping ? '✅' : '❌'}</span>
-                          Glamping
-                        </div>
-                        <div className={`flex items-center ${festival.family_friendly ? 'text-green-600' : 'text-gray-400'}`}>
-                          <span className="mr-1">{festival.family_friendly ? '✅' : '❌'}</span>
-                          Family-friendly
-                        </div>
-                        <div className="flex items-center text-blue-600">
-                          <span className="mr-1">🌡️</span>
-                          {festival.weather_profile.join(', ')}
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="text-gray-700 mb-6 leading-relaxed">
-                      {festival.description}
-                    </p>
-
-                    {/* Highlights */}
-                    {festival.highlights && (
-                      <div className="mb-6">
-                        <h4 className="font-semibold text-gray-900 mb-2">Festival Highlights</h4>
-                        <div className="space-y-1">
-                          {festival.highlights.map((highlight, idx) => (
-                            <div key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                              <span className="text-green-500">✓</span>
-                              {highlight}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-wrap gap-4">
-                      <Link
-                        href={`/festival/${festival.id}`}
-                        className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
-                      >
-                        View Details
-                      </Link>
-                      {festival.website && (
-                        <a
-                          href={festival.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
-                          onClick={() => trackFestivalOutboundClick(festival.id, festival.website, festival.matchScore)}
-                        >
-                          Official Website
-                        </a>
-                      )}
-                      {festival.ticket_official_url && (
-                        <a
-                          href={festival.ticket_official_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-green-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-600 transition-all duration-300"
-                          onClick={() => trackFestivalOutboundClick(festival.id, festival.ticket_official_url, festival.matchScore)}
-                        >
-                          Get Tickets
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Share section shown after #1 match */}
-              {index === 0 && (
-                <ShareSection festival={festival} matchScore={festival.matchScore ?? 0} />
-              )}
-              </React.Fragment>
-            ))}
+        {/* 2. Email capture — immediately after #1 match */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4"
+        >
+          <div className="flex items-start gap-3 mb-3">
+            <div className="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg className="w-4.5 h-4.5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Get notified when {topMatch.name} tickets open</p>
+              <p className="text-gray-400 text-xs mt-0.5">Free. No spam. One email when sales go live.</p>
+            </div>
           </div>
-        ) : (
+          <TicketAlertForm festival={topMatch} />
+        </motion.div>
+
+        {/* 3. Secondary matches — horizontal snap scroll */}
+        {secondaryMatches.length > 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
           >
-            <div className="text-4xl mb-4">🔍</div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">No Perfect Matches Found</h3>
-            <p className="text-gray-600 mb-6">
-              Don't worry! Try adjusting your preferences or take the quiz again for different results.
+            <p className="text-sm font-semibold text-gray-500 mb-3 px-1">
+              Other matches for you
             </p>
-            <button
-              onClick={resetQuiz}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-            >
-              Take Quiz Again
-            </button>
+            <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:px-0">
+              {secondaryMatches.map((festival, i) => (
+                <CompactMatchCard
+                  key={festival.id}
+                  festival={festival}
+                  index={i}
+                  onGetTickets={() => trackFestivalOutboundClick(festival.id, festival.ticket_official_url, festival.matchScore)}
+                />
+              ))}
+            </div>
+            <p className="text-xs text-gray-400 text-center mt-2 sm:hidden">
+              Swipe to see more →
+            </p>
           </motion.div>
         )}
 
-        {/* Footer Actions */}
+        {/* 4. Share section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mt-16 text-center space-y-6"
+          transition={{ duration: 0.4, delay: 0.6 }}
         >
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Want More Options?</h3>
-            <p className="text-gray-600 mb-6">
-              Explore all festivals worldwide or refine your search with different preferences.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                onClick={resetQuiz}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-              >
-                Take Quiz Again
-              </button>
-              <Link
-                href="/festivals"
-                className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
-              >
-                Browse All Festivals
-              </Link>
-              <button
-                onClick={async () => {
-                  const quizUrl = 'https://getfestiwise.com/quiz';
-                  const text = 'Can you beat my festival match? Take the quiz and find YOUR perfect festival!';
-                  if (typeof navigator !== 'undefined' && navigator.share) {
-                    await navigator.share({ title: 'Challenge a Friend — FestiWise', text, url: quizUrl }).catch(() => {});
-                  } else {
-                    await navigator.clipboard.writeText(quizUrl);
-                    setChallengeCopied(true);
-                    setTimeout(() => setChallengeCopied(false), 2500);
-                  }
-                }}
-                className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-              >
-                {challengeCopied ? '✓ Link Copied!' : 'Challenge a Friend'}
-              </button>
-            </div>
-          </div>
-
-          {/* Newsletter Signup */}
-          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-8 text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-black/10"></div>
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full mb-4">
-                <span className="text-yellow-400">🎉</span>
-                <span className="font-semibold">Congratulations! Quiz Complete</span>
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Love Your Results? Get More Like This! 
-              </h3>
-              <p className="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
-                You just discovered your perfect festival matches! Join our newsletter for
-                <strong> personalized recommendations</strong> and new festivals added to our database.
-              </p>
-              
-              <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
-                <div className="bg-white/10 backdrop-blur rounded-2xl p-4 text-center">
-                  <div className="text-2xl mb-2">🎯</div>
-                  <div className="font-semibold text-sm">Personalized Weekly Picks</div>
-                  <div className="text-xs text-white/80">Based on your exact preferences</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur rounded-2xl p-4 text-center">
-                  <div className="text-2xl mb-2">⚡</div>
-                  <div className="font-semibold text-sm">24-Hour Early Access</div>
-                  <div className="text-xs text-white/80">Beat the crowds to popular tickets</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur rounded-2xl p-4 text-center">
-                  <div className="text-2xl mb-2">💰</div>
-                  <div className="font-semibold text-sm">Exclusive Discounts</div>
-                  <div className="text-xs text-white/80">Member-only deals up to 40% off</div>
-                </div>
-              </div>
-              
-                            <ResultsNewsletterForm topMatch={matchedFestivals[0]} />
-              
-              <div className="mt-6 text-center">
-                <p className="text-sm text-white/80">
-                  🔒 Your email stays private. We only send you festivals you'll actually love.
-                </p>
-              </div>
-            </div>
-          </div>
+          <ShareSection festival={topMatch} matchScore={topMatch.matchScore} />
         </motion.div>
+
+        {/* 5. Footer actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.7 }}
+          className="flex flex-col sm:flex-row gap-3 pb-8"
+        >
+          <button
+            onClick={resetQuiz}
+            className="flex-1 py-3.5 border-2 border-gray-200 text-gray-600 font-semibold rounded-2xl hover:border-purple-300 hover:text-purple-600 active:scale-95 transition-all text-sm tap-highlight-none touch-manipulation min-h-[48px]"
+          >
+            Retake Quiz
+          </button>
+          <button
+            onClick={async () => {
+              const url = 'https://getfestiwise.com/quiz';
+              const text = 'Can you beat my festival match? Take the FestiWise quiz!';
+              if (typeof navigator !== 'undefined' && navigator.share) {
+                await navigator.share({ title: 'Challenge a Friend — FestiWise', text, url }).catch(() => {});
+              } else {
+                await navigator.clipboard.writeText(url);
+                setChallengeCopied(true);
+                setTimeout(() => setChallengeCopied(false), 2500);
+              }
+            }}
+            className="flex-1 py-3.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 font-bold rounded-2xl hover:shadow-lg active:scale-95 transition-all text-sm tap-highlight-none touch-manipulation min-h-[48px]"
+          >
+            {challengeCopied ? '✓ Link Copied!' : 'Challenge a Friend'}
+          </button>
+        </motion.div>
+
       </div>
     </div>
   );
