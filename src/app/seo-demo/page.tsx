@@ -1,15 +1,4 @@
-'use client';
-
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-
-// Dynamically import the SEO Analyzer so it only loads during development
-const SEOAnalyzer = dynamic(
-  () => process.env.NODE_ENV === 'development' 
-    ? import('@/components/SEO/SEOAnalyzer').then(mod => mod.default) 
-    : Promise.resolve(() => null),
-  { ssr: false }
-);
 
 // Metadata is now defined in metadata.ts
 
@@ -85,8 +74,6 @@ export default function SEODemoPage() {
         </div>
       </div>
       
-      {/* SEO Analyzer will only show up in development mode */}
-      <SEOAnalyzer />
     </div>
   );
 }

@@ -102,7 +102,7 @@ export default function FestivalRadar() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-purple-950 to-black py-16 px-4 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-gray-900 via-purple-950 to-black py-12 sm:py-16 px-4 overflow-hidden">
         <div
           className="absolute inset-0 opacity-25"
           style={{
@@ -141,8 +141,8 @@ export default function FestivalRadar() {
       </section>
 
       {/* Trending Now */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex flex-wrap items-center gap-3 mb-8">
+      <section className="max-w-7xl mx-auto px-4 py-10 sm:py-12">
+        <div className="flex flex-wrap items-center gap-3 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-1.5">
             <Flame className="w-4 h-4 text-red-500" />
             <span className="text-sm font-bold text-red-600 uppercase tracking-wider">Trending Now</span>
@@ -150,7 +150,8 @@ export default function FestivalRadar() {
           <p className="text-gray-500 text-sm">Festivals gaining the most momentum this week</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile: horizontal snap-scroll single row. sm+: standard grid */}
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-x-visible sm:pb-0 lg:grid-cols-3">
           {trending.map((festival, idx) => {
             const badge = BADGES[idx];
             const gradient = getGradient(festival.genres);
@@ -160,10 +161,10 @@ export default function FestivalRadar() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.07 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 border border-gray-100 group transition-all duration-300"
+                className="flex-shrink-0 w-[280px] snap-start sm:w-auto bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 border border-gray-100 group transition-all duration-300"
               >
                 <div className={`h-32 bg-gradient-to-br ${gradient} relative flex items-end p-4 overflow-hidden`}>
-                  {/* Subtle noise/dot texture overlay */}
+                  {/* Subtle dot texture overlay */}
                   <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
                   <span className="absolute top-3 left-3 z-10">
                     <span className={`inline-flex items-center gap-1 ${badge.color} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg`}>
@@ -212,7 +213,7 @@ export default function FestivalRadar() {
                 <div className="px-5 pb-4">
                   <Link
                     href={`/festival/${festival.id}`}
-                    className="block text-center text-sm font-semibold text-purple-600 hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 border border-purple-200 hover:border-transparent rounded-xl py-2 transition-all duration-200"
+                    className="block text-center text-sm font-semibold text-purple-600 hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 border border-purple-200 hover:border-transparent rounded-xl py-2.5 transition-all duration-200 tap-highlight-none"
                   >
                     View Details
                   </Link>
@@ -221,10 +222,13 @@ export default function FestivalRadar() {
             );
           })}
         </div>
+
+        {/* Scroll hint — mobile only */}
+        <p className="text-center text-xs text-gray-400 mt-3 sm:hidden">Swipe to see more →</p>
       </section>
 
       {/* Insider Pro Tips */}
-      <section className="max-w-7xl mx-auto px-4 pb-16">
+      <section className="max-w-7xl mx-auto px-4 pb-12 sm:pb-16">
         <div className="flex flex-wrap items-center gap-3 mb-8">
           <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5">
             <span className="text-amber-500 font-bold">★</span>

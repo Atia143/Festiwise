@@ -13,27 +13,12 @@
 }
 
 /* World-Class Loading Animations */
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 @keyframes pulse-subtle {
   0%, 100% {
     opacity: 1;
   }
   50% {
     opacity: 0.7;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
   }
 }
 
@@ -50,7 +35,7 @@
 
 /* Premium loading experience */
 .loading-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Banner responsive height */
@@ -67,23 +52,29 @@
 
 /* Mobile Optimization Core Styles */
 @media (max-width: 768px) {
-  /* Ensure touch targets are at least 44px */
-  button, a, input, select, textarea {
+  /* Ensure touch targets are at least 44px on interactive elements only.
+     Applying min-width to all <a> tags breaks inline text links — scoped
+     to button-role elements only. */
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"] {
     min-height: 44px;
-    min-width: 44px;
+    touch-action: manipulation;
   }
-  
+
   /* Prevent horizontal scroll on mobile */
   html, body {
     overflow-x: hidden;
     width: 100vw;
   }
-  
+
   /* Optimize font sizes for mobile readability */
   h1 { font-size: 2rem; }
   h2 { font-size: 1.75rem; }
   h3 { font-size: 1.5rem; }
-  
+
   /* Improve spacing on mobile */
   .container {
     padding-left: 1rem;
@@ -203,9 +194,8 @@ a:focus-visible {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
 }
 
 @keyframes sparkle {
@@ -260,6 +250,20 @@ a:focus-visible {
 }
 
 @layer utilities {
+  /* Hide scrollbar while keeping scroll functionality (mobile snap-scroll) */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Tap feedback — scale down on press for mobile button feel */
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   /* Animation Delays */
   .animation-delay-2000 { animation-delay: 2s; }
   .animation-delay-1000 { animation-delay: 1s; }

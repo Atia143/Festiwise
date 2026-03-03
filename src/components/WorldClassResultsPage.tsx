@@ -120,7 +120,7 @@ export default function WorldClassResultsPage() {
           </Link>
           <button
             onClick={() => setShowShareModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl hover:from-purple-600 hover:to-pink-600 active:scale-95 transition-all tap-highlight-none font-semibold text-sm"
           >
             <Share2 size={18} />
             Share Results
@@ -136,10 +136,10 @@ export default function WorldClassResultsPage() {
           className="max-w-5xl mx-auto px-4 mb-12"
         >
           <div className="text-center mb-8">
-            <h2 className="text-5xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
+            <h2 className="text-3xl sm:text-5xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 leading-tight">
               Your Perfect Festival Matches
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className="text-base sm:text-xl text-gray-300">
               Based on your taste, budget, and vibe
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function WorldClassResultsPage() {
                   className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
                 >
                   {/* Festival Image */}
-                  <div className="relative h-96 overflow-hidden">
+                  <div className="relative h-56 sm:h-72 md:h-96 overflow-hidden">
                     <motion.img
                       src={selectedFestival.image}
                       alt={selectedFestival.name}
@@ -179,8 +179,8 @@ export default function WorldClassResultsPage() {
                     </motion.div>
 
                     {/* Festival Title Overlay */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <h3 className="text-4xl font-black text-white mb-2">
+                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+                      <h3 className="text-2xl sm:text-4xl font-black text-white mb-2 leading-tight">
                         {selectedFestival.name}
                       </h3>
                       <div className="flex items-center gap-2 text-gray-200">
@@ -191,7 +191,7 @@ export default function WorldClassResultsPage() {
                   </div>
 
                   {/* Match Reasons */}
-                  <div className="p-8 border-b border-white/10">
+                  <div className="p-5 sm:p-8 border-b border-white/10">
                     <h4 className="text-sm font-bold text-gray-400 mb-4">WHY YOU MATCH</h4>
                     <div className="flex flex-wrap gap-3">
                       {selectedFestival.matchReasons.map((reason, idx) => (
@@ -209,7 +209,7 @@ export default function WorldClassResultsPage() {
                   </div>
 
                   {/* Quick Info */}
-                  <div className="p-8 border-b border-white/10">
+                  <div className="p-5 sm:p-8 border-b border-white/10">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="text-center">
                         <Calendar size={24} className="mx-auto mb-2 text-yellow-400" />
@@ -235,7 +235,7 @@ export default function WorldClassResultsPage() {
                   </div>
 
                   {/* Description & Highlights */}
-                  <div className="p-8 border-b border-white/10">
+                  <div className="p-5 sm:p-8 border-b border-white/10">
                     <p className="text-gray-300 mb-6 leading-relaxed">
                       {selectedFestival.description}
                     </p>
@@ -255,34 +255,36 @@ export default function WorldClassResultsPage() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="p-8 flex gap-4 flex-wrap">
+                  <div className="p-5 sm:p-8 flex flex-col sm:flex-row gap-3">
                     <a
                       href={selectedFestival.ticketUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all flex items-center justify-center gap-2 group"
+                      className="flex-1 px-6 py-3.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-xl hover:from-yellow-500 hover:to-yellow-600 active:scale-95 transition-all flex items-center justify-center gap-2 group tap-highlight-none"
                     >
                       <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
                       Buy Tickets
                     </a>
-                    <button
-                      onClick={() => toggleSave(selectedFestival.id)}
-                      className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center gap-2 ${
-                        savedFestivals.includes(selectedFestival.id)
-                          ? 'bg-pink-500 text-white'
-                          : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
-                      }`}
-                    >
-                      <Heart size={18} fill={savedFestivals.includes(selectedFestival.id) ? 'currentColor' : 'none'} />
-                      {savedFestivals.includes(selectedFestival.id) ? 'Saved' : 'Save'}
-                    </button>
-                    <button
-                      onClick={shareResult}
-                      className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg font-bold transition-all flex items-center gap-2"
-                    >
-                      <Share2 size={18} />
-                      Share
-                    </button>
+                    <div className="flex gap-3 sm:contents">
+                      <button
+                        onClick={() => toggleSave(selectedFestival.id)}
+                        className={`flex-1 sm:flex-initial px-6 py-3.5 rounded-xl font-bold transition-all active:scale-95 flex items-center justify-center gap-2 tap-highlight-none ${
+                          savedFestivals.includes(selectedFestival.id)
+                            ? 'bg-pink-500 text-white'
+                            : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+                        }`}
+                      >
+                        <Heart size={18} fill={savedFestivals.includes(selectedFestival.id) ? 'currentColor' : 'none'} />
+                        {savedFestivals.includes(selectedFestival.id) ? 'Saved' : 'Save'}
+                      </button>
+                      <button
+                        onClick={shareResult}
+                        className="flex-1 sm:flex-initial px-6 py-3.5 bg-gray-700 hover:bg-gray-600 active:scale-95 text-gray-200 rounded-xl font-bold transition-all flex items-center justify-center gap-2 tap-highlight-none"
+                      >
+                        <Share2 size={18} />
+                        Share
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -322,7 +324,7 @@ export default function WorldClassResultsPage() {
           viewport={{ once: true }}
           className="max-w-5xl mx-auto px-4"
         >
-          <h3 className="text-3xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
+          <h3 className="text-2xl sm:text-3xl font-black mb-6 sm:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
             All Your Matches
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -374,14 +376,14 @@ export default function WorldClassResultsPage() {
           viewport={{ once: true }}
           className="max-w-5xl mx-auto px-4 mt-16"
         >
-          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-12 text-center">
-            <h3 className="text-3xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
+          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-12 text-center">
+            <h3 className="text-2xl sm:text-3xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
               Want More Festivals?
             </h3>
             <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
               Explore 500+ festivals in our database, get real-time lineup updates, and find your festival buddies.
             </p>
-            <button className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all">
+            <button className="px-8 py-3.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-xl hover:from-yellow-500 hover:to-yellow-600 active:scale-95 transition-all tap-highlight-none">
               Explore All Festivals
             </button>
           </div>

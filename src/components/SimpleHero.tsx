@@ -74,12 +74,12 @@ export default function UltimateHero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden px-4 sm:px-6 lg:px-8 py-16">
+    <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/90 via-indigo-900/80 to-pink-800/90" />
 
-        {/* Parallax floating circles */}
+        {/* Parallax floating circles — mouse-only, hidden on mobile to save battery */}
         <motion.div
           className="absolute top-20 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl hidden md:block"
           animate={{
@@ -89,7 +89,7 @@ export default function UltimateHero() {
           transition={{ type: "spring", stiffness: 50, damping: 10 }}
         />
         <motion.div
-          className="absolute top-40 right-20 w-32 h-32 bg-pink-400/20 rounded-full blur-xl"
+          className="absolute top-40 right-20 w-32 h-32 bg-pink-400/20 rounded-full blur-xl hidden md:block"
           animate={{
             x: mousePosition.x * -0.1,
             y: mousePosition.y * -0.1,
@@ -97,7 +97,7 @@ export default function UltimateHero() {
           transition={{ type: "spring", stiffness: 50, damping: 10 }}
         />
         <motion.div
-          className="absolute bottom-40 left-20 w-24 h-24 bg-blue-400/20 rounded-full blur-xl"
+          className="absolute bottom-40 left-20 w-24 h-24 bg-blue-400/20 rounded-full blur-xl hidden md:block"
           animate={{
             x: mousePosition.x * 0.15,
             y: mousePosition.y * 0.15,
@@ -154,7 +154,7 @@ export default function UltimateHero() {
           >
             <Link
               href="/quiz"
-              className="group relative w-full sm:max-w-sm px-8 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-lg shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2"
+              className="group relative w-full sm:max-w-sm px-8 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-lg shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 transition-all duration-200 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2 tap-highlight-none touch-manipulation"
               aria-describedby="quiz-description"
             >
               <motion.span

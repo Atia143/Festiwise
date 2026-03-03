@@ -239,35 +239,42 @@ export default function Navigation() {
           exit={{ opacity: 0 }}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-          {/* Panel */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          {/* Panel slides from top — bottom rounded corners give a sheet feel */}
           <motion.div
-            className="absolute top-0 left-0 right-0 bg-white/95 backdrop-blur-2xl border-b border-gray-200/50 shadow-2xl"
-            initial={{ y: -40 }}
-            animate={{ y: 0 }}
-            exit={{ y: -40 }}
-            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+            className="absolute top-0 left-0 right-0 bg-white/97 backdrop-blur-2xl border-b border-gray-200/60 shadow-2xl rounded-b-3xl"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
           >
-            <div className="relative px-6 py-8 space-y-3">
-              {/* Items */}
-              <div className="space-y-2">
+            <div className="relative px-5 pt-6 pb-7 space-y-2">
+              {/* Nav items */}
+              <div className="space-y-1">
                 {NAV_ITEMS.map(item => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center gap-4 px-6 py-3 rounded-xl font-medium group relative overflow-hidden transition-all duration-300 text-sm ${
+                    className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl font-semibold transition-all duration-200 text-base tap-highlight-none ${
                       isActive(item.href)
                         ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg'
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-white/80 border border-gray-100'
+                        : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100/80 active:bg-gray-200/80'
                     }`}
                   >
-                    <span className="text-base">{item.label}</span>
+                    <span>{item.label}</span>
                   </Link>
                 ))}
               </div>
+
+              {/* Language selector in mobile menu */}
+              <div className="pt-3 pb-1 border-t border-gray-100 flex items-center gap-3 px-1">
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Language</span>
+                <LangSelector />
+              </div>
+
               {/* CTA */}
-              <div className="pt-4 border-t border-gray-200/50">
+              <div className="pt-2">
                 <CTAButton mobile onClick={() => setIsOpen(false)} />
               </div>
             </div>
@@ -293,7 +300,7 @@ export default function Navigation() {
     >
       <Banner />
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 lg:h-20">
           <Logo scrolled={scrolled && mounted} />
           {mounted && <DesktopNav />}
           {mounted && (
@@ -309,7 +316,7 @@ export default function Navigation() {
               aria-label="Toggle mobile menu"
               aria-expanded={isOpen}
               aria-controls="mobile-navigation"
-              className={`p-3 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 overflow-hidden ${
+              className={`p-3 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 overflow-hidden tap-highlight-none touch-manipulation ${
                 scrolled
                   ? 'text-gray-600 hover:text-gray-900 bg-gray-50/80 hover:bg-gray-100 border border-gray-200/50'
                   : 'text-white hover:text-white bg-white/10 hover:bg-white/20 border border-white/20'

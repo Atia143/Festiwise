@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import TextArea from '@/components/ui/TextArea';
 
 // Web3Forms access key moved to server env var; client posts to `/api/submit`.
 
@@ -152,16 +151,21 @@ export default function ContactPage() {
                   </select>
                 </div>
 
-                <TextArea
-                  label="Message"
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell us how we can help you..."
-                />
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="message" className="text-sm font-medium text-gray-700">
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Tell us how we can help you..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-400 text-gray-900 placeholder-gray-400 resize-y text-base"
+                  />
+                </div>
 
                 {/* Status Messages */}
                 {submitSuccess && (

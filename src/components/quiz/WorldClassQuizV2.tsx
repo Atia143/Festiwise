@@ -648,7 +648,7 @@ export function WorldClassQuiz() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="pt-32 pb-12 px-4 md:px-6">
+      <div className="pt-28 md:pt-32 pb-12 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
@@ -660,22 +660,22 @@ export function WorldClassQuiz() {
               transition={pageTransition}
             >
               {/* ENHANCED QUESTION HEADER */}
-              <div className="text-center mb-16 pb-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-6 md:p-8 mx-2 md:mx-4 border border-purple-100">
+              <div className="text-center mb-8 md:mb-16 pb-4 md:pb-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-5 md:p-8 mx-0 md:mx-4 border border-purple-100">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1, type: 'spring', stiffness: 100 }}
-                  className="text-5xl md:text-6xl mb-4"
+                  className="text-4xl md:text-6xl mb-3 md:mb-4"
                 >
                   {currentStep.icon}
                 </motion.div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
                   {currentStep.title}
                 </h1>
-                <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-6">
+                <p className="text-base md:text-xl text-gray-700 max-w-2xl mx-auto mb-4 md:mb-6 leading-relaxed">
                   {currentStep.subtitle}
                 </p>
-                <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto rounded-full"></div>
+                <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto rounded-full"></div>
               </div>
 
               {/* VALIDATION HINT */}
@@ -808,7 +808,7 @@ function renderStepContent(
               whileTap="tap"
               transition={{ delay: index * 0.08 }}
               onClick={() => handleMultiSelect('genres', genre.id)}
-              className={`p-4 md:p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
+              className={`p-3.5 md:p-6 rounded-2xl cursor-pointer transition-all duration-200 border-2 group active:scale-95 tap-highlight-none ${
                 isSelected('genres', genre.id)
                   ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-purple-500 shadow-2xl'
                   : 'bg-white text-gray-900 border-gray-200 hover:border-purple-300 hover:shadow-lg'
@@ -821,8 +821,8 @@ function renderStepContent(
                 }
               }}
             >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{genre.emoji}</div>
-              <h3 className="font-bold text-lg mb-2">{genre.label}</h3>
+              <div className="text-3xl md:text-4xl mb-2 md:mb-3 group-hover:scale-110 transition-transform">{genre.emoji}</div>
+              <h3 className="font-bold text-base md:text-lg mb-1 md:mb-2 leading-tight">{genre.label}</h3>
               <div className="text-sm opacity-90 mb-3">
                 {genre.subgenres.slice(0, 3).join(' • ')}
               </div>
