@@ -4,6 +4,7 @@ import { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { MapPin, Sparkles } from 'lucide-react';
+import { useCompare } from '@/contexts/CompareContext';
 
 interface MatchNotification {
   id: string;
@@ -41,6 +42,9 @@ function randomBetween(min: number, max: number) {
 
 export default function LiveMatchToast() {
   const [visible, setVisible] = useState<MatchNotification | null>(null);
+  const { selected } = useCompare();
+  // Shift up when CompareBar is visible so they don't overlap on mobile
+  const bottomClass = selected.length > 0 ? 'bottom-[72px]' : 'bottom-4';
 
   const show = useCallback(() => {
     const pick = MATCHES[Math.floor(Math.random() * MATCHES.length)];
@@ -82,7 +86,7 @@ export default function LiveMatchToast() {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 60, scale: 0.92 }}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          className="fixed bottom-20 right-4 z-[9998] max-w-[260px] pointer-events-none"
+          className={`fixed ${bottomClass} right-4 z-[9998] max-w-[260px] pointer-events-none transition-all duration-300`}
           role="status"
           aria-live="polite"
         >

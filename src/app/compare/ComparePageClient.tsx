@@ -6,10 +6,11 @@ import { useMemo } from 'react';
 import {
   MapPin, Calendar, Clock, Users, DollarSign,
   Tent, Music, Heart, Shield, ChevronRight, Check, X,
-  BarChart3,
+  BarChart3, Sparkles,
 } from 'lucide-react';
 import rawFestivals from '@/data/festivals.json';
 import type { Festival } from '@/types/festival';
+import { useSmartMatchAll } from '@/hooks/useSmartMatch';
 
 const allFestivals = rawFestivals as Festival[];
 
@@ -181,6 +182,8 @@ export default function ComparePageClient() {
     [ids],
   );
 
+  const matchScores = useSmartMatchAll(festivals);
+
   if (festivals.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 px-4 text-center">
@@ -235,6 +238,12 @@ export default function ComparePageClient() {
                     {g}
                   </span>
                 ))}
+                {matchScores.has(f.id) && (
+                  <span className="px-2 py-0.5 bg-white text-purple-700 rounded-full text-xs font-bold flex items-center gap-1">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    {matchScores.get(f.id)!.label}
+                  </span>
+                )}
               </div>
               <h2 className="text-xl font-bold mb-1 leading-tight">{f.name}</h2>
               <p className="text-white/70 text-sm flex items-center gap-1">
@@ -253,6 +262,41 @@ export default function ComparePageClient() {
 
         {/* Comparison table */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          {/* Smart Match row — only shown if quiz data exists */}
+          {matchScores.size > 0 && (
+            <div
+              className="grid items-start gap-4 px-4 py-4 bg-purple-50/60"
+              style={{ gridTemplateColumns: `200px repeat(${festivals.length}, 1fr)` }}
+            >
+              <div className="flex items-center gap-2 text-sm font-semibold text-purple-600 pt-1">
+                <Sparkles className="w-4 h-4" />
+                Match for You
+              </div>
+              {festivals.map(f => {
+                const m = matchScores.get(f.id);
+                return (
+                  <div key={f.id} className="pt-1">
+                    {m ? (
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all"
+                              style={{ width: `${m.score}%` }}
+                            />
+                          </div>
+                          <span className="text-sm font-bold text-purple-700 tabular-nums">{m.score}%</span>
+                        </div>
+                        <span className="text-xs text-purple-500 font-medium capitalize">{m.tier === 'perfect' ? 'Perfect match' : m.tier === 'great' ? 'Great match' : 'Good match'}</span>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-gray-400">No data</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
           {ROWS.map((row, rowIdx) => (
             <div
               key={row.id}

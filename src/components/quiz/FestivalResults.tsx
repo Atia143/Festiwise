@@ -370,6 +370,85 @@ function ShareSection({ festival, matchScore }: { festival: FestivalWithMatch; m
   );
 }
 
+// ── Festival DNA share card ────────────────────────────────────────────────────
+function FestivalDNAShare({
+  festival,
+  genres,
+  vibes,
+  budget,
+}: {
+  festival: FestivalWithMatch;
+  genres: string[];
+  vibes: string[];
+  budget: { min: number; max: number };
+}) {
+  const [shared, setShared] = useState(false);
+
+  const budgetLabel =
+    budget.max < 600 ? 'Budget' : budget.max < 1500 ? 'Mid-range' : 'Premium';
+
+  const dnaUrl =
+    `/api/og/festival-dna?` +
+    `festival=${encodeURIComponent(festival.name)}&` +
+    `score=${festival.matchScore}&` +
+    `genres=${encodeURIComponent(genres.slice(0, 4).join(','))}&` +
+    `vibes=${encodeURIComponent(vibes.slice(0, 5).join(','))}&` +
+    `budget=${encodeURIComponent(budgetLabel)}`;
+
+  async function handleShare() {
+    const shareUrl = `${window.location.origin}/quiz`;
+    const text = `I'm a ${genres[0] ?? 'music'} festival person — my #1 match is ${festival.name} (${festival.matchScore}%). What's yours?`;
+    if (navigator.share) {
+      await navigator.share({ title: 'My Festival DNA — FestiWise', text, url: shareUrl }).catch(() => {});
+    } else {
+      window.open(dnaUrl, '_blank');
+    }
+    setShared(true);
+    setTimeout(() => setShared(false), 3000);
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.6 }}
+      className="rounded-2xl overflow-hidden border border-purple-200 shadow-lg"
+    >
+      {/* Preview strip of the DNA card */}
+      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-pink-900 px-5 py-4 flex items-center gap-4">
+        <div className="flex-1">
+          <p className="text-white font-bold text-sm">Your Festival DNA Card</p>
+          <p className="text-white/60 text-xs mt-0.5">
+            {genres.slice(0, 3).join(' · ')} · {budgetLabel} · {festival.matchScore}% match
+          </p>
+        </div>
+        <div className="flex gap-1 flex-wrap justify-end">
+          {vibes.slice(0, 3).map(v => (
+            <span key={v} className="px-2 py-0.5 bg-white/15 text-white/80 text-xs rounded-full capitalize">{v}</span>
+          ))}
+        </div>
+      </div>
+      <div className="bg-white px-5 py-4 flex items-center gap-3">
+        <a
+          href={dnaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors"
+        >
+          Preview image →
+        </a>
+        <div className="flex-1" />
+        <button
+          onClick={handleShare}
+          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all tap-highlight-none touch-manipulation"
+        >
+          {shared ? '✓ Shared!' : 'Share My DNA'}
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
@@ -536,11 +615,19 @@ export function FestivalResults() {
           </motion.div>
         )}
 
-        {/* 4. Share section */}
+        {/* 4. Festival DNA Share Card */}
+        <FestivalDNAShare
+          festival={topMatch}
+          genres={state.answers.genres}
+          vibes={state.answers.vibes}
+          budget={state.answers.budget}
+        />
+
+        {/* 5. Share section */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
+          transition={{ duration: 0.4, delay: 0.65 }}
         >
           <ShareSection festival={topMatch} matchScore={topMatch.matchScore} />
         </motion.div>

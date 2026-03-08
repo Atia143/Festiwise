@@ -8,6 +8,8 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import type { FestivalGridProps } from '@/types/festival';
 import { useCompare } from '@/contexts/CompareContext';
+import SmartMatchBadge from '@/components/SmartMatchBadge';
+import UrgencyBadge from '@/components/UrgencyBadge';
 
 export default function FestivalGrid({ festivals }: FestivalGridProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -92,6 +94,7 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
                           Family Friendly
                         </Badge>
                       )}
+                      <UrgencyBadge months={festival.months} status={festival.status} size="sm" />
                     </div>
                     
                     {/* Favorite Button */}
@@ -127,9 +130,12 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
                 <CardContent className="p-6">
                   {/* Festival Name & Duration */}
                   <div className="mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                      {festival.name}
-                    </h3>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
+                        {festival.name}
+                      </h3>
+                      <SmartMatchBadge festival={festival} size="sm" />
+                    </div>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <span>⏰ {festival.duration_days} day{festival.duration_days > 1 ? 's' : ''}</span>
                       {festival.min_age && (

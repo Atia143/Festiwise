@@ -205,6 +205,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+  // Collections & Map pages
+  const collectionsAndMap: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/collections`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/map`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+  ];
+
+  // Individual collection pages
+  const collectionSlugs = [
+    'most-sustainable', 'solo-traveler-best', 'budget-gems',
+    'luxury-experiences', 'family-adventures', 'underground-legends',
+    'beach-summer-vibes', 'electronic-meccas',
+  ];
+  const collectionPages: MetadataRoute.Sitemap = collectionSlugs.map(slug => ({
+    url: `${baseUrl}/collections/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }));
+
   return [
     ...corePages,
     ...festivalPages,
@@ -213,5 +242,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...monthIndexes,
     ...budgetIndexes,
     ...genreRegionPages,
+    ...collectionsAndMap,
+    ...collectionPages,
   ];
 }

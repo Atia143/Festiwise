@@ -11,6 +11,8 @@ const NAV_ITEMS = [
   { href: '/quiz', label: 'Quiz' },
   { href: '/festivals', label: 'Festivals' },
   { href: '/discover', label: 'Discover' },
+  { href: '/collections', label: 'Collections' },
+  { href: '/my-bucket-list', label: 'Bucket List' },
   { href: '/faq', label: 'FAQ' },
 ];
 

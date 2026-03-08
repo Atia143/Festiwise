@@ -52,7 +52,7 @@ export default function SaveFavoriteButton({ festivalId, festivalName }: Props) 
       setSaved(true);
       setBurst(true);
       setTimeout(() => setBurst(false), 700);
-      addToast(`Saved! ${festivalName} is in your favourites.`, 'success', 3000);
+      addToast(`Added to your bucket list! View it at /my-bucket-list`, 'success', 3000);
     }
   }
 
@@ -82,7 +82,7 @@ export default function SaveFavoriteButton({ festivalId, festivalName }: Props) 
           <Heart className={`w-4 h-4 ${saved ? 'fill-current' : ''}`} />
         </motion.span>
       </AnimatePresence>
-      {saved ? 'Saved' : 'Save'}
+      {saved ? 'In Bucket List' : 'Bucket List'}
     </motion.button>
   );
 }

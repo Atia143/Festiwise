@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { TrendingUp, Flame, Zap, ChevronDown, ChevronRight, MapPin, Users, Calendar } from 'lucide-react';
 import festivalsData from '@/data/festivals.json';
+import FestivalWorldMap from '@/components/FestivalWorldMap';
 
 interface FestivalData {
   id: string;
@@ -326,6 +327,11 @@ export default function FestivalRadar() {
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* World Map Section */}
+      <section className="max-w-6xl mx-auto px-6 py-12">
+        <FestivalWorldMap />
       </section>
     </div>
   );

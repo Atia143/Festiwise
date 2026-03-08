@@ -10,6 +10,9 @@ import rawFestivals from '@/data/festivals.json';
 import type { Festival } from '@/types/festival';
 import EventSchema from '@/components/SEO/EventSchema';
 import TicketAlertForm from '@/components/TicketAlertForm';
+import SmartMatchBadge from '@/components/SmartMatchBadge';
+import VibeRadarChart from '@/components/VibeRadarChart';
+import UrgencyBadge from '@/components/UrgencyBadge';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import SaveFavoriteButton from '@/components/SaveFavoriteButton';
 import FestivalViewCount from '@/components/FestivalViewCount';
@@ -166,13 +169,14 @@ export default async function FestivalPage({ params }: Props) {
                 <MapPin className="w-4 h-4 flex-shrink-0" />
                 <span>{festival.city}, {festival.country}</span>
               </div>
-              {/* Genre tags */}
-              <div className="flex flex-wrap gap-2">
+              {/* Genre tags + smart match */}
+              <div className="flex flex-wrap gap-2 items-center">
                 {festival.genres.map(g => (
                   <span key={g} className="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-sm font-medium capitalize">
                     {g}
                   </span>
                 ))}
+                <SmartMatchBadge festival={festival} size="md" />
               </div>
             </div>
 
@@ -210,7 +214,8 @@ export default async function FestivalPage({ params }: Props) {
         {/* Quick Stats Bar */}
         <div className="bg-black/20 backdrop-blur-sm">
           <div className="max-w-5xl mx-auto px-4 py-4">
-            <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/90">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/90 items-center">
+              <UrgencyBadge months={festival.months} status={festival.status} size="sm" />
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />
                 {festival.months.join(' & ')}
@@ -355,6 +360,9 @@ export default async function FestivalPage({ params }: Props) {
             </div>
           </div>
         </section>
+
+        {/* Vibe Radar Chart */}
+        <VibeRadarChart festival={festival} />
 
         {/* Ticket Alert CTA */}
         {festival.ticket_official_url && (
