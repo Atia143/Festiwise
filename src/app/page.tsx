@@ -5,6 +5,7 @@ import ConversionBanner from '@/components/ConversionBanner';
 import ImprovedExitModal from '@/components/ImprovedExitModal';
 import RealtimeSocialProof from '@/components/RealtimeSocialProof';
 import InstantTestimonialsCarousel from '@/components/InstantTestimonialsCarousel';
+import ForYouSection from '@/components/ForYouSection';
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <ConversionBanner variant="quiz" position="bottom" autoHide={30} />
 
       <SimpleHero />
+      <ForYouSection />
 
       <section className="py-8 px-4 bg-white">
         <div className="max-w-4xl mx-auto">

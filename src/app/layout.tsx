@@ -19,6 +19,8 @@ import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
 import { CompareProvider } from "@/contexts/CompareContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import FestivalBuddy from "@/components/FestivalBuddy";
 import CompareBar from "@/components/CompareBar";
 import LiveMatchToast from "@/components/LiveMatchToast";
 import { Suspense } from "react";
@@ -59,6 +61,7 @@ export default function RootLayout({
           <SimpleAnalytics />
         </Suspense>
         <ErrorBoundary>
+          <CurrencyProvider>
           <CompareProvider>
             <ToastProvider>
               <Navigation />
@@ -72,8 +75,10 @@ export default function RootLayout({
               <CookieConsent />
               <CompareBar />
               <LiveMatchToast />
+              <FestivalBuddy />
             </ToastProvider>
           </CompareProvider>
+          </CurrencyProvider>
         </ErrorBoundary>
         <div id="premium-features" />
       </body>

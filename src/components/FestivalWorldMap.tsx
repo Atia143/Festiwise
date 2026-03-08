@@ -72,12 +72,12 @@ export default function FestivalWorldMap() {
       <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-gray-900">World Festival Map</h2>
-          <p className="text-sm text-gray-500 mt-0.5">Click any region to explore its festivals</p>
+          <p className="text-sm text-gray-500 mt-0.5">Tap any region to explore its festivals</p>
         </div>
         {activeRegion && (
           <button
             onClick={() => setActiveRegion(null)}
-            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition-colors"
+            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition-colors min-h-[44px] px-3 py-2 rounded-xl touch-manipulation tap-highlight-none"
           >
             <X className="w-4 h-4" /> Clear
           </button>
@@ -212,7 +212,7 @@ export default function FestivalWorldMap() {
               <div className="p-3 border-t border-gray-100">
                 <Link
                   href={`/discover?region=${encodeURIComponent(activeRegion)}`}
-                  className="flex items-center justify-center gap-1.5 w-full py-2 bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold rounded-xl transition-colors"
+                  className="flex items-center justify-center gap-1.5 w-full py-3 min-h-[44px] bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold rounded-xl transition-colors touch-manipulation tap-highlight-none"
                 >
                   All {activeRegionData?.label} festivals
                   <ArrowRight className="w-3.5 h-3.5" />

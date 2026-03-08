@@ -10,8 +10,11 @@ import type { FestivalGridProps } from '@/types/festival';
 import { useCompare } from '@/contexts/CompareContext';
 import SmartMatchBadge from '@/components/SmartMatchBadge';
 import UrgencyBadge from '@/components/UrgencyBadge';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { formatRange } from '@/lib/currencies';
 
 export default function FestivalGrid({ festivals }: FestivalGridProps) {
+  const { currency } = useCurrency();
   const [favorites, setFavorites] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'duration'>('name');
   const { toggle, isSelected, isFull } = useCompare();
@@ -179,9 +182,9 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
                   {/* Price Range */}
                   <div className="mb-6">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Price Range</span>
+                      <span className="text-sm text-gray-600">Est. Cost</span>
                       <span className="font-bold text-lg text-purple-600">
-                        ${festival.estimated_cost_usd.min} - ${festival.estimated_cost_usd.max}
+                        {formatRange(festival.estimated_cost_usd.min, festival.estimated_cost_usd.max, currency)}
                       </span>
                     </div>
                   </div>

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import CurrencySelector from '@/components/CurrencySelector';
 
 // Nav items config
 const NAV_ITEMS = [
@@ -202,6 +203,12 @@ export default function Navigation() {
               <div className="pt-2">
                 <CTAButton mobile onClick={() => setIsOpen(false)} />
               </div>
+              {/* Currency */}
+              <div className="pt-1 flex justify-center">
+                <div className="bg-gray-900 rounded-xl px-3 py-2">
+                  <CurrencySelector />
+                </div>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -229,7 +236,8 @@ export default function Navigation() {
           <Logo scrolled={scrolled && mounted} />
           {mounted && <DesktopNav />}
           {mounted && (
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3">
+              <CurrencySelector />
               <CTAButton />
             </div>
           )}

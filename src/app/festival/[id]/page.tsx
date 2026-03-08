@@ -16,6 +16,7 @@ import UrgencyBadge from '@/components/UrgencyBadge';
 import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import SaveFavoriteButton from '@/components/SaveFavoriteButton';
 import FestivalViewCount from '@/components/FestivalViewCount';
+import { LocalPriceRange } from '@/components/LocalPrice';
 
 const festivals = rawFestivals as Festival[];
 
@@ -230,7 +231,7 @@ export default async function FestivalPage({ params }: Props) {
               </div>
               <div className="flex items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5" />
-                ${festival.estimated_cost_usd.min.toLocaleString()} – ${festival.estimated_cost_usd.max.toLocaleString()}
+                <LocalPriceRange minUsd={festival.estimated_cost_usd.min} maxUsd={festival.estimated_cost_usd.max} />
               </div>
               {festival.min_age && (
                 <div className="flex items-center gap-1.5">
@@ -264,7 +265,7 @@ export default async function FestivalPage({ params }: Props) {
                   Budget range
                 </dt>
                 <dd className="font-semibold text-gray-900">
-                  ${festival.estimated_cost_usd.min.toLocaleString()} – ${festival.estimated_cost_usd.max.toLocaleString()}
+                  <LocalPriceRange minUsd={festival.estimated_cost_usd.min} maxUsd={festival.estimated_cost_usd.max} />
                 </dd>
               </div>
               <div className="flex justify-between items-center text-sm border-t border-gray-200 pt-3.5">

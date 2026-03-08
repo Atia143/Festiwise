@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { TrendingUp, Flame, Zap, ChevronDown, ChevronRight, MapPin, Users, Calendar } from 'lucide-react';
 import festivalsData from '@/data/festivals.json';
-import FestivalWorldMap from '@/components/FestivalWorldMap';
+import ForYouSection from '@/components/ForYouSection';
+
+const FestivalWorldMap = dynamic(() => import('@/components/FestivalWorldMap'), { ssr: false });
 
 interface FestivalData {
   id: string;
@@ -140,6 +143,9 @@ export default function FestivalRadar() {
           </motion.div>
         </div>
       </section>
+
+      {/* For You — quiz-personalised picks */}
+      <ForYouSection />
 
       {/* Trending Now */}
       <section className="max-w-7xl mx-auto px-4 py-10 sm:py-12">
