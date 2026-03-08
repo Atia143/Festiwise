@@ -184,12 +184,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  // Genre × Region landing pages
+  const allGenres = [...new Set((festivalsData as { genres: string[] }[]).flatMap(f => f.genres))];
+  const allRegions = [...new Set((festivalsData as { region?: string }[]).map(f => f.region).filter(Boolean) as string[])];
+  const genreRegionPages: MetadataRoute.Sitemap = [];
+  for (const genre of allGenres) {
+    for (const region of allRegions) {
+      const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
+      const hasFestivals = (festivalsData as { genres: string[]; region?: string; status: string }[]).some(
+        f => f.genres.some(g => slug(g) === slug(genre)) && f.region && slug(f.region) === slug(region) && f.status === 'active',
+      );
+      if (hasFestivals) {
+        genreRegionPages.push({
+          url: `${baseUrl}/festivals/${slug(genre)}/${slug(region)}`,
+          lastModified: currentDate,
+          changeFrequency: 'weekly' as const,
+          priority: 0.75,
+        });
+      }
+    }
+  }
+
   return [
     ...corePages,
     ...festivalPages,
     ...countryIndexes,
     ...genreIndexes,
     ...monthIndexes,
-    ...budgetIndexes
+    ...budgetIndexes,
+    ...genreRegionPages,
   ];
 }

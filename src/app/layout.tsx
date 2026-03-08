@@ -18,6 +18,9 @@ import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
+import { CompareProvider } from "@/contexts/CompareContext";
+import CompareBar from "@/components/CompareBar";
+import LiveMatchToast from "@/components/LiveMatchToast";
 import { Suspense } from "react";
 
 export { generateMetadata as metadata } from '@/lib/metadata';
@@ -56,17 +59,21 @@ export default function RootLayout({
           <SimpleAnalytics />
         </Suspense>
         <ErrorBoundary>
-          <ToastProvider>
-            <Navigation />
-            <StickyCTABar />
-            <MobileOptimizedBottomSheet />
-            <main className="pt-20">
-              {children}
-            </main>
-            <SharePrompt />
-            <AccessibilityMenu />
-            <CookieConsent />
-          </ToastProvider>
+          <CompareProvider>
+            <ToastProvider>
+              <Navigation />
+              <StickyCTABar />
+              <MobileOptimizedBottomSheet />
+              <main className="pt-20">
+                {children}
+              </main>
+              <SharePrompt />
+              <AccessibilityMenu />
+              <CookieConsent />
+              <CompareBar />
+              <LiveMatchToast />
+            </ToastProvider>
+          </CompareProvider>
         </ErrorBoundary>
         <div id="premium-features" />
       </body>

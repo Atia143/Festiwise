@@ -64,13 +64,16 @@ function buildFAQ(f: Festival) {
   ];
 }
 
-function getSimilarFestivals(current: Festival, count = 3): Festival[] {
+function getSimilarFestivals(current: Festival, count = 4): Festival[] {
   const scored = festivals
     .filter(f => f.id !== current.id && f.status === 'active')
     .map(f => {
       const sharedGenres = f.genres.filter(g => current.genres.includes(g)).length;
+      const sharedVibes = f.vibe.filter(v => current.vibe.includes(v)).length;
       const sameRegion = f.region === current.region ? 2 : 0;
-      return { festival: f, score: sharedGenres * 3 + sameRegion };
+      const similarBudget =
+        Math.abs(f.estimated_cost_usd.min - current.estimated_cost_usd.min) < 400 ? 1 : 0;
+      return { festival: f, score: sharedGenres * 3 + sharedVibes * 2 + sameRegion + similarBudget };
     })
     .filter(x => x.score > 0)
     .sort((a, b) => b.score - a.score);
@@ -375,31 +378,76 @@ export default async function FestivalPage({ params }: Props) {
         {/* Similar Festivals */}
         {similar.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Similar Festivals</h2>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {similar.map(f => (
-                <Link
-                  key={f.id}
-                  href={`/festival/${f.id}`}
-                  className="group block bg-gray-50 hover:bg-white border border-gray-100 hover:border-purple-200 hover:shadow-lg rounded-2xl p-5 transition-all duration-200"
-                >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {f.genres.slice(0, 2).map(g => (
-                      <span key={g} className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${genreColor(g)}`}>
-                        {g}
-                      </span>
-                    ))}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">You Might Also Like</h2>
+              <Link
+                href="/festivals"
+                className="text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors"
+              >
+                Browse all →
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {similar.map(f => {
+                const sharedGenres = f.genres.filter(g => festival.genres.includes(g));
+                const sharedVibes = f.vibe.filter(v => festival.vibe.includes(v));
+                const reasons = [
+                  ...sharedGenres.map(g => g.charAt(0).toUpperCase() + g.slice(1)),
+                  ...sharedVibes.map(v => v.charAt(0).toUpperCase() + v.slice(1) + ' vibe'),
+                ].slice(0, 3);
+                return (
+                  <div
+                    key={f.id}
+                    className="group bg-gray-50 hover:bg-white border border-gray-100 hover:border-purple-200 hover:shadow-lg rounded-2xl p-5 transition-all duration-200"
+                  >
+                    {/* Genre + vibe tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {f.genres.slice(0, 2).map(g => (
+                        <span key={g} className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${genreColor(g)}`}>
+                          {g}
+                        </span>
+                      ))}
+                      {f.vibe.slice(0, 1).map(v => (
+                        <span key={v} className="px-2 py-0.5 bg-pink-50 text-pink-600 rounded-full text-xs font-medium capitalize">
+                          {v}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link href={`/festival/${f.id}`} className="block">
+                      <h3 className="font-bold text-gray-900 group-hover:text-purple-700 transition-colors mb-1 text-lg">
+                        {f.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 flex items-center gap-1 mb-2">
+                        <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                        {f.city}, {f.country}
+                      </p>
+                      <p className="text-sm text-gray-400">{f.months.join(' & ')} · {f.duration_days} days · ${f.estimated_cost_usd.min.toLocaleString()}+</p>
+                    </Link>
+
+                    {/* Why it matches */}
+                    {reasons.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100">
+                        <span className="text-xs text-gray-400">Similar:</span>
+                        {reasons.map(r => (
+                          <span key={r} className="text-xs text-purple-600 font-medium">{r}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Compare link */}
+                    <Link
+                      href={`/compare?ids=${festival.id},${f.id}`}
+                      className="mt-3 flex items-center gap-1 text-xs text-gray-400 hover:text-purple-600 transition-colors"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Compare with {festival.name}
+                    </Link>
                   </div>
-                  <h3 className="font-bold text-gray-900 group-hover:text-purple-700 transition-colors mb-1">
-                    {f.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {f.city}, {f.country}
-                  </p>
-                  <p className="text-sm text-gray-400 mt-1">{f.months.join(' & ')} · {f.duration_days} days</p>
-                </Link>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}
@@ -439,21 +487,22 @@ export default async function FestivalPage({ params }: Props) {
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-4">Explore More Festivals</h2>
           <div className="flex flex-wrap gap-3">
-            {festival.region && (
-              <Link
-                href={`/discover?region=${encodeURIComponent(festival.region)}`}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium transition-colors"
-              >
-                More in {festival.country}
-              </Link>
-            )}
-            {festival.genres.slice(0, 2).map(g => (
+            {festival.region && festival.genres.slice(0, 2).map(g => (
               <Link
                 key={g}
-                href={`/discover?genre=${encodeURIComponent(g)}`}
+                href={`/festivals/${g.toLowerCase()}/${festival.region!.toLowerCase().replace(/\s+/g, '-')}`}
+                className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-sm font-medium transition-colors capitalize"
+              >
+                {g} in {festival.region}
+              </Link>
+            ))}
+            {festival.genres.slice(0, 2).map(g => (
+              <Link
+                key={`genre-${g}`}
+                href={`/festivals/genre/${g.toLowerCase()}`}
                 className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium transition-colors capitalize"
               >
-                More {g} festivals
+                All {g} festivals
               </Link>
             ))}
             <Link

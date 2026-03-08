@@ -3,13 +3,16 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { BarChart3 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import type { FestivalGridProps } from '@/types/festival';
+import { useCompare } from '@/contexts/CompareContext';
 
 export default function FestivalGrid({ festivals }: FestivalGridProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'duration'>('name');
+  const { toggle, isSelected, isFull } = useCompare();
 
   const sortedFestivals = useMemo(() => {
     return [...festivals].sort((a, b) => {
@@ -185,14 +188,20 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
                     >
                       Explore
                     </Link>
-                    <a
-                      href={festival.ticket_official_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center px-4 py-2 border border-purple-300 text-purple-700 hover:bg-purple-50 rounded-lg font-medium transition-all duration-300 text-sm"
+                    <button
+                      onClick={() => toggle(festival)}
+                      disabled={isFull && !isSelected(festival.id)}
+                      title={isSelected(festival.id) ? 'Remove from compare' : isFull ? 'Max 3 festivals' : 'Add to compare'}
+                      className={`inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm border ${
+                        isSelected(festival.id)
+                          ? 'border-purple-500 bg-purple-600 text-white'
+                          : isFull
+                          ? 'border-gray-200 text-gray-300 cursor-not-allowed'
+                          : 'border-purple-300 text-purple-700 hover:bg-purple-50'
+                      }`}
                     >
-                      Tickets
-                    </a>
+                      <BarChart3 className="w-4 h-4" />
+                    </button>
                   </div>
                 </CardContent>
               </Card>

@@ -185,7 +185,7 @@ export default function CookieConsent() {
                     className="accent-purple-600 mr-2"
                   />
                   <label htmlFor="necessary-cookies" className="text-sm">
-                    <span className="font-medium">Necessary Cookies</span> — Always enabled. Essential for site function.
+                    <span className="font-medium">Necessary Cookies</span> - Always enabled. Essential for site function.
                   </label>
                 </li>
                 <li className="flex items-center">
