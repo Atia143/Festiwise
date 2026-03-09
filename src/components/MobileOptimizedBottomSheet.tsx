@@ -60,7 +60,7 @@ export default function MobileOptimizedBottomSheet() {
                   🎪 Discover Your Perfect Festival
                 </h3>
                 <p className="text-white/80 text-sm text-center">
-                  Answer 8 questions and we rank 100+ festivals by how well they fit you
+                  Answer 7 questions and we rank 100+ festivals by how well they fit you
                 </p>
 
                 {/* Primary CTA */}

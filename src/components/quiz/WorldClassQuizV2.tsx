@@ -82,15 +82,7 @@ interface QuizStep {
 
 export function WorldClassQuiz() {
   const { state, setAnswer, nextStep, prevStep, completeQuiz } = useQuiz();
-  const [progress, setProgress] = useState(0);
   const [showValidationHint, setShowValidationHint] = useState(false);
-
-  // Calculate progress with smooth animation
-  useEffect(() => {
-    const totalSteps = 8;
-    const newProgress = (state.currentStep / totalSteps) * 100;
-    setProgress(newProgress);
-  }, [state.currentStep]);
 
   // Auto-hide validation hint after 2 seconds
   useEffect(() => {
@@ -299,6 +291,7 @@ export function WorldClassQuiz() {
       type: 'multiMonth',
       icon: '📅',
       data: [
+        { id: 'anytime', label: 'Any time', emoji: '🗓️', season: 'Flexible', hotDestinations: ['Worldwide'], weatherNote: 'Show all year-round festivals', festivalCount: 100 },
         { id: 'January', label: 'January', emoji: '❄️', season: 'Winter', hotDestinations: ['Australia', 'New Zealand'], weatherNote: 'Cool in North, Hot in South', festivalCount: 18 },
         { id: 'February', label: 'February', emoji: '🎭', season: 'Winter', hotDestinations: ['Caribbean', 'Brazil'], weatherNote: 'Carnival season', festivalCount: 22 },
         { id: 'March', label: 'March', emoji: '🌸', season: 'Spring', hotDestinations: ['Japan', 'Spain'], weatherNote: 'Spring awakening', festivalCount: 25 },
@@ -546,22 +539,28 @@ export function WorldClassQuiz() {
         }
       ] as GeneralOption[]
     },
-    {
-      id: 'confirmation',
-      title: 'Ready to find your perfect festivals?',
-      subtitle: 'Click the button below to get your personalized recommendations',
-      type: 'confirmation',
-      icon: '🎉',
-      data: [] as GeneralOption[]
-    }
   ], []);
 
   const currentStep = quizSteps[state.currentStep];
+
+  // All 12 month IDs for the "Anytime" shortcut
+  const ALL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   // Memoized handler functions
   const handleMultiSelect = useCallback((field: keyof typeof state.answers, optionId: string) => {
     const current = state.answers[field];
     if (Array.isArray(current)) {
+      // Special case: "anytime" in months selects all 12 months
+      if (field === 'months' && optionId === 'anytime') {
+        const allSelected = ALL_MONTHS.every(m => current.includes(m));
+        setAnswer(field, allSelected ? [] : ALL_MONTHS);
+        return;
+      }
+      // Clicking a specific month when all are selected — deselect all others
+      if (field === 'months' && ALL_MONTHS.every(m => current.includes(m))) {
+        setAnswer(field, [optionId]);
+        return;
+      }
       if (current.includes(optionId)) {
         setAnswer(field, current.filter((id: string) => id !== optionId));
       } else {
@@ -570,21 +569,31 @@ export function WorldClassQuiz() {
     }
   }, [state.answers, setAnswer]);
 
-  const handleSingleSelect = useCallback((field: keyof typeof state.answers, value: any) => {
+  // Auto-advance after single-select — gives 200ms for selection animation then moves on
+  const handleSingleSelectAndAdvance = useCallback((field: keyof typeof state.answers, value: any) => {
     setAnswer(field, value);
-  }, [setAnswer]);
+    setTimeout(() => {
+      if (state.currentStep < quizSteps.length - 1) {
+        nextStep();
+      } else {
+        completeQuiz();
+      }
+    }, 220);
+  }, [setAnswer, state.currentStep, quizSteps.length, nextStep, completeQuiz]);
 
   const isSelected = useCallback((field: keyof typeof state.answers, optionId: string): boolean => {
     const current = state.answers[field];
     return Array.isArray(current) && current.includes(optionId);
   }, [state.answers]);
 
-  // Validation logic
+  // Validation logic — months and extras are optional
   const canProceed = useCallback((): boolean => {
     const stepType = currentStep?.type;
     const currentAnswers = state.answers[currentStep?.id as keyof typeof state.answers];
 
-    if (stepType === 'confirmation') return true;
+    // Optional steps — always allow proceeding
+    if (stepType === 'multiMonth' || stepType === 'multiExtras') return true;
+
     if (stepType?.startsWith('multi')) {
       if (Array.isArray(currentAnswers)) {
         return currentAnswers.length > 0;
@@ -693,34 +702,7 @@ export function WorldClassQuiz() {
               )}
 
               {/* DYNAMIC CONTENT RENDERER */}
-              {currentStep.type !== 'confirmation' && (
-                renderStepContent(currentStep, state, handleMultiSelect, handleSingleSelect, isSelected, cardVariants)
-              )}
-
-              {currentStep.type === 'confirmation' && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="max-w-2xl mx-auto text-center p-8 bg-white rounded-2xl border-2 border-purple-200"
-                >
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-6xl mb-4"
-                  >
-                    🎉
-                  </motion.div>
-                  <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                    Your preferences are set!
-                  </h2>
-                  <p className="text-lg text-gray-700 mb-6">
-                    Click \"Get My Matches\" below to discover festivals perfectly matched to your taste.
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    ✨ We'll use all your preferences to find the best festivals for you
-                  </p>
-                </motion.div>
-              )}
+              {renderStepContent(currentStep, state, handleMultiSelect, handleSingleSelectAndAdvance, isSelected, cardVariants)}
 
               {/* NAVIGATION BUTTONS */}
               <div className="flex justify-between items-center gap-3 mt-12 px-2 md:px-4">
@@ -767,7 +749,7 @@ export function WorldClassQuiz() {
                   }`}
                   aria-label={state.currentStep === quizSteps.length - 1 ? 'Get personalized festival matches' : 'Go to next question'}
                 >
-                  {state.currentStep === quizSteps.length - 1 ? 'Get My Matches' : 'Continue'}
+                  {state.currentStep === quizSteps.length - 1 ? 'Get My Matches ✨' : 'Continue'}
                   {canProceed() && (
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   )}
@@ -788,7 +770,7 @@ function renderStepContent(
   step: QuizStep,
   state: any,
   handleMultiSelect: (field: any, optionId: string) => void,
-  handleSingleSelect: (field: any, value: any) => void,
+  handleSingleSelectAndAdvance: (field: any, value: any) => void,
   isSelected: (field: any, optionId: string) => boolean,
   cardVariants: any
 ) {
@@ -855,7 +837,7 @@ function renderStepContent(
               whileHover="hover"
               whileTap="tap"
               transition={{ delay: index * 0.08 }}
-              onClick={() => handleSingleSelect('budget', budget.range)}
+              onClick={() => handleSingleSelectAndAdvance('budget', budget.range)}
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
                 state.answers.budget?.min === budget.range.min && state.answers.budget?.max === budget.range.max
                   ? 'bg-gradient-to-br from-green-500 to-emerald-500 text-white border-green-500 shadow-2xl'
@@ -865,7 +847,7 @@ function renderStepContent(
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  handleSingleSelect('budget', budget.range);
+                  handleSingleSelectAndAdvance('budget', budget.range);
                 }
               }}
             >
@@ -936,7 +918,7 @@ function renderStepContent(
               whileHover="hover"
               whileTap="tap"
               transition={{ delay: index * 0.08 }}
-              onClick={() => handleSingleSelect('region', region.id)}
+              onClick={() => handleSingleSelectAndAdvance('region', region.id)}
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
                 state.answers.region === region.id
                   ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white border-indigo-500 shadow-2xl'
@@ -946,7 +928,7 @@ function renderStepContent(
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  handleSingleSelect('region', region.id);
+                  handleSingleSelectAndAdvance('region', region.id);
                 }
               }}
             >
@@ -1021,7 +1003,7 @@ function renderStepContent(
               whileHover="hover"
               whileTap="tap"
               transition={{ delay: index * 0.08 }}
-              onClick={() => handleSingleSelect('duration', item.id)}
+              onClick={() => handleSingleSelectAndAdvance('duration', item.id)}
               className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border-2 group ${
                 state.answers.duration === item.id
                   ? 'bg-gradient-to-br from-orange-500 to-amber-500 text-white border-orange-500 shadow-2xl'
@@ -1031,7 +1013,7 @@ function renderStepContent(
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  handleSingleSelect('duration', item.id);
+                  handleSingleSelectAndAdvance('duration', item.id);
                 }
               }}
             >

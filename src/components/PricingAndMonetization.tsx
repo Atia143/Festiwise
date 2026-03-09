@@ -219,7 +219,7 @@ export default function PricingAndMonetization() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">built for obsessives.</span>
           </h1>
           <p className="text-lg text-white/50 max-w-xl mx-auto">
-            Free for festival-goers. Powerful upgrades for power users. Direct access to 100,000+ festival fans for organizers.
+            Free for festival-goers. Powerful upgrades for power users. Direct access to a growing community of festival enthusiasts for organizers.
           </p>
         </motion.div>
 

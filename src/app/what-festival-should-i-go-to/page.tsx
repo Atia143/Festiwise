@@ -57,7 +57,7 @@ export default function FAQ() {
                   Is this really unbiased?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Yes. FestiWise has no affiliation with any festival or ticket seller. We never accept paid placements. Rankings are determined solely by your quiz answers.
+                  Quiz match scores are calculated purely from your answers — no festival can pay to rank higher in your personal results. Some ticket links may earn a small referral fee at no cost to you.
                 </p>
               </div>
             </div>

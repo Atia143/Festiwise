@@ -189,7 +189,7 @@ The FestiWise Team`,
             Get Weekly Festival Tips
           </h2>
           <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto mb-6">
-            Join 1,000+ festival lovers getting early access to lineups, discounts, and hidden gems before they sell out.
+            Get early access to lineups, ticket drop alerts, and hidden festival gems before they sell out.
           </p>
           
           {/* Value Propositions */}

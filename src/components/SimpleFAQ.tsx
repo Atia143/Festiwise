@@ -7,11 +7,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 const FAQ_ITEMS = [
   {
     q: 'How does the FestiWise quiz work?',
-    a: 'Answer 8 quick questions about your music taste, travel style, and budget. Our algorithm scores every festival in our database across 50+ factors and surfaces your top matches ranked by how well they fit you specifically.',
+    a: 'Answer 7 quick questions about your music taste, travel style, and budget. Our algorithm scores every festival in our database across 50+ factors and surfaces your top matches ranked by how well they fit you specifically.',
   },
   {
     q: 'Is FestiWise free?',
-    a: 'Completely free, forever. No account required, no credit card, no premium tier. We have no affiliation with any festival or ticket seller - our recommendations are based entirely on your quiz answers.',
+    a: 'The core quiz and festival database are completely free. No account required. Our recommendations are based entirely on your quiz answers — we surface the best matches regardless of who sells the tickets. Some ticket links may earn us a small referral fee at no extra cost to you.',
   },
   {
     q: 'How many festivals are in the database?',

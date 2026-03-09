@@ -314,7 +314,7 @@ export default function FestivalRadar() {
               </span>
             </h2>
             <p className="text-lg text-white/60 max-w-xl mx-auto mb-10 leading-relaxed">
-              Answer 8 questions about your vibe, budget, and travel style - we rank every festival in our database by how well it fits you.
+              Answer 7 questions about your vibe, budget, and travel style - we rank every festival in our database by how well it fits you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

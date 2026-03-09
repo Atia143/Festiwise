@@ -11,7 +11,7 @@ import { analytics } from '@/lib/analytics';
 function useSimpleLanguage(): { t: (key: string) => string } {
   const translations: Record<string, string> = {
     'hero.title': 'Stop Scrolling. Start Celebrating.',
-    'hero.subtitle': "Tired of spending hours researching festivals, only to pick the wrong one? We'll match you with festivals that fit your music taste, budget, and vibe—in 2 minutes. No spam. No affiliation. 100% free.",
+    'hero.subtitle': "Tired of spending hours researching festivals, only to pick the wrong one? We'll match you with festivals that fit your music taste, budget, and vibe—in 2 minutes. No account required. 100% free.",
     'hero.cta': 'Find My Festival Now',
   };
 
@@ -189,31 +189,25 @@ export default function UltimateHero() {
             </div>
           </motion.div>
 
-          {/* Testimonial */}
+          {/* Stats social proof */}
           <motion.div
             variants={fadeIn}
             className="mt-12 max-w-xl mx-auto"
           >
             <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 md:p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                    M
-                  </div>
-                  <div>
-                    <div className="text-white font-medium text-sm md:text-base">Marcus K.</div>
-                    <div className="text-white/60 text-xs">Berlin, Germany</div>
-                  </div>
+              <div className="grid grid-cols-3 divide-x divide-white/10 text-center">
+                <div className="px-3">
+                  <div className="text-2xl font-black text-yellow-300">100+</div>
+                  <div className="text-white/60 text-xs mt-0.5">Festivals curated</div>
                 </div>
-                <div className="flex text-yellow-400 text-sm">
-                  ⭐⭐⭐⭐⭐
+                <div className="px-3">
+                  <div className="text-2xl font-black text-yellow-300">50+</div>
+                  <div className="text-white/60 text-xs mt-0.5">Countries covered</div>
                 </div>
-              </div>
-              <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                "I was overwhelmed by festival options until I tried FestiWise. The 2-minute quiz matched me with the perfect festival!"
-              </p>
-              <div className="mt-3 flex items-center gap-2 text-xs text-white/60">
-                <span>Matched via FestiWise Quiz</span>
+                <div className="px-3">
+                  <div className="text-2xl font-black text-yellow-300">2 min</div>
+                  <div className="text-white/60 text-xs mt-0.5">To your matches</div>
+                </div>
               </div>
             </div>
           </motion.div>

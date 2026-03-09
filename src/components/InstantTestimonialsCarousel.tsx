@@ -9,7 +9,7 @@ const SLIDES = [
     id: '1',
     step: '01',
     title: 'Tell us your vibe',
-    body: 'Answer 8 questions about your music taste, travel style, and budget. Takes under 2 minutes: no sign-up required.',
+    body: 'Answer 7 quick questions about your music taste, travel style, and budget. Takes under 2 minutes: no sign-up required.',
     detail: 'Genre preferences · Budget range · Travel distance · Group size · Camping or hotel',
     cta: { label: 'Start the Quiz', href: '/quiz' },
     color: 'from-purple-600 to-pink-600',

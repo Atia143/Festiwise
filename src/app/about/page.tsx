@@ -19,24 +19,24 @@ export default function AboutPage() {
 
   const values = [
     {
-      title: 'No affiliations',
-      description: 'FestiWise has no affiliation with any festival, promoter, or ticket seller. Rankings are determined entirely by your quiz answers - no festival can pay to appear higher.',
+      title: 'Quiz-first rankings',
+      description: 'Festival rankings are determined entirely by your quiz answers. No festival can pay to appear higher in your results.',
     },
     {
-      title: 'No accounts required',
+      title: 'No account required',
       description: 'Take the quiz, browse festivals, save favourites - all without creating an account. Your quiz answers are processed locally and never stored on our servers.',
     },
     {
-      title: 'No paid tiers',
-      description: 'The quiz, festival database, and all features are free. There are no plans to introduce a paid tier.',
+      title: 'Honest about revenue',
+      description: 'Some ticket links may earn a small referral fee at no extra cost to you. The core quiz and festival database are free. A Pro tier is available for power users.',
     },
     {
       title: 'No fake data',
       description: 'Festival information is sourced from official festival websites and publicly available information. We do not fabricate ratings, reviews, or attendance figures.',
     },
     {
-      title: 'No ads',
-      description: 'FestiWise does not run ads. Ticket links on festival pages point directly to official sources - we earn no commission.',
+      title: 'No display ads',
+      description: 'FestiWise does not run display ads or sell ad placements. Sponsored rankings do not exist - every match is based purely on your quiz answers.',
     },
     {
       title: 'No spam',
@@ -106,12 +106,12 @@ export default function AboutPage() {
                         recommendations that don&apos;t account for your budget, music taste, or travel constraints.
                       </p>
                       <p>
-                        FestiWise was built in 2024 to solve that problem. Answer 8 questions about
+                        FestiWise was built in 2024 to solve that problem. Answer 7 questions about
                         what you&apos;re looking for - we score 100+ curated festivals against your answers
                         and show you the ones that genuinely fit.
                       </p>
                       <p className="text-purple-700 font-medium">
-                        No account required. No ads. No affiliations. Completely free.
+                        No account required. No display ads. Rankings are never for sale.
                       </p>
                     </div>
                   </div>
@@ -126,7 +126,7 @@ export default function AboutPage() {
                         <div className="text-sm text-gray-600 font-medium">Countries</div>
                       </div>
                       <div className="bg-white/80 backdrop-blur rounded-2xl p-6 text-center">
-                        <div className="text-4xl font-bold text-blue-600">8</div>
+                        <div className="text-4xl font-bold text-blue-600">7</div>
                         <div className="text-sm text-gray-600 font-medium">Quiz Questions</div>
                       </div>
                       <div className="bg-white/80 backdrop-blur rounded-2xl p-6 text-center">
@@ -153,7 +153,7 @@ export default function AboutPage() {
                   {[
                     {
                       step: '1',
-                      title: 'Answer 8 questions',
+                      title: 'Answer 7 questions',
                       description: 'You tell us your preferred music genres, travel budget, trip length, group type, vibe, and a few other factors.',
                     },
                     {
@@ -319,7 +319,7 @@ export default function AboutPage() {
                 Find your festival <span className="text-purple-600">in 2 minutes</span>
               </h2>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Answer 8 questions and we rank every festival in our database by how well it fits you. No account required.
+                Answer 7 questions and we rank every festival in our database by how well it fits you. No account required.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Link
@@ -374,9 +374,9 @@ export default function AboutPage() {
                 {[
                   'Quiz answers processed locally - not stored on our servers',
                   'No personal data sold or shared with third parties',
-                  'No affiliation with any festival, promoter, or ticket seller',
-                  'Ticket links point to official festival sources only',
-                  'No ads, no paid placements, no sponsored rankings',
+                  'Some ticket links may earn a small referral fee at no cost to you',
+                  'Festival rankings are never influenced by payments',
+                  'No display ads, no sponsored content, no paid placements',
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="flex-shrink-0 w-5 h-5 bg-green-500/20 rounded-full flex items-center justify-center mt-0.5">
