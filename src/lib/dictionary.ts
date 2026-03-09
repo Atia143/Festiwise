@@ -28,7 +28,7 @@ export const dictionary = {
     festivalExplorer: {
       title: "Festival Marketplace",
       subtitle: "Discover extraordinary music festivals from around the globe. Advanced search, intelligent filtering, and personalized recommendations await.",
-      cta: "Find My Festival (2 min) — No login needed",
+      cta: "Find My Festival (2 min) No login needed",
       dataSource: "Data sources: official festival sites"
     },
     newsletter: {

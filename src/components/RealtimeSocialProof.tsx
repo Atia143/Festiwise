@@ -28,7 +28,7 @@ export default function RealtimeSocialProof() {
       <div className="border-t border-gray-100 px-6 py-3 bg-gray-50/60 flex items-center justify-center gap-6 flex-wrap text-xs text-gray-500">
         <span className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-          No spam — ever
+          No spam ever!
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />

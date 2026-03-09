@@ -30,7 +30,7 @@ function IconFacebook() {
 }
 
 // ── Data ───────────────────────────────────────────────────────────────────────
-const SHARE_TEXT = 'Discover your perfect music festival with FestiWise — free, personalised recommendations in seconds.';
+const SHARE_TEXT = 'Discover your perfect music festival with FestiWise -free, personalised recommendations in seconds.';
 
 const PLATFORMS = [
   {

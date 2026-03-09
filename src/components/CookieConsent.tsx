@@ -197,7 +197,7 @@ export default function CookieConsent() {
                     className="accent-purple-600 mr-2"
                   />
                   <label htmlFor="analytics-cookies" className="text-sm">
-                    <span className="font-medium">Analytics Cookies</span> — Help us improve the site by collecting usage data.
+                    <span className="font-medium">Analytics Cookies</span> -Help us improve the site by collecting usage data.
                   </label>
                 </li>
                 <li className="flex items-center">
@@ -209,7 +209,7 @@ export default function CookieConsent() {
                     className="accent-purple-600 mr-2"
                   />
                   <label htmlFor="marketing-cookies" className="text-sm">
-                    <span className="font-medium">Marketing Cookies</span> — Personalize ads and recommendations.
+                    <span className="font-medium">Marketing Cookies</span> - Personalize ads and recommendations.
                   </label>
                 </li>
                 <li className="flex items-center">
@@ -221,7 +221,7 @@ export default function CookieConsent() {
                     className="accent-purple-600 mr-2"
                   />
                   <label htmlFor="preferences-cookies" className="text-sm">
-                    <span className="font-medium">Preference Cookies</span> — Remember your choices and settings.
+                    <span className="font-medium">Preference Cookies</span> - Remember your choices and settings.
                   </label>
                 </li>
               </ul>

@@ -234,7 +234,7 @@ export default async function CollectionPage({ params }: Props) {
         <section className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white text-center">
           <h2 className="text-2xl font-bold mb-2">Find your personal match</h2>
           <p className="text-white/80 mb-6 max-w-lg mx-auto">
-            Expert collections are a great start — but for a truly personalised recommendation, take our 2-minute quiz.
+            Expert collections are a great start - but for a truly personalised recommendation, take our 2-minute quiz.
           </p>
           <Link
             href="/quiz"

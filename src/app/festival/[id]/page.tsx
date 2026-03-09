@@ -375,7 +375,7 @@ export default async function FestivalPage({ params }: Props) {
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Be first when tickets drop</h2>
                 <p className="text-gray-600 mt-1">
-                  {festival.name} tickets sell out fast. Enter your email and we&apos;ll alert you the moment they go on sale — before it&apos;s announced publicly.
+                  {festival.name} tickets sell out fast. Enter your email and we&apos;ll alert you the moment they go on sale - before it&apos;s announced publicly.
                 </p>
               </div>
             </div>

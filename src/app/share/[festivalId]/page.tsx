@@ -29,7 +29,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (country) ogUrl.searchParams.set('country', country);
 
   const title = `I matched ${score}% with ${festivalName}!`;
-  const description = `I discovered ${festivalName} as my perfect ${genre} festival match on FestiWise. Find YOUR perfect festival match in 2 minutes — it's free!`;
+  const description = `I discovered ${festivalName} as my perfect ${genre} festival match on FestiWise. Find YOUR perfect festival match in 2 minutes: it's free!`;
 
   return {
     title,

@@ -85,7 +85,7 @@ export default function SimpleNewsletterForm() {
           Festival picks in your inbox.
         </h3>
         <p className="text-gray-600 mb-6 leading-relaxed">
-          Get personalized festival recommendations and new additions to our database — straight to your inbox.
+          Get personalized festival recommendations and new additions to our database - straight to your inbox.
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4">

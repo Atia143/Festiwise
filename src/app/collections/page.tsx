@@ -9,7 +9,7 @@ const festivals = rawFestivals as Festival[];
 
 export const metadata: Metadata = {
   title: 'Expert Festival Collections | FestiWise',
-  description: 'Hand-curated expert collections — best sustainable festivals, luxury experiences, budget gems, family picks, underground legends, and more.',
+  description: 'Hand-curated expert collections - best sustainable festivals, luxury experiences, budget gems, family picks, underground legends, and more.',
   keywords: ['best music festivals', 'curated festival list', 'expert festival picks', 'festival collections', 'top music festivals 2026'],
   alternates: { canonical: 'https://getfestiwise.com/collections' },
   openGraph: {
@@ -38,7 +38,7 @@ export default function CollectionsPage() {
             </span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl">
-            Beyond algorithms. Our editors have hand-picked the world&apos;s finest festivals by theme, vibe, and purpose — so you can find exactly the right event for who you are.
+            Beyond algorithms. Our editors have hand-picked the world&apos;s finest festivals by theme, vibe, and purpose - so you can find exactly the right event for who you are.
           </p>
         </div>
       </section>
@@ -84,7 +84,7 @@ export default function CollectionsPage() {
         <div className="mt-14 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white text-center">
           <h2 className="text-2xl font-bold mb-2">Want a personalised recommendation?</h2>
           <p className="text-white/80 mb-6 max-w-lg mx-auto">
-            Our quiz matches you to the perfect festival based on your unique music taste, budget, vibe, and travel style — in under 2 minutes.
+            Our quiz matches you to the perfect festival based on your unique music taste, budget, vibe, and travel style - in under 2 minutes.
           </p>
           <Link
             href="/quiz"

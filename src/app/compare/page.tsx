@@ -4,7 +4,7 @@ import ComparePageClient from './ComparePageClient';
 
 export const metadata: Metadata = {
   title: 'Compare Festivals Side-by-Side | FestiWise',
-  description: 'Compare up to 3 music festivals side-by-side. See price ranges, crowd sizes, vibes, genres and more — all in one view.',
+  description: 'Compare up to 3 music festivals side-by-side. See price ranges, crowd sizes, vibes, genres and more - all in one view.',
   robots: { index: false },
 };
 

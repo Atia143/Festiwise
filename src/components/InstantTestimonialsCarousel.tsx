@@ -9,7 +9,7 @@ const SLIDES = [
     id: '1',
     step: '01',
     title: 'Tell us your vibe',
-    body: 'Answer 8 questions about your music taste, travel style, and budget. Takes under 2 minutes — no sign-up required.',
+    body: 'Answer 8 questions about your music taste, travel style, and budget. Takes under 2 minutes: no sign-up required.',
     detail: 'Genre preferences · Budget range · Travel distance · Group size · Camping or hotel',
     cta: { label: 'Start the Quiz', href: '/quiz' },
     color: 'from-purple-600 to-pink-600',
@@ -18,7 +18,7 @@ const SLIDES = [
     id: '2',
     step: '02',
     title: 'We score 100+ festivals',
-    body: 'Our algorithm runs 50+ matching factors across every festival in the database — from lineup and vibe to cost and logistics.',
+    body: 'Our algorithm runs 50+ matching factors across every festival in the database - from lineup and vibe to cost and logistics.',
     detail: 'Genre match · Budget fit · Audience size · Camping options · Weather profile',
     cta: { label: 'Browse Festivals', href: '/festivals' },
     color: 'from-indigo-600 to-purple-600',
@@ -27,7 +27,7 @@ const SLIDES = [
     id: '3',
     step: '03',
     title: 'See your ranked matches',
-    body: 'Results are ranked by match percentage — with full details on cost, lineup genres, camping, family-friendliness, and more.',
+    body: 'Results are ranked by match percentage  with full details on cost, lineup genres, camping, family-friendliness, and more.',
     detail: 'Match score · Cost estimate · Ticket links · Festival highlights · Similar events',
     cta: { label: 'See How It Works', href: '/faq' },
     color: 'from-pink-600 to-rose-600',
@@ -46,7 +46,7 @@ const SLIDES = [
     step: '05',
     title: 'Get ticket alerts',
     body: 'Subscribe to a specific festival and we\'ll notify you when ticket sales open or when there\'s a price drop.',
-    detail: 'Per-festival alerts · Early-bird notifications · No spam — unsubscribe anytime',
+    detail: 'Per-festival alerts · Early-bird notifications · No spam unsubscribe anytime',
     cta: { label: 'Browse Festivals', href: '/festivals' },
     color: 'from-orange-600 to-amber-600',
   },
@@ -74,7 +74,7 @@ export default function InstantTestimonialsCarousel() {
           How It Works
         </span>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-          From quiz to festival — in 5 steps
+          From quiz to festival in 5 steps
         </h2>
       </div>
 

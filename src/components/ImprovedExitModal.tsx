@@ -128,7 +128,7 @@ export default function ImprovedExitModal() {
 
               {/* Message */}
               <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-                Before you go — answer 8 quick questions and we&apos;ll rank 100+ festivals by how well they fit your taste, budget, and vibe.
+                Before you go answer 8 quick questions and we&apos;ll rank 100+ festivals by how well they fit your taste, budget, and vibe.
               </p>
 
               {/* Festival Carousel Indicator */}

@@ -48,6 +48,6 @@ curl -i -X POST http://localhost:3000/api/submit \
 
 Notes
 
-- The proxy includes a simple in-memory rate limiter (5 requests/min per IP) — for repeated tests, wait or adjust the script.
+- The proxy includes a simple in-memory rate limiter (5 requests/min per IP) - for repeated tests, wait or adjust the script.
 - For CI or staging tests, add `WEB3FORMS_ACCESS_KEY` as a secret in the environment and run the same script against your staging URL.
 - If you want me to run the test here, please provide a test `WEB3FORMS_ACCESS_KEY` (or instruct me to proceed without forwarding), and confirm you want me to run the dev server and execute the script from this environment.

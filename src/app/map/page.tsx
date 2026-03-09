@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import FestivalWorldMap from '@/components/FestivalWorldMap';
 
 export const metadata: Metadata = {
-  title: 'Global Festival Map — Explore by Region | FestiWise',
+  title: 'Global Festival Map - Explore by Region | FestiWise',
   description: 'Interactive world map of 100+ music festivals. Click any region to instantly explore festivals in North America, Europe, Asia, and beyond.',
   keywords: ['music festival map', 'world festival map', 'festival by region', 'global music festivals'],
   alternates: { canonical: 'https://getfestiwise.com/map' },

@@ -39,7 +39,7 @@ function ContactForm() {
         body: JSON.stringify({
           from_name: name,
           email,
-          subject: `Festival Partnership Inquiry — ${festival}`,
+          subject: `Festival Partnership Inquiry - ${festival}`,
           message: message || '(No additional message)',
           festival_name: festival,
           _autoresponse: `Hi ${name},\n\nThanks for reaching out about listing ${festival} on FestiWise!\n\nWe've received your inquiry and our partnerships team will get back to you within 24 hours with availability and next steps.\n\nIn the meantime, you can learn more about our audience at https://getfestiwise.com/for-festivals\n\nBest,\nThe FestiWise Team`,
@@ -229,7 +229,7 @@ const FAQS = [
   },
   {
     q: 'How does quiz matching work for featured festivals?',
-    a: 'Our algorithm already matches users to festivals based on genre, budget, location, and vibes. Business partners receive priority placement — your festival surfaces higher in results for users whose profile matches yours.',
+    a: 'Our algorithm already matches users to festivals based on genre, budget, location, and vibes. Business partners receive priority placement - your festival surfaces higher in results for users whose profile matches yours.',
   },
   {
     q: 'What is the minimum commitment?',
@@ -445,7 +445,7 @@ export default function ForFestivalsClient() {
             </h2>
             <p className="text-gray-500">
               Tell us about your festival and we&apos;ll send availability, examples, and next
-              steps — no commitment required.
+              steps - no commitment required.
             </p>
           </div>
           <div className="bg-white rounded-3xl p-8 shadow-xl border border-purple-100">
@@ -494,7 +494,7 @@ export default function ForFestivalsClient() {
           className="inline-flex items-center gap-2 bg-white text-purple-700 font-bold px-8 py-4 rounded-2xl hover:bg-purple-50 transition-colors text-lg"
         >
           <Mail className="w-5 h-5" />
-          Apply Now — Free to Inquire
+          Apply Now - Free to Inquire
         </a>
       </section>
     </div>

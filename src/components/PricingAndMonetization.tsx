@@ -8,7 +8,7 @@ import { Check, Zap, Building2, ChevronDown } from 'lucide-react';
 // ── Tier definitions ───────────────────────────────────────────────────────────
 
 const FREE_FEATURES = [
-  'Festival matching quiz — unlimited runs',
+  'Festival matching quiz - unlimited runs',
   'Browse & filter 100+ curated festivals',
   'Smart Match % badges from your quiz results',
   'Compare up to 3 festivals side-by-side',
@@ -21,7 +21,7 @@ const FREE_FEATURES = [
 
 const PRO_FEATURES = [
   'Everything in Free',
-  'Early ticket alerts — 48h before public',
+  'Early ticket alerts - 48h before public',
   'Unlimited festival compare (no 3-cap)',
   'Multi-festival trip planner',
   'Budget tracker across multiple festivals',
@@ -57,7 +57,7 @@ const FAQ = [
   },
   {
     q: 'How do I join the Pro waitlist?',
-    a: 'Click "Join Pro Waitlist" and enter your email. We will reach out personally once we open the beta — early waitlist members get a discounted launch price.',
+    a: 'Click "Join Pro Waitlist" and enter your email. We will reach out personally once we open the beta - early waitlist members get a discounted launch price.',
   },
   {
     q: 'Can I apply for a Business listing before you launch Pro?',
@@ -74,8 +74,8 @@ function WaitlistForm({ tier }: { tier: 'pro' | 'business' }) {
 
   const label = tier === 'pro' ? 'Pro' : 'Business';
   const subject = tier === 'pro'
-    ? 'FestiWise Pro — Early Access Waitlist'
-    : 'FestiWise Business — Featured Listing Interest';
+    ? 'FestiWise Pro - Early Access Waitlist'
+    : 'FestiWise Business - Featured Listing Interest';
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -95,8 +95,8 @@ function WaitlistForm({ tier }: { tier: 'pro' | 'business' }) {
             ? `You're on the FestiWise Pro waitlist`
             : `We received your FestiWise Business inquiry`,
           _autoresponse: tier === 'pro'
-            ? `Thanks for joining the FestiWise Pro waitlist! We're onboarding our first 100 members now. We'll reach out shortly with early access details and a special launch price. — The FestiWise Team`
-            : `Thanks for your interest in a FestiWise Business listing! Our team will reach out within 48 hours to discuss your festival and how we can maximise your visibility. — The FestiWise Team`,
+            ? `Thanks for joining the FestiWise Pro waitlist! We're onboarding our first 100 members now. We'll reach out shortly with early access details and a special launch price. - The FestiWise Team`
+            : `Thanks for your interest in a FestiWise Business listing! Our team will reach out within 48 hours to discuss your festival and how we can maximise your visibility. -The FestiWise Team`,
         }),
       });
       const data = await res.json();
@@ -152,7 +152,7 @@ function WaitlistForm({ tier }: { tier: 'pro' | 'business' }) {
         </button>
       </div>
       {status === 'error' && (
-        <p className="text-red-400 text-xs">Something went wrong — please try again.</p>
+        <p className="text-red-400 text-xs">Something went wrong - please try again.</p>
       )}
     </form>
   );
@@ -275,7 +275,7 @@ export default function PricingAndMonetization() {
                 <span className="text-4xl font-black text-white">$9</span>
                 <span className="text-white/40 text-sm">/ month</span>
               </div>
-              <p className="text-white/40 text-xs mb-3">or $79/year — save 27%</p>
+              <p className="text-white/40 text-xs mb-3">or $79/year - save 27%</p>
               <p className="text-white/60 text-sm">For serious festival planners who go to 2+ events a year.</p>
             </div>
             <ul className="space-y-2.5 flex-1 mb-6">
@@ -288,7 +288,7 @@ export default function PricingAndMonetization() {
             </ul>
             <div className="space-y-3">
               <p className="text-xs text-center text-purple-300/70 font-medium">
-                Pro is in development — join the waitlist for early access &amp; a launch discount.
+                Pro is in development -join the waitlist for early access &amp; a launch discount.
               </p>
               <WaitlistForm tier="pro" />
             </div>
@@ -359,7 +359,7 @@ export default function PricingAndMonetization() {
           className="bg-white/3 border border-white/8 rounded-2xl p-6 mb-16 text-center"
         >
           <p className="text-white/40 text-xs leading-relaxed max-w-2xl mx-auto">
-            Some ticket links on FestiWise include affiliate tracking codes. If you purchase a ticket after clicking, we may earn a small commission at no extra cost to you. Quiz match scores are calculated solely from your answers — no festival can pay to rank higher in your personal results.
+            Some ticket links on FestiWise include affiliate tracking codes. If you purchase a ticket after clicking, we may earn a small commission at no extra cost to you. Quiz match scores are calculated solely from your answers - no festival can pay to rank higher in your personal results.
           </p>
         </motion.div>
 

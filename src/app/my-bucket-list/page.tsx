@@ -4,7 +4,7 @@ import BucketListClient from './BucketListClient';
 
 export const metadata: Metadata = {
   title: 'My Festival Bucket List | FestiWise',
-  description: 'Your personal festival bucket list — saved festivals, total budget estimate, and easy sharing.',
+  description: 'Your personal festival bucket list - saved festivals, total budget estimate, and easy sharing.',
   robots: { index: false },
 };
 

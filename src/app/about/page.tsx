@@ -11,20 +11,20 @@ export default function AboutPage() {
 
   const milestones = [
     { year: '2024', event: 'FestiWise founded after a frustrating festival search experience while travelling' },
-    { year: '2025', event: 'Quiz scoring algorithm developed — ranks 100+ festivals against your answers in under a second' },
+    { year: '2025', event: 'Quiz scoring algorithm developed - ranks 100+ festivals against your answers in under a second' },
     { year: '2025', event: 'Festival database grows to 100+ curated entries across 50+ countries' },
-    { year: 'Next', event: 'Native iOS and Android app — quiz, saved festivals, and ticket alerts in your pocket' },
+    { year: 'Next', event: 'Native iOS and Android app - quiz, saved festivals, and ticket alerts in your pocket' },
     { year: 'Next', event: 'More festivals, more regions, more languages' },
   ];
 
   const values = [
     {
       title: 'No affiliations',
-      description: 'FestiWise has no affiliation with any festival, promoter, or ticket seller. Rankings are determined entirely by your quiz answers — no festival can pay to appear higher.',
+      description: 'FestiWise has no affiliation with any festival, promoter, or ticket seller. Rankings are determined entirely by your quiz answers - no festival can pay to appear higher.',
     },
     {
       title: 'No accounts required',
-      description: 'Take the quiz, browse festivals, save favourites — all without creating an account. Your quiz answers are processed locally and never stored on our servers.',
+      description: 'Take the quiz, browse festivals, save favourites - all without creating an account. Your quiz answers are processed locally and never stored on our servers.',
     },
     {
       title: 'No paid tiers',
@@ -36,7 +36,7 @@ export default function AboutPage() {
     },
     {
       title: 'No ads',
-      description: 'FestiWise does not run ads. Ticket links on festival pages point directly to official sources — we earn no commission.',
+      description: 'FestiWise does not run ads. Ticket links on festival pages point directly to official sources - we earn no commission.',
     },
     {
       title: 'No spam',
@@ -58,7 +58,7 @@ export default function AboutPage() {
               About FestiWise
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              A free tool that helps you find festivals that actually fit you — based on your vibe, budget, and travel style, not what&apos;s trending on social media.
+              A free tool that helps you find festivals that actually fit you - based on your vibe, budget, and travel style, not what&apos;s trending on social media.
             </p>
           </div>
 
@@ -107,7 +107,7 @@ export default function AboutPage() {
                       </p>
                       <p>
                         FestiWise was built in 2024 to solve that problem. Answer 8 questions about
-                        what you&apos;re looking for — we score 100+ curated festivals against your answers
+                        what you&apos;re looking for - we score 100+ curated festivals against your answers
                         and show you the ones that genuinely fit.
                       </p>
                       <p className="text-purple-700 font-medium">
@@ -145,7 +145,7 @@ export default function AboutPage() {
                 <div className="text-center max-w-3xl mx-auto">
                   <h2 className="text-4xl font-bold text-gray-900 mb-4">How the matching works</h2>
                   <p className="text-xl text-gray-600 leading-relaxed">
-                    FestiWise uses a scoring algorithm — not AI — to rank festivals. Here&apos;s exactly what happens when you take the quiz.
+                    FestiWise uses a scoring algorithm - not AI - to rank festivals. Here&apos;s exactly what happens when you take the quiz.
                   </p>
                 </div>
 
@@ -179,7 +179,7 @@ export default function AboutPage() {
 
                 <div className="bg-purple-50 border border-purple-200 rounded-2xl p-6">
                   <p className="text-purple-800 text-sm leading-relaxed">
-                    <strong>On data quality:</strong> Festival information (genres, cost range, location, dates, vibe) is sourced from official festival websites and publicly available information. We do not use user reviews or ratings — those don&apos;t exist on FestiWise.
+                    <strong>On data quality:</strong> Festival information (genres, cost range, location, dates, vibe) is sourced from official festival websites and publicly available information. We do not use user reviews or ratings - those don&apos;t exist on FestiWise.
                   </p>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function AboutPage() {
                 <div className="text-center max-w-3xl mx-auto">
                   <h2 className="text-4xl font-bold text-gray-900 mb-4">What we stand for</h2>
                   <p className="text-xl text-gray-600 leading-relaxed">
-                    These are not aspirational statements — they describe how FestiWise operates today.
+                    These are not aspirational statements - they describe how FestiWise operates today.
                   </p>
                 </div>
 
@@ -253,7 +253,7 @@ export default function AboutPage() {
                 <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-2xl p-8 text-center max-w-xl mx-auto">
                   <h3 className="text-xl font-bold text-gray-900 mb-3">Want to contribute?</h3>
                   <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                    If you attend a festival that&apos;s not in our database, have insider tips to share, or spot something that&apos;s wrong or outdated — reach out. Festival knowledge from real attendees makes the database better for everyone.
+                    If you attend a festival that&apos;s not in our database, have insider tips to share, or spot something that&apos;s wrong or outdated - reach out. Festival knowledge from real attendees makes the database better for everyone.
                   </p>
                   <a
                     href="mailto:pixelplus.contact@gmail.com"
@@ -326,7 +326,7 @@ export default function AboutPage() {
                   href="/quiz"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
                 >
-                  Take the Quiz — Free
+                  Take the Quiz - Free
                   <ChevronRight size={18} />
                 </Link>
                 <Link
@@ -372,7 +372,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-6">Trust &amp; Privacy</h3>
               <div className="space-y-3">
                 {[
-                  'Quiz answers processed locally — not stored on our servers',
+                  'Quiz answers processed locally - not stored on our servers',
                   'No personal data sold or shared with third parties',
                   'No affiliation with any festival, promoter, or ticket seller',
                   'Ticket links point to official festival sources only',

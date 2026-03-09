@@ -92,7 +92,7 @@ export default function Navigation() {
   const Banner = () => (
     <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1.5 text-xs font-medium tracking-wide">
       <Link href="/pricing" className="hover:underline">
-        Pro is here — early ticket alerts, unlimited compare &amp; more &rarr;
+        Pro is here early ticket alerts, unlimited compare &amp; more &rarr;
       </Link>
     </div>
   );

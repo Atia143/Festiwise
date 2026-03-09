@@ -34,9 +34,9 @@ function saveFavoriteIds(ids: string[]) {
 }
 
 const BUDGET_NOTES = [
-  'Ticket price only — travel and accommodation not included.',
+  'Ticket price only - travel and accommodation not included.',
   'Estimates based on minimum reported costs. Actual spend may vary.',
-  'Exchange rates not applied — all figures in USD.',
+  'Exchange rates not applied - all figures in USD.',
 ];
 
 export default function BucketListClient() {
@@ -95,7 +95,7 @@ export default function BucketListClient() {
         </div>
         <h1 className="text-3xl font-extrabold text-gray-900">Your bucket list is empty</h1>
         <p className="text-gray-500 max-w-sm text-lg">
-          Save festivals from anywhere on the site — tap the heart icon to add them here.
+          Save festivals from anywhere on the site - tap the heart icon to add them here.
         </p>
         <Link
           href="/quiz"

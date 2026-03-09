@@ -21,7 +21,7 @@ export default function NewsletterPopup({ isOpen, onClose, trigger }: Newsletter
   const getHeadline = () => {
     switch (trigger) {
       case 'exit-intent':
-        return "Before you go — get festival picks in your inbox";
+        return "Before you go - get festival picks in your inbox";
       case 'scroll-based':
         return "Get our best festival picks delivered to you";
       case 'time-based':

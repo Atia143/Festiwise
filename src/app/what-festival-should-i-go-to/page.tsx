@@ -117,7 +117,7 @@ export default function FAQ() {
                   How do I get updates?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Subscribe to our newsletter for personalized festival recommendations and new festival discoveries — no spam, ever.
+                  Subscribe to our newsletter for personalized festival recommendations and new festival discoveries - no spam, ever.
                 </p>
               </div>
             </div>

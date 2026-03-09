@@ -8,7 +8,7 @@ const FEATURES = [
   {
     icon: <Globe size={28} className="text-purple-400" />,
     title: 'Works in Any Browser',
-    description: 'Open getfestiwise.com on any iOS or Android device — no download required.',
+    description: 'Open getfestiwise.com on any iOS or Android device -no download required.',
   },
   {
     icon: <BookmarkPlus size={28} className="text-pink-400" />,
@@ -28,11 +28,11 @@ const FEATURES = [
   {
     icon: <Bell size={28} className="text-blue-400" />,
     title: 'Ticket Alerts',
-    description: 'Sign up for ticket alerts on any festival detail page — no app needed.',
+    description: 'Sign up for ticket alerts on any festival detail page - no app needed.',
   },
   {
     icon: <Smartphone size={28} className="text-orange-400" />,
-    title: 'Native App — Coming Soon',
+    title: 'Native App - Coming Soon',
     description: 'We\'re working on dedicated iOS and Android apps. Stay tuned.',
   },
 ];
@@ -40,7 +40,7 @@ const FEATURES = [
 const STEPS = [
   { step: '1', text: 'Open getfestiwise.com in Safari or Chrome on your phone' },
   { step: '2', text: 'Tap the share icon (Safari) or the three-dot menu (Chrome)' },
-  { step: '3', text: 'Select "Add to Home Screen" — done' },
+  { step: '3', text: 'Select "Add to Home Screen" - done' },
 ];
 
 export default function MobileAppPage() {
@@ -75,7 +75,7 @@ export default function MobileAppPage() {
             FestiWise on Your Phone
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10">
-            FestiWise is a web app — it works on every device right now, directly in your browser. No download needed. A native mobile app is in the works.
+            FestiWise is a web app - it works on every device right now, directly in your browser. No download needed. A native mobile app is in the works.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/quiz">
@@ -84,7 +84,7 @@ export default function MobileAppPage() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-400 to-pink-400 text-black rounded-xl font-bold hover:from-yellow-500 hover:to-pink-500 transition-all shadow-lg"
               >
-                Take the Quiz — Free
+                Take the Quiz Free
               </motion.span>
             </Link>
             <Link href="/festivals">
@@ -138,7 +138,7 @@ export default function MobileAppPage() {
             Add to Home Screen
           </h2>
           <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-            Get an app-like experience on iOS or Android in 3 steps — no App Store required.
+            Get an app-like experience on iOS or Android in 3 steps no App Store required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             {STEPS.map(({ step, text }) => (

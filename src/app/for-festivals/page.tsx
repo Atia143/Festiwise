@@ -4,7 +4,7 @@ import ForFestivalsClient from './ForFestivalsClient';
 export const metadata: Metadata = {
   title: 'List Your Festival on FestiWise | Reach 50,000+ Festival Fans',
   description:
-    'Get your festival in front of highly targeted fans. Featured placement, real-time analytics, and lead capture — starting at $299/month.',
+    'Get your festival in front of highly targeted fans. Featured placement, real-time analytics, and lead capture - starting at $299/month.',
   openGraph: {
     title: 'List Your Festival on FestiWise',
     description:

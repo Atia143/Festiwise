@@ -38,7 +38,7 @@ export default function ConversionBanner({
     newsletter: {
       gradient: 'from-purple-700 via-pink-600 to-rose-600',
       title: 'Never miss a festival you\'d love',
-      subtitle: 'Early-bird alerts and curated picks — free, every week.',
+      subtitle: 'Early-bird alerts and curated picks - free, every week.',
       cta: 'Get Free Updates',
       href: '/#newsletter',
       benefits: ['Early-bird ticket alerts', 'Weekly curated picks', 'Unsubscribe anytime'],
@@ -54,7 +54,7 @@ export default function ConversionBanner({
     tickets: {
       gradient: 'from-emerald-700 via-teal-600 to-cyan-700',
       title: 'Browse tickets for 100+ festivals',
-      subtitle: 'Direct official links — no markup, no middleman.',
+      subtitle: 'Direct official links - no markup, no middleman.',
       cta: 'Browse Festivals',
       href: '/festivals',
       benefits: ['Official sources only', 'No extra fees', 'Full price transparency'],

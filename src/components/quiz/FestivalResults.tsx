@@ -82,9 +82,9 @@ function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
         body: JSON.stringify({
           email,
           from_name: name || 'FestiWise User',
-          subject: `Ticket Alert — ${festival.name}`,
+          subject: `Ticket Alert - ${festival.name}`,
           message: `User requested ticket alerts.\n\nName: ${name || '(not provided)'}\nEmail: ${email}\nFestival: ${festival.name} (${festival.city}, ${festival.country})\nMatch score: ${festival.matchScore}%\nTimestamp: ${new Date().toISOString()}`,
-          _autoresponse: `Hi ${name || 'there'},\n\nYou're on the early-access list for ${festival.name}!\n\nWe'll email you as soon as tickets go on sale — before we announce it publicly. You'll also receive our Pro member guide with tips on the best camping spots, lineup predictions, and travel hacks for ${festival.name}.\n\nIn the meantime, explore the full festival details at https://getfestiwise.com/festival/${festival.id}\n\n— The FestiWise Team`,
+          _autoresponse: `Hi ${name || 'there'},\n\nYou're on the early-access list for ${festival.name}!\n\nWe'll email you as soon as tickets go on sale - before we announce it publicly. You'll also receive our Pro member guide with tips on the best camping spots, lineup predictions, and travel hacks for ${festival.name}.\n\nIn the meantime, explore the full festival details at https://getfestiwise.com/festival/${festival.id}\n\n- The FestiWise Team`,
           botcheck: '',
         }),
       });
@@ -106,7 +106,7 @@ function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
         </div>
         <div>
           <p className="font-semibold text-green-800 text-sm">You&apos;re on the early-access list!</p>
-          <p className="text-green-600 text-xs">Check your inbox — we sent you the insider guide for {festival.name}.</p>
+          <p className="text-green-600 text-xs">Check your inbox - we sent you the insider guide for {festival.name}.</p>
         </div>
       </div>
     );
@@ -143,7 +143,7 @@ function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
         {state === 'loading' ? 'Saving…' : 'Get Early Access + Insider Guide'}
       </button>
       {state === 'error' && (
-        <p className="text-red-500 text-xs">Something went wrong — try again.</p>
+        <p className="text-red-500 text-xs">Something went wrong - try again.</p>
       )}
     </form>
   );
@@ -448,7 +448,7 @@ function FestivalDNAShare({
     const shareUrl = `${window.location.origin}/quiz`;
     const text = `My Festival DNA: ${topGenre} lover, ${festival.matchScore}% match with ${festival.name}. What's yours?`;
     if (navigator.share) {
-      await navigator.share({ title: 'My Festival DNA — FestiWise', text, url: shareUrl }).catch(() => {});
+      await navigator.share({ title: 'My Festival DNA: FestiWise', text, url: shareUrl }).catch(() => {});
     } else {
       await navigator.clipboard.writeText(`${text} ${shareUrl}`).catch(() => {});
     }
@@ -585,9 +585,9 @@ function EmailGate({
         body: JSON.stringify({
           email,
           from_name: name || 'FestiWise User',
-          subject: 'FestiWise — New Quiz Result Signup',
+          subject: 'FestiWise - New Quiz Result Signup',
           message: `New signup from quiz results.\n\nName: ${name || '(not provided)'}\nEmail: ${email}\nTop score seen: ${topScore}%\nTimestamp: ${new Date().toISOString()}`,
-          _autoresponse: `Hi ${name || 'there'},\n\nYour festival matches are waiting! Head back to FestiWise at any time to view or re-take your quiz.\n\nYou'll also receive our weekly festival insider — early ticket alerts, lineup drops, and travel tips for the festivals on your list.\n\n— The FestiWise Team`,
+          _autoresponse: `Hi ${name || 'there'},\n\nYour festival matches are waiting! Head back to FestiWise at any time to view or re-take your quiz.\n\nYou'll also receive our weekly festival insider - early ticket alerts, lineup drops, and travel tips for the festivals on your list.\n\n- The FestiWise Team`,
           botcheck: '',
         }),
       });
@@ -625,7 +625,7 @@ function EmailGate({
             Your top match is ready
           </h1>
           <p className="text-gray-500 text-sm leading-relaxed">
-            Enter your email to unlock your results — and get early ticket alerts when sales open.
+            Enter your email to unlock your results - and get early ticket alerts when sales open.
           </p>
         </div>
 
@@ -771,7 +771,7 @@ export function FestivalResults() {
           <div className="text-5xl mb-4">🔍</div>
           <h3 className="text-2xl font-bold text-gray-800 mb-3">No matches found</h3>
           <p className="text-gray-500 mb-6 text-sm leading-relaxed">
-            Try broadening your preferences — adjust your budget or region and take the quiz again.
+            Try broadening your preferences - adjust your budget or region and take the quiz again.
           </p>
           <button
             onClick={resetQuiz}
@@ -803,7 +803,7 @@ export function FestivalResults() {
             Your Festival Matches
           </h1>
           <p className="text-gray-500 text-sm">
-            Based on your preferences — {matches.length} festivals found
+            Based on your preferences - {matches.length} festivals found
           </p>
         </motion.div>
 
@@ -830,7 +830,7 @@ export function FestivalResults() {
               Be first in line for {topMatch.name} tickets
             </p>
             <p className="text-gray-500 text-xs mt-1">
-              We&apos;ll alert you before public sales open — plus send you our insider guide: best camping spots, travel tips, and what to pack.
+              We&apos;ll alert you before public sales open - plus send you our insider guide: best camping spots, travel tips, and what to pack.
             </p>
           </div>
           <TicketAlertForm festival={topMatch} />
@@ -900,7 +900,7 @@ export function FestivalResults() {
               const url = 'https://getfestiwise.com/quiz';
               const text = 'Can you beat my festival match? Take the FestiWise quiz!';
               if (typeof navigator !== 'undefined' && navigator.share) {
-                await navigator.share({ title: 'Challenge a Friend — FestiWise', text, url }).catch(() => {});
+                await navigator.share({ title: 'Challenge a Friend - FestiWise', text, url }).catch(() => {});
               } else {
                 await navigator.clipboard.writeText(url);
                 setChallengeCopied(true);

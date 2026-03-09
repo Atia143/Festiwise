@@ -25,19 +25,19 @@ interface FestivalData {
 
 const PRO_TIPS: Record<string, { tip: string; icon: string }[]> = {
   tomorrowland: [
-    { tip: 'Register your DreamVille camping spot by March — it sells out within hours of opening', icon: '⛺' },
+    { tip: 'Register your DreamVille camping spot by March -it sells out within hours of opening', icon: '⛺' },
     { tip: 'Thursday early-entry wristband avoids 2-hour Friday queues at the main gate', icon: '🚪' },
   ],
   coachella: [
-    { tip: 'Weekend 2 tickets drop in November — resale prices peak sharply in January', icon: '🎫' },
+    { tip: 'Weekend 2 tickets drop in November - resale prices peak sharply in January', icon: '🎫' },
     { tip: 'The Sahara Tent hits extreme heat before noon; front-load hydration before afternoon sets', icon: '☀️' },
   ],
   glastonbury: [
-    { tip: 'Registration lottery opens in October — sign up now even without a ticket confirmed', icon: '🍀' },
+    { tip: 'Registration lottery opens in October - sign up now even without a ticket confirmed', icon: '🍀' },
     { tip: 'Park & Ride from Bristol is faster than the direct coach from London Victoria', icon: '🚌' },
   ],
   burning_man: [
-    { tip: 'Playa alkaline dust destroys electronics — use sealed dry bags or hard cases for everything', icon: '🌪️' },
+    { tip: 'Playa alkaline dust destroys electronics - use sealed dry bags or hard cases for everything', icon: '🌪️' },
     { tip: 'Low-emission vehicle (LEV) tickets go on sale in January and cost less than GA', icon: '🚗' },
   ],
   ultra_miami: [
@@ -45,7 +45,7 @@ const PRO_TIPS: Record<string, { tip: string; icon: string }[]> = {
     { tip: 'The Bayside Market stage has consistently shorter queues and cleaner sound', icon: '🎵' },
   ],
   primavera: [
-    { tip: 'San Miguel Stage headliners go on at 1am — eat dinner early to avoid the crush', icon: '🍕' },
+    { tip: 'San Miguel Stage headliners go on at 1am - eat dinner early to avoid the crush', icon: '🍕' },
     { tip: 'Barcelona metro stops at 2am; book a festival shuttle in advance or pre-arrange rides', icon: '🚇' },
   ],
 };
@@ -131,7 +131,7 @@ export default function FestivalRadar() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-8">
-              Trending lineups, insider secrets, and real-time festival intelligence — all in one feed.
+              Trending lineups, insider secrets, and real-time festival intelligence - all in one feed.
             </p>
             <Link
               href="/quiz"
@@ -314,7 +314,7 @@ export default function FestivalRadar() {
               </span>
             </h2>
             <p className="text-lg text-white/60 max-w-xl mx-auto mb-10 leading-relaxed">
-              Answer 8 questions about your vibe, budget, and travel style — we rank every festival in our database by how well it fits you.
+              Answer 8 questions about your vibe, budget, and travel style - we rank every festival in our database by how well it fits you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

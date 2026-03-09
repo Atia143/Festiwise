@@ -82,13 +82,13 @@ export default function ForYouSection() {
                 Find festivals made for you
               </h2>
               <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-sm">
-                Answer 6 quick questions about your music taste, budget, and travel style — we&apos;ll match you to your perfect festival in under 2 minutes.
+                Answer 6 quick questions about your music taste, budget, and travel style -we&apos;ll match you to your perfect festival in under 2 minutes.
               </p>
               <Link
                 href="/quiz"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-7 py-3.5 rounded-2xl hover:opacity-90 transition-opacity shadow-lg shadow-purple-200"
               >
-                Take the Quiz — Free
+                Take the Quiz - Free
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -137,7 +137,7 @@ export default function ForYouSection() {
             <h2 className="text-2xl font-extrabold text-gray-900">
               {genreHint ? `Your Top ${genreHint} Picks` : 'Your Top Festival Picks'}
             </h2>
-            <p className="text-sm text-gray-500 mt-1">Based on your quiz results — ranked by match score</p>
+            <p className="text-sm text-gray-500 mt-1">Based on your quiz results - ranked by match score</p>
           </div>
           <Link
             href="/my-recommendations"

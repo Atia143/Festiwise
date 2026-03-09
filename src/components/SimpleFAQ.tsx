@@ -7,19 +7,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 const FAQ_ITEMS = [
   {
     q: 'How does the FestiWise quiz work?',
-    a: 'Answer 8 quick questions about your music taste, travel style, and budget. Our algorithm scores every festival in our database across 50+ factors and surfaces your top matches — ranked by how well they fit you specifically.',
+    a: 'Answer 8 quick questions about your music taste, travel style, and budget. Our algorithm scores every festival in our database across 50+ factors and surfaces your top matches ranked by how well they fit you specifically.',
   },
   {
     q: 'Is FestiWise free?',
-    a: 'Completely free, forever. No account required, no credit card, no premium tier. We have no affiliation with any festival or ticket seller — our recommendations are based entirely on your quiz answers.',
+    a: 'Completely free, forever. No account required, no credit card, no premium tier. We have no affiliation with any festival or ticket seller - our recommendations are based entirely on your quiz answers.',
   },
   {
     q: 'How many festivals are in the database?',
-    a: 'Over 100 hand-curated events across 30+ countries — from stadium-scale headliners like Coachella and Tomorrowland to boutique gems most people have never heard of. We review and update the database regularly.',
+    a: 'Over 100 hand-curated events across 30+ countries - from stadium-scale headliners like Coachella and Tomorrowland to boutique gems most people have never heard of. We review and update the database regularly.',
   },
   {
     q: 'Do I need to create an account?',
-    a: 'No. Take the quiz, get your results, save favourites to your device — all without signing up. Your saved festivals are stored locally in your browser.',
+    a: 'No. Take the quiz, get your results, save favourites to your device - all without signing up. Your saved festivals are stored locally in your browser.',
   },
   {
     q: 'Can I save my favourite festivals?',
@@ -31,7 +31,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What if the quiz results don\'t feel right?',
-    a: 'Retake it — your answers are never saved server-side. You can also browse directly by genre or region on the Festivals page, or use the Discover filters to find events that match specific criteria.',
+    a: 'Retake it - your answers are never saved server-side. You can also browse directly by genre or region on the Festivals page, or use the Discover filters to find events that match specific criteria.',
   },
   {
     q: 'How do I get ticket alerts for a festival?',

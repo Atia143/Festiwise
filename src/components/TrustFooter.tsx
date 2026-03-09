@@ -74,7 +74,7 @@ export default function TrustFooter() {
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest text-purple-400 mb-4">
-              Free — No sign-up required
+              Free: No sign-up required
             </p>
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
               Find your perfect festival.
