@@ -40,7 +40,7 @@ function nextOccurrence(months: string[]): Date | null {
   if (upcoming !== undefined) {
     return new Date(thisYear, upcoming, 15);
   }
-  // All months have passed this year — use next year
+ 
   return new Date(thisYear + 1, sorted[0], 15);
 }
 
@@ -60,8 +60,8 @@ export function getUrgencySignal(months: string[], status: string): UrgencySigna
       level: 'critical',
       label: 'Selling Fast',
       sublabel: daysUntil <= 7
-        ? `Only ${daysUntil} days away — last chance!`
-        : `${daysUntil} days away — tickets almost gone`,
+        ? `Only ${daysUntil} days away last chance!`
+        : `${daysUntil} days away tickets almost gone`,
       daysUntil,
     };
   }
@@ -70,7 +70,7 @@ export function getUrgencySignal(months: string[], status: string): UrgencySigna
     return {
       level: 'high',
       label: 'Prices Rising',
-      sublabel: `${daysUntil} days to go — prices typically increase now`,
+      sublabel: `${daysUntil} days to go prices typically increase now`,
       daysUntil,
     };
   }
@@ -79,7 +79,7 @@ export function getUrgencySignal(months: string[], status: string): UrgencySigna
     return {
       level: 'medium',
       label: 'Early Bird Ending',
-      sublabel: `${daysUntil} days away — early-bird prices won't last`,
+      sublabel: `${daysUntil} days away early-bird prices won't last`,
       daysUntil,
     };
   }
