@@ -11,7 +11,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is FestiWise free?',
-    a: 'The core quiz and festival database are completely free. No account required. Our recommendations are based entirely on your quiz answers — we surface the best matches regardless of who sells the tickets. Some ticket links may earn us a small referral fee at no extra cost to you.',
+    a: 'The core quiz and festival database are completely free. No account required. Our recommendations are based entirely on your quiz answers: we surface the best matches regardless of who sells the tickets. Some ticket links may earn us a small referral fee at no extra cost to you.',
   },
   {
     q: 'How many festivals are in the database?',

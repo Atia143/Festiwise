@@ -37,7 +37,7 @@ export default function FAQ() {
                   How does the festival matching work?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Our algorithm scores each festival based on your quiz answers—music genres, budget, preferred months, and travel region. You get a ranked list with reasons for each match, including practical tips and insider information.
+                  Our algorithm scores each festival based on your quiz answers music genres, budget, preferred months, and travel region. You get a ranked list with reasons for each match, including practical tips and insider information.
                 </p>
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function FAQ() {
                   Do you sell my data?
                 </h3>
                 <p className="mt-3 text-gray-500">
-                  Never. Your answers are used only for matching. We don't sell, share, or resell your data—period. Your privacy is our top priority.
+                  Never. Your answers are used only for matching. We don't sell, share, or resell your data period. Your privacy is our top priority.
                 </p>
               </div>
             </div>
