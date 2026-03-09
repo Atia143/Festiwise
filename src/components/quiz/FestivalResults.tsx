@@ -562,6 +562,120 @@ function FestivalDNAShare({
   );
 }
 
+// ── Email gate — shown once before revealing results ──────────────────────────
+function EmailGate({
+  topScore,
+  onUnlock,
+}: {
+  topScore: number;
+  onUnlock: () => void;
+}) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          email,
+          from_name: name || 'FestiWise User',
+          subject: 'FestiWise — New Quiz Result Signup',
+          message: `New signup from quiz results.\n\nName: ${name || '(not provided)'}\nEmail: ${email}\nTop score seen: ${topScore}%\nTimestamp: ${new Date().toISOString()}`,
+          _autoresponse: `Hi ${name || 'there'},\n\nYour festival matches are waiting! Head back to FestiWise at any time to view or re-take your quiz.\n\nYou'll also receive our weekly festival insider — early ticket alerts, lineup drops, and travel tips for the festivals on your list.\n\n— The FestiWise Team`,
+          botcheck: '',
+        }),
+      });
+    } catch { /* non-blocking */ }
+    try { localStorage.setItem('festi_email_v1', JSON.stringify({ email, name, savedAt: Date.now() })); } catch { /* ignore */ }
+    setLoading(false);
+    onUnlock();
+  }
+
+  function handleSkip() {
+    try { localStorage.setItem('festi_email_v1', JSON.stringify({ skipped: true, savedAt: Date.now() })); } catch { /* ignore */ }
+    onUnlock();
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-sm"
+      >
+        {/* Score teaser */}
+        <div className="text-center mb-8">
+          <motion.div
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 300, damping: 20 }}
+            className="inline-flex items-end gap-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl px-8 py-5 shadow-2xl shadow-purple-200 mb-5"
+          >
+            <span className="text-white font-black text-6xl leading-none tabular-nums">{topScore}</span>
+            <span className="text-white/70 text-2xl font-bold mb-1">%</span>
+          </motion.div>
+          <h1 className="text-2xl font-extrabold text-gray-900 mb-2">
+            Your top match is ready
+          </h1>
+          <p className="text-gray-500 text-sm leading-relaxed">
+            Enter your email to unlock your results — and get early ticket alerts when sales open.
+          </p>
+        </div>
+
+        {/* Form */}
+        <div className="bg-white rounded-3xl shadow-xl border border-purple-100 p-6">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <input
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="First name (optional)"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-400 placeholder-gray-400 min-h-[44px]"
+              disabled={loading}
+            />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-400 placeholder-gray-400 min-h-[44px]"
+              disabled={loading}
+            />
+            <button
+              type="submit"
+              disabled={loading || !email}
+              className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold rounded-2xl hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 text-base min-h-[52px] tap-highlight-none touch-manipulation"
+            >
+              {loading ? 'Unlocking…' : 'See My Festival Matches →'}
+            </button>
+          </form>
+          <p className="text-center text-[11px] text-gray-400 mt-3">
+            No spam. Unsubscribe anytime.
+          </p>
+        </div>
+
+        {/* Skip */}
+        <div className="text-center mt-4">
+          <button
+            onClick={handleSkip}
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors tap-highlight-none"
+          >
+            Skip for now →
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
@@ -569,8 +683,17 @@ export function FestivalResults() {
   const [loading, setLoading] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
   const [challengeCopied, setChallengeCopied] = useState(false);
+  const [emailUnlocked, setEmailUnlocked] = useState(false);
 
   const { trackMatchResults, trackFestivalOutboundClick } = useQuizAnalytics();
+
+  // Check if email already captured on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('festi_email_v1');
+      if (saved) setEmailUnlocked(true);
+    } catch { /* ignore */ }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -594,6 +717,16 @@ export function FestivalResults() {
 
     return () => clearTimeout(timer);
   }, [state.answers]);
+
+  // ── Email gate ───────────────────────────────────────────────────────────────
+  if (!loading && !emailUnlocked && matches.length > 0) {
+    return (
+      <EmailGate
+        topScore={matches[0].matchScore}
+        onUnlock={() => setEmailUnlocked(true)}
+      />
+    );
+  }
 
   // ── Loading state ────────────────────────────────────────────────────────────
   if (loading) {
