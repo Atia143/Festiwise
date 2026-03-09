@@ -9,7 +9,6 @@ import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import SharePrompt from "@/components/SharePrompt";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
 import StickyCTABar from "@/components/StickyCTABar";
-import MobileOptimizedBottomSheet from "@/components/MobileOptimizedBottomSheet";
 import PerformanceOptimizer, { ConnectionAwareComponent } from "@/components/PerformanceOptimizer";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -66,7 +65,6 @@ export default function RootLayout({
             <ToastProvider>
               <Navigation />
               <StickyCTABar />
-              <MobileOptimizedBottomSheet />
               <main className="pt-20">
                 {children}
               </main>

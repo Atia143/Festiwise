@@ -65,8 +65,9 @@ function AnimatedScore({ target }: { target: number }) {
   return <>{display}</>;
 }
 
-// ── Ticket alert form — inline, honest copy ────────────────────────────────────
+// ── Ticket alert form — inline, strong value prop ─────────────────────────────
 function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -80,18 +81,16 @@ function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           email,
+          from_name: name || 'FestiWise User',
           subject: `Ticket Alert — ${festival.name}`,
-          from_name: 'FestiWise Quiz',
-          message: `User requested ticket alerts.\n\nEmail: ${email}\nFestival: ${festival.name} (${festival.city}, ${festival.country})\nMatch score: ${festival.matchScore}%\nTimestamp: ${new Date().toISOString()}`,
-          _cc: email,
-          _subject: `You're on the list for ${festival.name}`,
-          _autoresponse: `We'll notify you when ${festival.name} ticket sales open. In the meantime, check out the full festival details at getfestiwise.com.`,
+          message: `User requested ticket alerts.\n\nName: ${name || '(not provided)'}\nEmail: ${email}\nFestival: ${festival.name} (${festival.city}, ${festival.country})\nMatch score: ${festival.matchScore}%\nTimestamp: ${new Date().toISOString()}`,
+          _autoresponse: `Hi ${name || 'there'},\n\nYou're on the early-access list for ${festival.name}!\n\nWe'll email you as soon as tickets go on sale — before we announce it publicly. You'll also receive our Pro member guide with tips on the best camping spots, lineup predictions, and travel hacks for ${festival.name}.\n\nIn the meantime, explore the full festival details at https://getfestiwise.com/festival/${festival.id}\n\n— The FestiWise Team`,
           botcheck: '',
         }),
       });
       const data = await res.json();
       setState(data.success ? 'success' : 'error');
-      if (data.success) setEmail('');
+      if (data.success) { setEmail(''); setName(''); }
     } catch {
       setState('error');
     }
@@ -106,34 +105,45 @@ function TicketAlertForm({ festival }: { festival: FestivalWithMatch }) {
           </svg>
         </div>
         <div>
-          <p className="font-semibold text-green-800 text-sm">You&apos;re on the list!</p>
-          <p className="text-green-600 text-xs">We&apos;ll email you when {festival.name} tickets open.</p>
+          <p className="font-semibold text-green-800 text-sm">You&apos;re on the early-access list!</p>
+          <p className="text-green-600 text-xs">Check your inbox — we sent you the insider guide for {festival.name}.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-400 text-gray-900 placeholder-gray-400 min-h-[44px]"
-        required
-        disabled={state === 'loading'}
-        aria-label="Email address"
-      />
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="First name"
+          className="w-28 px-3 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-400 text-gray-900 placeholder-gray-400 min-h-[44px]"
+          disabled={state === 'loading'}
+          aria-label="First name"
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-400 text-gray-900 placeholder-gray-400 min-h-[44px]"
+          required
+          disabled={state === 'loading'}
+          aria-label="Email address"
+        />
+      </div>
       <button
         type="submit"
         disabled={state === 'loading' || !email}
-        className="px-5 py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 text-sm whitespace-nowrap min-h-[44px] tap-highlight-none touch-manipulation"
+        className="w-full px-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 text-sm min-h-[44px] tap-highlight-none touch-manipulation"
       >
-        {state === 'loading' ? 'Saving…' : 'Notify Me'}
+        {state === 'loading' ? 'Saving…' : 'Get Early Access + Insider Guide'}
       </button>
       {state === 'error' && (
-        <p className="text-red-500 text-xs mt-1 sm:col-span-2">Something went wrong — try again.</p>
+        <p className="text-red-500 text-xs">Something went wrong — try again.</p>
       )}
     </form>
   );
@@ -370,7 +380,27 @@ function ShareSection({ festival, matchScore }: { festival: FestivalWithMatch; m
   );
 }
 
-// ── Festival DNA share card ────────────────────────────────────────────────────
+// ── Festival DNA Card — beautiful inline preview, Instagram-Story optimised ─────
+const GENRE_BG: Record<string, string> = {
+  edm:        'from-[#6a3093] to-[#a044ff]',
+  electronic: 'from-[#1a1a2e] to-[#16213e]',
+  techno:     'from-[#0f0c29] to-[#302b63]',
+  rock:       'from-[#1f1c2c] to-[#928dab]',
+  indie:      'from-[#d4a017] to-[#8B4513]',
+  pop:        'from-[#f953c6] to-[#b91d73]',
+  jazz:       'from-[#3a1c71] to-[#d76d77]',
+  reggae:     'from-[#1d976c] to-[#93f9b9]',
+  hiphop:     'from-[#373b44] to-[#4286f4]',
+  world:      'from-[#16222a] to-[#3a6186]',
+  ambient:    'from-[#134e5e] to-[#71b280]',
+  default:    'from-[#4a00e0] to-[#8e2de2]',
+};
+
+function getGenreBg(genres: string[]): string {
+  const key = (genres[0] ?? '').toLowerCase().replace(/[^a-z]/g, '');
+  return GENRE_BG[key] ?? GENRE_BG.default;
+}
+
 function FestivalDNAShare({
   festival,
   genres,
@@ -383,11 +413,12 @@ function FestivalDNAShare({
   budget: { min: number; max: number };
 }) {
   const [shared, setShared] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   const budgetLabel =
     budget.max < 600 ? 'Budget' : budget.max < 1500 ? 'Mid-range' : 'Premium';
 
-  const dnaUrl =
+  const dnaImageUrl =
     `/api/og/festival-dna?` +
     `festival=${encodeURIComponent(festival.name)}&` +
     `score=${festival.matchScore}&` +
@@ -395,54 +426,136 @@ function FestivalDNAShare({
     `vibes=${encodeURIComponent(vibes.slice(0, 5).join(','))}&` +
     `budget=${encodeURIComponent(budgetLabel)}`;
 
+  const topGenre = genres[0] ?? 'Music';
+  const bg = getGenreBg(genres);
+
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const a = document.createElement('a');
+      a.href = dnaImageUrl;
+      a.download = `festival-dna-${festival.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } finally {
+      setTimeout(() => setDownloading(false), 1500);
+    }
+  }
+
   async function handleShare() {
     const shareUrl = `${window.location.origin}/quiz`;
-    const text = `I'm a ${genres[0] ?? 'music'} festival person — my #1 match is ${festival.name} (${festival.matchScore}%). What's yours?`;
+    const text = `My Festival DNA: ${topGenre} lover, ${festival.matchScore}% match with ${festival.name}. What's yours?`;
     if (navigator.share) {
       await navigator.share({ title: 'My Festival DNA — FestiWise', text, url: shareUrl }).catch(() => {});
     } else {
-      window.open(dnaUrl, '_blank');
+      await navigator.clipboard.writeText(`${text} ${shareUrl}`).catch(() => {});
     }
     setShared(true);
     setTimeout(() => setShared(false), 3000);
   }
 
+  // Vibe bar values (0–100 visually, based on vibe list)
+  const VIBE_DIMS = ['Energy', 'Crowd', 'Luxury', 'Discovery', 'Chill'];
+  const vibeSet = new Set(vibes.map(v => v.toLowerCase()));
+  const vibeBars = [
+    vibeSet.has('party') ? 90 : vibeSet.has('chill') ? 35 : 60,
+    festival.audience_size === 'massive' ? 95 : festival.audience_size === 'large' ? 75 : 45,
+    vibeSet.has('vip') ? 90 : (festival.estimated_cost_usd.min > 1500 ? 70 : 30),
+    vibeSet.has('discovery') ? 90 : vibeSet.has('immersive') ? 70 : 40,
+    vibeSet.has('chill') ? 90 : vibeSet.has('cultural') ? 65 : 30,
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.6 }}
-      className="rounded-2xl overflow-hidden border border-purple-200 shadow-lg"
+      transition={{ duration: 0.5, delay: 0.6 }}
+      className="rounded-3xl overflow-hidden shadow-2xl border border-white/10"
     >
-      {/* Preview strip of the DNA card */}
-      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-pink-900 px-5 py-4 flex items-center gap-4">
-        <div className="flex-1">
-          <p className="text-white font-bold text-sm">Your Festival DNA Card</p>
-          <p className="text-white/60 text-xs mt-0.5">
-            {genres.slice(0, 3).join(' · ')} · {budgetLabel} · {festival.matchScore}% match
-          </p>
+      {/* ── Inline 9:16 Card Preview ── */}
+      <div className={`bg-gradient-to-b ${bg} px-6 pt-7 pb-6`}>
+        {/* Header label */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-white/50 rounded-full" />
+            <span className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Festival DNA</span>
+          </div>
+          <span className="text-white/50 text-[10px] font-medium">getfestiwise.com</span>
         </div>
-        <div className="flex gap-1 flex-wrap justify-end">
-          {vibes.slice(0, 3).map(v => (
-            <span key={v} className="px-2 py-0.5 bg-white/15 text-white/80 text-xs rounded-full capitalize">{v}</span>
+
+        {/* Top genre pill */}
+        <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-2xl px-4 py-2 mb-4">
+          <span className="w-2 h-2 rounded-full bg-white" />
+          <span className="text-white font-extrabold text-sm capitalize">{topGenre}</span>
+        </div>
+
+        {/* Festival name */}
+        <h3 className="text-white font-black text-2xl leading-tight mb-1">{festival.name}</h3>
+        <p className="text-white/60 text-xs mb-5">{festival.city}, {festival.country} · {budgetLabel}</p>
+
+        {/* Score badge */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-baseline gap-0.5">
+            <span className="text-white font-black text-5xl leading-none tabular-nums">{festival.matchScore}</span>
+            <span className="text-white/70 text-xl font-bold">%</span>
+          </div>
+          <div>
+            <p className="text-white/90 font-bold text-sm">Match Score</p>
+            <p className="text-white/50 text-xs">{festival.matchScore >= 82 ? 'Perfect' : festival.matchScore >= 68 ? 'Great' : 'Good'} match</p>
+          </div>
+        </div>
+
+        {/* Vibe bars */}
+        <div className="space-y-2.5">
+          {VIBE_DIMS.map((dim, i) => (
+            <div key={dim} className="flex items-center gap-3">
+              <span className="text-white/50 text-[10px] font-semibold w-16 flex-shrink-0">{dim}</span>
+              <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white/80 rounded-full"
+                  style={{ width: `${vibeBars[i]}%` }}
+                />
+              </div>
+              <span className="text-white/40 text-[10px] tabular-nums w-6 text-right">{vibeBars[i]}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Genre pills */}
+        <div className="flex flex-wrap gap-1.5 mt-5">
+          {genres.slice(0, 4).map(g => (
+            <span key={g} className="px-2.5 py-1 bg-white/10 border border-white/20 text-white/80 text-[10px] font-semibold rounded-full capitalize">
+              {g}
+            </span>
           ))}
         </div>
       </div>
+
+      {/* ── Action strip ── */}
       <div className="bg-white px-5 py-4 flex items-center gap-3">
-        <a
-          href={dnaUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors"
+        <div className="flex-1 min-w-0">
+          <p className="font-bold text-gray-900 text-sm">Your Festival DNA</p>
+          <p className="text-gray-400 text-xs truncate">{genres.slice(0, 2).join(' · ')} · {festival.matchScore}% match</p>
+        </div>
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="flex items-center gap-1.5 px-4 py-2.5 min-h-[44px] border-2 border-purple-200 text-purple-700 text-sm font-bold rounded-xl hover:border-purple-400 active:scale-95 transition-all tap-highlight-none touch-manipulation disabled:opacity-50"
         >
-          Preview image →
-        </a>
-        <div className="flex-1" />
+          {downloading ? '…' : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          )}
+          Save
+        </button>
         <button
           onClick={handleShare}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all tap-highlight-none touch-manipulation"
+          className="flex items-center gap-2 px-5 py-2.5 min-h-[44px] bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all tap-highlight-none touch-manipulation"
         >
-          {shared ? '✓ Shared!' : 'Share My DNA'}
+          {shared ? '✓ Done!' : 'Share Story'}
         </button>
       </div>
     </motion.div>
@@ -573,20 +686,24 @@ export function FestivalResults() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4"
+          className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 px-5 py-5"
         >
-          <div className="flex items-start gap-3 mb-3">
-            <div className="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-              <svg className="w-4.5 h-4.5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Early Access Open</span>
             </div>
-            <div>
-              <p className="font-bold text-gray-900 text-sm">Get notified when {topMatch.name} tickets open</p>
-              <p className="text-gray-400 text-xs mt-0.5">Free. No spam. One email when sales go live.</p>
-            </div>
+            <p className="font-extrabold text-gray-900 text-base leading-snug">
+              Be first in line for {topMatch.name} tickets
+            </p>
+            <p className="text-gray-500 text-xs mt-1">
+              We&apos;ll alert you before public sales open — plus send you our insider guide: best camping spots, travel tips, and what to pack.
+            </p>
           </div>
           <TicketAlertForm festival={topMatch} />
+          <p className="text-center text-[10px] text-gray-400 mt-2">
+            Free forever. Unsubscribe anytime.
+          </p>
         </motion.div>
 
         {/* 3. Secondary matches — horizontal snap scroll */}

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { MessageCircle, X, ChevronRight, Sparkles } from 'lucide-react';
 import { calculateFestivalScore } from '@/utils/quizScoringAlgorithm';
+import { useCompare } from '@/contexts/CompareContext';
 import type { Festival } from '@/types/festival';
 import rawFestivals from '@/data/festivals.json';
 
@@ -128,6 +129,8 @@ const PRESETS = [
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function FestivalBuddy() {
+  const { selected } = useCompare();
+  const compareBarOpen = selected.length > 0;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<BuddyMessage[]>([
     {
@@ -175,7 +178,7 @@ export default function FestivalBuddy() {
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={() => setOpen(true)}
             aria-label="Open Festival Buddy"
-            className="fixed bottom-20 left-4 z-[9990] w-14 h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg shadow-purple-500/40 flex items-center justify-center text-white hover:scale-110 transition-transform touch-manipulation tap-highlight-none"
+            className={`fixed left-4 z-[9990] w-14 h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg shadow-purple-500/40 flex items-center justify-center text-white hover:scale-110 transition-all touch-manipulation tap-highlight-none ${compareBarOpen ? 'bottom-[88px]' : 'bottom-20'}`}
           >
             <MessageCircle className="w-6 h-6" />
           </motion.button>
@@ -191,7 +194,7 @@ export default function FestivalBuddy() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            className="fixed bottom-20 left-4 z-[9990] w-80 max-w-[calc(100vw-2rem)] bg-white rounded-3xl shadow-2xl border border-purple-100 flex flex-col overflow-hidden"
+            className={`fixed left-4 z-[9990] w-80 max-w-[calc(100vw-2rem)] bg-white rounded-3xl shadow-2xl border border-purple-100 flex flex-col overflow-hidden transition-all ${compareBarOpen ? 'bottom-[88px]' : 'bottom-20'}`}
             style={{ maxHeight: '480px' }}
           >
             {/* Header */}

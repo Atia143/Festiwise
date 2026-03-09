@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: '/discover', label: 'Discover' },
   { href: '/collections', label: 'Collections' },
   { href: '/my-bucket-list', label: 'Bucket List' },
+  { href: '/for-festivals', label: 'For Organizers' },
   { href: '/faq', label: 'FAQ' },
 ];
 
@@ -93,7 +94,9 @@ export default function Navigation() {
   // Banner always at top
   const Banner = () => (
     <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1.5 text-xs font-medium tracking-wide">
-      World-Class Festival Discovery &mdash; Free Forever
+      <Link href="/pricing" className="hover:underline">
+        Pro is here — early ticket alerts, unlimited compare &amp; more &rarr;
+      </Link>
     </div>
   );
 
