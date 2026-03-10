@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import CurrencySelector from '@/components/CurrencySelector';
+import FestivalSearch from '@/components/FestivalSearch';
 
 // Nav items config — conversion-critical paths only
 const NAV_ITEMS = [
@@ -181,6 +182,10 @@ export default function Navigation() {
             transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
           >
             <div className="relative px-5 pt-6 pb-7 space-y-2">
+              {/* Search */}
+              <div className="pb-2">
+                <FestivalSearch onClose={() => setIsOpen(false)} />
+              </div>
               {/* Nav items */}
               <div className="space-y-1">
                 {NAV_ITEMS.map(item => (
@@ -237,6 +242,9 @@ export default function Navigation() {
           {mounted && <DesktopNav />}
           {mounted && (
             <div className="hidden lg:flex items-center gap-3">
+              <div className="w-52 xl:w-64">
+                <FestivalSearch />
+              </div>
               <CurrencySelector />
               <CTAButton />
             </div>
