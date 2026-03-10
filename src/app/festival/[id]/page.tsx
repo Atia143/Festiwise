@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import {
   MapPin, Calendar, Clock, Users, DollarSign,
@@ -17,6 +18,8 @@ import SimpleNewsletterForm from '@/components/Newsletter/SimpleNewsletterForm';
 import SaveFavoriteButton from '@/components/SaveFavoriteButton';
 import FestivalViewCount from '@/components/FestivalViewCount';
 import { LocalPriceRange } from '@/components/LocalPrice';
+import { getFestivalCover } from '@/lib/festivalImages';
+import ShareFestivalButton from '@/components/ShareFestivalButton';
 
 const festivals = rawFestivals as Festival[];
 
@@ -93,6 +96,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = `${f.name} ${new Date().getFullYear()} — Complete Festival Guide`;
   const description = `Everything you need to know about ${f.name} in ${f.city}, ${f.country}. Dates, tickets, budget, camping, and what to expect.`;
 
+  const ogParams = new URLSearchParams({
+    name:    f.name,
+    genre:   f.genres[0] ?? 'music',
+    genres:  f.genres.slice(0, 4).join(','),
+    country: f.country,
+    city:    f.city,
+    month:   f.months.slice(0, 2).join(' & '),
+    days:    String(f.duration_days),
+    min:     String(f.estimated_cost_usd.min),
+    max:     String(f.estimated_cost_usd.max),
+  });
+  const ogImageUrl = `https://getfestiwise.com/api/og/festival?${ogParams.toString()}`;
+
   return {
     title,
     description,
@@ -102,8 +118,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url: `https://getfestiwise.com/festival/${f.id}`,
       type: 'article',
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `${f.name} festival guide` }],
     },
-    twitter: { card: 'summary_large_image', title, description },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl],
+    },
     alternates: { canonical: `https://getfestiwise.com/festival/${f.id}` },
   };
 }
@@ -141,6 +163,7 @@ export default async function FestivalPage({ params }: Props) {
     reggae: 'bg-yellow-100 text-yellow-700',
   };
   const genreColor = (g: string) => GENRE_COLORS[g] ?? 'bg-purple-100 text-purple-700';
+  const { imageUrl, gradient } = getFestivalCover(festival.id, festival.genres);
 
   return (
     <div className="min-h-screen bg-white">
@@ -152,8 +175,21 @@ export default async function FestivalPage({ params }: Props) {
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 text-white">
-        <div className="max-w-5xl mx-auto px-4 pt-16 pb-12">
+      <section className={`relative text-white overflow-hidden ${imageUrl ? '' : `bg-gradient-to-br ${gradient}`}`}>
+        {imageUrl && (
+          <>
+            <Image
+              src={imageUrl}
+              alt={festival.name}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+          </>
+        )}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 pt-16 pb-12">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-1.5 text-white/60 text-sm mb-8" aria-label="Breadcrumb">
             <Link href="/festivals" className="hover:text-white transition-colors">Festivals</Link>
@@ -196,6 +232,7 @@ export default async function FestivalPage({ params }: Props) {
                 </div>
               )}
               <SaveFavoriteButton festivalId={festival.id} festivalName={festival.name} />
+              <ShareFestivalButton festivalId={festival.id} festivalName={festival.name} />
               {festival.website && (
                 <a
                   href={festival.website}
@@ -213,7 +250,7 @@ export default async function FestivalPage({ params }: Props) {
         </div>
 
         {/* Quick Stats Bar */}
-        <div className="bg-black/20 backdrop-blur-sm">
+        <div className="relative z-10 bg-black/20 backdrop-blur-sm">
           <div className="max-w-5xl mx-auto px-4 py-4">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/90 items-center">
               <UrgencyBadge months={festival.months} status={festival.status} size="sm" />

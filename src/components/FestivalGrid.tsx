@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BarChart3 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -12,6 +13,7 @@ import SmartMatchBadge from '@/components/SmartMatchBadge';
 import UrgencyBadge from '@/components/UrgencyBadge';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { formatRange } from '@/lib/currencies';
+import { getFestivalCover } from '@/lib/festivalImages';
 
 export default function FestivalGrid({ festivals }: FestivalGridProps) {
   const { currency } = useCurrency();
@@ -82,9 +84,23 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
               transition={{ duration: 0.4, delay: index * 0.1 }}
             >
               <Card className="group h-full overflow-hidden hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm border border-purple-100 hover:border-purple-300">
-                {/* Festival Image Placeholder */}
-                <div className="relative h-48 bg-gradient-to-br from-purple-500 to-pink-500 overflow-hidden">
-                  <div className="absolute inset-0 bg-black/20" />
+                {/* Festival Cover Image */}
+                <div className="relative h-48 overflow-hidden">
+                  {(() => {
+                    const { imageUrl, gradient } = getFestivalCover(festival.id, festival.genres);
+                    return imageUrl ? (
+                      <Image
+                        src={imageUrl}
+                        alt={festival.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
+                    );
+                  })()}
+                  <div className="absolute inset-0 bg-black/30" />
                   
                   {/* Festival Info Overlay */}
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-start">

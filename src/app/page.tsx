@@ -6,6 +6,7 @@ import RealtimeSocialProof from '@/components/RealtimeSocialProof';
 import InstantTestimonialsCarousel from '@/components/InstantTestimonialsCarousel';
 import ForYouSection from '@/components/ForYouSection';
 import LiveRadarSection from '@/components/LiveRadarSection';
+import FeaturedFestivalsSection from '@/components/FeaturedFestivalsSection';
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <ImprovedExitModal />
 
       <SimpleHero />
+      <FeaturedFestivalsSection />
       <LiveRadarSection />
       <ForYouSection />
 
