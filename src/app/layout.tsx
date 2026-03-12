@@ -63,7 +63,7 @@ export default function RootLayout({
             <ToastProvider>
               <Navigation />
               <StickyCTABar />
-              <main className="pt-20">
+              <main className="pt-[96px]">
                 {children}
               </main>
               <SharePrompt />

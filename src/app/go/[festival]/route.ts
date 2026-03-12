@@ -6,14 +6,22 @@ interface FestivalRecord {
   ticket_official_url: string;
 }
 
-// Affiliate ID registry — add IDs here as you join each program.
-// Keys are UTM-compatible network identifiers.
-// Example: ticketmaster: 'YOUR_TM_AFFILIATE_ID'
+// ── Affiliate ID registry ─────────────────────────────────────────────────────
+// Fill in IDs as you join each program. The redirect logic below applies them
+// automatically to any ticket URL matching that network's domain.
+//
+// HOW TO JOIN (all free, ~10–30 min each):
+//   Ticketmaster: https://affiliates.ticketmaster.com  → param: ?aff=YOUR_ID
+//   DICE:         https://dice.fm/partners             → param: ?partner=YOUR_ID
+//   Skiddle:      https://www.skiddle.com/affiliates   → param: ?affil=YOUR_ID
+//   RA (Resident Advisor): https://ra.co/affiliates    → param: ?r=YOUR_ID
+//
+// Commission rates (typical): Ticketmaster 2–5%, DICE 3–6%, Skiddle 5%, RA 5%
 const AFFILIATE_IDS: Record<string, string> = {
-  // ticketmaster: '',
-  // dice: '',
-  // skiddle: '',
-  // ra: '',
+  ticketmaster: '', // paste your ID here after joining
+  dice:         '', // paste your ID here after joining
+  skiddle:      '', // paste your ID here after joining
+  ra:           '', // paste your ID here after joining
 };
 
 function buildAffiliateUrl(base: URL, festivalSlug: string): URL {

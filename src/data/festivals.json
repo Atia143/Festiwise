@@ -5,16 +5,30 @@
     "country": "Belgium",
     "city": "Boom",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["electronic"],
-    "estimated_cost_usd": { "min": 800, "max": 2500 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 800,
+      "max": 2500
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["mainstream", "party", "luxury"],
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "luxury"
+    ],
     "website": "https://www.tomorrowland.com",
     "status": "active",
     "min_age": 18,
@@ -26,16 +40,33 @@
     "country": "USA",
     "city": "Indio",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["indie", "pop", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 1200, "max": 3000 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "indie",
+      "pop",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 1200,
+      "max": 3000
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["mainstream", "luxury", "cultural"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "luxury",
+      "cultural"
+    ],
     "website": "https://www.coachella.com",
     "status": "active",
     "min_age": 18,
@@ -47,16 +78,33 @@
     "country": "Spain",
     "city": "Barcelona",
     "region": "Western-Europe",
-    "months": ["May", "June"],
-    "genres": ["indie", "rock", "electronic", "pop"],
-    "estimated_cost_usd": { "min": 700, "max": 1800 },
+    "months": [
+      "May",
+      "June"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "electronic",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 700,
+      "max": 1800
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm"],
-    "vibe": ["underground", "cultural", "intimate"],
+    "weather_profile": [
+      "warm"
+    ],
+    "vibe": [
+      "underground",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://www.primaverasound.com",
     "status": "active",
     "min_age": 18,
@@ -68,20 +116,36 @@
     "country": "Hungary",
     "city": "Ozora",
     "region": "Eastern-Europe",
-    "months": ["July", "August"],
-    "genres": ["electronic", "ambient"],
-    "estimated_cost_usd": { "min": 500, "max": 1200 },
+    "months": [
+      "July",
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 500,
+      "max": 1200
+    },
     "audience_size": "medium",
     "duration_days": 7,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["spiritual", "underground", "cultural"],
-    "website": "https://2025.ozorafestival.eu",
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "spiritual",
+      "underground",
+      "cultural"
+    ],
+    "website": "https://ozorafestival.eu",
     "status": "active",
     "min_age": 18,
-    "ticket_official_url": "https://2025.ozorafestival.eu/tickets-and-registration/"
+    "ticket_official_url": "https://ozorafestival.eu/tickets-and-registration/"
   },
   {
     "id": "burning_man",
@@ -89,16 +153,34 @@
     "country": "USA",
     "city": "Black Rock City",
     "region": "North-America",
-    "months": ["August", "September"],
-    "genres": ["electronic", "world", "ambient"],
-    "estimated_cost_usd": { "min": 1500, "max": 4000 },
+    "months": [
+      "August",
+      "September"
+    ],
+    "genres": [
+      "electronic",
+      "world",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 1500,
+      "max": 4000
+    },
     "audience_size": "massive",
     "duration_days": 9,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry", "dusty"],
-    "vibe": ["spiritual", "cultural", "adventure"],
+    "weather_profile": [
+      "hot",
+      "dry",
+      "dusty"
+    ],
+    "vibe": [
+      "spiritual",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://burningman.org",
     "status": "active",
     "min_age": 18,
@@ -110,16 +192,34 @@
     "country": "UK",
     "city": "Pilton",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["rock", "pop", "indie", "electronic", "world"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "world"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "massive",
     "duration_days": 5,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["variable", "muddy"],
-    "vibe": ["cultural", "mainstream", "adventure"],
+    "weather_profile": [
+      "variable",
+      "muddy"
+    ],
+    "vibe": [
+      "cultural",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://www.glastonburyfestivals.co.uk",
     "status": "active",
     "min_age": 0,
@@ -131,16 +231,30 @@
     "country": "USA",
     "city": "Miami",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["electronic"],
-    "estimated_cost_usd": { "min": 600, "max": 2000 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 600,
+      "max": 2000
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["party", "mainstream", "luxury"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "luxury"
+    ],
     "website": "https://ultramusicfestival.com",
     "status": "active",
     "min_age": 18,
@@ -152,16 +266,33 @@
     "country": "Brazil",
     "city": "Rio de Janeiro",
     "region": "South-America",
-    "months": ["September"],
-    "genres": ["rock", "pop", "electronic", "latin"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "September"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "electronic",
+      "latin"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "massive",
     "duration_days": 7,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "tropical"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "tropical"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://rockinrio.com",
     "status": "active",
     "min_age": 0,
@@ -173,16 +304,34 @@
     "country": "Japan",
     "city": "Yuzawa",
     "region": "Asia-Pacific",
-    "months": ["July"],
-    "genres": ["rock", "indie", "electronic", "world"],
-    "estimated_cost_usd": { "min": 500, "max": 1500 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "electronic",
+      "world"
+    ],
+    "estimated_cost_usd": {
+      "min": 500,
+      "max": 1500
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["hot", "humid", "rain"],
-    "vibe": ["cultural", "adventure", "intimate"],
+    "weather_profile": [
+      "hot",
+      "humid",
+      "rain"
+    ],
+    "vibe": [
+      "cultural",
+      "adventure",
+      "intimate"
+    ],
     "website": "https://www.fujirockfestival.com",
     "status": "active",
     "min_age": 0,
@@ -194,16 +343,34 @@
     "country": "USA",
     "city": "Manchester",
     "region": "North-America",
-    "months": ["June"],
-    "genres": ["rock", "indie", "hiphop", "electronic", "country"],
-    "estimated_cost_usd": { "min": 400, "max": 1500 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "hiphop",
+      "electronic",
+      "country"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1500
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["party", "cultural", "intimate"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "party",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://www.bonnaroo.com",
     "status": "active",
     "min_age": 0,
@@ -215,16 +382,34 @@
     "country": "Denmark",
     "city": "Roskilde",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["rock", "indie", "electronic", "hiphop", "world"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "electronic",
+      "hiphop",
+      "world"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 8,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["cultural", "underground", "intimate"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "cultural",
+      "underground",
+      "intimate"
+    ],
     "website": "https://www.roskilde-festival.dk",
     "status": "active",
     "min_age": 0,
@@ -236,16 +421,34 @@
     "country": "USA",
     "city": "Chicago",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["rock", "indie", "pop", "hiphop", "electronic"],
-    "estimated_cost_usd": { "min": 500, "max": 1800 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "pop",
+      "hiphop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 500,
+      "max": 1800
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://www.lollapalooza.com",
     "status": "active",
     "min_age": 0,
@@ -257,16 +460,31 @@
     "country": "USA",
     "city": "Newport",
     "region": "North-America",
-    "months": ["July", "August"],
-    "genres": ["jazz"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "July",
+      "August"
+    ],
+    "genres": [
+      "jazz"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["intimate", "cultural", "luxury"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "luxury"
+    ],
     "website": "https://www.newportjazz.org",
     "status": "active",
     "min_age": 0,
@@ -278,16 +496,31 @@
     "country": "Jamaica",
     "city": "Montego Bay",
     "region": "North-America",
-    "months": ["July"],
-    "genres": ["reggae", "hiphop"],
-    "estimated_cost_usd": { "min": 250, "max": 800 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "reggae",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 5,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["hot", "tropical"],
-    "vibe": ["party", "cultural", "intimate"],
+    "weather_profile": [
+      "hot",
+      "tropical"
+    ],
+    "vibe": [
+      "party",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://www.reggaesumfest.com",
     "status": "active",
     "min_age": 0,
@@ -299,16 +532,31 @@
     "country": "USA",
     "city": "San Bernardino",
     "region": "North-America",
-    "months": ["October", "November"],
-    "genres": ["rock"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "October",
+      "November"
+    ],
+    "genres": [
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["mild", "dry"],
-    "vibe": ["underground", "party", "adventure"],
+    "weather_profile": [
+      "mild",
+      "dry"
+    ],
+    "vibe": [
+      "underground",
+      "party",
+      "adventure"
+    ],
     "website": "https://knotfest.com",
     "status": "active",
     "min_age": 16,
@@ -320,16 +568,30 @@
     "country": "USA",
     "city": "Indio",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["country"],
-    "estimated_cost_usd": { "min": 500, "max": 1800 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "country"
+    ],
+    "estimated_cost_usd": {
+      "min": 500,
+      "max": 1800
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["mainstream", "party", "luxury"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "luxury"
+    ],
     "website": "https://www.stagecoachfestival.com",
     "status": "active",
     "min_age": 0,
@@ -341,16 +603,34 @@
     "country": "Hungary",
     "city": "Budapest",
     "region": "Eastern-Europe",
-    "months": ["August"],
-    "genres": ["rock", "pop", "electronic", "indie", "world"],
-    "estimated_cost_usd": { "min": 400, "max": 1000 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "electronic",
+      "indie",
+      "world"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1000
+    },
     "audience_size": "massive",
     "duration_days": 7,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["party", "cultural", "adventure"],
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "party",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://szigetfestival.com",
     "status": "active",
     "min_age": 0,
@@ -362,16 +642,33 @@
     "country": "Serbia",
     "city": "Novi Sad",
     "region": "Eastern-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "rock", "hiphop", "indie"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "rock",
+      "hiphop",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["hot", "sunny"],
-    "vibe": ["party", "underground", "adventure"],
+    "weather_profile": [
+      "hot",
+      "sunny"
+    ],
+    "vibe": [
+      "party",
+      "underground",
+      "adventure"
+    ],
     "website": "https://www.exitfest.org",
     "status": "active",
     "min_age": 0,
@@ -383,16 +680,33 @@
     "country": "Australia",
     "city": "Byron Bay",
     "region": "Asia-Pacific",
-    "months": ["July"],
-    "genres": ["indie", "rock", "electronic", "pop"],
-    "estimated_cost_usd": { "min": 600, "max": 1500 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "electronic",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 600,
+      "max": 1500
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "coastal"],
-    "vibe": ["mainstream", "cultural", "luxury"],
+    "weather_profile": [
+      "mild",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "luxury"
+    ],
     "website": "https://www.splendourinthegrass.com",
     "status": "active",
     "min_age": 0,
@@ -404,16 +718,30 @@
     "country": "USA",
     "city": "Las Vegas",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["electronic"],
-    "estimated_cost_usd": { "min": 600, "max": 2500 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 600,
+      "max": 2500
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://lasvegas.electricdaisycarnival.com",
     "status": "active",
     "min_age": 18,
@@ -425,16 +753,34 @@
     "country": "USA",
     "city": "Brooklyn",
     "region": "North-America",
-    "months": ["August", "September"],
-    "genres": ["rock", "hiphop", "indie", "world"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "August",
+      "September"
+    ],
+    "genres": [
+      "rock",
+      "hiphop",
+      "indie",
+      "world"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["underground", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "underground",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://afropunk.com",
     "status": "active",
     "min_age": 0,
@@ -446,16 +792,30 @@
     "country": "UK",
     "city": "Donington",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["rock"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["variable", "muddy"],
-    "vibe": ["underground", "party", "adventure"],
+    "weather_profile": [
+      "variable",
+      "muddy"
+    ],
+    "vibe": [
+      "underground",
+      "party",
+      "adventure"
+    ],
     "website": "https://downloadfestival.co.uk",
     "status": "active",
     "min_age": 16,
@@ -467,16 +827,32 @@
     "country": "Mexico",
     "city": "Mexico City",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["latin", "rock", "indie"],
-    "estimated_cost_usd": { "min": 200, "max": 500 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "latin",
+      "rock",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 500
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "dry"],
-    "vibe": ["cultural", "party", "intimate"],
+    "weather_profile": [
+      "mild",
+      "dry"
+    ],
+    "vibe": [
+      "cultural",
+      "party",
+      "intimate"
+    ],
     "website": "https://www.vivelatino.com.mx",
     "status": "active",
     "min_age": 0,
@@ -488,16 +864,30 @@
     "country": "India",
     "city": "Goa",
     "region": "Asia-Pacific",
-    "months": ["December"],
-    "genres": ["electronic"],
-    "estimated_cost_usd": { "min": 150, "max": 500 },
+    "months": [
+      "December"
+    ],
+    "genres": [
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 150,
+      "max": 500
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "tropical"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "tropical"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://www.sunburn.in",
     "status": "active",
     "min_age": 18,
@@ -509,16 +899,31 @@
     "country": "UK",
     "city": "Charlton Park",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["world", "ambient"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "world",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["cultural", "spiritual", "intimate"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "cultural",
+      "spiritual",
+      "intimate"
+    ],
     "website": "https://womad.co.uk",
     "status": "active",
     "min_age": 0,
@@ -530,16 +935,31 @@
     "country": "Germany",
     "city": "Berlin",
     "region": "Western-Europe",
-    "months": ["June", "September"],
-    "genres": ["electronic", "ambient"],
-    "estimated_cost_usd": { "min": 100, "max": 400 },
+    "months": [
+      "June",
+      "September"
+    ],
+    "genres": [
+      "electronic",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 100,
+      "max": 400
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild"],
-    "vibe": ["underground", "intimate", "spiritual"],
+    "weather_profile": [
+      "mild"
+    ],
+    "vibe": [
+      "underground",
+      "intimate",
+      "spiritual"
+    ],
     "website": "https://www.berghain.berlin",
     "status": "active",
     "min_age": 18,
@@ -551,16 +971,31 @@
     "country": "USA",
     "city": "Lenox",
     "region": "North-America",
-    "months": ["July", "August"],
-    "genres": ["classical"],
-    "estimated_cost_usd": { "min": 150, "max": 800 },
+    "months": [
+      "July",
+      "August"
+    ],
+    "genres": [
+      "classical"
+    ],
+    "estimated_cost_usd": {
+      "min": 150,
+      "max": 800
+    },
     "audience_size": "medium",
     "duration_days": 60,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "mild"],
-    "vibe": ["luxury", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "mild"
+    ],
+    "vibe": [
+      "luxury",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://www.tanglewood.org",
     "status": "active",
     "min_age": 0,
@@ -572,16 +1007,31 @@
     "country": "Canada",
     "city": "Salmo",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["electronic", "ambient"],
-    "estimated_cost_usd": { "min": 400, "max": 900 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 900
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["spiritual", "underground", "intimate"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "spiritual",
+      "underground",
+      "intimate"
+    ],
     "website": "https://shambhalamusicfestival.com",
     "status": "active",
     "min_age": 19,
@@ -593,16 +1043,33 @@
     "country": "USA",
     "city": "Bakersfield",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["electronic", "indie", "world", "ambient"],
-    "estimated_cost_usd": { "min": 500, "max": 1200 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "electronic",
+      "indie",
+      "world",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 500,
+      "max": 1200
+    },
     "audience_size": "medium",
     "duration_days": 5,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["spiritual", "cultural", "adventure"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "spiritual",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://www.libfestival.org",
     "status": "active",
     "min_age": 0,
@@ -614,37 +1081,70 @@
     "country": "Netherlands",
     "city": "Amsterdam",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["electronic", "ambient"],
-    "estimated_cost_usd": { "min": 300, "max": 700 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 5,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["underground", "intimate", "cultural"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "intimate",
+      "cultural"
+    ],
     "website": "https://dekmantel.nl",
     "status": "active",
     "min_age": 18,
     "ticket_official_url": "https://dekmantel.nl/"
   },
- {
+  {
     "id": "creamfields_uk",
     "name": "Creamfields UK",
     "country": "UK",
     "city": "Daresbury",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["electronic", "edm", "house", "trance", "drum'n'bass"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "trance",
+      "drum'n'bass"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["variable", "rain"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "variable",
+      "rain"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://creamfields.com",
     "status": "active",
     "min_age": 18,
@@ -656,16 +1156,33 @@
     "country": "Germany",
     "city": "Weeze",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "edm", "house", "techno"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://parookaville.com",
     "status": "active",
     "min_age": 18,
@@ -677,16 +1194,33 @@
     "country": "Germany",
     "city": "Neustadt-Glewe",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "edm", "hardstyle", "techno"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "hardstyle",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://airbeat-one.de",
     "status": "active",
     "min_age": 18,
@@ -698,16 +1232,32 @@
     "country": "Netherlands",
     "city": "Biddinghuizen",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["electronic", "hardstyle", "hardcore"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "hardstyle",
+      "hardcore"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["party", "underground", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "party",
+      "underground",
+      "adventure"
+    ],
     "website": "https://defqon1.com",
     "status": "active",
     "min_age": 18,
@@ -719,16 +1269,34 @@
     "country": "Netherlands",
     "city": "Haarlemmermeer",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["electronic", "edm", "house", "techno", "trance"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno",
+      "trance"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://mysteryland.nl",
     "status": "active",
     "min_age": 18,
@@ -740,16 +1308,32 @@
     "country": "Netherlands",
     "city": "Spaarnwoude",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["electronic", "techno", "house"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "techno",
+      "house"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "party",
+      "adventure"
+    ],
     "website": "https://awakenings.com",
     "status": "active",
     "min_age": 18,
@@ -761,16 +1345,33 @@
     "country": "Hungary",
     "city": "Zamárdi",
     "region": "Eastern-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "edm", "house", "techno"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 5,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://balatonsound.com",
     "status": "active",
     "min_age": 18,
@@ -782,16 +1383,33 @@
     "country": "Romania",
     "city": "Cluj-Napoca",
     "region": "Eastern-Europe",
-    "months": ["August"],
-    "genres": ["electronic", "edm", "pop", "hiphop"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "pop",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 4,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://untold.com",
     "status": "active",
     "min_age": 0,
@@ -803,16 +1421,33 @@
     "country": "Germany",
     "city": "Kastellaun",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["electronic", "techno", "trance", "house"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "electronic",
+      "techno",
+      "trance",
+      "house"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "party",
+      "adventure"
+    ],
     "website": "https://nature-one.de",
     "status": "active",
     "min_age": 18,
@@ -824,16 +1459,33 @@
     "country": "Spain",
     "city": "Barcelona",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["electronic", "techno", "house", "experimental"],
-    "estimated_cost_usd": { "min": 250, "max": 800 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "techno",
+      "house",
+      "experimental"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "sunny"],
-    "vibe": ["underground", "cultural", "adventure"],
+    "weather_profile": [
+      "warm",
+      "sunny"
+    ],
+    "vibe": [
+      "underground",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://sonar.es",
     "status": "active",
     "min_age": 18,
@@ -845,16 +1497,33 @@
     "country": "Germany",
     "city": "Frankfurt",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["electronic", "edm", "house", "techno"],
-    "estimated_cost_usd": { "min": 250, "max": 800 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 800
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["party", "mainstream", "adventure"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "party",
+      "mainstream",
+      "adventure"
+    ],
     "website": "https://worldclubdome.com",
     "status": "active",
     "min_age": 18,
@@ -866,16 +1535,34 @@
     "country": "Canada",
     "city": "Montreal",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["indie", "rock", "pop", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://osheaga.com",
     "status": "active",
     "min_age": 0,
@@ -887,16 +1574,34 @@
     "country": "USA",
     "city": "San Francisco",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "foggy"],
-    "vibe": ["mainstream", "cultural", "adventure"],
+    "weather_profile": [
+      "mild",
+      "foggy"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://www.sfoutsidelands.com",
     "status": "active",
     "min_age": 0,
@@ -908,16 +1613,32 @@
     "country": "USA",
     "city": "Newport",
     "region": "North-America",
-    "months": ["July"],
-    "genres": ["folk", "indie", "rock"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "folk",
+      "indie",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["intimate", "cultural", "classic"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "classic"
+    ],
     "website": "https://www.newportfolk.org",
     "status": "active",
     "min_age": 0,
@@ -929,16 +1650,33 @@
     "country": "UK",
     "city": "Brecon Beacons",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["indie", "folk", "rock", "electronic"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "folk",
+      "rock",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["intimate", "cultural", "adventure"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://www.greenman.net",
     "status": "active",
     "min_age": 0,
@@ -950,16 +1688,33 @@
     "country": "UK",
     "city": "Wimborne St. Giles",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["jazz", "soul", "hiphop", "electronic"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "jazz",
+      "soul",
+      "hiphop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["intimate", "cultural", "underground"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "underground"
+    ],
     "website": "https://weoutherefestival.com",
     "status": "active",
     "min_age": 0,
@@ -971,16 +1726,32 @@
     "country": "USA",
     "city": "Detroit",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["afrobeat", "hiphop", "electronic"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "afrobeat",
+      "hiphop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["cultural", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "cultural",
+      "party",
+      "adventure"
+    ],
     "website": "https://afrofuturefest.com",
     "status": "active",
     "min_age": 0,
@@ -992,16 +1763,32 @@
     "country": "UK",
     "city": "Dorset",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["indie", "folk", "rock"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "folk",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["intimate", "cultural", "adventure"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://endoftheroadfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1013,16 +1800,34 @@
     "country": "USA",
     "city": "Seattle",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["rock", "indie", "pop", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "pop",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["mainstream", "cultural", "adventure"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://bumbershoot.com",
     "status": "active",
     "min_age": 0,
@@ -1034,16 +1839,33 @@
     "country": "USA",
     "city": "Saint Charles",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["indie", "rock", "pop", "electronic"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["intimate", "cultural", "adventure"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "intimate",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://hinterlandiowa.com",
     "status": "active",
     "min_age": 0,
@@ -1055,16 +1877,32 @@
     "country": "USA",
     "city": "Miami",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["jazz", "rnb", "hiphop"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "jazz",
+      "rnb",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://jazzinthegardens.com",
     "status": "active",
     "min_age": 0,
@@ -1076,16 +1914,32 @@
     "country": "USA",
     "city": "Raleigh",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["hiphop", "rnb", "pop"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "hiphop",
+      "rnb",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://dreamvillefest.com",
     "status": "active",
     "min_age": 0,
@@ -1097,16 +1951,32 @@
     "country": "USA",
     "city": "San Antonio",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["indie", "pop", "rock"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "indie",
+      "pop",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://theespee.com/sunset",
     "status": "active",
     "min_age": 0,
@@ -1118,16 +1988,32 @@
     "country": "USA",
     "city": "Redondo Beach",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["rock", "pop", "indie"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["mainstream", "cultural", "adventure"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://beachlifefestival.com",
     "status": "active",
     "min_age": 0,
@@ -1139,16 +2025,32 @@
     "country": "USA",
     "city": "North Charleston",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["indie", "rock", "folk"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "folk"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://highwaterfest.com",
     "status": "active",
     "min_age": 0,
@@ -1160,16 +2062,32 @@
     "country": "USA",
     "city": "Charlotte",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["pop", "rock", "indie"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "pop",
+      "rock",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://lovinlifemusicfest.com",
     "status": "active",
     "min_age": 0,
@@ -1181,16 +2099,32 @@
     "country": "USA",
     "city": "Los Angeles",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["hiphop", "trap", "rap"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "hiphop",
+      "trap",
+      "rap"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "massive",
     "duration_days": 2,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://rollingloud.com/california",
     "status": "active",
     "min_age": 18,
@@ -1202,16 +2136,30 @@
     "country": "USA",
     "city": "Georgetown",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["country"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "country"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://twostepinn.com",
     "status": "active",
     "min_age": 0,
@@ -1223,16 +2171,31 @@
     "country": "USA",
     "city": "Gonzales",
     "region": "North-America",
-    "months": ["April"],
-    "genres": ["country", "rock"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "country",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://cattlecountryfest.com",
     "status": "active",
     "min_age": 0,
@@ -1244,16 +2207,34 @@
     "country": "USA",
     "city": "New Orleans",
     "region": "North-America",
-    "months": ["April", "May"],
-    "genres": ["jazz", "blues", "rock", "pop"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "April",
+      "May"
+    ],
+    "genres": [
+      "jazz",
+      "blues",
+      "rock",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 10,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "cultural", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "adventure"
+    ],
     "website": "https://www.nojazzfest.com",
     "status": "active",
     "min_age": 0,
@@ -1265,16 +2246,32 @@
     "country": "USA",
     "city": "Austin",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["pop", "indie", "rock"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "pop",
+      "indie",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 2,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://sipsandsoundsfest.com",
     "status": "active",
     "min_age": 0,
@@ -1286,16 +2283,33 @@
     "country": "Switzerland",
     "city": "Montreux",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["jazz", "blues", "rock", "pop"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "jazz",
+      "blues",
+      "rock",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "large",
     "duration_days": 16,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["mainstream", "cultural", "luxury"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "luxury"
+    ],
     "website": "https://www.montreuxjazzfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1307,16 +2321,33 @@
     "country": "Spain",
     "city": "Benicàssim",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["indie", "rock", "pop", "electronic"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://fiberfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1328,16 +2359,32 @@
     "country": "UK",
     "city": "Isle of Wight",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["rock", "pop", "indie"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://isleofwightfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1349,16 +2396,34 @@
     "country": "Belgium",
     "city": "Hasselt",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "rain"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://pukkelpop.be",
     "status": "active",
     "min_age": 0,
@@ -1370,16 +2435,32 @@
     "country": "Germany",
     "city": "Nürburg",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["rock", "metal", "indie"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "metal",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://rock-am-ring.com",
     "status": "active",
     "min_age": 0,
@@ -1391,16 +2472,32 @@
     "country": "Germany",
     "city": "Nuremberg",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["rock", "metal", "indie"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "metal",
+      "indie"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://rock-im-park.com",
     "status": "active",
     "min_age": 0,
@@ -1412,16 +2509,34 @@
     "country": "UK",
     "city": "Reading, Leeds",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["rock", "indie", "pop", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "rock",
+      "indie",
+      "pop",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "massive",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "rain"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "mild",
+      "rain"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://readingandleedsfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1433,16 +2548,34 @@
     "country": "USA",
     "city": "Dover",
     "region": "North-America",
-    "months": ["September"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "September"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://fireflyfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1454,16 +2587,34 @@
     "country": "USA",
     "city": "New York",
     "region": "North-America",
-    "months": ["June"],
-    "genres": ["rock", "pop", "indie", "hiphop", "electronic"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "hiphop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://governorsball.com",
     "status": "active",
     "min_age": 0,
@@ -1475,16 +2626,33 @@
     "country": "USA",
     "city": "Chicago",
     "region": "North-America",
-    "months": ["July"],
-    "genres": ["indie", "rock", "pop", "electronic"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://pitchforkmusicfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1496,16 +2664,35 @@
     "country": "USA",
     "city": "Milwaukee",
     "region": "North-America",
-    "months": ["June", "July"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "June",
+      "July"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "massive",
     "duration_days": 11,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://summerfest.com",
     "status": "active",
     "min_age": 0,
@@ -1517,16 +2704,33 @@
     "country": "USA",
     "city": "Napa",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["rock", "pop", "indie", "electronic"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://bottlerocknapavalley.com",
     "status": "active",
     "min_age": 0,
@@ -1538,16 +2742,34 @@
     "country": "USA",
     "city": "Gulf Shores",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 350, "max": 900 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 350,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://hangoutmusicfest.com",
     "status": "active",
     "min_age": 0,
@@ -1559,16 +2781,32 @@
     "country": "USA",
     "city": "Atlanta",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["indie", "rock", "pop"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "cultural", "intimate"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "cultural",
+      "intimate"
+    ],
     "website": "https://shakykneesfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1580,16 +2818,33 @@
     "country": "Portugal",
     "city": "Porto",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["indie", "rock", "electronic", "pop"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "electronic",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "coastal"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "warm",
+      "coastal"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://www.primaverasound.com/pt",
     "status": "active",
     "min_age": 0,
@@ -1601,16 +2856,33 @@
     "country": "Mexico",
     "city": "Mexico City",
     "region": "North-America",
-    "months": ["November"],
-    "genres": ["indie", "rock", "pop", "electronic"],
-    "estimated_cost_usd": { "min": 300, "max": 900 },
+    "months": [
+      "November"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 900
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "dry"],
-    "vibe": ["mainstream", "party", "cultural"],
+    "weather_profile": [
+      "mild",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "cultural"
+    ],
     "website": "https://coronacapital.com.mx",
     "status": "active",
     "min_age": 0,
@@ -1622,16 +2894,34 @@
     "country": "Canada",
     "city": "Quebec City",
     "region": "North-America",
-    "months": ["July"],
-    "genres": ["rock", "pop", "indie", "electronic", "hiphop"],
-    "estimated_cost_usd": { "min": 250, "max": 700 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "rock",
+      "pop",
+      "indie",
+      "electronic",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 11,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["mainstream", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "adventure"
+    ],
     "website": "https://feq.ca",
     "status": "active",
     "min_age": 0,
@@ -1643,16 +2933,33 @@
     "country": "Spain",
     "city": "Madrid",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["indie", "rock", "pop", "electronic"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "pop",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": false,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["mainstream", "party", "urban"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "urban"
+    ],
     "website": "https://madcoolfestival.es",
     "status": "active",
     "min_age": 18,
@@ -1664,16 +2971,32 @@
     "country": "Germany",
     "city": "Gräfenhainichen",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "indie", "rock"],
-    "estimated_cost_usd": { "min": 180, "max": 450 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "indie",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 180,
+      "max": 450
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "intimate", "cultural"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "intimate",
+      "cultural"
+    ],
     "website": "https://meltfestival.de",
     "status": "active",
     "min_age": 18,
@@ -1685,16 +3008,32 @@
     "country": "Germany",
     "city": "Lärz",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["electronic", "techno", "experimental"],
-    "estimated_cost_usd": { "min": 120, "max": 200 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "techno",
+      "experimental"
+    ],
+    "estimated_cost_usd": {
+      "min": 120,
+      "max": 200
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "alternative", "cultural"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "alternative",
+      "cultural"
+    ],
     "website": "https://fusion-festival.de",
     "status": "active",
     "min_age": 0,
@@ -1706,16 +3045,33 @@
     "country": "Netherlands",
     "city": "Biddinghuizen",
     "region": "Western-Europe",
-    "months": ["August"],
-    "genres": ["indie", "rock", "electronic", "pop"],
-    "estimated_cost_usd": { "min": 250, "max": 400 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "electronic",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 400
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["alternative", "intimate", "cultural"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "alternative",
+      "intimate",
+      "cultural"
+    ],
     "website": "https://lowlands.nl",
     "status": "active",
     "min_age": 0,
@@ -1727,16 +3083,33 @@
     "country": "Sweden",
     "city": "Gothenburg",
     "region": "Northern-Europe",
-    "months": ["August"],
-    "genres": ["indie", "electronic", "pop", "hiphop"],
-    "estimated_cost_usd": { "min": 180, "max": 350 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "electronic",
+      "pop",
+      "hiphop"
+    ],
+    "estimated_cost_usd": {
+      "min": 180,
+      "max": 350
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["alternative", "sustainable", "cultural"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "alternative",
+      "sustainable",
+      "cultural"
+    ],
     "website": "https://wayoutwest.se",
     "status": "active",
     "min_age": 0,
@@ -1748,16 +3121,33 @@
     "country": "Finland",
     "city": "Helsinki",
     "region": "Northern-Europe",
-    "months": ["August"],
-    "genres": ["indie", "electronic", "pop", "rock"],
-    "estimated_cost_usd": { "min": 200, "max": 400 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "indie",
+      "electronic",
+      "pop",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 400
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": true,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["cultural", "sustainable", "intimate"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "cultural",
+      "sustainable",
+      "intimate"
+    ],
     "website": "https://flowfestival.com",
     "status": "active",
     "min_age": 0,
@@ -1769,16 +3159,33 @@
     "country": "UK",
     "city": "Dorset",
     "region": "Western-Europe",
-    "months": ["September"],
-    "genres": ["indie", "electronic", "pop", "rock"],
-    "estimated_cost_usd": { "min": 250, "max": 500 },
+    "months": [
+      "September"
+    ],
+    "genres": [
+      "indie",
+      "electronic",
+      "pop",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 500
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["alternative", "cultural", "family"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "alternative",
+      "cultural",
+      "family"
+    ],
     "website": "https://bestival.net",
     "status": "active",
     "min_age": 0,
@@ -1790,16 +3197,33 @@
     "country": "Spain",
     "city": "Benicàssim",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["indie", "rock", "electronic", "pop"],
-    "estimated_cost_usd": { "min": 150, "max": 400 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "indie",
+      "rock",
+      "electronic",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 150,
+      "max": 400
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "sunny"],
-    "vibe": ["mainstream", "party", "beach"],
+    "weather_profile": [
+      "hot",
+      "sunny"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "beach"
+    ],
     "website": "https://fiberfib.com",
     "status": "active",
     "min_age": 18,
@@ -1811,16 +3235,33 @@
     "country": "Belgium",
     "city": "Dour",
     "region": "Western-Europe",
-    "months": ["July"],
-    "genres": ["electronic", "rock", "hiphop", "reggae"],
-    "estimated_cost_usd": { "min": 180, "max": 350 },
+    "months": [
+      "July"
+    ],
+    "genres": [
+      "electronic",
+      "rock",
+      "hiphop",
+      "reggae"
+    ],
+    "estimated_cost_usd": {
+      "min": 180,
+      "max": 350
+    },
     "audience_size": "large",
     "duration_days": 5,
     "family_friendly": false,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "alternative", "party"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "alternative",
+      "party"
+    ],
     "website": "https://dourfrancheval.com",
     "status": "active",
     "min_age": 16,
@@ -1832,16 +3273,33 @@
     "country": "USA",
     "city": "Rothbury",
     "region": "North-America",
-    "months": ["June"],
-    "genres": ["electronic", "edm", "house", "techno"],
-    "estimated_cost_usd": { "min": 400, "max": 1200 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1200
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["spiritual", "party", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "spiritual",
+      "party",
+      "adventure"
+    ],
     "website": "https://electricforestfestival.com",
     "status": "active",
     "min_age": 18,
@@ -1853,16 +3311,32 @@
     "country": "USA",
     "city": "Detroit",
     "region": "North-America",
-    "months": ["May"],
-    "genres": ["techno", "house", "electronic"],
-    "estimated_cost_usd": { "min": 150, "max": 400 },
+    "months": [
+      "May"
+    ],
+    "genres": [
+      "techno",
+      "house",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 150,
+      "max": 400
+    },
     "audience_size": "medium",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["underground", "intimate", "cultural"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "intimate",
+      "cultural"
+    ],
     "website": "https://movement.us",
     "status": "active",
     "min_age": 18,
@@ -1874,16 +3348,33 @@
     "country": "USA",
     "city": "San Bernardino",
     "region": "North-America",
-    "months": ["March"],
-    "genres": ["electronic", "edm", "trance", "house"],
-    "estimated_cost_usd": { "min": 300, "max": 800 },
+    "months": [
+      "March"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "trance",
+      "house"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 800
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "dry"],
-    "vibe": ["fantasy", "party", "adventure"],
+    "weather_profile": [
+      "mild",
+      "dry"
+    ],
+    "vibe": [
+      "fantasy",
+      "party",
+      "adventure"
+    ],
     "website": "https://beyondwonderland.com",
     "status": "active",
     "min_age": 18,
@@ -1895,16 +3386,32 @@
     "country": "USA",
     "city": "George",
     "region": "North-America",
-    "months": ["August"],
-    "genres": ["dubstep", "bass", "electronic"],
-    "estimated_cost_usd": { "min": 250, "max": 600 },
+    "months": [
+      "August"
+    ],
+    "genres": [
+      "dubstep",
+      "bass",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 600
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["underground", "party", "intense"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "underground",
+      "party",
+      "intense"
+    ],
     "website": "https://basscanyon.com",
     "status": "active",
     "min_age": 18,
@@ -1916,16 +3423,32 @@
     "country": "USA",
     "city": "Thornville",
     "region": "North-America",
-    "months": ["September"],
-    "genres": ["dubstep", "bass", "electronic"],
-    "estimated_cost_usd": { "min": 300, "max": 700 },
+    "months": [
+      "September"
+    ],
+    "genres": [
+      "dubstep",
+      "bass",
+      "electronic"
+    ],
+    "estimated_cost_usd": {
+      "min": 300,
+      "max": 700
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["mild", "variable"],
-    "vibe": ["adventure", "party", "themed"],
+    "weather_profile": [
+      "mild",
+      "variable"
+    ],
+    "vibe": [
+      "adventure",
+      "party",
+      "themed"
+    ],
     "website": "https://lostlandsfestival.com",
     "status": "active",
     "min_age": 18,
@@ -1937,16 +3460,32 @@
     "country": "Australia",
     "city": "Lexton",
     "region": "Oceania",
-    "months": ["January"],
-    "genres": ["electronic", "psytrance", "techno"],
-    "estimated_cost_usd": { "min": 200, "max": 400 },
+    "months": [
+      "January"
+    ],
+    "genres": [
+      "electronic",
+      "psytrance",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 400
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": false,
-    "weather_profile": ["hot", "dry"],
-    "vibe": ["spiritual", "underground", "sustainable"],
+    "weather_profile": [
+      "hot",
+      "dry"
+    ],
+    "vibe": [
+      "spiritual",
+      "underground",
+      "sustainable"
+    ],
     "website": "https://rainbowserpent.net",
     "status": "active",
     "min_age": 0,
@@ -1958,16 +3497,33 @@
     "country": "Australia",
     "city": "Byron Bay",
     "region": "Oceania",
-    "months": ["April"],
-    "genres": ["blues", "rock", "folk", "reggae"],
-    "estimated_cost_usd": { "min": 250, "max": 500 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "blues",
+      "rock",
+      "folk",
+      "reggae"
+    ],
+    "estimated_cost_usd": {
+      "min": 250,
+      "max": 500
+    },
     "audience_size": "large",
     "duration_days": 5,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["cultural", "intimate", "sustainable"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "cultural",
+      "intimate",
+      "sustainable"
+    ],
     "website": "https://bluesfest.com.au",
     "status": "active",
     "min_age": 0,
@@ -1979,16 +3535,33 @@
     "country": "Australia",
     "city": "Multiple Cities",
     "region": "Oceania",
-    "months": ["February"],
-    "genres": ["indie", "electronic", "rock", "pop"],
-    "estimated_cost_usd": { "min": 120, "max": 300 },
+    "months": [
+      "February"
+    ],
+    "genres": [
+      "indie",
+      "electronic",
+      "rock",
+      "pop"
+    ],
+    "estimated_cost_usd": {
+      "min": 120,
+      "max": 300
+    },
     "audience_size": "medium",
     "duration_days": 1,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["hot", "sunny"],
-    "vibe": ["alternative", "urban", "cultural"],
+    "weather_profile": [
+      "hot",
+      "sunny"
+    ],
+    "vibe": [
+      "alternative",
+      "urban",
+      "cultural"
+    ],
     "website": "https://lanewayfestival.com",
     "status": "active",
     "min_age": 18,
@@ -2000,16 +3573,32 @@
     "country": "Costa Rica",
     "city": "Uvita",
     "region": "Central-America",
-    "months": ["February"],
-    "genres": ["electronic", "world", "ambient"],
-    "estimated_cost_usd": { "min": 400, "max": 1000 },
+    "months": [
+      "February"
+    ],
+    "genres": [
+      "electronic",
+      "world",
+      "ambient"
+    ],
+    "estimated_cost_usd": {
+      "min": 400,
+      "max": 1000
+    },
     "audience_size": "small",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["spiritual", "sustainable", "adventure"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "spiritual",
+      "sustainable",
+      "adventure"
+    ],
     "website": "https://envisionfestival.com",
     "status": "active",
     "min_age": 0,
@@ -2021,16 +3610,33 @@
     "country": "Thailand",
     "city": "Pattaya",
     "region": "Asia",
-    "months": ["December"],
-    "genres": ["electronic", "indie", "world", "experimental"],
-    "estimated_cost_usd": { "min": 200, "max": 600 },
+    "months": [
+      "December"
+    ],
+    "genres": [
+      "electronic",
+      "indie",
+      "world",
+      "experimental"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 600
+    },
     "audience_size": "medium",
     "duration_days": 4,
     "family_friendly": true,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "humid"],
-    "vibe": ["cultural", "sustainable", "adventure"],
+    "weather_profile": [
+      "warm",
+      "humid"
+    ],
+    "vibe": [
+      "cultural",
+      "sustainable",
+      "adventure"
+    ],
     "website": "https://wonderfruit.co",
     "status": "active",
     "min_age": 0,
@@ -2042,16 +3648,32 @@
     "country": "Thailand",
     "city": "Bangkok",
     "region": "Asia",
-    "months": ["April"],
-    "genres": ["edm", "electronic", "house"],
-    "estimated_cost_usd": { "min": 80, "max": 200 },
+    "months": [
+      "April"
+    ],
+    "genres": [
+      "edm",
+      "electronic",
+      "house"
+    ],
+    "estimated_cost_usd": {
+      "min": 80,
+      "max": 200
+    },
     "audience_size": "large",
     "duration_days": 2,
     "family_friendly": false,
     "camping": false,
     "glamping": false,
-    "weather_profile": ["hot", "humid"],
-    "vibe": ["party", "cultural", "water"],
+    "weather_profile": [
+      "hot",
+      "humid"
+    ],
+    "vibe": [
+      "party",
+      "cultural",
+      "water"
+    ],
     "website": "https://s2ofestival.com",
     "status": "active",
     "min_age": 18,
@@ -2063,16 +3685,33 @@
     "country": "India",
     "city": "Pune",
     "region": "Asia",
-    "months": ["February"],
-    "genres": ["electronic", "edm", "house", "techno"],
-    "estimated_cost_usd": { "min": 50, "max": 150 },
+    "months": [
+      "February"
+    ],
+    "genres": [
+      "electronic",
+      "edm",
+      "house",
+      "techno"
+    ],
+    "estimated_cost_usd": {
+      "min": 50,
+      "max": 150
+    },
     "audience_size": "large",
     "duration_days": 3,
     "family_friendly": false,
     "camping": false,
     "glamping": true,
-    "weather_profile": ["warm", "dry"],
-    "vibe": ["mainstream", "party", "urban"],
+    "weather_profile": [
+      "warm",
+      "dry"
+    ],
+    "vibe": [
+      "mainstream",
+      "party",
+      "urban"
+    ],
     "website": "https://vh1supersonic.com",
     "status": "active",
     "min_age": 18,
@@ -2084,16 +3723,32 @@
     "country": "France",
     "city": "Clisson",
     "region": "Western-Europe",
-    "months": ["June"],
-    "genres": ["metal", "hardcore", "rock"],
-    "estimated_cost_usd": { "min": 200, "max": 500 },
+    "months": [
+      "June"
+    ],
+    "genres": [
+      "metal",
+      "hardcore",
+      "rock"
+    ],
+    "estimated_cost_usd": {
+      "min": 200,
+      "max": 500
+    },
     "audience_size": "large",
     "duration_days": 4,
     "family_friendly": false,
     "camping": true,
     "glamping": true,
-    "weather_profile": ["warm", "variable"],
-    "vibe": ["underground", "intense", "community"],
+    "weather_profile": [
+      "warm",
+      "variable"
+    ],
+    "vibe": [
+      "underground",
+      "intense",
+      "community"
+    ],
     "website": "https://hellfest.fr",
     "status": "active",
     "min_age": 16,

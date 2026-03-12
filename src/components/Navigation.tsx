@@ -4,293 +4,273 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Sparkles, Music2, Compass, BookOpen, Building2, Zap,
+} from 'lucide-react';
 import CurrencySelector from '@/components/CurrencySelector';
 import FestivalSearch from '@/components/FestivalSearch';
 
-// Nav items config — conversion-critical paths only
 const NAV_ITEMS = [
-  { href: '/quiz', label: 'Quiz' },
-  { href: '/festivals', label: 'Festivals' },
-  { href: '/discover', label: 'Discover' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/for-festivals', label: 'For Organizers' },
+  { href: '/quiz',          label: 'Quiz',           icon: Sparkles  },
+  { href: '/festivals',     label: 'Festivals',      icon: Music2    },
+  { href: '/discover',      label: 'Discover',       icon: Compass   },
+  { href: '/collections',   label: 'Collections',    icon: BookOpen  },
+  { href: '/for-festivals', label: 'For Organizers', icon: Building2 },
 ];
 
-// Logo component (could expand with SVG, etc.)
-function Logo({ scrolled }: { scrolled: boolean }) {
+// ── Sub-components ─────────────────────────────────────────────────────────────
+
+function Logo({ transparent }: { transparent: boolean }) {
   return (
-    <Link href="/" className="flex items-center space-x-2 group">
-      <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-        <span className="text-white font-bold text-xl">F</span>
+    <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+      <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-purple-500/40 transition-all duration-300 group-hover:scale-110">
+        <span className="text-white font-black text-lg leading-none select-none">F</span>
       </div>
-      <span className={`font-extrabold text-2xl transition-all duration-300 bg-clip-text ${
-        scrolled
-          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-transparent'
-          : 'text-gray-900'
+      <span className={`font-extrabold text-xl tracking-tight transition-colors duration-300 ${
+        transparent ? 'text-white' : 'text-gray-900'
       }`}>
-        FestiWise
+        Festi<span className={transparent ? 'text-yellow-300' : 'text-purple-600'}>Wise</span>
       </span>
     </Link>
   );
 }
 
+function CTAButton({ mobile = false, onClick }: { mobile?: boolean; onClick?: () => void }) {
+  return (
+    <Link
+      href="/quiz"
+      onClick={onClick}
+      className={`flex items-center gap-2 font-bold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black shadow-lg hover:shadow-yellow-500/30 transition-all duration-200 active:scale-95 tap-highlight-none touch-manipulation ${
+        mobile
+          ? 'w-full justify-center py-4 text-base rounded-2xl'
+          : 'px-5 py-2.5 text-sm whitespace-nowrap'
+      }`}
+    >
+      <Sparkles className={mobile ? 'w-5 h-5' : 'w-4 h-4'} />
+      <span>{mobile ? 'Find My Festival — Free, 2 min' : 'Find My Festival'}</span>
+    </Link>
+  );
+}
+
+// ── Main component ─────────────────────────────────────────────────────────────
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen]     = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
-  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted]   = useState(false);
+  const pathname   = usePathname() ?? '';
+  const mobileRef  = useRef<HTMLDivElement>(null);
+
+  // Hero-aware: transparent only on homepage when at the top
+  const isTransparent = pathname === '/' && !scrolled && mounted;
 
   useEffect(() => {
     setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll when mobile nav open
   useEffect(() => {
     if (!mounted) return;
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; }
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen, mounted]);
 
-  // ESC to close mobile nav
   useEffect(() => {
     if (!isOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false);
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [isOpen]);
 
-  // Close mobile nav when clicking outside
   useEffect(() => {
     if (!isOpen) return;
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mobileNavRef.current && !mobileNavRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+    const onOutside = (e: MouseEvent) => {
+      if (mobileRef.current && !mobileRef.current.contains(e.target as Node)) setIsOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', onOutside);
+    return () => document.removeEventListener('mousedown', onOutside);
   }, [isOpen]);
 
-  const isActive = (href: string) => {
-    if (href === '/' && pathname === '/') return true;
-    if (href !== '/' && pathname && pathname.startsWith(href)) return true;
-    return false;
-  };
-
-  // Banner always at top
-  const Banner = () => (
-    <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white text-center py-1.5 text-xs font-medium tracking-wide">
-      <Link href="/pricing" className="hover:underline">
-        Pro is here early ticket alerts, unlimited compare &amp; more &rarr;
-      </Link>
-    </div>
-  );
-
-  // CTA Button
-  const CTAButton = ({ mobile = false, onClick }: { mobile?: boolean; onClick?: () => void }) => (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="relative"
-    >
-      <Link
-        href="/quiz"
-        onClick={onClick}
-      className={`relative px-8 py-3 ${mobile ? 'w-full block text-center text-base md:text-lg' : ''} bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group`}
-      >
-        <motion.span
-          className="text-xl"
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-        >
-          🚀
-        </motion.span>
-        <span>{mobile ? 'Find My Festival (2 min)' : 'Take Quiz'}</span>
-      </Link>
-    </motion.div>
-  );
-
-  // Desktop nav
-  const DesktopNav = () => (
-    <nav className="hidden lg:flex items-center" aria-label="Main navigation">
-      <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl transition-all duration-500 ${
-        scrolled
-          ? 'bg-gray-50/80 backdrop-blur-xl border border-gray-200/50 shadow-lg'
-          : 'bg-white/10 backdrop-blur-xl border border-white/20'
-      }`}>
-        {NAV_ITEMS.map((item, _i) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`relative px-4 py-3 rounded-xl font-medium text-sm group transition-all duration-300 overflow-hidden ${
-              isActive(item.href)
-                ? scrolled
-                  ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg'
-                  : 'text-gray-900 bg-white shadow-lg'
-                : scrolled
-                ? 'text-gray-700 hover:text-gray-900 hover:bg-white/80'
-                : 'text-white/90 hover:text-white hover:bg-white/20'
-            }`}
-          >
-            <span>{item.label}</span>
-            {isActive(item.href) && (
-              <motion.div
-                className="absolute inset-0 rounded-xl"
-                layoutId="activeNavBackground"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              />
-            )}
-          </Link>
-        ))}
-      </div>
-    </nav>
-  );
-
-  // Mobile nav
-  const MobileNav = () => (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          ref={mobileNavRef}
-          className="fixed inset-0 z-[99999] lg:hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-          {/* Panel slides from top — bottom rounded corners give a sheet feel */}
-          <motion.div
-            className="absolute top-0 left-0 right-0 bg-white/97 backdrop-blur-2xl border-b border-gray-200/60 shadow-2xl rounded-b-3xl"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-          >
-            <div className="relative px-5 pt-6 pb-7 space-y-2">
-              {/* Search */}
-              <div className="pb-2">
-                <FestivalSearch onClose={() => setIsOpen(false)} />
-              </div>
-              {/* Nav items */}
-              <div className="space-y-1">
-                {NAV_ITEMS.map(item => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl font-semibold transition-all duration-200 text-base tap-highlight-none ${
-                      isActive(item.href)
-                        ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg'
-                        : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100/80 active:bg-gray-200/80'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                  </Link>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <div className="pt-2">
-                <CTAButton mobile onClick={() => setIsOpen(false)} />
-              </div>
-              {/* Currency */}
-              <div className="pt-1 flex justify-center">
-                <div className="bg-gray-900 rounded-xl px-3 py-2">
-                  <CurrencySelector />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+  const isActive = (href: string) =>
+    href !== '/' ? pathname.startsWith(href) : pathname === '/';
 
   return (
-    <motion.header
-      className={`fixed left-0 right-0 z-[9999] transition-all duration-500 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-2xl shadow-2xl border-b border-white/30'
-          : 'bg-white/90 backdrop-blur-md border-b border-gray-200/20 shadow-xl'
+    <header
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${
+        isTransparent
+          ? 'bg-transparent'
+          : 'bg-white/95 backdrop-blur-2xl shadow-sm border-b border-gray-100/80'
       }`}
-      style={{ top: 'var(--banner-height, 0px)' }}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
       role="banner"
-      suppressHydrationWarning
     >
-      <Banner />
+      {/* ── Announcement banner ─────────────────────────────────────────────── */}
+      <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 text-white text-center py-2 text-xs font-semibold tracking-wide">
+        <Link href="/pricing" className="hover:underline underline-offset-2 decoration-white/60">
+          <span className="inline-flex items-center gap-1.5">
+            <Zap className="w-3 h-3" />
+            Pro is here: early ticket alerts, unlimited compare &amp; more &rarr;
+          </span>
+        </Link>
+      </div>
+
+      {/* ── Desktop nav ─────────────────────────────────────────────────────── */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          <Logo scrolled={scrolled && mounted} />
-          {mounted && <DesktopNav />}
+        <div className="flex items-center justify-between h-14 lg:h-16 gap-4">
+
+          {/* Logo */}
+          <Logo transparent={isTransparent} />
+
+          {/* Nav pills — hidden below lg */}
           {mounted && (
-            <div className="hidden lg:flex items-center gap-3">
-              <div className="w-52 xl:w-64">
+            <nav
+              className="hidden lg:flex items-center gap-0.5 px-2 py-1.5 rounded-2xl transition-all duration-300"
+              style={{
+                background: isTransparent ? 'rgba(255,255,255,0.10)' : 'rgba(243,244,246,0.9)',
+                border: isTransparent ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(229,231,235,0.8)',
+                backdropFilter: 'blur(12px)',
+              }}
+              aria-label="Main navigation"
+            >
+              {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+                const active = isActive(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                      active
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-500/20'
+                        : isTransparent
+                        ? 'text-white/85 hover:text-white hover:bg-white/15'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-white'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span>{label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          )}
+
+          {/* Right actions */}
+          {mounted && (
+            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+              <div className="w-44 xl:w-56">
                 <FestivalSearch />
               </div>
               <CurrencySelector />
               <CTAButton />
             </div>
           )}
-          {/* Mobile menu toggle */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => setIsOpen(v => !v)}
-              aria-label="Toggle mobile menu"
-              aria-expanded={isOpen}
-              aria-controls="mobile-navigation"
-              className={`p-3 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 overflow-hidden tap-highlight-none touch-manipulation ${
-                scrolled
-                  ? 'text-gray-600 hover:text-gray-900 bg-gray-50/80 hover:bg-gray-100 border border-gray-200/50'
-                  : 'text-white hover:text-white bg-white/10 hover:bg-white/20 border border-white/20'
-              }`}
-            >
-              {/* Hamburger */}
-              <div className="w-6 h-6 relative">
-                <motion.span
-                  className={`absolute block h-0.5 w-6 rounded-full transition-all duration-300 ${
-                    scrolled ? 'bg-gray-600' : 'bg-white'
-                  }`}
-                  animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  style={{ top: '6px' }}
-                />
-                <motion.span
-                  className={`absolute block h-0.5 w-6 rounded-full transition-all duration-300 ${
-                    scrolled ? 'bg-gray-600' : 'bg-white'
-                  }`}
-                  animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                  style={{ top: '12px' }}
-                />
-                <motion.span
-                  className={`absolute block h-0.5 w-6 rounded-full transition-all duration-300 ${
-                    scrolled ? 'bg-gray-600' : 'bg-white'
-                  }`}
-                  animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                  style={{ top: '18px' }}
-                />
-              </div>
-            </button>
-          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setIsOpen(v => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            className={`lg:hidden p-2.5 rounded-xl transition-all duration-200 touch-manipulation tap-highlight-none border ${
+              isTransparent
+                ? 'text-white bg-white/10 border-white/20 hover:bg-white/20'
+                : 'text-gray-700 bg-gray-50 border-gray-200 hover:bg-gray-100'
+            }`}
+          >
+            <div className="w-5 h-5 flex flex-col justify-between py-0.5">
+              <motion.span
+                className={`block h-0.5 w-5 rounded-full origin-center ${isTransparent ? 'bg-white' : 'bg-gray-700'}`}
+                animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span
+                className={`block h-0.5 w-5 rounded-full ${isTransparent ? 'bg-white' : 'bg-gray-700'}`}
+                animate={{ opacity: isOpen ? 0 : 1, scaleX: isOpen ? 0 : 1 }}
+                transition={{ duration: 0.15 }}
+              />
+              <motion.span
+                className={`block h-0.5 w-5 rounded-full origin-center ${isTransparent ? 'bg-white' : 'bg-gray-700'}`}
+                animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+            </div>
+          </button>
         </div>
       </nav>
-      {mounted && <MobileNav />}
-    </motion.header>
+
+      {/* ── Mobile panel ────────────────────────────────────────────────────── */}
+      {mounted && (
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="fixed inset-0 z-[99999] lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={() => setIsOpen(false)}
+              />
+
+              {/* Sheet slides from top */}
+              <motion.div
+                ref={mobileRef}
+                className="absolute top-0 left-0 right-0 bg-white shadow-2xl rounded-b-3xl overflow-hidden"
+                initial={{ y: '-100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-100%' }}
+                transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+              >
+                {/* Mini banner */}
+                <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 text-white text-center py-2 text-xs font-semibold">
+                  Pro is here: early ticket alerts &amp; more &rarr;
+                </div>
+
+                <div className="px-4 pt-4 pb-6 space-y-4">
+                  {/* Search */}
+                  <FestivalSearch onClose={() => setIsOpen(false)} />
+
+                  {/* Nav grid */}
+                  <div className="grid grid-cols-3 gap-2">
+                    {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+                      const active = isActive(href);
+                      return (
+                        <Link
+                          key={href}
+                          href={href}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex flex-col items-center gap-2 p-3.5 rounded-2xl text-xs font-bold transition-all duration-200 tap-highlight-none ${
+                            active
+                              ? 'bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25'
+                              : 'bg-gray-50 text-gray-700 hover:bg-gray-100 active:bg-gray-200 border border-gray-100'
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span className="text-center leading-tight">{label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* Main CTA */}
+                  <CTAButton mobile onClick={() => setIsOpen(false)} />
+
+                  {/* Currency */}
+                  <div className="flex justify-center pt-1">
+                    <div className="bg-gray-900 rounded-xl px-4 py-2.5">
+                      <CurrencySelector />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </header>
   );
 }
