@@ -27,9 +27,17 @@ const fadeIn = {
   visible: { opacity: 1, y: 0 }
 };
 
+const FESTIVAL_NAMES = [
+  'Tomorrowland', 'Coachella', 'Glastonbury', 'Burning Man', 'Ultra Music Festival',
+  'Lollapalooza', 'Primavera Sound', 'Roskilde', 'Sziget', 'Bonnaroo',
+  'Rock Werchter', 'Exit Festival', 'Download Festival', 'Reading & Leeds', 'Mysteryland',
+];
+
 export default function UltimateHero() {
   const { t } = useSimpleLanguage();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [emailCapture, setEmailCapture] = useState('');
+  const [emailStatus, setEmailStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [stats, setStats] = useState({
     festivals: '100+ festivals',
     users: 'users',
@@ -72,6 +80,28 @@ export default function UltimateHero() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailCapture || emailStatus === 'loading') return;
+    setEmailStatus('loading');
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: emailCapture,
+          subject: 'Festival Picks Request — FestiWise',
+          message: 'User signed up for festival picks from hero section',
+          from_name: 'FestiWise Hero',
+        }),
+      });
+      setEmailStatus('success');
+      setEmailCapture('');
+    } catch {
+      setEmailStatus('idle');
+    }
+  };
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -212,11 +242,60 @@ export default function UltimateHero() {
             </div>
           </motion.div>
           
-          {/* Community Trust Section */}
+          {/* Email capture + social proof marquee */}
           <motion.div
             variants={fadeIn}
-            className="mt-12 max-w-3xl mx-auto"
+            className="mt-10 max-w-xl mx-auto space-y-5"
           >
+            {/* Email capture */}
+            {emailStatus === 'success' ? (
+              <div className="flex items-center justify-center gap-2 py-3 text-green-300 font-semibold text-sm">
+                <span>✓</span>
+                <span>Festival picks sent — check your inbox!</span>
+              </div>
+            ) : (
+              <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 text-sm pointer-events-none">✉</span>
+                  <input
+                    type="email"
+                    value={emailCapture}
+                    onChange={e => setEmailCapture(e.target.value)}
+                    placeholder="Get your top festival picks by email"
+                    className="w-full pl-9 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 text-base focus:outline-none focus:border-yellow-400/60 focus:bg-white/15 transition-all"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={emailStatus === 'loading'}
+                  className="px-5 py-3 bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl text-white font-semibold text-sm whitespace-nowrap transition-all disabled:opacity-50 touch-manipulation tap-highlight-none"
+                >
+                  {emailStatus === 'loading' ? '...' : 'Send me picks →'}
+                </button>
+              </form>
+            )}
+
+            {/* Social proof marquee */}
+            <div>
+              <p className="text-center text-white/30 text-xs mb-2">Fans of these festivals love FestiWise</p>
+              <div className="overflow-hidden relative">
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-purple-900/80 to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-pink-900/80 to-transparent z-10 pointer-events-none" />
+                <motion.div
+                  className="flex gap-6 text-white/35 text-xs font-medium"
+                  animate={{ x: ['0%', '-50%'] }}
+                  transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                >
+                  {[...FESTIVAL_NAMES, ...FESTIVAL_NAMES].map((name, i) => (
+                    <span key={i} className="whitespace-nowrap flex items-center gap-2">
+                      <span className="w-1 h-1 bg-white/25 rounded-full flex-shrink-0" />
+                      {name}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

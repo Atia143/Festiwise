@@ -151,8 +151,8 @@ const nextConfig = {
             { url: '/', revision: null },
             { url: '/quiz', revision: null },
             { url: '/festivals', revision: null },
-            { url: '/blog', revision: null },
-            { url: '/faq', revision: null },
+            { url: '/discover', revision: null },
+            { url: '/collections', revision: null },
           ],
           exclude: [
             /\.map$/,

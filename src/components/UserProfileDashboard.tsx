@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { User, LogOut, Heart, History, Settings } from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 interface UserProfile {
@@ -44,8 +45,8 @@ const SAMPLE_SAVED_FESTIVALS: SavedFestival[] = [
 ];
 
 export default function UserProfilePage() {
-  const [user, setUser] = useState<UserProfile>(DEFAULT_USER);
-  const [savedFestivals, setSavedFestivals] = useState<SavedFestival[]>(SAMPLE_SAVED_FESTIVALS);
+  const [user] = useState<UserProfile>(DEFAULT_USER);
+  const [savedFestivals] = useState<SavedFestival[]>(SAMPLE_SAVED_FESTIVALS);
   const [activeTab, setActiveTab] = useState<'overview' | 'saved' | 'history' | 'settings'>('overview');
   const [isEditing, setIsEditing] = useState(false);
 
@@ -215,10 +216,12 @@ export default function UserProfilePage() {
                     className="group cursor-pointer rounded-2xl overflow-hidden"
                   >
                     <div className="relative h-48 overflow-hidden">
-                      <img
+                      <Image
                         src={festival.image}
                         alt={festival.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
                       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">

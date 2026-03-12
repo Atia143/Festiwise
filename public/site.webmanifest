@@ -24,20 +24,6 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/pwa-screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/pwa-screenshot-desktop.png", 
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Festival Quiz",
@@ -54,7 +40,7 @@
     {
       "name": "Browse Festivals",
       "short_name": "Browse",
-      "description": "Explore all festivals my uncle ",
+      "description": "Explore all music festivals worldwide",
       "url": "/festivals",
       "icons": [
         {

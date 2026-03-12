@@ -5,11 +5,12 @@ export const metadata: Metadata = {
   title: 'List Your Festival on FestiWise | Reach Targeted Festival Fans',
   description:
     'Get your festival in front of highly targeted fans. Featured placement, real-time analytics, and lead capture - starting at $299/month.',
+  alternates: { canonical: 'https://getfestiwise.com/for-festivals' },
   openGraph: {
     title: 'List Your Festival on FestiWise',
-    description:
-      'Reach festival fans actively searching for their next experience.',
+    description: 'Reach festival fans actively searching for their next experience.',
     url: 'https://getfestiwise.com/for-festivals',
+    type: 'website',
   },
 };
 

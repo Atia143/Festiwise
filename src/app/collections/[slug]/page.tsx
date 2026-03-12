@@ -23,12 +23,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const count = getCollectionFestivals(c, allFestivals).length;
   const title = `${c.title} — ${count} Expert Picks | FestiWise`;
   const description = `${c.subtitle}. ${count} hand-curated festivals selected by our editorial team.`;
+  const ogParams = new URLSearchParams({
+    slug,
+    title: c.title,
+    subtitle: c.subtitle,
+    badge: c.badge,
+    count: String(count),
+  });
+  const ogImageUrl = `https://getfestiwise.com/api/og/collection?${ogParams.toString()}`;
   return {
     title,
     description,
     keywords: [c.title, 'best festivals', 'music festivals 2026', c.badge, 'festival guide'],
     alternates: { canonical: `https://getfestiwise.com/collections/${slug}` },
-    openGraph: { title, description, url: `https://getfestiwise.com/collections/${slug}`, type: 'website' },
+    openGraph: {
+      title,
+      description,
+      url: `https://getfestiwise.com/collections/${slug}`,
+      type: 'website',
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `${c.title} — FestiWise` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl],
+    },
   };
 }
 

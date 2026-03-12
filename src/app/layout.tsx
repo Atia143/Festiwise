@@ -19,9 +19,7 @@ import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
 import { CompareProvider } from "@/contexts/CompareContext";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
-import FestivalBuddy from "@/components/FestivalBuddy";
-import CompareBar from "@/components/CompareBar";
-import LiveMatchToast from "@/components/LiveMatchToast";
+import ConditionalFloatingUI from "@/components/ConditionalFloatingUI";
 import { Suspense } from "react";
 
 export { generateMetadata as metadata } from '@/lib/metadata';
@@ -41,9 +39,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preload" href="/favicon.png" as="image" type="image/png" />
-        <link 
-          rel="stylesheet" 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap"
         />
       </head>
       <body className="min-h-screen bg-white">
@@ -71,9 +69,7 @@ export default function RootLayout({
               <SharePrompt />
               <AccessibilityMenu />
               <CookieConsent />
-              <CompareBar />
-              <LiveMatchToast />
-              <FestivalBuddy />
+              <ConditionalFloatingUI />
             </ToastProvider>
           </CompareProvider>
           </CurrencyProvider>

@@ -64,11 +64,6 @@ export function generateMetadata(): Metadata {
     },
     alternates: {
       canonical: BASE_URL,
-      languages: {
-        'en-US': BASE_URL,
-        'en-GB': `${BASE_URL}/uk`,
-        'es-ES': `${BASE_URL}/es`
-      }
     },
     robots: {
       index: true,
