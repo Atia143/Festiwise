@@ -11,7 +11,7 @@ export function generateMetadata(): Metadata {
     },
     description: 'Discover your ideal music festival from 100+ world-class events worldwide. Take our free 2-minute quiz for personalized recommendations by genre, budget & location. Find festivals like Tomorrowland, Coachella, Ultra & more.',
     keywords: [
-      'music festival finder', 'festival finder quiz', 'music festivals 2025', 'festival recommendations',
+      'music festival finder', 'festival finder quiz', `music festivals ${new Date().getFullYear()}`, 'festival recommendations',
       'EDM festivals', 'rock festivals', 'electronic music festivals', 'indie festivals',
       'tomorrowland', 'coachella', 'burning man', 'glastonbury', 'ultra music festival',
       'festival tickets', 'music events', 'concert finder', 'festival guide',
@@ -44,7 +44,7 @@ export function generateMetadata(): Metadata {
       siteName: 'FestiWise',
       type: 'website',
       images: [{
-        url: `${BASE_URL}/og-image.jpg`,
+        url: `${BASE_URL}/api/og/quiz-results?score=95&genre=electronic&budget=mid`,
         width: 1200,
         height: 630,
         alt: 'FestiWise - Find Your Perfect Music Festival'
@@ -56,12 +56,13 @@ export function generateMetadata(): Metadata {
       description: 'Discover your ideal music festival from 100+ world-class events worldwide.',
       site: '@festiwise',
       creator: '@festiwise',
-      images: [`${BASE_URL}/twitter-image.jpg`],
+      images: [`${BASE_URL}/api/og/quiz-results?score=95&genre=electronic&budget=mid`],
     },
-    verification: {
-      google: 'your-google-verification-code',
-      yandex: 'your-yandex-verification-code',
-    },
+    // TODO: Replace with your actual Google Search Console verification code
+    // Get it from: https://search.google.com/search-console → Add Property → HTML tag method
+    // verification: {
+    //   google: 'paste-your-code-here',
+    // },
     alternates: {
       canonical: BASE_URL,
     },
