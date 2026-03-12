@@ -35,21 +35,22 @@ const exploreLinks = [
   { href: '/quiz', label: 'Festival Quiz' },
   { href: '/festivals', label: 'Browse Festivals' },
   { href: '/discover', label: 'Discover' },
-  { href: '/my-recommendations', label: 'My Picks' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/collections', label: 'Collections' },
+  { href: '/pricing', label: 'Pricing' },
 ];
 
 const guideLinks = [
-  { href: '/best-music-festivals-2025', label: 'Best Festivals 2025' },
-  { href: '/festival-packing-list-2025', label: 'Packing List' },
-  { href: '/when-to-buy-festival-tickets-2025', label: 'When to Buy Tickets' },
-  { href: '/music-festival-safety-tips-2025', label: 'Safety Tips' },
-  { href: '/cheap-music-festivals-europe-2025', label: 'Budget Festivals' },
+  { href: '/festivals/electronic/europe', label: 'Best Electronic Festivals' },
+  { href: '/festivals/rock/europe', label: 'Best Rock Festivals' },
+  { href: '/festivals/electronic/north-america', label: 'US Electronic Festivals' },
+  { href: '/festivals/world/asia', label: 'Asian Festivals' },
+  { href: '/for-festivals', label: 'For Organizers' },
 ];
 
 const companyLinks = [
-  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/for-festivals', label: 'For Organizers' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },
 ];
@@ -179,8 +180,8 @@ export default function TrustFooter() {
               &copy; {currentYear} FestiWise. All rights reserved.
             </p>
             <div className="flex items-center gap-5">
-              <span className="text-xs text-gray-600">Free forever</span>
               <span className="text-xs text-gray-600">100+ festivals</span>
+              <span className="text-xs text-gray-600">Free to start</span>
               <span className="flex items-center gap-1.5 text-xs text-gray-600">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                 All systems operational

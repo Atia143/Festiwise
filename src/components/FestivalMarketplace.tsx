@@ -477,6 +477,80 @@ export default function FestivalMarketplace() {
         </div>
       </div>
 
+      {/* Quick-filter tabs: Genre + Month */}
+      <div className="sticky top-[65px] z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Genre row */}
+          <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
+            <span className="flex-shrink-0 text-xs font-bold text-gray-400 uppercase tracking-widest pr-1">Genre</span>
+            <button
+              onClick={() => setFilters(f => ({ ...f, genres: [] }))}
+              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                filters.genres.length === 0
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-purple-700'
+              }`}
+            >
+              All
+            </button>
+            {allGenres.map(genre => (
+              <button
+                key={genre}
+                onClick={() =>
+                  setFilters(f => ({
+                    ...f,
+                    genres: f.genres.includes(genre)
+                      ? f.genres.filter(g => g !== genre)
+                      : [...f.genres, genre],
+                  }))
+                }
+                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border capitalize ${
+                  filters.genres.includes(genre)
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-purple-700'
+                }`}
+              >
+                {genre}
+              </button>
+            ))}
+          </div>
+          {/* Month row */}
+          <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
+            <span className="flex-shrink-0 text-xs font-bold text-gray-400 uppercase tracking-widest pr-1">Month</span>
+            <button
+              onClick={() => setFilters(f => ({ ...f, months: [] }))}
+              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                filters.months.length === 0
+                  ? 'bg-gradient-to-r from-violet-600 to-blue-600 text-white border-transparent shadow'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-violet-300 hover:text-violet-700'
+              }`}
+            >
+              All
+            </button>
+            {['January','February','March','April','May','June','July','August','September','October','November','December'].map(month => (
+              <button
+                key={month}
+                onClick={() =>
+                  setFilters(f => ({
+                    ...f,
+                    months: f.months.includes(month)
+                      ? f.months.filter(m => m !== month)
+                      : [...f.months, month],
+                  }))
+                }
+                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                  filters.months.includes(month)
+                    ? 'bg-gradient-to-r from-violet-600 to-blue-600 text-white border-transparent shadow'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-violet-300 hover:text-violet-700'
+                }`}
+              >
+                {month.slice(0, 3)}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

@@ -204,9 +204,10 @@ const PLANS = [
     highlight: false,
   },
   {
-    name: 'Business',
-    price: '$299',
-    period: '/month',
+    name: 'Business Partnership',
+    price: 'Custom',
+    period: '',
+    priceSub: 'Tailored to your festival\'s size and goals',
     desc: 'Full commercial partnership with analytics and lead capture.',
     features: [
       'Featured placement in search & feeds',
@@ -217,7 +218,7 @@ const PLANS = [
       'Dedicated account manager',
       'Monthly performance report',
     ],
-    cta: 'Apply for Partnership',
+    cta: 'Get a Custom Quote',
     highlight: true,
   },
 ];
@@ -351,8 +352,8 @@ export default function ForFestivalsClient() {
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Simple, transparent pricing</h2>
-            <p className="text-gray-500">Start free. Upgrade when you&apos;re ready to grow.</p>
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Choose your level of partnership</h2>
+            <p className="text-gray-500">Every festival is different. Business pricing is tailored to your event's size, reach, and goals.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {PLANS.map((plan, i) => (
@@ -370,10 +371,13 @@ export default function ForFestivalsClient() {
                   </span>
                 )}
                 <h3 className="text-xl font-bold text-gray-900 mb-1">{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-2">
+                <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
                   {plan.period && <span className="text-gray-500">{plan.period}</span>}
                 </div>
+                {'priceSub' in plan && plan.priceSub && (
+                  <p className="text-xs text-gray-400 mb-2">{plan.priceSub}</p>
+                )}
                 <p className="text-sm text-gray-500 mb-6">{plan.desc}</p>
                 <ul className="space-y-2.5 mb-8">
                   {plan.features.map((feat, j) => (

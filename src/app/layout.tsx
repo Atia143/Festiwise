@@ -20,6 +20,7 @@ import { ToastProvider } from "@/components/Toast/ToastProvider";
 import { CompareProvider } from "@/contexts/CompareContext";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import ConditionalFloatingUI from "@/components/ConditionalFloatingUI";
+import TrustFooter from "@/components/TrustFooter";
 import { Suspense } from "react";
 
 export { generateMetadata as metadata } from '@/lib/metadata';
@@ -66,6 +67,7 @@ export default function RootLayout({
               <main className="pt-[96px]">
                 {children}
               </main>
+              <TrustFooter />
               <SharePrompt />
               <AccessibilityMenu />
               <CookieConsent />

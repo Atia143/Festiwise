@@ -10,13 +10,17 @@ import {
 import CurrencySelector from '@/components/CurrencySelector';
 import FestivalSearch from '@/components/FestivalSearch';
 
+// Primary user-facing nav (desktop pill + mobile grid)
 const NAV_ITEMS = [
-  { href: '/quiz',          label: 'Quiz',           icon: Sparkles  },
-  { href: '/festivals',     label: 'Festivals',      icon: Music2    },
-  { href: '/discover',      label: 'Discover',       icon: Compass   },
-  { href: '/collections',   label: 'Collections',    icon: BookOpen  },
-  { href: '/for-festivals', label: 'For Organizers', icon: Building2 },
+  { href: '/quiz',        label: 'Quiz',        icon: Sparkles },
+  { href: '/festivals',   label: 'Festivals',   icon: Music2   },
+  { href: '/discover',    label: 'Discover',    icon: Compass  },
+  { href: '/collections', label: 'Collections', icon: BookOpen },
+  { href: '/pricing',     label: 'Pricing',     icon: Zap      },
 ];
+
+// Secondary B2B link — shown in mobile menu + desktop right rail
+const B2B_LINK = { href: '/for-festivals', label: 'For Organizers', icon: Building2 };
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
@@ -163,6 +167,19 @@ export default function Navigation() {
                 <FestivalSearch />
               </div>
               <CurrencySelector />
+              <Link
+                href={B2B_LINK.href}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 border ${
+                  isActive(B2B_LINK.href)
+                    ? 'text-purple-700 bg-purple-50 border-purple-200'
+                    : isTransparent
+                    ? 'text-white/70 border-white/20 hover:text-white hover:bg-white/10'
+                    : 'text-gray-500 border-gray-200 hover:text-gray-800 hover:bg-gray-50'
+                }`}
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                <span>For Organizers</span>
+              </Link>
               <CTAButton />
             </div>
           )}
@@ -236,7 +253,7 @@ export default function Navigation() {
 
                   {/* Nav grid */}
                   <div className="grid grid-cols-3 gap-2">
-                    {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+                    {[...NAV_ITEMS, B2B_LINK].map(({ href, label, icon: Icon }) => {
                       const active = isActive(href);
                       return (
                         <Link

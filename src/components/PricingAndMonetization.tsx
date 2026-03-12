@@ -306,11 +306,11 @@ export default function PricingAndMonetization() {
                 <Building2 className="w-4 h-4 text-yellow-400" />
                 <p className="text-xs font-bold text-yellow-400 uppercase tracking-widest">Business</p>
               </div>
-              <div className="flex items-baseline gap-1 mb-3">
-                <span className="text-4xl font-black text-white">$299</span>
-                <span className="text-white/40 text-sm">/ month</span>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="text-4xl font-black text-white">Custom</span>
               </div>
-              <p className="text-white/50 text-sm">For festival organizers who want direct access to their audience.</p>
+              <p className="text-white/40 text-xs mb-3">Pricing based on your festival's size and goals</p>
+              <p className="text-white/50 text-sm">For festival organizers who want direct access to their ideal audience.</p>
             </div>
             <ul className="space-y-2.5 flex-1 mb-6">
               {BUSINESS_FEATURES.map((f, i) => (
@@ -322,12 +322,12 @@ export default function PricingAndMonetization() {
             </ul>
             <div className="space-y-3">
               <Link
-                href="/for-festivals"
-                className="block text-center py-3 rounded-xl bg-white/5 border border-yellow-500/30 text-yellow-300 font-semibold text-sm hover:bg-yellow-500/10 transition-colors touch-manipulation"
+                href="/for-festivals#contact"
+                className="block text-center py-3 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 text-gray-900 font-bold text-sm hover:opacity-90 transition-opacity touch-manipulation"
               >
-                See How It Works →
+                Get a Custom Quote →
               </Link>
-              <WaitlistForm tier="business" />
+              <p className="text-center text-white/30 text-xs">Free to inquire · Reply within 24h</p>
             </div>
           </motion.div>
         </div>
