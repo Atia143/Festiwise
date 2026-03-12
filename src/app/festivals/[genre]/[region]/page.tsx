@@ -158,6 +158,17 @@ export default async function GenreRegionPage({
   const countries = [...new Set(matched.map(f => f.country))];
 
   // ── Structured data ────────────────────────────────────────────────────────
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://getfestiwise.com' },
+      { '@type': 'ListItem', position: 2, name: 'Festivals', item: 'https://getfestiwise.com/festivals' },
+      { '@type': 'ListItem', position: 3, name: genreLabel, item: `https://getfestiwise.com/festivals/${genre}` },
+      { '@type': 'ListItem', position: 4, name: `${genreLabel} in ${regionLabel}`, item: `https://getfestiwise.com/festivals/${genre}/${region}` },
+    ],
+  };
+
   const listSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -175,6 +186,10 @@ export default async function GenreRegionPage({
 
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }}

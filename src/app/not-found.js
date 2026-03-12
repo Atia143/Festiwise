@@ -64,9 +64,9 @@ function NotFoundContent() {
                 <div className="text-3xl mb-2">🎪</div>
                 <div className="font-semibold">Browse All Festivals</div>
               </Link>
-              <Link href="/blog" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
+              <Link href="/collections" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
                 <div className="text-3xl mb-2">📝</div>
-                <div className="font-semibold">Festival Stories</div>
+                <div className="font-semibold">Festival Collections</div>
               </Link>
             </div>
           </motion.div>
@@ -101,8 +101,8 @@ function NotFoundContent() {
           >
             <p className="text-white/60 mb-4">Or explore these popular sections:</p>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <Link href="/blog" className="text-white/80 hover:text-white transition-colors">
-                Festival Guides
+              <Link href="/collections" className="text-white/80 hover:text-white transition-colors">
+                Collections
               </Link>
               <span className="text-white/40">•</span>
               <Link href="/faq" className="text-white/80 hover:text-white transition-colors">

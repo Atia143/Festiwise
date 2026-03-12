@@ -12,8 +12,6 @@ import StickyCTABar from "@/components/StickyCTABar";
 import PerformanceOptimizer, { ConnectionAwareComponent } from "@/components/PerformanceOptimizer";
 import CookieConsent from "@/components/CookieConsent";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import ClientAnalytics from "@/components/Analytics/ClientAnalytics";
-import SimpleAnalytics from "@/components/Analytics/SimpleAnalytics";
 import GoogleTagManager from "@/components/Analytics/GoogleTagManager";
 import GTMDebugWrapper from "@/components/Analytics/GTMDebugWrapper";
 import { ToastProvider } from "@/components/Toast/ToastProvider";
@@ -54,10 +52,7 @@ export default function RootLayout({
         <GTMDebugWrapper />
         <ClientStructuredData />
         <ServiceWorkerRegistration />
-        <Suspense fallback={null}>
-          <ClientAnalytics />
-          <SimpleAnalytics />
-        </Suspense>
+
         <ErrorBoundary>
           <CurrencyProvider>
           <CompareProvider>

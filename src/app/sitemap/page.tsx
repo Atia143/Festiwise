@@ -16,7 +16,7 @@ const sections = [
     title: 'Learn & Explore',
     description: 'Guides, tips, and insights',
     links: [
-      { href: '/blog', label: 'Festival Guides', description: 'Expert tips and festival reviews' },
+      { href: '/collections', label: 'Festival Collections', description: 'Curated festival lists by theme and vibe' },
       { href: '/faq', label: 'FAQ', description: 'Common questions answered' },
     ]
   },

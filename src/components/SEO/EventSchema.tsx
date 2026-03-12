@@ -45,7 +45,7 @@ export default function EventSchema({ festival }: EventSchemaProps) {
   const festivalYear = currentMonth > monthIndex ? nextYear : currentYear;
   
   // Create start and end dates (estimate end date as duration_days after start)
-  const startDate = new Date(festivalYear, monthIndex, 15); // Use middle of month as default
+  const startDate = new Date(festivalYear, monthIndex, 1); // Use first of month as default
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + (festival.duration_days || 3));
   
@@ -81,8 +81,7 @@ export default function EventSchema({ festival }: EventSchemaProps) {
     },
     // Required: image (previously non-critical issue)
     image: [
-      `https://getfestiwise.com/images/festivals/${festival.id || 'default'}.jpg`,
-      `https://getfestiwise.com/images/festivals/${festival.id || 'default'}-banner.jpg`,
+      `https://getfestiwise.com/api/og/festival?id=${festival.id}`,
     ],
     // Required: performer (previously non-critical issue)
     performer: performers.map(performer => ({

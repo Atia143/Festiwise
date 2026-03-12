@@ -1,12 +1,22 @@
-'use client';
-
+import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
-// Dynamic import with loading fallback
+export const metadata: Metadata = {
+  title: 'Browse 100+ Music Festivals Worldwide',
+  description: 'Explore and filter 100+ music festivals by genre, month, region, budget, and vibe. Compare festivals side-by-side and find your perfect match.',
+  alternates: { canonical: 'https://getfestiwise.com/festivals' },
+  openGraph: {
+    title: 'Browse Music Festivals | FestiWise',
+    description: 'Filter 100+ festivals by genre, month, region and budget. Electronic, rock, indie, jazz and more.',
+    url: 'https://getfestiwise.com/festivals',
+    type: 'website',
+  },
+};
+
 const FestivalMarketplace = dynamic(
   () => import('@/components/FestivalMarketplace'),
-  { 
+  {
     loading: () => (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
@@ -15,11 +25,10 @@ const FestivalMarketplace = dynamic(
         </div>
       </div>
     ),
-    ssr: false // Client-side only
   }
 );
 
-export default function PremiumFestivalExplorer() {
+export default function FestivalsPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50" />}>
       <FestivalMarketplace />

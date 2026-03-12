@@ -91,7 +91,7 @@ export default function FestivalGrid({ festivals }: FestivalGridProps) {
                     return imageUrl ? (
                       <Image
                         src={imageUrl}
-                        alt={festival.name}
+                        alt={`${festival.name} ${festival.genres[0] ?? ''} festival in ${festival.country}`}
                         fill
                         priority={index < 3}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
