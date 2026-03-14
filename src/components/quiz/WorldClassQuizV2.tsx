@@ -132,15 +132,23 @@ function Check() {
 }
 
 export function WorldClassQuiz() {
-  const { state, setAnswer, nextStep, prevStep, completeQuiz } = useQuiz();
+  const { state, setAnswer, nextStep, prevStep, completeQuiz, resetQuiz } = useQuiz();
   const [nudge, setNudge] = useState(false);
 
   const ALL_MONTHS = MONTHS.map(m => m.id);
 
+  // All hooks must be declared before any conditional returns
   const isGenreSelected  = useCallback((id: string) => state.answers.genres.includes(id), [state.answers.genres]);
   const isVibeSelected   = useCallback((id: string) => state.answers.vibes.includes(id), [state.answers.vibes]);
   const isMonthSelected  = useCallback((id: string) => state.answers.months.includes(id), [state.answers.months]);
   const isExtraSelected  = useCallback((id: string) => (state.answers.accessibility || []).includes(id), [state.answers.accessibility]);
+
+  // Guard: stale localStorage from old quiz (7 steps) can have currentStep > 4.
+  // Reset silently so the user starts fresh instead of crashing.
+  if (!state.isCompleted && state.currentStep >= STEPS.length) {
+    resetQuiz();
+    return null;
+  }
 
   const toggleGenre = (id: string) => {
     const curr = state.answers.genres;
