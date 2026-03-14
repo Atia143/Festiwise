@@ -90,9 +90,21 @@ export default function FestivalRadar() {
   const [openTip, setOpenTip] = useState<string | null>(null);
 
   const trending = useMemo(() => {
-    return [...(festivalsData as FestivalData[])]
-      .sort((a, b) => getTrendingScore(b) - getTrendingScore(a))
-      .slice(0, 6);
+    const sorted = [...(festivalsData as FestivalData[])]
+      .sort((a, b) => getTrendingScore(b) - getTrendingScore(a));
+
+    // Pick top 6 with geographic diversity — max 2 per country
+    const selected: FestivalData[] = [];
+    const countryCounts: Record<string, number> = {};
+    for (const f of sorted) {
+      if (selected.length >= 6) break;
+      const count = countryCounts[f.country] ?? 0;
+      if (count < 2) {
+        selected.push(f);
+        countryCounts[f.country] = count + 1;
+      }
+    }
+    return selected;
   }, []);
 
   const tipsEntries = useMemo(() => {

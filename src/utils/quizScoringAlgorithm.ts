@@ -125,6 +125,22 @@ export function calculateFestivalScore(
 // INDIVIDUAL SCORING FUNCTIONS (0-100 scale)
 // ============================================================
 
+// Maps quiz genre IDs (lowercase) to the exact genre strings used in festivals.json
+const GENRE_DB_MAP: Record<string, string[]> = {
+  'edm':        ['edm', 'electronic', 'house', 'techno', 'trance', 'hardstyle', 'psytrance', 'dubstep', "drum'n'bass", 'bass'],
+  'rock':       ['rock', 'metal', 'hardcore', 'indie'],
+  'pop':        ['pop'],
+  'hip-hop':    ['hiphop', 'rap', 'trap', 'rnb'],
+  'indie':      ['indie', 'experimental', 'folk', 'ambient'],
+  'jazz':       ['jazz', 'blues', 'soul'],
+  'world':      ['world', 'folk', 'afrobeat', 'reggae', 'latin'],
+  'classical':  ['classical'],
+  'reggae':     ['reggae'],
+  'latin':      ['latin'],
+  'ambient':    ['ambient', 'experimental'],
+  'afrobeats':  ['afrobeat', 'afrobeats'],
+};
+
 /**
  * Genre matching (25% weight)
  */
@@ -136,7 +152,14 @@ function scoreGenreMatch(festival: Festival, answers: QuizAnswers): number {
 
   let matchCount = 0;
   userGenres.forEach(userGenre => {
-    if (festivalGenres.some(fg => fg.includes(userGenre) || userGenre.includes(fg))) {
+    // Direct string match first
+    if (festivalGenres.some(fg => fg === userGenre || fg.includes(userGenre) || userGenre.includes(fg))) {
+      matchCount++;
+      return;
+    }
+    // Mapped genres (handles ID vs DB value differences like 'hip-hop' → 'hiphop')
+    const mapped = GENRE_DB_MAP[userGenre] ?? [];
+    if (mapped.length > 0 && festivalGenres.some(fg => mapped.includes(fg))) {
       matchCount++;
     }
   });
@@ -211,7 +234,8 @@ function scoreSeasonMatch(festival: Festival, answers: QuizAnswers): number {
  * Region matching (12% weight)
  */
 function scoreRegionMatch(festival: Festival, answers: QuizAnswers): number {
-  if (!answers.region) return 50;
+  // No preference or "local/anywhere" → treat all regions equally
+  if (!answers.region || answers.region === 'local') return 100;
 
   const regionMap: Record<string, string[]> = {
     'north-america': ['USA', 'Canada', 'Mexico'],

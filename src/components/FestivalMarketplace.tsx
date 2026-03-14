@@ -330,11 +330,13 @@ export default function FestivalMarketplace() {
       case 'trending':
       default: {
         const sizeOrder = { 'massive': 4, 'large': 3, 'medium': 2, 'small': 1 };
-        arr.sort(
-          (a, b) =>
+        arr.sort((a, b) => {
+          const sizeDiff =
             (sizeOrder[b.audience_size as keyof typeof sizeOrder] || 0) -
-            (sizeOrder[a.audience_size as keyof typeof sizeOrder] || 0)
-        );
+            (sizeOrder[a.audience_size as keyof typeof sizeOrder] || 0);
+          // Within the same size tier, sort alphabetically so countries are mixed
+          return sizeDiff !== 0 ? sizeDiff : a.name.localeCompare(b.name);
+        });
         break;
       }
     }
