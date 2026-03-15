@@ -1,134 +1,70 @@
-'use client';
-
-import { Suspense } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
-// Content component (does not use client hooks like useSearchParams)
-function NotFoundContent() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-[url('/globe.svg')] opacity-5 bg-repeat-space"></div>
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      
-      <div className="relative z-10 text-center px-6 max-w-2xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-        >
-          {/* 404 Number */}
-          <motion.h1
-            className="text-8xl md:text-9xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            404
-          </motion.h1>
+const QUICK_LINKS = [
+  { href: '/quiz',                   label: 'Festival Quiz',          desc: '5 questions, instant match' },
+  { href: '/search',                 label: 'Search Festivals',       desc: 'Search 100+ events' },
+  { href: '/festival-calendar-2026', label: 'Festival Calendar',      desc: 'All festivals by month' },
+  { href: '/compare',                label: 'Compare Festivals',      desc: 'Side-by-side breakdowns' },
+  { href: '/best',                   label: 'Best-Of Lists',          desc: 'EDM, rock, budget & more' },
+  { href: '/music-festivals-in',     label: 'Browse by City',         desc: '85+ city pages' },
+];
 
-          {/* Message */}
-          <motion.h2
-            className="text-2xl md:text-3xl font-bold text-white mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Festival Not Found
-          </motion.h2>
-
-          <motion.p
-            className="text-lg text-white/80 mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            Looks like this page got lost in the crowd. Let's get you back to discovering amazing festivals!
-          </motion.p>
-          
-          <motion.div
-            className="text-center mb-8 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-          >
-            <h3 className="text-xl font-bold text-white mb-4">Popular Pages</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link href="/quiz" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
-                <div className="text-3xl mb-2">🎯</div>
-                <div className="font-semibold">Find Your Perfect Festival</div>
-              </Link>
-              <Link href="/festivals" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
-                <div className="text-3xl mb-2">🎪</div>
-                <div className="font-semibold">Browse All Festivals</div>
-              </Link>
-              <Link href="/collections" className="bg-white/10 hover:bg-white/20 transition-colors p-4 rounded-xl text-white">
-                <div className="text-3xl mb-2">📝</div>
-                <div className="font-semibold">Festival Collections</div>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Action Buttons */}
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-          >
-            <Link
-              href="/"
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg transform hover:scale-105"
-            >
-              Back to Home
-            </Link>
-            <Link
-              href="/quiz"
-              className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl hover:border-white/50 hover:bg-white/10 transition-all duration-200 transform hover:scale-105"
-            >
-              Take the Quiz
-            </Link>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div
-            className="mt-12 pt-8 border-t border-white/20"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            <p className="text-white/60 mb-4">Or explore these popular sections:</p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <Link href="/collections" className="text-white/80 hover:text-white transition-colors">
-                Collections
-              </Link>
-              <span className="text-white/40">•</span>
-              <Link href="/faq" className="text-white/80 hover:text-white transition-colors">
-                FAQ
-              </Link>
-              <span className="text-white/40">•</span>
-              <Link href="/festivals" className="text-white/80 hover:text-white transition-colors">
-                Browse Festivals
-              </Link>
-              <span className="text-white/40">•</span>
-              <Link href="/about" className="text-white/80 hover:text-white transition-colors">
-                About Us
-              </Link>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-// Defensive: Wrap with Suspense in case any child uses useSearchParams
 export default function NotFound() {
   return (
-    <Suspense fallback={null}>
-      <NotFoundContent />
-    </Suspense>
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4 py-20">
+      <div className="max-w-2xl w-full text-center">
+        {/* 404 */}
+        <p className="text-8xl font-black text-white/10 leading-none mb-2">404</p>
+        <h1 className="text-2xl font-black text-white mb-2">Page not found</h1>
+        <p className="text-gray-400 mb-10 text-sm">
+          This page got lost in the crowd. Try searching below or browse what&apos;s available.
+        </p>
+
+        {/* Search box — links to /search */}
+        <form
+          action="/search"
+          method="get"
+          className="flex gap-2 max-w-md mx-auto mb-12"
+        >
+          <input
+            type="search"
+            name="q"
+            placeholder="Search festivals, cities, genres…"
+            className="flex-1 px-4 py-3 rounded-2xl bg-white/10 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all"
+          />
+          <button
+            type="submit"
+            className="px-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl text-sm hover:opacity-90 transition-all whitespace-nowrap"
+          >
+            Search
+          </button>
+        </form>
+
+        {/* Quick links grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+          {QUICK_LINKS.map(l => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl p-4 text-left transition-all group"
+            >
+              <p className="text-white text-sm font-semibold group-hover:text-purple-300 transition-colors leading-tight mb-1">{l.label}</p>
+              <p className="text-gray-500 text-xs">{l.desc}</p>
+            </Link>
+          ))}
+        </div>
+
+        {/* Home */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to home
+        </Link>
+      </div>
+    </div>
   );
 }
