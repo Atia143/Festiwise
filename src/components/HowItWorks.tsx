@@ -8,7 +8,7 @@ const STEPS = [
   {
     number: '01',
     icon: ClipboardList,
-    title: 'Answer 8 quick questions',
+    title: 'Answer 5 quick questions',
     desc: 'Tell us your music taste, budget, travel style, and vibe. Takes under 2 minutes — no account needed.',
     color: 'from-violet-500 to-purple-600',
     bg: 'bg-violet-50',

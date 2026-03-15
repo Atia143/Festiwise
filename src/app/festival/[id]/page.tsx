@@ -23,6 +23,69 @@ import ShareFestivalButton from '@/components/ShareFestivalButton';
 
 const festivals = rawFestivals as Festival[];
 
+// ── City slug (mirrors music-festivals-in/[city]/page.tsx) ────────────────────
+function cityToSlug(city: string): string {
+  return city
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+// ── Comparison pairs (mirrors compare/[slug]/page.tsx) ────────────────────────
+const COMPARISON_PAIRS: [string, string][] = [
+  ['coachella', 'tomorrowland'],
+  ['coachella', 'glastonbury'],
+  ['coachella', 'burning_man'],
+  ['coachella', 'lollapalooza_chicago'],
+  ['coachella', 'bonnaroo'],
+  ['tomorrowland', 'ultra_miami'],
+  ['tomorrowland', 'glastonbury'],
+  ['tomorrowland', 'exit_festival'],
+  ['glastonbury', 'reading_leeds'],
+  ['glastonbury', 'download_festival'],
+  ['glastonbury', 'primavera'],
+  ['ultra_miami', 'electric_daisy_carnival'],
+  ['burning_man', 'lightning_in_a_bottle'],
+  ['lollapalooza_chicago', 'governors_ball'],
+  ['lollapalooza_chicago', 'outside_lands'],
+  ['primavera', 'sonar'],
+  ['sziget', 'exit_festival'],
+  ['fuji_rock', 'splendour_in_the_grass'],
+  ['osheaga', 'lollapalooza_chicago'],
+  ['rock_am_ring', 'rock_im_park'],
+  ['creamfields_uk', 'tomorrowland'],
+  ['montreux_jazz', 'newport_jazz'],
+  ['roskilde', 'glastonbury'],
+  ['rolling_loud_california', 'coachella'],
+  ['outside_lands', 'bonnaroo'],
+];
+
+function getComparisonSlug(idA: string, idB: string): string | null {
+  const toSlug = (id: string) => id.replace(/_/g, '-');
+  const pair = COMPARISON_PAIRS.find(
+    ([a, b]) => (a === idA && b === idB) || (a === idB && b === idA)
+  );
+  if (!pair) return null;
+  return `${toSlug(pair[0])}-vs-${toSlug(pair[1])}`;
+}
+
+function getFestivalComparisons(festivalId: string): { slug: string; otherFestival: Festival }[] {
+  return COMPARISON_PAIRS
+    .filter(([a, b]) => a === festivalId || b === festivalId)
+    .map(([a, b]) => {
+      const otherId = a === festivalId ? b : a;
+      const toSlug = (id: string) => id.replace(/_/g, '-');
+      const slug = `${toSlug(a)}-vs-${toSlug(b)}`;
+      const otherFestival = festivals.find(f => f.id === otherId);
+      return otherFestival ? { slug, otherFestival } : null;
+    })
+    .filter((x): x is { slug: string; otherFestival: Festival } => x !== null);
+}
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -139,6 +202,8 @@ export default async function FestivalPage({ params }: Props) {
   const description = buildDescription(festival);
   const faq = buildFAQ(festival);
   const similar = getSimilarFestivals(festival);
+  const comparisons = getFestivalComparisons(festival.id);
+  const citySlug = festival.city !== 'Multiple Cities' ? cityToSlug(festival.city) : null;
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -194,6 +259,14 @@ export default async function FestivalPage({ params }: Props) {
           <nav className="flex items-center gap-1.5 text-white/60 text-sm mb-8" aria-label="Breadcrumb">
             <Link href="/festivals" className="hover:text-white transition-colors">Festivals</Link>
             <ChevronRight className="w-3.5 h-3.5" />
+            {citySlug ? (
+              <>
+                <Link href={`/music-festivals-in/${citySlug}`} className="hover:text-white transition-colors">
+                  {festival.city}
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </>
+            ) : null}
             <span className="text-white/90">{festival.name}</span>
           </nav>
 
@@ -482,18 +555,55 @@ export default async function FestivalPage({ params }: Props) {
                     )}
 
                     {/* Compare link */}
-                    <Link
-                      href={`/compare?ids=${festival.id},${f.id}`}
-                      className="mt-3 flex items-center gap-1 text-xs text-gray-400 hover:text-purple-600 transition-colors"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
-                      Compare with {festival.name}
-                    </Link>
+                    {(() => {
+                      const compSlug = getComparisonSlug(festival.id, f.id);
+                      const href = compSlug ? `/compare/${compSlug}` : `/compare?ids=${festival.id},${f.id}`;
+                      return (
+                        <Link
+                          href={href}
+                          className="mt-3 flex items-center gap-1 text-xs text-gray-400 hover:text-purple-600 transition-colors"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>
+                          Compare with {festival.name}
+                        </Link>
+                      );
+                    })()}
                   </div>
                 );
               })}
+            </div>
+          </section>
+        )}
+
+        {/* Comparison pages for this festival */}
+        {comparisons.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Compare {festival.name} with others
+            </h2>
+            <p className="text-gray-500 text-sm mb-5">
+              Side-by-side breakdowns across budget, genres, vibe, and more.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {comparisons.map(({ slug, otherFestival }) => (
+                <Link
+                  key={slug}
+                  href={`/compare/${slug}`}
+                  className="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:shadow-sm transition-all group"
+                >
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900 group-hover:text-purple-700">
+                      {festival.name} vs {otherFestival.name}
+                    </span>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {otherFestival.city}, {otherFestival.country}
+                    </p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-purple-500 shrink-0" />
+                </Link>
+              ))}
             </div>
           </section>
         )}
@@ -533,6 +643,14 @@ export default async function FestivalPage({ params }: Props) {
         <section>
           <h2 className="text-lg font-bold text-gray-900 mb-4">Explore More Festivals</h2>
           <div className="flex flex-wrap gap-3">
+            {citySlug && (
+              <Link
+                href={`/music-festivals-in/${citySlug}`}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors"
+              >
+                All festivals in {festival.city}
+              </Link>
+            )}
             {festival.region && festival.genres.slice(0, 2).map(g => (
               <Link
                 key={g}

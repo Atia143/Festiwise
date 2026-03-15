@@ -5,18 +5,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles, Music2, Compass, BookOpen, Building2, Zap,
+  Sparkles, Music2, Compass, BookOpen, Building2, Zap, BarChart2, CalendarDays,
 } from 'lucide-react';
 import CurrencySelector from '@/components/CurrencySelector';
 import FestivalSearch from '@/components/FestivalSearch';
 
 // Primary user-facing nav (desktop pill + mobile grid)
 const NAV_ITEMS = [
-  { href: '/quiz',        label: 'Quiz',        icon: Sparkles },
-  { href: '/festivals',   label: 'Festivals',   icon: Music2   },
-  { href: '/discover',    label: 'Discover',    icon: Compass  },
-  { href: '/collections', label: 'Collections', icon: BookOpen },
-  { href: '/pricing',     label: 'Pricing',     icon: Zap      },
+  { href: '/quiz',                    label: 'Quiz',        icon: Sparkles     },
+  { href: '/festivals',               label: 'Festivals',   icon: Music2       },
+  { href: '/discover',                label: 'Discover',    icon: Compass      },
+  { href: '/compare',                 label: 'Compare',     icon: BarChart2    },
+  { href: '/festival-calendar-2026',  label: 'Calendar',    icon: CalendarDays },
+  { href: '/collections',             label: 'Collections', icon: BookOpen     },
+  { href: '/pricing',                 label: 'Pricing',     icon: Zap          },
 ];
 
 // Secondary B2B link — shown in mobile menu + desktop right rail

@@ -139,8 +139,35 @@ export default async function CityFestivalsPage({
     ),
   ].slice(0, 5);
 
+  // JSON-LD schemas
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Music Festivals in ${cityName}`,
+    description: `${cityFestivals.length} music festival${cityFestivals.length !== 1 ? 's' : ''} in ${cityName}, ${country}`,
+    numberOfItems: cityFestivals.length,
+    itemListElement: cityFestivals.map((f, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: f.name,
+      url: `https://getfestiwise.com/festival/${f.id}`,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'FestiWise', item: 'https://getfestiwise.com' },
+      { '@type': 'ListItem', position: 2, name: 'Festivals by City', item: 'https://getfestiwise.com/music-festivals-in' },
+      { '@type': 'ListItem', position: 3, name: `Music Festivals in ${cityName}`, item: `https://getfestiwise.com/music-festivals-in/${citySlug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Hero */}
       <div className="bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 text-white">
         <div className="max-w-4xl mx-auto px-6 py-14 md:py-20">

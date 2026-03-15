@@ -183,6 +183,60 @@ export default async function CompareSlugPage({
     );
   }
 
+  // JSON-LD schemas
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'FestiWise', item: 'https://getfestiwise.com' },
+      { '@type': 'ListItem', position: 2, name: 'Festival Comparisons', item: 'https://getfestiwise.com/compare' },
+      { '@type': 'ListItem', position: 3, name: `${fa.name} vs ${fb.name}`, item: `https://getfestiwise.com/compare/${slug}` },
+    ],
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Which is cheaper, ${fa.name} or ${fb.name}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: fa.estimated_cost_usd.min < fb.estimated_cost_usd.min
+            ? `${fa.name} is generally more affordable, starting from $${fa.estimated_cost_usd.min.toLocaleString()} compared to ${fb.name} which starts from $${fb.estimated_cost_usd.min.toLocaleString()}.`
+            : fb.estimated_cost_usd.min < fa.estimated_cost_usd.min
+            ? `${fb.name} is generally more affordable, starting from $${fb.estimated_cost_usd.min.toLocaleString()} compared to ${fa.name} which starts from $${fa.estimated_cost_usd.min.toLocaleString()}.`
+            : `${fa.name} and ${fb.name} have similar starting costs of around $${fa.estimated_cost_usd.min.toLocaleString()}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `How long is ${fa.name} compared to ${fb.name}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${fa.name} runs for ${fa.duration_days} day${fa.duration_days !== 1 ? 's' : ''}, while ${fb.name} runs for ${fb.duration_days} day${fb.duration_days !== 1 ? 's' : ''}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What music genres are at ${fa.name} vs ${fb.name}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${fa.name} features ${fa.genres.join(', ')} music. ${fb.name} features ${fb.genres.join(', ')} music.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Where are ${fa.name} and ${fb.name} located?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${fa.name} takes place in ${fa.city}, ${fa.country}. ${fb.name} takes place in ${fb.city}, ${fb.country}.`,
+        },
+      },
+    ],
+  };
+
   const costWinner =
     fa.estimated_cost_usd.min < fb.estimated_cost_usd.min ? 'a' :
     fb.estimated_cost_usd.min < fa.estimated_cost_usd.min ? 'b' : null;
@@ -204,6 +258,9 @@ export default async function CompareSlugPage({
 
   return (
     <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       {/* Header */}
       <div className="bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 text-white">
         <div className="max-w-4xl mx-auto px-6 py-14 md:py-20">
