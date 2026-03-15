@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import type { Festival } from '@/types/festival';
 import { getFestivalCover } from '@/lib/festivalImages';
@@ -47,6 +48,7 @@ export default function FestivalSearch({ onClose }: Props) {
   const [active, setActive]     = useState(-1);
   const inputRef  = useRef<HTMLInputElement>(null);
   const wrapRef   = useRef<HTMLDivElement>(null);
+  const router    = useRouter();
 
   // Close on outside click
   useEffect(() => {
@@ -80,8 +82,14 @@ export default function FestivalSearch({ onClose }: Props) {
     } else if (e.key === 'Escape') {
       setOpen(false);
       setActive(-1);
-    } else if (e.key === 'Enter' && active >= 0) {
-      window.location.href = `/festival/${results[active].id}`;
+    } else if (e.key === 'Enter') {
+      if (active >= 0) {
+        router.push(`/festival/${results[active].id}`);
+      } else if (query.trim().length >= 2) {
+        router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+        setOpen(false);
+        onClose?.();
+      }
     }
   }
 
@@ -179,11 +187,11 @@ export default function FestivalSearch({ onClose }: Props) {
               {results.length} result{results.length !== 1 ? 's' : ''}
             </span>
             <Link
-              href={`/festivals`}
+              href={`/search${query.trim().length >= 2 ? `?q=${encodeURIComponent(query.trim())}` : ''}`}
               onClick={handleSelect}
               className="text-xs text-purple-600 font-medium hover:text-purple-700"
             >
-              Browse all 100+ →
+              See all results →
             </Link>
           </div>
         </div>

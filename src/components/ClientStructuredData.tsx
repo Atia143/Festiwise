@@ -17,9 +17,9 @@ export default function ClientStructuredData() {
     'url': siteUrl,
     'logo': `${siteUrl}/favicon.png`,
     'sameAs': [
-      'https://twitter.com/festiwise',
-      'https://www.instagram.com/festiwise',
-      'https://www.facebook.com/festiwise'
+      'https://twitter.com/getfestiwise',
+      'https://www.instagram.com/getfestiwise',
+      'https://www.tiktok.com/@getfestiwise',
     ],
     'description': 'Find your perfect music festival in 2 minutes with our festival finder quiz and personalized recommendations.'
   };

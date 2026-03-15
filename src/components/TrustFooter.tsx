@@ -25,35 +25,80 @@ function IconTikTok() {
   );
 }
 
-const socialLinks = [
-  { href: 'https://twitter.com/getfestiwise', label: 'X (Twitter)', icon: <IconXTwitter /> },
-  { href: 'https://instagram.com/getfestiwise', label: 'Instagram', icon: <IconInstagram /> },
-  { href: 'https://tiktok.com/@getfestiwise', label: 'TikTok', icon: <IconTikTok /> },
+// ── Link groups ────────────────────────────────────────────────────────────────
+
+const DISCOVER = [
+  { href: '/quiz',                   label: 'Festival Quiz' },
+  { href: '/festivals',              label: 'Browse All Festivals' },
+  { href: '/search',                 label: 'Search Festivals' },
+  { href: '/festival-calendar-2026', label: 'Festival Calendar 2026' },
+  { href: '/map',                    label: 'Festival Map' },
+  { href: '/collections',            label: 'Collections' },
+  { href: '/discover',               label: 'Discover' },
+  { href: '/my-bucket-list',         label: 'My Bucket List' },
 ];
 
-const exploreLinks = [
-  { href: '/quiz', label: 'Festival Quiz' },
-  { href: '/festivals', label: 'Browse Festivals' },
-  { href: '/discover', label: 'Discover' },
-  { href: '/collections', label: 'Collections' },
-  { href: '/pricing', label: 'Pricing' },
+const COMPARE_BEST = [
+  { href: '/compare',                    label: 'Compare Festivals' },
+  { href: '/compare/coachella-vs-tomorrowland',   label: 'Coachella vs Tomorrowland' },
+  { href: '/compare/glastonbury-vs-reading-leeds', label: 'Glastonbury vs Reading' },
+  { href: '/best',                       label: 'Best-Of Lists' },
+  { href: '/best/edm-festivals',         label: 'Best EDM Festivals' },
+  { href: '/best/budget-festivals',      label: 'Best Budget Festivals' },
+  { href: '/best/europe-festivals',      label: 'Best Festivals in Europe' },
+  { href: '/best/usa-festivals',         label: 'Best Festivals in USA' },
 ];
 
-const guideLinks = [
-  { href: '/festivals/electronic/europe', label: 'Best Electronic Festivals' },
-  { href: '/festivals/rock/europe', label: 'Best Rock Festivals' },
-  { href: '/festivals/electronic/north-america', label: 'US Electronic Festivals' },
-  { href: '/festivals/world/asia', label: 'Asian Festivals' },
+const DESTINATIONS = [
+  { href: '/music-festivals-in',              label: 'All Cities' },
+  { href: '/music-festivals-in/barcelona',    label: 'Festivals in Barcelona' },
+  { href: '/music-festivals-in/berlin',       label: 'Festivals in Berlin' },
+  { href: '/music-festivals-in/indio',        label: 'Festivals in Indio (Coachella)' },
+  { href: '/music-festivals-in/pilton',       label: 'Festivals in Pilton (Glastonbury)' },
+  { href: '/music-festivals-in/amsterdam',    label: 'Festivals in Amsterdam' },
+  { href: '/music-festivals-in/boom',         label: 'Festivals in Boom (Tomorrowland)' },
+];
+
+const INTERNATIONAL = [
+  { href: '/es', label: 'Festivales de Música (ES)' },
+  { href: '/de', label: 'Musikfestivals (DE)' },
+  { href: '/fr', label: 'Festivals de Musique (FR)' },
+];
+
+const COMPANY = [
+  { href: '/about',        label: 'About' },
+  { href: '/contact',      label: 'Contact' },
+  { href: '/pricing',      label: 'Pricing' },
   { href: '/for-festivals', label: 'For Organizers' },
+  { href: '/faq',          label: 'FAQ' },
+  { href: '/privacy',      label: 'Privacy Policy' },
+  { href: '/terms',        label: 'Terms' },
 ];
 
-const companyLinks = [
-  { href: '/contact', label: 'Contact' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/for-festivals', label: 'For Organizers' },
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/terms', label: 'Terms' },
+const SOCIAL = [
+  { href: 'https://twitter.com/getfestiwise',   label: 'X (Twitter)',  icon: <IconXTwitter /> },
+  { href: 'https://instagram.com/getfestiwise', label: 'Instagram',    icon: <IconInstagram /> },
+  { href: 'https://tiktok.com/@getfestiwise',   label: 'TikTok',       icon: <IconTikTok /> },
 ];
+
+function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+  return (
+    <div>
+      <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-5">{title}</h4>
+      <ul className="space-y-2.5">
+        {links.map(l => (
+          <li key={l.href}>
+            <Link href={l.href} className="text-sm text-gray-500 hover:text-white transition-colors duration-200 leading-snug block">
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ── Component ──────────────────────────────────────────────────────────────────
 
 export default function TrustFooter() {
   const currentYear = new Date().getFullYear();
@@ -62,11 +107,9 @@ export default function TrustFooter() {
     <footer>
       {/* ── Pre-footer CTA ────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 px-6 py-20 text-center relative overflow-hidden">
-        {/* Subtle radial glow */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
           <div className="w-[600px] h-[300px] rounded-full bg-purple-600/10 blur-3xl" />
         </div>
-
         <div className="relative max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -75,7 +118,7 @@ export default function TrustFooter() {
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest text-purple-400 mb-4">
-              Free: No sign-up required
+              Free · No sign-up required
             </p>
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
               Find your perfect festival.
@@ -98,22 +141,24 @@ export default function TrustFooter() {
 
       {/* ── Main footer ───────────────────────────────────────────── */}
       <div className="bg-gray-950 text-white">
-        <div className="max-w-6xl mx-auto px-6 py-14">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
 
-            {/* Brand */}
-            <div className="md:col-span-1">
+            {/* Brand — spans 2 cols on lg */}
+            <div className="col-span-2 lg:col-span-2">
               <Link href="/" className="flex items-center gap-3 mb-4 group">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-sm">F</span>
                 </div>
                 <span className="font-bold text-base tracking-tight">FestiWise</span>
               </Link>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-[200px]">
-                Intelligent festival matching for music lovers worldwide.
+              <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-[220px]">
+                Intelligent festival matching for music lovers worldwide. Free, personalised, instant.
               </p>
-              <div className="flex items-center gap-2.5">
-                {socialLinks.map((s) => (
+
+              {/* Social */}
+              <div className="flex items-center gap-2.5 mb-6">
+                {SOCIAL.map(s => (
                   <a
                     key={s.label}
                     href={s.href}
@@ -126,62 +171,41 @@ export default function TrustFooter() {
                   </a>
                 ))}
               </div>
-            </div>
 
-            {/* Explore */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-5">Explore</h4>
-              <ul className="space-y-3">
-                {exploreLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-gray-500 hover:text-white transition-colors duration-200">
-                      {link.label}
+              {/* Language switcher */}
+              <div>
+                <p className="text-xs text-gray-600 uppercase tracking-widest mb-2">Also available in</p>
+                <div className="flex flex-wrap gap-2">
+                  {INTERNATIONAL.map(l => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className="text-xs text-gray-500 hover:text-white border border-white/10 hover:border-white/25 px-2.5 py-1 rounded-lg transition-all"
+                    >
+                      {l.label}
                     </Link>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Guides */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-5">Guides</h4>
-              <ul className="space-y-3">
-                {guideLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-gray-500 hover:text-white transition-colors duration-200">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-5">Company</h4>
-              <ul className="space-y-3">
-                {companyLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-gray-500 hover:text-white transition-colors duration-200">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
+            {/* Link columns */}
+            <FooterCol title="Discover"          links={DISCOVER} />
+            <FooterCol title="Compare & Best-Of" links={COMPARE_BEST} />
+            <FooterCol title="Destinations"      links={DESTINATIONS} />
+            <FooterCol title="Company"           links={COMPANY} />
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="border-t border-white/5">
-          <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
             <p className="text-xs text-gray-600">
               &copy; {currentYear} FestiWise. All rights reserved.
             </p>
             <div className="flex items-center gap-5">
+              <span className="text-xs text-gray-600">376+ pages indexed</span>
               <span className="text-xs text-gray-600">100+ festivals</span>
-              <span className="text-xs text-gray-600">Free to start</span>
               <span className="flex items-center gap-1.5 text-xs text-gray-600">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                 All systems operational

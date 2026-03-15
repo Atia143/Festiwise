@@ -201,6 +201,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/search`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    },
+    // International language landing pages
+    {
+      url: `${baseUrl}/es`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/de`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/fr`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/explore`,
       lastModified: currentDate,
       changeFrequency: 'daily' as const,
@@ -312,6 +337,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Best-of landing pages
+  const bestOfSlugs = [
+    'edm-festivals', 'rock-festivals', 'hip-hop-festivals', 'jazz-festivals',
+    'world-music-festivals', 'summer-festivals', 'europe-festivals', 'usa-festivals',
+    'budget-festivals', 'luxury-festivals', 'camping-festivals', 'family-festivals',
+    'small-festivals',
+  ];
+  const bestOfPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/best`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    },
+    ...bestOfSlugs.map(slug => ({
+      url: `${baseUrl}/best/${slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
+  ];
+
   // City landing pages
   const uniqueCities = [...new Set((festivalsData as { city: string }[]).map(f => f.city))].filter(
     c => c !== 'Multiple Cities'
@@ -335,5 +382,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...collectionPages,
     ...comparisonPages,
     ...cityPages,
+    ...bestOfPages,
   ];
 }

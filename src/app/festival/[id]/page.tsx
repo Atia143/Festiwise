@@ -20,6 +20,7 @@ import FestivalViewCount from '@/components/FestivalViewCount';
 import { LocalPriceRange } from '@/components/LocalPrice';
 import { getFestivalCover } from '@/lib/festivalImages';
 import ShareFestivalButton from '@/components/ShareFestivalButton';
+import FestivalReviews from '@/components/FestivalReviews';
 
 const festivals = rawFestivals as Festival[];
 
@@ -474,6 +475,9 @@ export default async function FestivalPage({ params }: Props) {
 
         {/* Vibe Radar Chart */}
         <VibeRadarChart festival={festival} />
+
+        {/* Ratings & Reviews */}
+        <FestivalReviews festivalId={festival.id} festivalName={festival.name} />
 
         {/* Ticket Alert CTA */}
         {festival.ticket_official_url && (
