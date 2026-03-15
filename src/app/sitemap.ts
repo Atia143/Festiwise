@@ -2,6 +2,46 @@ import { MetadataRoute } from 'next';
 import festivalsData from '@/data/festivals.json';
 import { seoIndexGenerator } from '@/lib/seoIndexGenerator';
 
+// Duplicated from compare/[slug]/page.tsx to avoid cross-route imports
+const COMPARISON_PAIRS: [string, string][] = [
+  ['coachella', 'tomorrowland'],
+  ['coachella', 'glastonbury'],
+  ['coachella', 'burning_man'],
+  ['coachella', 'lollapalooza_chicago'],
+  ['coachella', 'bonnaroo'],
+  ['tomorrowland', 'ultra_miami'],
+  ['tomorrowland', 'glastonbury'],
+  ['tomorrowland', 'exit_festival'],
+  ['glastonbury', 'reading_leeds'],
+  ['glastonbury', 'download_festival'],
+  ['glastonbury', 'primavera'],
+  ['ultra_miami', 'electric_daisy_carnival'],
+  ['burning_man', 'lightning_in_a_bottle'],
+  ['lollapalooza_chicago', 'governors_ball'],
+  ['lollapalooza_chicago', 'outside_lands'],
+  ['primavera', 'sonar'],
+  ['sziget', 'exit_festival'],
+  ['fuji_rock', 'splendour_in_the_grass'],
+  ['osheaga', 'lollapalooza_chicago'],
+  ['rock_am_ring', 'rock_im_park'],
+  ['creamfields_uk', 'tomorrowland'],
+  ['montreux_jazz', 'newport_jazz'],
+  ['roskilde', 'glastonbury'],
+  ['rolling_loud_california', 'coachella'],
+  ['outside_lands', 'bonnaroo'],
+];
+
+function cityToSlug(city: string): string {
+  return city
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://getfestiwise.com';
   const currentDate = new Date();
@@ -246,6 +286,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
+  // Festival comparison pages
+  const comparisonPages: MetadataRoute.Sitemap = COMPARISON_PAIRS.map(([a, b]) => ({
+    url: `${baseUrl}/compare/${a.replace(/_/g, '-')}-vs-${b.replace(/_/g, '-')}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  // City landing pages
+  const uniqueCities = [...new Set((festivalsData as { city: string }[]).map(f => f.city))].filter(
+    c => c !== 'Multiple Cities'
+  );
+  const cityPages: MetadataRoute.Sitemap = uniqueCities.map(city => ({
+    url: `${baseUrl}/music-festivals-in/${cityToSlug(city)}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }));
+
   return [
     ...corePages,
     ...festivalPages,
@@ -256,5 +315,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...genreRegionPages,
     ...collectionsAndMap,
     ...collectionPages,
+    ...comparisonPages,
+    ...cityPages,
   ];
 }
