@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E879A8"/>
+      <stop offset="100%" stop-color="#9B5EE8"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="clip">
+      <rect width="500" height="500" rx="110"/>
+    </clipPath>
+  </defs>
+  <!-- Main background gradient -->
+  <rect width="500" height="500" rx="110" fill="url(#bg)"/>
+  <!-- Subtle shine overlay -->
+  <rect width="500" height="250" rx="0" fill="url(#shine)" clip-path="url(#clip)"/>
+  <!-- F letter, centered, bold serif -->
+  <text
+    x="250" y="350"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-weight="700"
+    font-size="300"
+    fill="white"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="-8"
+    opacity="1"
+  >F</text>
+</svg>
