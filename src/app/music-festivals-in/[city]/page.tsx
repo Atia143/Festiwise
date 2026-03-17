@@ -93,8 +93,14 @@ export async function generateMetadata({
       description,
       url: `https://getfestiwise.com/music-festivals-in/${citySlug}`,
       type: 'website',
+      images: [{
+        url: `https://getfestiwise.com/api/og/city?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(country)}&count=${count}`,
+        width: 1200, height: 630, alt: `Music Festivals in ${cityName}`,
+      }],
     },
-    twitter: { card: 'summary_large_image', title, description },
+    twitter: { card: 'summary_large_image', title, description,
+      images: [`https://getfestiwise.com/api/og/city?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(country)}&count=${count}`],
+    },
   };
 }
 

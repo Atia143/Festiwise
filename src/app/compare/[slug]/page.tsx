@@ -112,8 +112,16 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `https://getfestiwise.com/compare/${slug}` },
-    openGraph: { title, description, url: `https://getfestiwise.com/compare/${slug}`, type: 'website' },
-    twitter: { card: 'summary_large_image', title, description },
+    openGraph: {
+      title, description, url: `https://getfestiwise.com/compare/${slug}`, type: 'website',
+      images: [{
+        url: `https://getfestiwise.com/api/og/compare?a=${encodeURIComponent(a.name)}&b=${encodeURIComponent(b.name)}&ga=${encodeURIComponent(a.genres[0] ?? '')}&gb=${encodeURIComponent(b.genres[0] ?? '')}`,
+        width: 1200, height: 630, alt: `${a.name} vs ${b.name}`,
+      }],
+    },
+    twitter: { card: 'summary_large_image', title, description,
+      images: [`https://getfestiwise.com/api/og/compare?a=${encodeURIComponent(a.name)}&b=${encodeURIComponent(b.name)}&ga=${encodeURIComponent(a.genres[0] ?? '')}&gb=${encodeURIComponent(b.genres[0] ?? '')}`],
+    },
   };
 }
 

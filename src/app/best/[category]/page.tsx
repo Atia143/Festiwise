@@ -138,13 +138,24 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category } = await params;
   const cat = CATEGORIES.find(c => c.slug === category);
   if (!cat) return {};
+  const all = festivalsData as Festival[];
+  const count = all.filter(cat.filter).length;
+  // Extract slug keyword (e.g. "edm-festivals" → "edm", "budget-festivals" → "budget")
+  const labelSlug = cat.slug.replace('-festivals', '');
+  const labelDisplay = cat.headline.replace(/^(The |Best )/i, '').replace(/ Festivals.*/i, '').trim();
+  const ogImg = `https://getfestiwise.com/api/og/best?slug=${encodeURIComponent(labelSlug)}&label=${encodeURIComponent(labelDisplay)}&count=${count}`;
   return {
     title: `${cat.title} | FestiWise`,
     description: cat.description,
+    alternates: { canonical: `https://getfestiwise.com/best/${category}` },
     openGraph: {
       title: cat.title,
       description: cat.description,
+      url: `https://getfestiwise.com/best/${category}`,
+      type: 'website',
+      images: [{ url: ogImg, width: 1200, height: 630, alt: cat.title }],
     },
+    twitter: { card: 'summary_large_image', title: cat.title, description: cat.description, images: [ogImg] },
   };
 }
 
