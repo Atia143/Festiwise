@@ -1,176 +1,180 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import OptimizedImg from './OptimizedImg';
+import { usePathname } from 'next/navigation';
+import { X } from 'lucide-react';
 
-interface Festival {
-  name: string;
-  location: string;
-  genres: string[];
-  image: string;
+// Pages where exit modal should never fire
+const BLOCKED_PATHS = ['/quiz', '/search', '/pricing', '/contact', '/for-festivals'];
+
+// Context-aware copy per path
+function getCopy(pathname: string) {
+  if (pathname.startsWith('/festival/')) {
+    return {
+      headline: 'Not sure this is the one?',
+      sub: 'Answer 5 questions and we\'ll rank every festival in our database against your taste, budget, and vibe.',
+      cta: 'Find my perfect match →',
+    };
+  }
+  if (pathname.startsWith('/compare/')) {
+    return {
+      headline: 'Want a personalised comparison?',
+      sub: 'The quiz scores all 100+ festivals specifically for you — not a generic side-by-side.',
+      cta: 'Take the quiz — 2 min →',
+    };
+  }
+  if (pathname.startsWith('/best/') || pathname.startsWith('/collections/')) {
+    return {
+      headline: 'See your personal best-of.',
+      sub: 'These lists are curated. Yours would be ranked by your exact genres, budget, and travel window.',
+      cta: 'Build my personal list →',
+    };
+  }
+  if (pathname.startsWith('/music-festivals-in/')) {
+    return {
+      headline: 'Want festivals matched to you?',
+      sub: 'Not just by city — by vibe, budget, and genre. 5 questions, instant results.',
+      cta: 'Find my match →',
+    };
+  }
+  if (pathname.startsWith('/festival-calendar')) {
+    return {
+      headline: 'Which month is right for you?',
+      sub: 'The quiz factors in your timing, budget, and music taste — and ranks every festival accordingly.',
+      cta: 'Match me to a date →',
+    };
+  }
+  // Default / homepage
+  return {
+    headline: 'Before you go —',
+    sub: '5 questions. Personalised results from 100+ festivals worldwide. Takes 2 minutes.',
+    cta: 'Find my festival →',
+  };
 }
 
-const previewFestivals: Festival[] = [
-  {
-    name: "Tomorrowland",
-    location: "🇧🇪 Boom, Belgium",
-    genres: ["EDM", "Techno", "House"],
-    image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    name: "Glastonbury",
-    location: "🇬🇧 Somerset, UK",
-    genres: ["Rock", "Alternative", "Pop"],
-    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    name: "Coachella",
-    location: "🇺🇸 California, USA",
-    genres: ["Pop", "Hip-Hop", "Rock"],
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    name: "Burning Man",
-    location: "🇺🇸 Nevada, USA",
-    genres: ["Electronic", "Experimental", "Performance Art"],
-    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-  }
+const STATS = [
+  { value: '100+', label: 'festivals ranked' },
+  { value: '2 min', label: 'to complete' },
+  { value: 'Free', label: 'no account needed' },
 ];
 
 export default function ImprovedExitModal() {
-  const [showModal, setShowModal] = useState(false);
-  const [currentFestival, setCurrentFestival] = useState(0);
-  const hasShownRef = useRef(false);
+  const [show, setShow] = useState(false);
+  const shown = useRef(false);
+  const pathname = usePathname() ?? '';
+
+  const blocked = BLOCKED_PATHS.some(p => pathname.startsWith(p));
+
+  const trigger = useCallback(() => {
+    if (shown.current || blocked) return;
+    // Don't show if user has already taken the quiz
+    try {
+      const saved = localStorage.getItem('festi_quiz_v1');
+      if (saved && JSON.parse(saved)?.isCompleted) return;
+    } catch { /* ignore */ }
+    shown.current = true;
+    setShow(true);
+  }, [blocked]);
 
   useEffect(() => {
-    if (hasShownRef.current) return;
+    if (blocked) return;
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      // Only trigger on top of page (mouse leaving upward)
-      if (e.clientY <= 0 && !hasShownRef.current) {
-        setShowModal(true);
-        hasShownRef.current = true;
-      }
+    // Desktop: mouse leaves top of viewport
+    const onMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) trigger();
     };
+    document.addEventListener('mouseleave', onMouseLeave);
 
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => document.removeEventListener('mouseleave', handleMouseLeave);
-  }, []);
+    // Mobile: fire after 45s of inactivity
+    const timer = setTimeout(trigger, 45000);
 
-  const handleCycle = () => {
-    setCurrentFestival((prev) => (prev + 1) % previewFestivals.length);
-  };
+    // Escape key to close
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShow(false);
+    };
+    window.addEventListener('keydown', onKey);
 
-  const festival = previewFestivals[currentFestival];
+    return () => {
+      document.removeEventListener('mouseleave', onMouseLeave);
+      window.removeEventListener('keydown', onKey);
+      clearTimeout(timer);
+    };
+  }, [blocked, trigger]);
+
+  const copy = getCopy(pathname);
 
   return (
     <AnimatePresence>
-      {showModal && (
+      {show && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setShowModal(false)}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setShow(false)}
         >
           <motion.div
-            initial={{ scale: 0.8, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0,  scale: 1    }}
+            exit={{ opacity: 0,    y: 24, scale: 0.97 }}
+            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+            className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden"
+            onClick={e => e.stopPropagation()}
           >
-            {/* Festival Preview Image */}
-            <div className="relative h-48 overflow-hidden bg-gradient-to-br from-purple-400 to-pink-400">
-              <OptimizedImg
-                src={festival.image}
-                alt={festival.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-              <div className="absolute top-4 right-4">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setShowModal(false)}
-                  className="bg-white/90 hover:bg-white text-gray-900 w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg"
-                >
-                  ✕
-                </motion.button>
+            {/* Top gradient bar */}
+            <div className="relative bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 px-6 pt-7 pb-6">
+              {/* Close */}
+              <button
+                onClick={() => setShow(false)}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Eyebrow */}
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">FestiWise Quiz</span>
               </div>
+
+              {/* Headline */}
+              <h2 className="text-white font-black text-2xl leading-snug mb-2">
+                {copy.headline}
+              </h2>
+              <p className="text-white/70 text-sm leading-relaxed">
+                {copy.sub}
+              </p>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                    {festival.name}
-                  </h3>
-                  <p className="text-sm text-gray-600">{festival.location}</p>
+            {/* Stats strip */}
+            <div className="grid grid-cols-3 divide-x divide-gray-100 border-b border-gray-100">
+              {STATS.map(s => (
+                <div key={s.label} className="px-3 py-3 text-center">
+                  <div className="text-base font-black text-gray-900">{s.value}</div>
+                  <div className="text-gray-400 text-[10px] mt-0.5">{s.label}</div>
                 </div>
-              </div>
+              ))}
+            </div>
 
-              {/* Genres */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {festival.genres.map((genre) => (
-                  <span
-                    key={genre}
-                    className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full"
-                  >
-                    {genre}
-                  </span>
-                ))}
-              </div>
-
-              {/* Message */}
-              <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-                Before you go answer 7 quick questions and we&apos;ll rank 100+ festivals by how well they fit your taste, budget, and vibe.
-              </p>
-
-              {/* Festival Carousel Indicator */}
-              <div className="flex justify-center gap-2 mb-6">
-                {previewFestivals.map((_, i) => (
-                  <motion.button
-                    key={i}
-                    onClick={handleCycle}
-                    animate={{
-                      scale: i === currentFestival ? 1.2 : 1,
-                      backgroundColor: i === currentFestival ? '#9333ea' : '#e5e7eb'
-                    }}
-                    className="w-2 h-2 rounded-full transition-all"
-                  />
-                ))}
-              </div>
-
-              {/* CTAs */}
-              <div className="space-y-3">
-                <Link href="/quiz" className="block w-full">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Find My Perfect Festival →
-                  </motion.button>
-                </Link>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="w-full py-2 text-gray-600 font-medium hover:text-gray-900 transition-colors"
-                >
-                  Maybe later
-                </button>
-              </div>
-
-              {/* Trust indicator */}
-              <div className="mt-4 pt-4 border-t border-gray-200 flex items-center justify-center gap-2 text-xs text-gray-600">
-                <span>✓</span>
-                <span>100% Free • Takes 2 Minutes • No Spam</span>
-              </div>
+            {/* Actions */}
+            <div className="px-6 py-5 space-y-3">
+              <Link
+                href="/quiz"
+                onClick={() => setShow(false)}
+                className="block w-full text-center py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-purple-200 text-sm"
+              >
+                {copy.cta}
+              </Link>
+              <button
+                onClick={() => setShow(false)}
+                className="block w-full text-center py-2 text-gray-400 hover:text-gray-600 text-sm transition-colors"
+              >
+                Not now
+              </button>
             </div>
           </motion.div>
         </motion.div>

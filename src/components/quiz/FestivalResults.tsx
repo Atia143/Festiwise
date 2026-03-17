@@ -676,6 +676,157 @@ function EmailGate({
   );
 }
 
+// ── Loading screen — stepped progress ─────────────────────────────────────────
+const LOADING_STEPS = [
+  'Scanning 100+ global festivals…',
+  'Matching your genres and vibe…',
+  'Checking dates and budget…',
+  'Ranking by region fit…',
+  'Finalising your top matches…',
+];
+
+function LoadingScreen() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStep(s => Math.min(s + 1, LOADING_STEPS.length - 1));
+    }, 270);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center max-w-sm w-full"
+      >
+        {/* Pulsing orb */}
+        <div className="relative w-20 h-20 mx-auto mb-7">
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 opacity-20"
+            animate={{ scale: [1, 1.4, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 opacity-30"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+          />
+          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 shadow-xl flex items-center justify-center">
+            <motion.span
+              className="text-2xl"
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ duration: 0.8, repeat: Infinity }}
+            >
+              🎪
+            </motion.span>
+          </div>
+        </div>
+
+        <h2 className="text-xl font-black text-gray-800 mb-3">Finding your matches</h2>
+
+        {/* Stepped text */}
+        <div className="h-5 mb-5">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={step}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25 }}
+              className="text-gray-500 text-sm"
+            >
+              {LOADING_STEPS[step]}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+
+        {/* Progress bar */}
+        <div className="h-1 bg-purple-100 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"
+            initial={{ width: '5%' }}
+            animate={{ width: `${((step + 1) / LOADING_STEPS.length) * 100}%` }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          />
+        </div>
+
+        {/* Step dots */}
+        <div className="flex justify-center gap-1.5 mt-4">
+          {LOADING_STEPS.map((_, i) => (
+            <div
+              key={i}
+              className={`rounded-full transition-all duration-300 ${
+                i <= step
+                  ? 'w-2 h-2 bg-purple-500'
+                  : 'w-1.5 h-1.5 bg-purple-200'
+              }`}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ── Quiz summary strip ─────────────────────────────────────────────────────────
+interface QuizAnswers {
+  genres: string[];
+  vibes: string[];
+  budget: { min: number; max: number };
+  region?: string;
+  months?: string[];
+}
+
+function QuizSummaryStrip({ answers }: { answers: QuizAnswers }) {
+  const pills: { label: string; color: string }[] = [];
+
+  // Genres (first 2)
+  answers.genres.slice(0, 2).forEach(g =>
+    pills.push({ label: g, color: 'bg-purple-50 text-purple-700 border-purple-200' })
+  );
+
+  // Budget tier
+  const budgetLabel =
+    answers.budget.max < 600  ? 'Budget' :
+    answers.budget.max < 1500 ? 'Mid-range' :
+    answers.budget.max < 3000 ? 'Premium' : 'No limit';
+  pills.push({ label: budgetLabel, color: 'bg-green-50 text-green-700 border-green-200' });
+
+  // Region
+  if (answers.region && answers.region !== 'local') {
+    pills.push({ label: answers.region, color: 'bg-blue-50 text-blue-700 border-blue-200' });
+  }
+
+  // Months (first 2)
+  if (answers.months && answers.months.length > 0) {
+    answers.months.slice(0, 2).forEach(m =>
+      pills.push({ label: m, color: 'bg-amber-50 text-amber-700 border-amber-200' })
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.15 }}
+      className="flex flex-wrap gap-2 justify-center"
+    >
+      <span className="text-gray-400 text-xs self-center">Matched on:</span>
+      {pills.map(p => (
+        <span
+          key={p.label}
+          className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${p.color}`}
+        >
+          {p.label}
+        </span>
+      ))}
+    </motion.div>
+  );
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 export function FestivalResults() {
   const { state, resetQuiz } = useQuiz();
@@ -730,33 +881,7 @@ export function FestivalResults() {
 
   // ── Loading state ────────────────────────────────────────────────────────────
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center max-w-sm w-full"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className="w-14 h-14 border-4 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-5"
-          />
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Finding Your Matches…</h2>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            Analyzing your preferences across 100+ global festivals
-          </p>
-          <div className="mt-5 h-1.5 bg-purple-100 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: '100%' }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-full w-1/2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"
-            />
-          </div>
-        </motion.div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   // ── No matches ───────────────────────────────────────────────────────────────
@@ -803,9 +928,12 @@ export function FestivalResults() {
             Your Festival Matches
           </h1>
           <p className="text-gray-500 text-sm">
-            Based on your preferences - {matches.length} festivals found
+            {matches.length} festivals matched to your taste
           </p>
         </motion.div>
+
+        {/* Quiz summary strip */}
+        <QuizSummaryStrip answers={state.answers} />
 
         {/* 1. Hero card — #1 match */}
         <HeroMatchCard

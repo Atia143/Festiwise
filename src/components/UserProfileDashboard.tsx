@@ -1,333 +1,364 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { LogOut, Settings } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Share2, Star, Eye, Heart, Music, MapPin, RefreshCw } from 'lucide-react';
+import festivalsData from '@/data/festivals.json';
 
-interface UserProfile {
-  id: string;
-  email: string;
-  name: string;
-  avatar: string;
-  experienceLevel: 'first-time' | 'experienced' | 'veteran';
-  homeLocation: string;
-  createdAt: string;
-  quizzesTaken: number;
-  festivalsSaved: number;
-}
-
-interface SavedFestival {
+interface Festival {
   id: string;
   name: string;
-  matchScore: number;
-  image: string;
-  addedAt: string;
+  city: string;
+  country: string;
+  genres: string[];
+  estimated_cost_usd: { min: number; max: number };
 }
 
-const DEFAULT_USER: UserProfile = {
-  id: 'user123',
-  email: 'user@example.com',
-  name: 'Festival Lover',
-  avatar: '🎪',
-  experienceLevel: 'experienced',
-  homeLocation: 'New York, USA',
-  createdAt: '2025-01-01',
-  quizzesTaken: 3,
-  festivalsSaved: 12,
+interface QuizAnswers {
+  genres: string[];
+  vibes: string[];
+  budget: { min: number; max: number };
+  region: string;
+  months: string[];
+}
+
+interface ProfileData {
+  quizDone: boolean;
+  answers: QuizAnswers | null;
+  savedIds: string[];
+  viewedIds: string[];   // sorted by recency, top 6
+  reviewCount: number;
+  ratedFestivalIds: string[];
+}
+
+const ALL_FESTIVALS = festivalsData as Festival[];
+
+const BUDGET_LABEL: Record<string, string> = {
+  'budget':    'Budget traveller',
+  'mid':       'Mid-range',
+  'premium':   'Premium',
+  'luxury':    'No budget limit',
 };
 
-const SAMPLE_SAVED_FESTIVALS: SavedFestival[] = [
-  { id: 'tomorrowland', name: 'Tomorrowland', matchScore: 96, image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', addedAt: '2025-01-15' },
-  { id: 'glastonbury', name: 'Glastonbury', matchScore: 88, image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', addedAt: '2025-01-14' },
-  { id: 'burning-man', name: 'Burning Man', matchScore: 81, image: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', addedAt: '2025-01-12' },
-];
+const GENRE_COLOR: Record<string, string> = {
+  edm:       'bg-purple-500/15 text-purple-400 border-purple-500/30',
+  rock:      'bg-red-500/15 text-red-400 border-red-500/30',
+  indie:     'bg-amber-500/15 text-amber-400 border-amber-500/30',
+  jazz:      'bg-blue-500/15 text-blue-400 border-blue-500/30',
+  'hip-hop': 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+  world:     'bg-pink-500/15 text-pink-400 border-pink-500/30',
+  afrobeats: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
+  pop:       'bg-rose-500/15 text-rose-400 border-rose-500/30',
+  reggae:    'bg-green-500/15 text-green-400 border-green-500/30',
+  ambient:   'bg-teal-500/15 text-teal-400 border-teal-500/30',
+  latin:     'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
+  classical: 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30',
+};
+const DEFAULT_PILL = 'bg-gray-500/15 text-gray-400 border-gray-500/30';
 
-export default function UserProfilePage() {
-  const [user] = useState<UserProfile>(DEFAULT_USER);
-  const [savedFestivals] = useState<SavedFestival[]>(SAMPLE_SAVED_FESTIVALS);
-  const [activeTab, setActiveTab] = useState<'overview' | 'saved' | 'history' | 'settings'>('overview');
-  const [isEditing, setIsEditing] = useState(false);
+function genrePill(g: string) {
+  return GENRE_COLOR[g.toLowerCase()] ?? DEFAULT_PILL;
+}
+
+function loadProfile(): ProfileData {
+  const empty: ProfileData = { quizDone: false, answers: null, savedIds: [], viewedIds: [], reviewCount: 0, ratedFestivalIds: [] };
+  if (typeof window === 'undefined') return empty;
+
+  try {
+    // Quiz
+    const quiz = localStorage.getItem('festi_quiz_v1');
+    const quizParsed = quiz ? JSON.parse(quiz) : null;
+    const quizDone = Boolean(quizParsed?.isCompleted);
+    const answers: QuizAnswers | null = quizDone ? quizParsed?.answers ?? null : null;
+
+    // Saved
+    const saved = localStorage.getItem('festiwise_favorites');
+    const savedIds: string[] = saved ? JSON.parse(saved) : [];
+
+    // Viewed
+    const views = localStorage.getItem('festiwise_views');
+    const viewsMap: Record<string, { count: number; lastViewed: number }> = views ? JSON.parse(views) : {};
+    const viewedIds = Object.entries(viewsMap)
+      .sort((a, b) => b[1].lastViewed - a[1].lastViewed)
+      .slice(0, 6)
+      .map(([id]) => id);
+
+    // Reviews / ratings
+    const allKeys = Object.keys(localStorage);
+    const ratingKeys = allKeys.filter(k => k.startsWith('festiwise_myrating_') && localStorage.getItem(k));
+    const ratedFestivalIds = ratingKeys.map(k => k.replace('festiwise_myrating_', ''));
+
+    return { quizDone, answers, savedIds, viewedIds, reviewCount: ratedFestivalIds.length, ratedFestivalIds };
+  } catch {
+    return empty;
+  }
+}
+
+function festivalById(id: string): Festival | undefined {
+  return ALL_FESTIVALS.find(f => f.id === id);
+}
+
+function DNACard({ answers }: { answers: QuizAnswers }) {
+  const [shared, setShared] = useState(false);
+  const budgetTier = answers.budget.max < 600 ? 'budget' : answers.budget.max < 1500 ? 'mid' : answers.budget.max < 3000 ? 'premium' : 'luxury';
+  const budgetDisplay = BUDGET_LABEL[budgetTier] ?? 'Flexible';
+  const topGenre = answers.genres[0] ?? 'Music';
+
+  async function handleShare() {
+    const text = `My Festival DNA: ${answers.genres.slice(0, 2).join(' + ')} fan, ${budgetDisplay} budget. What's yours?`;
+    const url = 'https://getfestiwise.com/quiz';
+    if (navigator.share) {
+      await navigator.share({ title: 'My Festival DNA — FestiWise', text, url }).catch(() => {});
+    } else {
+      await navigator.clipboard.writeText(`${text} ${url}`).catch(() => {});
+    }
+    setShared(true);
+    setTimeout(() => setShared(false), 2500);
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
-      {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/">
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-              FestiWise
-            </h1>
-          </Link>
-          <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center gap-2 transition-all">
-            <LogOut size={18} />
-            Logout
-          </button>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl overflow-hidden border border-white/10"
+    >
+      {/* Card header */}
+      <div className="bg-gradient-to-br from-purple-900/70 to-pink-900/50 px-6 py-6">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Festival DNA</p>
+            <h3 className="text-white font-black text-2xl">{topGenre} Lover</h3>
+            <p className="text-white/50 text-sm mt-0.5">{budgetDisplay} · {answers.region ?? 'Anywhere'}</p>
+          </div>
+          <div className="flex items-center gap-1 bg-white/10 rounded-xl px-3 py-1.5">
+            <Music className="w-3 h-3 text-white/60" />
+            <span className="text-white/70 text-xs font-semibold">{answers.genres.length} genres</span>
+          </div>
         </div>
-      </div>
 
-      <div className="pt-24 pb-12">
-        <div className="max-w-5xl mx-auto px-4">
-          {/* User Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 mb-8"
-          >
-            <div className="flex items-start justify-between gap-6">
-              <div className="flex items-center gap-6">
-                {/* Avatar */}
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className="w-24 h-24 rounded-full bg-gradient-to-r from-yellow-400 to-pink-400 flex items-center justify-center text-5xl shadow-2xl cursor-pointer"
-                >
-                  {user.avatar}
-                </motion.div>
+        {/* Genre pills */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {answers.genres.map(g => (
+            <span key={g} className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${genrePill(g)}`}>
+              {g}
+            </span>
+          ))}
+        </div>
 
-                {/* User Info */}
-                <div>
-                  <h2 className="text-4xl font-black mb-2">{user.name}</h2>
-                  <p className="text-gray-400 mb-4">{user.email}</p>
-                  <div className="flex gap-6">
-                    <div>
-                      <div className="text-2xl font-bold text-yellow-400">{user.quizzesTaken}</div>
-                      <div className="text-sm text-gray-400">Quizzes Taken</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-pink-400">{user.festivalsSaved}</div>
-                      <div className="text-sm text-gray-400">Saved Festivals</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-purple-400">
-                        {Math.floor((Math.random() * 30) + 20)}
-                      </div>
-                      <div className="text-sm text-gray-400">Friends</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Edit Button */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsEditing(!isEditing)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-bold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center gap-2"
-              >
-                <Settings size={18} />
-                {isEditing ? 'Done' : 'Edit Profile'}
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Tabs */}
-          <div className="flex gap-4 mb-8 overflow-x-auto pb-4">
-            {(['overview', 'saved', 'history', 'settings'] as const).map((tab) => (
-              <motion.button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                whileHover={{ scale: 1.05 }}
-                className={`px-6 py-3 rounded-lg font-bold whitespace-nowrap transition-all ${
-                  activeTab === tab
-                    ? 'bg-gradient-to-r from-yellow-400 to-pink-400 text-black'
-                    : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </motion.button>
+        {/* Vibe pills */}
+        {answers.vibes.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {answers.vibes.map(v => (
+              <span key={v} className="px-2.5 py-1 bg-white/5 border border-white/10 text-white/50 rounded-full text-xs capitalize">
+                {v}
+              </span>
             ))}
           </div>
+        )}
+      </div>
 
-          {/* OVERVIEW TAB */}
-          {activeTab === 'overview' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              {/* Stats Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { label: 'Experience Level', value: user.experienceLevel.toUpperCase(), icon: '🎭' },
-                  { label: 'Home Location', value: user.homeLocation, icon: '📍' },
-                  { label: 'Member Since', value: new Date(user.createdAt).toLocaleDateString(), icon: '📅' },
-                  { label: 'Favorite Genre', value: 'Electronic', icon: '🎵' },
-                ].map((stat, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-400 mb-2">{stat.label}</div>
-                        <div className="text-2xl font-bold">{stat.value}</div>
-                      </div>
-                      <div className="text-4xl">{stat.icon}</div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+      {/* Share strip */}
+      <div className="bg-gray-900 px-5 py-3.5 flex items-center justify-between">
+        <p className="text-gray-500 text-xs">Share your festival taste</p>
+        <button
+          onClick={handleShare}
+          className="flex items-center gap-1.5 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 text-xs font-semibold rounded-xl transition-all active:scale-95"
+        >
+          <Share2 className="w-3.5 h-3.5" />
+          {shared ? 'Copied!' : 'Share DNA'}
+        </button>
+      </div>
+    </motion.div>
+  );
+}
 
-              {/* Quick Stats */}
-              <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold mb-6">Your Festival Journey</h3>
-                <div className="space-y-4">
-                  {[
-                    { label: '🎪 Festivals Discovered', value: '47' },
-                    { label: '✈️ International Festivals', value: '12' },
-                    { label: '💰 Average Budget', value: '$250' },
-                    { label: '👥 Festival Buddies', value: '5' },
-                  ].map((item, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="flex items-center justify-between py-3 border-b border-white/10 last:border-b-0"
-                    >
-                      <span className="text-gray-300">{item.label}</span>
-                      <span className="font-bold text-lg text-gradient">{item.value}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
+function FestivalCard({ id, label }: { id: string; label?: string }) {
+  const f = festivalById(id);
+  if (!f) return null;
+  return (
+    <Link
+      href={`/festival/${id}`}
+      className="block group bg-gray-900 border border-white/5 hover:border-white/15 rounded-xl p-4 transition-all"
+    >
+      {label && (
+        <p className="text-gray-600 text-[10px] font-bold uppercase tracking-wider mb-1">{label}</p>
+      )}
+      <p className="text-white font-bold text-sm leading-tight group-hover:text-purple-300 transition-colors">
+        {f.name}
+      </p>
+      <p className="text-gray-500 text-xs mt-0.5">{f.city}, {f.country}</p>
+      <div className="flex flex-wrap gap-1 mt-2">
+        {f.genres.slice(0, 2).map(g => (
+          <span key={g} className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${genrePill(g)}`}>
+            {g}
+          </span>
+        ))}
+      </div>
+    </Link>
+  );
+}
 
-          {/* SAVED TAB */}
-          {activeTab === 'saved' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              <h3 className="text-3xl font-bold">Saved Festivals ({savedFestivals.length})</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {savedFestivals.map((festival, idx) => (
-                  <motion.div
-                    key={festival.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="group cursor-pointer rounded-2xl overflow-hidden"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={festival.image}
-                        alt={festival.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                        <div>
-                          <h4 className="font-bold text-lg text-white">{festival.name}</h4>
-                          <p className="text-sm text-gray-300">{new Date(festival.addedAt).toLocaleDateString()}</p>
-                        </div>
-                        <div className="bg-green-500 rounded-full px-3 py-1 font-bold text-white">
-                          {festival.matchScore}%
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+function EmptyState({ icon: Icon, title, sub, href, cta }: {
+  icon: React.ElementType;
+  title: string;
+  sub: string;
+  href: string;
+  cta: string;
+}) {
+  return (
+    <div className="text-center py-10 px-4">
+      <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-3">
+        <Icon className="w-5 h-5 text-gray-600" />
+      </div>
+      <p className="text-gray-400 font-semibold text-sm mb-1">{title}</p>
+      <p className="text-gray-600 text-xs mb-4">{sub}</p>
+      <Link
+        href={href}
+        className="inline-block px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 text-xs font-semibold rounded-lg transition-all"
+      >
+        {cta}
+      </Link>
+    </div>
+  );
+}
 
-          {/* HISTORY TAB */}
-          {activeTab === 'history' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              <h3 className="text-3xl font-bold">Quiz History</h3>
-              <div className="space-y-4">
-                {[
-                  { date: '2025-01-20', festivals: ['Tomorrowland', 'Ultra Miami', 'CRSSD'], genres: ['EDM', 'House', 'Techno'] },
-                  { date: '2025-01-10', festivals: ['Glastonbury', 'Primavera Sound', 'Latitude'], genres: ['Rock', 'Indie', 'Alternative'] },
-                  { date: '2024-12-28', festivals: ['Burning Man', 'Coachella', 'Outside Lands'], genres: ['Electronic', 'Pop', 'Indie'] },
-                ].map((quiz, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="text-sm text-gray-400 mb-2">{new Date(quiz.date).toLocaleDateString()}</div>
-                        <div className="flex gap-3 flex-wrap mb-3">
-                          {quiz.genres.map((g, i) => (
-                            <span key={i} className="text-xs px-3 py-1 bg-purple-500/20 rounded-full text-purple-200">{g}</span>
-                          ))}
-                        </div>
-                        <div className="text-gray-300">Matched to: {quiz.festivals.join(', ')}</div>
-                      </div>
-                      <button className="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-lg text-sm font-bold transition-all">
-                        View Results
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+export default function UserProfileDashboard() {
+  const [profile, setProfile] = useState<ProfileData | null>(null);
 
-          {/* SETTINGS TAB */}
-          {activeTab === 'settings' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              <h3 className="text-3xl font-bold">Settings & Preferences</h3>
-              
-              {/* Preference Controls */}
-              <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-6">
-                {[
-                  { label: 'Festival Recommendations', sublabel: 'Get notified about festivals matching your taste', enabled: true },
-                  { label: 'Lineup Updates', sublabel: 'Know when lineups are announced', enabled: true },
-                  { label: 'Price Alerts', sublabel: 'Get notified of ticket sales and discounts', enabled: false },
-                  { label: 'Weekly Newsletter', sublabel: 'Festival tips, trends, and insider info', enabled: true },
-                  { label: 'Email Marketing', sublabel: 'Special offers and promotions', enabled: false },
-                ].map((pref, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="flex items-start justify-between py-4 border-b border-white/10 last:border-b-0"
-                  >
-                    <div>
-                      <div className="font-bold text-white">{pref.label}</div>
-                      <div className="text-sm text-gray-400">{pref.sublabel}</div>
-                    </div>
-                    <div className={`w-12 h-6 rounded-full transition-all ${pref.enabled ? 'bg-green-500' : 'bg-gray-600'}`}>
-                      <div className={`w-5 h-5 rounded-full bg-white transition-all m-0.5 ${pref.enabled ? 'translate-x-6' : 'translate-x-0'}`} />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+  useEffect(() => {
+    setProfile(loadProfile());
+  }, []);
 
-              {/* Account Actions */}
-              <div className="bg-gradient-to-r from-red-900/20 to-pink-900/20 backdrop-blur-xl border border-red-500/20 rounded-2xl p-8">
-                <h4 className="text-lg font-bold mb-4 text-red-300">Danger Zone</h4>
-                <button className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-bold transition-all">
-                  Delete Account
-                </button>
-                <p className="text-sm text-gray-400 mt-2">Once deleted, your account cannot be recovered.</p>
-              </div>
-            </motion.div>
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-purple-500/40 border-t-purple-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const savedFestivals = profile.savedIds.map(festivalById).filter(Boolean) as Festival[];
+  const viewedFestivals = profile.viewedIds.map(festivalById).filter(Boolean) as Festival[];
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white">
+      <div className="max-w-2xl mx-auto px-4 py-10 space-y-8">
+
+        {/* Page header */}
+        <div>
+          <h1 className="text-3xl font-black text-white">Your Festival Passport</h1>
+          <p className="text-gray-500 text-sm mt-1">Everything FestiWise knows about your taste.</p>
+        </div>
+
+        {/* Activity strip */}
+        <div className="grid grid-cols-3 divide-x divide-white/5 border border-white/5 rounded-2xl bg-white/[0.02]">
+          {[
+            { icon: Heart,  value: profile.savedIds.length,   label: 'Saved' },
+            { icon: Eye,    value: profile.viewedIds.length,   label: 'Viewed' },
+            { icon: Star,   value: profile.reviewCount,        label: 'Reviewed' },
+          ].map(({ icon: Icon, value, label }) => (
+            <div key={label} className="px-4 py-4 text-center">
+              <Icon className="w-4 h-4 text-gray-600 mx-auto mb-1" />
+              <div className="text-xl font-black text-white">{value}</div>
+              <div className="text-gray-600 text-xs">{label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* DNA Card */}
+        <div>
+          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Your Music DNA</h2>
+          {profile.quizDone && profile.answers ? (
+            <DNACard answers={profile.answers} />
+          ) : (
+            <div className="rounded-2xl border border-white/5 bg-white/[0.02] px-6 py-8 text-center">
+              <Music className="w-8 h-8 text-gray-700 mx-auto mb-3" />
+              <p className="text-gray-400 font-semibold text-sm mb-1">No quiz results yet</p>
+              <p className="text-gray-600 text-xs mb-4">Take the quiz to discover your festival DNA.</p>
+              <Link
+                href="/quiz"
+                className="inline-block px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-all"
+              >
+                Take the Quiz →
+              </Link>
+            </div>
           )}
         </div>
+
+        {/* Saved festivals */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Saved Festivals</h2>
+            {savedFestivals.length > 0 && (
+              <Link href="/my-bucket-list" className="text-xs text-purple-400 hover:text-purple-300 transition-colors">
+                View bucket list →
+              </Link>
+            )}
+          </div>
+          {savedFestivals.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {savedFestivals.slice(0, 6).map(f => (
+                <FestivalCard key={f.id} id={f.id} />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-white/5 bg-white/[0.02]">
+              <EmptyState
+                icon={Heart}
+                title="No saved festivals yet"
+                sub="Tap the bookmark icon on any festival to save it here."
+                href="/festivals"
+                cta="Browse festivals"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Recently viewed */}
+        {viewedFestivals.length > 0 && (
+          <div>
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Recently Viewed</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {viewedFestivals.map(f => (
+                <FestivalCard key={f.id} id={f.id} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Rated festivals */}
+        {profile.ratedFestivalIds.length > 0 && (
+          <div>
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
+              Festivals You Rated
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {profile.ratedFestivalIds.slice(0, 4).map(id => (
+                <FestivalCard key={id} id={id} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Quick links */}
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <Link
+            href="/quiz"
+            className="flex items-center gap-2 px-4 py-3.5 bg-white/[0.03] border border-white/5 hover:border-white/10 rounded-xl text-sm font-semibold text-gray-300 transition-all group"
+          >
+            <RefreshCw className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transition-colors" />
+            Retake Quiz
+          </Link>
+          <Link
+            href="/festivals"
+            className="flex items-center gap-2 px-4 py-3.5 bg-white/[0.03] border border-white/5 hover:border-white/10 rounded-xl text-sm font-semibold text-gray-300 transition-all group"
+          >
+            <MapPin className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transition-colors" />
+            Browse All
+          </Link>
+        </div>
+
       </div>
     </div>
   );

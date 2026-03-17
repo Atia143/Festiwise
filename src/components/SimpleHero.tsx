@@ -1,305 +1,169 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-// Optional: comment out analytics/stats lines if you don't use them
-import { statsManager } from '@/lib/realTimeStats';
-import { analytics } from '@/lib/analytics';
+import festivalsData from '@/data/festivals.json';
 
-// Simple translation; swap for your i18n solution as needed
-function useSimpleLanguage(): { t: (key: string) => string } {
-  const translations: Record<string, string> = {
-    'hero.title': 'Stop Scrolling. Start Celebrating.',
-    'hero.subtitle': "Tired of spending hours researching festivals, only to pick the wrong one? We'll match you with festivals that fit your music taste, budget, and vibe—in 2 minutes. No account required. 100% free.",
-    'hero.cta': 'Find My Festival Now',
-  };
+const FESTIVAL_NAMES = (festivalsData as { name: string }[]).map(f => f.name);
 
-  function t(key: string) {
-    return translations[key] || key;
-  }
-
-  return { t };
-}
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
-};
-
-const FESTIVAL_NAMES = [
-  'Tomorrowland', 'Coachella', 'Glastonbury', 'Burning Man', 'Ultra Music Festival',
-  'Lollapalooza', 'Primavera Sound', 'Roskilde', 'Sziget', 'Bonnaroo',
-  'Rock Werchter', 'Exit Festival', 'Download Festival', 'Reading & Leeds', 'Mysteryland',
+const GENRES = [
+  { label: 'EDM', color: 'bg-purple-500/20 text-purple-300 border-purple-500/30' },
+  { label: 'Rock', color: 'bg-red-500/20 text-red-300 border-red-500/30' },
+  { label: 'Indie', color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
+  { label: 'Jazz', color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
+  { label: 'Hip-Hop', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
+  { label: 'World', color: 'bg-pink-500/20 text-pink-300 border-pink-500/30' },
+  { label: 'Afrobeats', color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
+  { label: 'Classical', color: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' },
 ];
 
-export default function UltimateHero() {
-  const { t } = useSimpleLanguage();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [emailCapture, setEmailCapture] = useState('');
-  const [emailStatus, setEmailStatus] = useState<'idle' | 'loading' | 'success'>('idle');
-  const [stats, setStats] = useState({
-    festivals: '100+ festivals',
-    users: 'users',
-    countries: '50 countries',
-    currentUsers: '25 users online',
-    recommendations: '100 matches made',
-    lastUpdated: 'September 1, 2025'
-  });
+const STATS = [
+  { value: '100+', label: 'curated festivals' },
+  { value: '24',   label: 'countries covered' },
+  { value: '5',    label: 'questions, 2 minutes' },
+];
+
+// Duplicate for seamless infinite loop
+const TICKER_NAMES = [...FESTIVAL_NAMES, ...FESTIVAL_NAMES];
+
+export default function SimpleHero() {
+  const tickerRef = useRef<HTMLDivElement>(null);
+  const [tickerWidth, setTickerWidth] = useState(0);
 
   useEffect(() => {
-    // Optional analytics
-    analytics?.initialize?.('G-BDQF8TX7MF');
-    analytics?.trackPageView?.('/', 'Festival Finder Homepage');
-    setStats(statsManager?.getFormattedStats?.() || stats);
-
-    const statsInterval = setInterval(() => {
-      setStats(statsManager?.getFormattedStats?.() || stats);
-    }, 30000);
-
-    // Respect user preference for reduced motion
-    let prefersReduced = false;
-    try {
-      prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    } catch (_e) {
-      prefersReduced = false;
+    if (tickerRef.current) {
+      setTickerWidth(tickerRef.current.scrollWidth / 2);
     }
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (prefersReduced) return;
-      const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 20;
-      const y = (clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
-    };
-
-    if (!prefersReduced) window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(statsInterval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!emailCapture || emailStatus === 'loading') return;
-    setEmailStatus('loading');
-    try {
-      await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: emailCapture,
-          subject: 'Festival Picks Request — FestiWise',
-          message: 'User signed up for festival picks from hero section',
-          from_name: 'FestiWise Hero',
-        }),
-      });
-      setEmailStatus('success');
-      setEmailCapture('');
-    } catch {
-      setEmailStatus('idle');
-    }
-  };
-
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-800 overflow-hidden px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      {/* Animated Background */}
+    <section className="relative bg-gray-950 overflow-hidden">
+      {/* Subtle radial gradient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/90 via-indigo-900/80 to-pink-800/90" />
-
-        {/* Parallax floating circles — mouse-only, hidden on mobile to save battery */}
-        <motion.div
-          className="absolute top-20 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl hidden md:block"
-          animate={{
-            x: mousePosition.x * 0.1,
-            y: mousePosition.y * 0.1,
-          }}
-          transition={{ type: "spring", stiffness: 50, damping: 10 }}
-        />
-        <motion.div
-          className="absolute top-40 right-20 w-32 h-32 bg-pink-400/20 rounded-full blur-xl hidden md:block"
-          animate={{
-            x: mousePosition.x * -0.1,
-            y: mousePosition.y * -0.1,
-          }}
-          transition={{ type: "spring", stiffness: 50, damping: 10 }}
-        />
-        <motion.div
-          className="absolute bottom-40 left-20 w-24 h-24 bg-blue-400/20 rounded-full blur-xl hidden md:block"
-          animate={{
-            x: mousePosition.x * 0.15,
-            y: mousePosition.y * 0.15,
-          }}
-          transition={{ type: "spring", stiffness: 50, damping: 10 }}
-        />
-
-        {/* Optional: Particle overlay */}
-        <motion.div
-          className="absolute inset-0 opacity-30"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-purple-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-pink-600/8 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto text-center">
+      {/* Main content */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-16 text-center">
+
+        {/* Eyebrow */}
         <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2
-              }
-            }
-          }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-gray-400 font-medium mb-8"
         >
+          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+          100+ festivals curated worldwide
+        </motion.div>
 
-          {/* Main Heading - Emotional, benefit-focused */}
-          <motion.h1
-            variants={fadeIn}
-            className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight max-w-3xl mx-auto"
-          >
-            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
-              {t('hero.title')}
-            </span>
-          </motion.h1>
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+          className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6"
+        >
+          Your next festival{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400">
+            is already out there.
+          </span>
+        </motion.h1>
 
-          {/* Description - Problem + Solution */}
-          <motion.p
-            variants={fadeIn}
-            className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed"
-          >
-            {t('hero.subtitle')}
-          </motion.p>
+        {/* Subhead */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.2 }}
+          className="text-gray-400 text-lg sm:text-xl leading-relaxed mb-10 max-w-xl mx-auto"
+        >
+          Tell us your music taste, budget, and travel window.
+          We match you to the festivals you&apos;ll actually love.
+        </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            variants={fadeIn}
-            className="flex flex-col items-center justify-center gap-4 px-4 mb-8"
+        {/* Primary CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.3 }}
+          className="flex flex-col items-center gap-3 mb-10"
+        >
+          <Link
+            href="/quiz"
+            className="group inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold text-lg rounded-2xl shadow-2xl shadow-purple-900/40 hover:shadow-purple-900/60 hover:scale-[1.03] active:scale-95 transition-all duration-200 touch-manipulation"
           >
-            <Link
-              href="/quiz"
-              className="group relative w-full sm:max-w-sm px-8 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-black font-bold text-lg shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 transition-all duration-200 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300/50 focus:ring-offset-2 tap-highlight-none touch-manipulation"
-              aria-describedby="quiz-description"
+            Find My Festival
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.2, repeat: Infinity, repeatType: 'reverse' }}
             >
-              <motion.span
-                className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-300 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              />
-              <span className="relative z-10 flex items-center justify-center">
-                {t('hero.cta')}
-                <motion.span
-                  className="inline-block ml-2"
-                  animate={{ x: [0, 6, 0] }}
-                  transition={{
-                    duration: 1,
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                  }}
-                >
-                  →
-                </motion.span>
-              </span>
-            </Link>
-            <div id="quiz-description" className="sr-only">
-              Take our personalized quiz to find music festivals that match your taste, budget, and location preferences
-            </div>
-            
-            {/* Micro-trust below CTA */}
-            <div className="flex flex-wrap justify-center items-center gap-4 text-white/80 text-sm">
-              <span>✓ Takes 2 minutes</span>
-              <span>✓ 100% free</span>
-              <span>✓ Your data is private</span>
-            </div>
-          </motion.div>
+              →
+            </motion.span>
+          </Link>
 
-          {/* Stats social proof */}
-          <motion.div
-            variants={fadeIn}
-            className="mt-12 max-w-xl mx-auto"
-          >
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 md:p-6">
-              <div className="grid grid-cols-3 divide-x divide-white/10 text-center">
-                <div className="px-3">
-                  <div className="text-2xl font-black text-yellow-300">100+</div>
-                  <div className="text-white/60 text-xs mt-0.5">Festivals curated</div>
-                </div>
-                <div className="px-3">
-                  <div className="text-2xl font-black text-yellow-300">50+</div>
-                  <div className="text-white/60 text-xs mt-0.5">Countries covered</div>
-                </div>
-                <div className="px-3">
-                  <div className="text-2xl font-black text-yellow-300">2 min</div>
-                  <div className="text-white/60 text-xs mt-0.5">To your matches</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Email capture + social proof marquee */}
-          <motion.div
-            variants={fadeIn}
-            className="mt-10 max-w-xl mx-auto space-y-5"
-          >
-            {/* Email capture */}
-            {emailStatus === 'success' ? (
-              <div className="flex items-center justify-center gap-2 py-3 text-green-300 font-semibold text-sm">
-                <span>✓</span>
-                <span>Festival picks sent — check your inbox!</span>
-              </div>
-            ) : (
-              <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 text-sm pointer-events-none">✉</span>
-                  <input
-                    type="email"
-                    value={emailCapture}
-                    onChange={e => setEmailCapture(e.target.value)}
-                    placeholder="Get your top festival picks by email"
-                    className="w-full pl-9 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 text-base focus:outline-none focus:border-yellow-400/60 focus:bg-white/15 transition-all"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={emailStatus === 'loading'}
-                  className="px-5 py-3 bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl text-white font-semibold text-sm whitespace-nowrap transition-all disabled:opacity-50 touch-manipulation tap-highlight-none"
-                >
-                  {emailStatus === 'loading' ? '...' : 'Send me picks →'}
-                </button>
-              </form>
-            )}
+          <div className="flex flex-wrap justify-center gap-4 text-gray-500 text-sm">
+            <span>No account needed</span>
+            <span className="text-gray-700">·</span>
+            <span>Takes 2 minutes</span>
+            <span className="text-gray-700">·</span>
+            <span>100% free</span>
+          </div>
+        </motion.div>
 
-            {/* Social proof marquee */}
-            <div>
-              <p className="text-center text-white/30 text-xs mb-2">Fans of these festivals love FestiWise</p>
-              <div className="overflow-hidden relative">
-                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-purple-900/80 to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-pink-900/80 to-transparent z-10 pointer-events-none" />
-                <motion.div
-                  className="flex gap-6 text-white/35 text-xs font-medium"
-                  animate={{ x: ['0%', '-50%'] }}
-                  transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-                >
-                  {[...FESTIVAL_NAMES, ...FESTIVAL_NAMES].map((name, i) => (
-                    <span key={i} className="whitespace-nowrap flex items-center gap-2">
-                      <span className="w-1 h-1 bg-white/25 rounded-full flex-shrink-0" />
-                      {name}
-                    </span>
-                  ))}
-                </motion.div>
-              </div>
+        {/* Genre pills */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+        >
+          {GENRES.map((g) => (
+            <span
+              key={g.label}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${g.color}`}
+            >
+              {g.label}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.55 }}
+          className="grid grid-cols-3 divide-x divide-white/10 border border-white/10 rounded-2xl bg-white/[0.03] mb-0"
+        >
+          {STATS.map(s => (
+            <div key={s.label} className="px-4 py-4">
+              <div className="text-2xl font-black text-white">{s.value}</div>
+              <div className="text-gray-500 text-xs mt-0.5">{s.label}</div>
             </div>
-          </motion.div>
+          ))}
         </motion.div>
       </div>
 
+      {/* Festival name ticker */}
+      <div className="relative overflow-hidden border-t border-white/5 py-4 bg-white/[0.02]">
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-gray-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-gray-950 to-transparent z-10 pointer-events-none" />
+
+        <motion.div
+          ref={tickerRef}
+          className="flex gap-6 whitespace-nowrap"
+          animate={tickerWidth ? { x: [0, -tickerWidth] } : {}}
+          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+        >
+          {TICKER_NAMES.map((name, i) => (
+            <span key={i} className="text-gray-600 text-sm font-medium flex items-center gap-4">
+              <span className="w-1 h-1 rounded-full bg-gray-700 flex-shrink-0" />
+              {name}
+            </span>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

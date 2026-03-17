@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { faqData as rawFaqData } from "@/data/faq";
 import type { FAQItem } from '@/types/faq';
 import { Search, ChevronDown } from 'lucide-react';
@@ -18,22 +19,36 @@ function dedupeFAQs(faqs: FAQItem[]) {
 function AccordionItem({ faq }: { faq: FAQItem }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className={`rounded-2xl border transition-colors duration-200 overflow-hidden ${open ? 'border-purple-200 bg-purple-50/40' : 'border-gray-100 bg-white shadow-sm'}`}>
       <button
         onClick={() => setOpen(prev => !prev)}
         className="w-full text-left px-6 py-4 flex items-center justify-between gap-4"
         aria-expanded={open}
       >
-        <span className="font-medium text-gray-900">{faq.question}</span>
-        <ChevronDown
-          className={`shrink-0 w-5 h-5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-        />
+        <span className={`font-medium text-sm leading-snug ${open ? 'text-purple-900' : 'text-gray-900'}`}>
+          {faq.question}
+        </span>
+        <motion.div
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="flex-shrink-0"
+        >
+          <ChevronDown className={`w-5 h-5 ${open ? 'text-purple-500' : 'text-gray-400'}`} />
+        </motion.div>
       </button>
-      {open && (
-        <div className="px-6 pb-5">
-          <p className="text-gray-600">{faq.answer}</p>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="px-6 pb-5 text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -76,22 +91,24 @@ export default function FaqClient() {
     : 'All Questions';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30 -mt-20 pt-20">
+    <div className="min-h-screen bg-white">
+      {/* Hero */}
+      <div className="bg-gray-950 text-white px-4 py-16 text-center">
+        <p className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">Help Center</p>
+        <h1 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">
+          Frequently Asked{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            Questions
+          </span>
+        </h1>
+        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          Everything you need to know about FestiWise, the quiz, and finding your perfect festival.
+        </p>
+      </div>
+
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-
-          {/* Hero */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Frequently Asked{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
-                Questions
-              </span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get answers to common questions about festivals, planning, and making the most of your experience.
-            </p>
-          </div>
+          <div />
 
           {/* Search */}
           <div className="max-w-2xl mx-auto mb-10 relative">
