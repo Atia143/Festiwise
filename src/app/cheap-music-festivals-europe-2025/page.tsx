@@ -3,30 +3,30 @@ import Link from 'next/link';
 import GuidePageSchema from '@/components/SEO/GuidePageSchema';
 
 export const metadata: Metadata = {
-  title: 'Cheap Music Festivals Europe 2025 - Best Budget Festival Guide',
-  description: 'Discover 25+ affordable music festivals across Europe under €200! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more.',
-  keywords: 'cheap music festivals europe, budget festivals, affordable festivals europe, music festivals under 200 euros, festival deals europe',
+  title: 'Cheap Music Festivals Europe 2026 - Best Budget Festival Guide',
+  description: 'Discover 25+ affordable music festivals across Europe under €200 in 2026! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more.',
+  keywords: 'cheap music festivals europe 2026, budget festivals europe, affordable festivals europe 2026, music festivals under 200 euros, festival deals europe 2026',
   alternates: {
     canonical: 'https://getfestiwise.com/cheap-music-festivals-europe-2025'
   },
   openGraph: {
-    title: 'Cheap Music Festivals Europe 2025 - Budget Guide',
-    description: 'Find amazing music festivals across Europe for under €200',
+    title: 'Cheap Music Festivals Europe 2026 - Budget Guide',
+    description: 'Find amazing music festivals across Europe for under €200 in 2026',
     url: 'https://getfestiwise.com/cheap-music-festivals-europe-2025',
     type: 'website',
     images: [
       {
-        url: 'https://getfestiwise.com/api/og/cheap-festivals-europe',
+        url: 'https://getfestiwise.com/api/og/best?slug=budget&label=Europe+Budget&count=25',
         width: 1200,
         height: 630,
-        alt: 'Cheap Music Festivals Europe 2025'
+        alt: 'Cheap Music Festivals Europe 2026'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cheap Music Festivals Europe 2025 - Budget Guide',
-    description: 'Find amazing music festivals across Europe for under €200'
+    title: 'Cheap Music Festivals Europe 2026 - Budget Guide',
+    description: 'Find amazing music festivals across Europe for under €200 in 2026'
   }
 };
 
@@ -35,7 +35,7 @@ const budgetFestivals = [
     name: 'Pohoda Festival',
     location: 'Slovakia',
     price: '€89',
-    dates: 'July 10-13, 2025',
+    dates: 'July 2026',
     genre: 'Multi-Genre',
     highlights: ['Incredible value', 'Diverse lineup', 'Beautiful setting'],
     why: 'One of Europe\'s best value festivals with international acts and local charm.',
@@ -46,7 +46,7 @@ const budgetFestivals = [
     name: 'INmusic Festival',
     location: 'Zagreb, Croatia',
     price: '€120',
-    dates: 'June 23-25, 2025',
+    dates: 'June 2026',
     genre: 'Rock & Alternative',
     highlights: ['Jarun Lake setting', 'Great headliners', 'Affordable city'],
     why: 'Premium lineup at budget prices in beautiful Zagreb.',
@@ -57,7 +57,7 @@ const budgetFestivals = [
     name: 'Volt Festival',
     location: 'Sopron, Hungary',
     price: '€150',
-    dates: 'June 25-28, 2025',
+    dates: 'June 2026',
     genre: 'Electronic & Pop',
     highlights: ['Castle backdrop', 'Electronic focus', 'Great weather'],
     why: 'Electronic music paradise with historic castle views.',
@@ -68,7 +68,7 @@ const budgetFestivals = [
     name: 'Colours of Ostrava',
     location: 'Czech Republic',
     price: '€160',
-    dates: 'July 16-19, 2025',
+    dates: 'July 2026',
     genre: 'Multi-Genre',
     highlights: ['Industrial setting', 'Diverse acts', 'Czech beer'],
     why: 'Unique industrial venue with world-class acts and cheap Czech beer.',
@@ -79,7 +79,7 @@ const budgetFestivals = [
     name: 'Strand Festival',
     location: 'Ulm, Germany',
     price: '€180',
-    dates: 'August 1-3, 2025',
+    dates: 'August 2026',
     genre: 'Electronic',
     highlights: ['Danube River', 'Techno focus', 'Small but mighty'],
     why: 'Intimate electronic festival by the Danube with top-tier DJs.',
@@ -158,12 +158,24 @@ const budgetTips = [
   }
 ];
 
+const europeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'What are the cheapest music festivals in Europe in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'The cheapest music festivals in Europe in 2026 include Pohoda Festival (Slovakia, from €89), INmusic Festival (Croatia, from €120), Volt Festival (Hungary, from €150), and Colours of Ostrava (Czech Republic, from €160). Eastern European festivals typically offer Western-quality lineups at a fraction of the price, with affordable accommodation and food costs.' } },
+    { '@type': 'Question', name: 'Can you do a European music festival for under €300 total?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — with smart planning. A 3-day festival in Slovakia or Czech Republic can cost under €300 all-in: €89-160 ticket, €40-50 camping, €60-80 food, and €50-100 for budget airline flights. Choose Eastern Europe for maximum value. Avoid Western European festivals like Glastonbury or Primavera Sound if budget is your priority.' } },
+    { '@type': 'Question', name: 'Which European country has the cheapest music festivals?', acceptedAnswer: { '@type': 'Answer', text: 'Slovakia, Czech Republic, Hungary, and Croatia consistently offer the best value for festival-goers in Europe. Countries like Romania (UNTOLD Festival) and Serbia (EXIT Festival) are also outstanding value. Festival tickets cost €100-180 and daily food and drink is 40-60% cheaper than UK, German, or Dutch equivalents.' } },
+    { '@type': 'Question', name: 'How can I save money at music festivals in Europe?', acceptedAnswer: { '@type': 'Answer', text: 'Buy early bird tickets 6+ months in advance (save 30-50%). Choose camping over hotels (save €200-500). Use budget airlines and book 2-3 months ahead. Travel in a group to split transport costs. Eat one meal inside the festival and the rest outside. Bring snacks and a refillable water bottle. Consider volunteering for free entry to some festivals.' } },
+  ],
+};
+
 export default function CheapMusicFestivalsEurope() {
   return (
     <>
-      <GuidePageSchema 
-        title="Cheap Music Festivals Europe 2025 - Best Budget Festival Guide"
-        description="Discover 25+ affordable music festivals across Europe under €200! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more."
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(europeFaqSchema) }} />
+      <GuidePageSchema
+        title="Cheap Music Festivals Europe 2026 - Best Budget Festival Guide"
+        description="Discover 25+ affordable music festivals across Europe under €200 in 2026! Complete guide to cheap festivals in Germany, UK, Spain, Netherlands & more."
         url="https://getfestiwise.com/cheap-music-festivals-europe-2025"
         category="Budget Festival Guide"
         datePublished="2024-09-01T00:00:00Z"
@@ -177,7 +189,7 @@ export default function CheapMusicFestivalsEurope() {
                     <h1
             className="text-4xl md:text-6xl font-bold text-white mb-6 text-center leading-tight"
           >
-            Cheap Music Festivals Europe 2025
+            Cheap Music Festivals Europe 2026
           </h1>
           <p
             className="text-xl text-white/90 mb-8 max-w-4xl mx-auto text-center leading-relaxed"

@@ -2,30 +2,30 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Festival Packing List 2025 - Complete Checklist for Music Festivals',
-  description: 'Ultimate festival packing list 2025! Complete checklist for camping festivals, day events & international travel. Never forget essentials again.',
-  keywords: 'festival packing list, music festival checklist, camping festival packing, festival essentials, what to pack for festivals',
+  title: 'Festival Packing List 2026 - Complete Checklist for Music Festivals',
+  description: 'Ultimate festival packing list 2026! Complete checklist for camping festivals, day events & international travel. Never forget essentials again.',
+  keywords: 'festival packing list 2026, music festival checklist, camping festival packing, festival essentials, what to pack for festivals 2026',
   alternates: {
     canonical: 'https://getfestiwise.com/festival-packing-list-2025'
   },
   openGraph: {
-    title: 'Festival Packing List 2025 - Complete Checklist',
-    description: 'Never forget festival essentials again with our complete packing guide',
+    title: 'Festival Packing List 2026 - Complete Checklist',
+    description: 'Never forget festival essentials again with our complete 2026 packing guide',
     url: 'https://getfestiwise.com/festival-packing-list-2025',
     type: 'website',
     images: [
       {
-        url: 'https://getfestiwise.com/api/og/festival-packing-list',
+        url: 'https://getfestiwise.com/api/og/best?slug=camping&label=Packing+Guide&count=50',
         width: 1200,
         height: 630,
-        alt: 'Festival Packing List 2025'
+        alt: 'Festival Packing List 2026'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Festival Packing List 2025 - Complete Checklist',
-    description: 'Never forget festival essentials again with our complete packing guide'
+    title: 'Festival Packing List 2026 - Complete Checklist',
+    description: 'Never forget festival essentials again with our complete 2026 packing guide'
   },
   other: {
     'article:author': 'FestiWise Team',
@@ -225,14 +225,41 @@ const packingTips = [
   }
 ];
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'What should I pack for a music festival in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'Festival essentials include your ticket and ID, cash and cards, phone and portable charger, sunscreen (SPF 30+), a refillable water bottle, comfortable shoes, weather-appropriate clothing, and hand sanitizer. For camping festivals also bring a tent, sleeping bag, and headlamp.' } },
+    { '@type': 'Question', name: 'What camping gear do I need for a multi-day festival?', acceptedAnswer: { '@type': 'Answer', text: 'For camping festivals bring a waterproof tent, sleeping bag, camping chair, headlamp, cooler with ice, wet wipes, camping stove with fuel, and trash bags. Pack dry shampoo and a laundry bag for 3+ day events like Glastonbury or Bonnaroo.' } },
+    { '@type': 'Question', name: 'What should I pack if it rains at a festival?', acceptedAnswer: { '@type': 'Answer', text: 'For rainy festivals pack a waterproof jacket, rain boots, poncho, waterproof phone case, quick-dry clothing, plastic bags to protect electronics and sleeping gear, a tarp for your tent, and at least two extra pairs of dry socks.' } },
+    { '@type': 'Question', name: 'How do I pack light for a music festival?', acceptedAnswer: { '@type': 'Answer', text: 'Roll clothes instead of folding to save 30% space, use packing cubes or compression bags, wear your heaviest items on travel day, stuff socks inside shoes, and choose multi-purpose items. Freeze water bottles the night before so they double as ice packs.' } },
+    { '@type': 'Question', name: 'What should I pack for an electronic music festival?', acceptedAnswer: { '@type': 'Answer', text: 'For EDM festivals like Tomorrowland, Ultra or EDC, prioritise high-quality earplugs, LED accessories, comfortable dancing shoes, electrolyte packets, recovery drinks, and a cooling towel. Extra phone battery packs are essential for all-night events.' } },
+  ],
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Festival Packing List 2026 — Complete Checklist for Music Festivals',
+  description: 'Ultimate festival packing list 2026. Complete checklist for camping festivals, day events and international travel. Never forget essentials again.',
+  author: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  publisher: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  datePublished: '2025-09-01',
+  dateModified: '2026-03-17',
+  url: 'https://getfestiwise.com/festival-packing-list-2025',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://getfestiwise.com/festival-packing-list-2025' },
+};
+
 export default function FestivalPackingList2025() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-blue-50 to-purple-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-green-600 via-blue-600 to-purple-600 text-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center leading-tight">
-            Festival Packing List 2025
+            Festival Packing List 2026
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto text-center leading-relaxed">
             The ultimate festival packing checklist! Never forget essentials again with our comprehensive guide 

@@ -6,18 +6,28 @@ import Button from '@/components/ui/Button';
 import StructuredData from '@/components/SEO/StructuredData';
 
 export const metadata: Metadata = {
-  title: 'Best Music Festivals 2025 | Top 50 Festivals Worldwide',
-  description: 'Discover the best music festivals of 2025. Complete guide to Tomorrowland, Coachella, Burning Man, and 47 more world-class festivals. Find your perfect festival match.',
+  title: 'Best Music Festivals 2026 | Top 100+ Festivals Worldwide',
+  description: 'Discover the best music festivals of 2026. Complete guide to Tomorrowland, Coachella, Burning Man, Glastonbury and 100+ world-class festivals. Find your perfect festival match.',
   keywords: [
-    'best music festivals 2025', 'top music festivals', 'music festival guide 2025',
-    'tomorrowland 2025', 'coachella 2025', 'burning man 2025', 'glastonbury 2025',
-    'electronic music festivals', 'rock festivals', 'festival calendar 2025'
+    'best music festivals 2026', 'top music festivals 2026', 'music festival guide 2026',
+    'tomorrowland 2026', 'coachella 2026', 'burning man 2026', 'glastonbury 2026',
+    'electronic music festivals 2026', 'rock festivals 2026', 'festival calendar 2026'
   ],
+  alternates: {
+    canonical: 'https://getfestiwise.com/best-music-festivals-2025',
+  },
   openGraph: {
-    title: 'Best Music Festivals 2025 | Complete Guide',
-    description: 'The ultimate guide to 50 world-class music festivals in 2025. From Tomorrowland to Burning Man.',
-    images: [{ url: '/og-best-festivals-2025.jpg', width: 1200, height: 630 }]
-  }
+    title: 'Best Music Festivals 2026 | Complete Guide',
+    description: 'The ultimate guide to 100+ world-class music festivals in 2026. From Tomorrowland to Burning Man.',
+    url: 'https://getfestiwise.com/best-music-festivals-2025',
+    type: 'website',
+    images: [{ url: 'https://getfestiwise.com/api/og/best?slug=music&label=Music&count=100', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Best Music Festivals 2026 | Complete Guide',
+    description: 'The ultimate guide to 100+ world-class music festivals in 2026.',
+  },
 };
 
 const topFestivals = [
@@ -25,7 +35,7 @@ const topFestivals = [
     name: 'Tomorrowland',
     location: 'Belgium',
     genre: 'EDM',
-    dates: 'July 2025',
+    dates: 'July 2026',
     tier: 'Legendary',
     highlight: 'The world\'s most magical EDM experience'
   },
@@ -33,7 +43,7 @@ const topFestivals = [
     name: 'Coachella',
     location: 'California, USA',
     genre: 'Multi-Genre',
-    dates: 'April 2025',
+    dates: 'April 2026',
     tier: 'Iconic',
     highlight: 'Where fashion meets music in the desert'
   },
@@ -41,7 +51,7 @@ const topFestivals = [
     name: 'Burning Man',
     location: 'Nevada, USA',
     genre: 'Experimental',
-    dates: 'August 2025',
+    dates: 'August 2026',
     tier: 'Transformational',
     highlight: 'A life-changing cultural phenomenon'
   },
@@ -49,7 +59,7 @@ const topFestivals = [
     name: 'Glastonbury',
     location: 'UK',
     genre: 'Multi-Genre',
-    dates: 'June 2025',
+    dates: 'June 2026',
     tier: 'Legendary',
     highlight: 'The most famous festival in the world'
   }
@@ -57,8 +67,8 @@ const topFestivals = [
 
 const structuredData = {
   "@type": "WebPage",
-  name: "Best Music Festivals 2025",
-  description: "Complete guide to the world's best music festivals in 2025",
+  name: "Best Music Festivals 2026",
+  description: "Complete guide to the world's best music festivals in 2026",
   mainEntity: {
     "@type": "ItemList",
     numberOfItems: 50,
@@ -72,10 +82,22 @@ const structuredData = {
   }
 };
 
+const bestFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'What are the best music festivals in the world in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'The world\'s best music festivals in 2026 include Tomorrowland (Belgium) for EDM, Glastonbury (UK) for multi-genre, Coachella (USA) for pop culture, Burning Man (USA) for transformational experiences, Primavera Sound (Spain) for indie, Rock am Ring (Germany) for rock, and Fuji Rock (Japan) for Asian music culture. Each offers a unique world-class experience.' } },
+    { '@type': 'Question', name: 'What is the most famous music festival in the world?', acceptedAnswer: { '@type': 'Answer', text: 'Glastonbury Festival in Somerset, UK is widely considered the most famous music festival in the world, running since 1970 with a 200,000+ capacity. Tomorrowland in Belgium is arguably the most prestigious EDM festival globally. Coachella in California is the most commercially influential festival for pop culture and fashion.' } },
+    { '@type': 'Question', name: 'Which music festival is best for electronic music in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'Tomorrowland (Belgium, July) is the world\'s premier EDM festival with unmatched stage production. EDC Las Vegas (May) is the largest in North America. Ultra Music Festival (Miami, March) is the most prestigious for dance music artists. Creamfields UK (August) is the best for UK electronic music fans.' } },
+    { '@type': 'Question', name: 'How do I find the right music festival for me?', acceptedAnswer: { '@type': 'Answer', text: 'Consider four key factors: genre (does it match your music taste?), budget (ticket + travel + accommodation + food), location (domestic vs. international), and experience type (camping vs. hotel, intimate vs. massive). The FestiWise quiz narrows 100+ festivals to your personal top 6 in under 2 minutes — completely free.' } },
+  ],
+};
+
 export default function BestFestivals2025() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-black to-black">
       <StructuredData type="WebSite" data={structuredData} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(bestFaqSchema) }} />
       
       <div className="relative overflow-hidden">
         {/* Hero Section */}
@@ -86,7 +108,7 @@ export default function BestFestivals2025() {
                 Best Music Festivals
               </span>
               <br />
-              <span className="text-white">2025</span>
+              <span className="text-white">2026</span>
             </h1>
             
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -97,7 +119,7 @@ export default function BestFestivals2025() {
               <Badge className="bg-purple-500/20 text-purple-300 px-4 py-2">50+ Festivals</Badge>
               <Badge className="bg-blue-500/20 text-blue-300 px-4 py-2">25+ Countries</Badge>
               <Badge className="bg-green-500/20 text-green-300 px-4 py-2">All Genres</Badge>
-              <Badge className="bg-yellow-500/20 text-yellow-300 px-4 py-2">2025 Dates</Badge>
+              <Badge className="bg-yellow-500/20 text-yellow-300 px-4 py-2">2026 Dates</Badge>
             </div>
             
             <Link href="/quiz">
@@ -112,7 +134,7 @@ export default function BestFestivals2025() {
         <div className="py-20 px-4">
           <div className="mx-auto max-w-6xl">
             <h2 className="text-4xl font-bold text-white text-center mb-12">
-              Top Tier Festivals 2025
+              Top Tier Festivals 2026
             </h2>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">

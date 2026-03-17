@@ -124,6 +124,42 @@ const CATEGORIES: Category[] = [
     filter: f => ['small','medium'].includes(f.audience_size),
     sort: (a, b) => a.audience_size.localeCompare(b.audience_size),
   },
+  {
+    slug: 'australia-festivals',
+    title: 'Best Music Festivals in Australia 2026',
+    headline: 'The Best Music Festivals in Australia 2026',
+    description: 'Top music festivals in Australia for 2026. Splendour in the Grass, Laneway Festival, and more — the definitive Australian festival guide.',
+    intro: 'Australia\'s festival scene punches well above its weight — from lush Byron Bay hinterlands to urban parks in Melbourne and Sydney. Here are the must-attend Australian music festivals of 2026.',
+    filter: f => f.country === 'Australia',
+    sort: (a, b) => (SIZE_ORDER[b.audience_size] ?? 0) - (SIZE_ORDER[a.audience_size] ?? 0),
+  },
+  {
+    slug: 'canada-festivals',
+    title: 'Best Music Festivals in Canada 2026',
+    headline: 'The Best Music Festivals in Canada 2026',
+    description: 'Top music festivals in Canada for 2026. Osheaga, Bluesfest, and more — the definitive Canadian festival guide for 2026.',
+    intro: 'Canada\'s festival scene stretches from Montréal\'s world-famous Osheaga to Victoria\'s folk roots. Whether you\'re after indie, blues, or electronic, Canada has a festival for every taste.',
+    filter: f => f.country === 'Canada',
+    sort: (a, b) => (SIZE_ORDER[b.audience_size] ?? 0) - (SIZE_ORDER[a.audience_size] ?? 0),
+  },
+  {
+    slug: 'latin-america-festivals',
+    title: 'Best Music Festivals in Latin America 2026',
+    headline: 'The Best Music Festivals in Latin America 2026',
+    description: 'Top music festivals in Latin America 2026. Rock in Rio, Lollapalooza Brazil, Corona Capital, and more — vibrant festivals across Brazil, Mexico, Argentina, and beyond.',
+    intro: 'Latin America delivers some of the most passionate and vibrant festival experiences on earth. From Rock in Rio\'s massive stages to boutique Colombian events, the energy here is incomparable.',
+    filter: f => ['Brazil','Mexico','Argentina','Colombia','Chile','Peru'].includes(f.country),
+    sort: (a, b) => (SIZE_ORDER[b.audience_size] ?? 0) - (SIZE_ORDER[a.audience_size] ?? 0),
+  },
+  {
+    slug: 'asia-pacific-festivals',
+    title: 'Best Music Festivals in Asia Pacific 2026',
+    headline: 'The Best Music Festivals in Asia & the Pacific 2026',
+    description: 'Top music festivals in Asia Pacific for 2026. Fuji Rock, Splendour in the Grass, Ultra Korea, and more — the definitive Asia-Pacific festival guide.',
+    intro: 'The Asia-Pacific festival scene has grown into one of the most exciting in the world. From Japan\'s iconic Fuji Rock amid misty mountains to Seoul\'s electronic showcases, this region rewards the adventurous festival traveller.',
+    filter: f => ['Japan','South Korea','Australia','New Zealand','India','Thailand','Indonesia','Singapore','Taiwan','China'].includes(f.country),
+    sort: (a, b) => (SIZE_ORDER[b.audience_size] ?? 0) - (SIZE_ORDER[a.audience_size] ?? 0),
+  },
 ];
 
 const SIZE_ORDER: Record<string, number> = { massive: 4, large: 3, medium: 2, small: 1 };

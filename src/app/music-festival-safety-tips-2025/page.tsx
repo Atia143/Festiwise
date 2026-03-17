@@ -2,13 +2,23 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Music Festival Safety Tips 2025 - Stay Safe at Concerts & Festivals',
-  description: 'Essential music festival safety guide 2025! Expert tips for staying safe at concerts, festivals & raves. Protect yourself and have the best time.',
-  keywords: 'music festival safety, concert safety tips, festival security, rave safety, crowd safety, festival survival guide',
+  title: 'Music Festival Safety Tips 2026 - Stay Safe at Concerts & Festivals',
+  description: 'Essential music festival safety guide 2026! Expert tips for staying safe at concerts, festivals & raves. Protect yourself and have the best time.',
+  keywords: 'music festival safety 2026, concert safety tips, festival security, rave safety, crowd safety, festival survival guide 2026',
+  alternates: {
+    canonical: 'https://getfestiwise.com/music-festival-safety-tips-2025',
+  },
   openGraph: {
-    title: 'Music Festival Safety Tips 2025 - Complete Safety Guide',
-    description: 'Expert safety tips to protect yourself at music festivals and concerts',
+    title: 'Music Festival Safety Tips 2026 - Complete Safety Guide',
+    description: 'Expert safety tips to protect yourself at music festivals and concerts in 2026',
     url: 'https://getfestiwise.com/music-festival-safety-tips-2025',
+    type: 'website',
+    images: [{ url: 'https://getfestiwise.com/api/og/best?slug=family&label=Safety+Guide&count=30', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Music Festival Safety Tips 2026 - Complete Safety Guide',
+    description: 'Expert safety tips to protect yourself at music festivals and concerts in 2026',
   },
 };
 
@@ -243,14 +253,41 @@ const specificFestivalTypes = [
   }
 ];
 
+const safetyFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'How do I stay safe at a music festival?', acceptedAnswer: { '@type': 'Answer', text: 'Stay hydrated, eat regular meals, use the buddy system with friends, share your location with someone you trust, know where the medical tents are, keep emergency contacts saved offline, carry a whistle, and trust your instincts — if something feels wrong, leave the area.' } },
+    { '@type': 'Question', name: 'What should I do if I get separated from my friends at a festival?', acceptedAnswer: { '@type': 'Answer', text: 'Stay calm and go to your pre-agreed meeting point. Check your phone for messages or missed calls. Ask festival staff or security for help. Stay in well-lit, populated areas. If all else fails, head to the information booth or main entrance.' } },
+    { '@type': 'Question', name: 'How do I protect my valuables at a music festival?', acceptedAnswer: { '@type': 'Answer', text: 'Use a money belt or hidden pocket for cash and cards. Do not carry unnecessary valuables. Use official festival lockers when available. Take photos of important documents. Label your gear with contact info and never leave belongings unattended at your campsite.' } },
+    { '@type': 'Question', name: 'What should I do if someone is too intoxicated at a festival?', acceptedAnswer: { '@type': 'Answer', text: 'Stay with the person — never leave them alone. Move them to a safe, cool area. Keep them awake and talking. Give water if they are conscious. If unconscious, place them in the recovery position and call for medical help immediately. Do not try to "walk it off".' } },
+    { '@type': 'Question', name: 'How do I protect my hearing at loud music festivals?', acceptedAnswer: { '@type': 'Answer', text: 'Wear high-quality musician earplugs (not foam ones — they muffle sound quality). Take regular breaks from the loudest areas. Step back from speaker stacks. At EDM festivals, the safest listening zones are 10-15 metres from main speakers. Your hearing does not recover from severe damage.' } },
+  ],
+};
+
+const safetyArticleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Music Festival Safety Tips 2026 — Stay Safe at Concerts & Festivals',
+  description: 'Essential music festival safety guide for 2026. Expert tips for staying safe at concerts, festivals and raves. Protect yourself and have the best time.',
+  author: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  publisher: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  datePublished: '2025-09-01',
+  dateModified: '2026-03-17',
+  url: 'https://getfestiwise.com/music-festival-safety-tips-2025',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://getfestiwise.com/music-festival-safety-tips-2025' },
+};
+
 export default function MusicFestivalSafetyTips2025() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 via-orange-50 to-yellow-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(safetyFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(safetyArticleSchema) }} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-red-600 via-orange-600 to-yellow-600 text-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center leading-tight">
-            Music Festival Safety Tips 2025
+            Music Festival Safety Tips 2026
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto text-center leading-relaxed">
             Stay safe and have the best time at music festivals! Expert safety guide covering everything 

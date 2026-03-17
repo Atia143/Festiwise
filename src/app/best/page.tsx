@@ -23,7 +23,11 @@ const LISTS = [
   { slug: 'luxury-festivals',     label: 'Best Luxury Festival Experiences',icon: '✨', desc: 'Glamping, VIP, and the premium festival experience' },
   { slug: 'camping-festivals',    label: 'Best Camping Festivals',        icon: '⛺',  desc: 'Pack your tent and stay for the full multi-day experience' },
   { slug: 'family-festivals',     label: 'Best Family-Friendly Festivals',icon: '👨‍👩‍👧', desc: 'Safe, fun, and musical adventures for the whole family' },
-  { slug: 'small-festivals',      label: 'Best Boutique & Small Festivals',icon: '🌿', desc: 'Intimate events with curated lineups and tight-knit vibes' },
+  { slug: 'small-festivals',        label: 'Best Boutique & Small Festivals',  icon: '🌿', desc: 'Intimate events with curated lineups and tight-knit vibes' },
+  { slug: 'australia-festivals',    label: 'Best Festivals in Australia',      icon: '🦘', desc: 'Splendour in the Grass, Laneway, and the best Down Under' },
+  { slug: 'canada-festivals',       label: 'Best Festivals in Canada',         icon: '🍁', desc: 'Osheaga, Bluesfest, and Canada\'s top music events' },
+  { slug: 'latin-america-festivals',label: 'Best Festivals in Latin America',  icon: '🌎', desc: 'Rock in Rio, Lollapalooza Brazil, and the best of LATAM' },
+  { slug: 'asia-pacific-festivals', label: 'Best Festivals in Asia Pacific',   icon: '🌏', desc: 'Fuji Rock, Ultra Korea, and the best across Asia & Oceania' },
 ];
 
 export default function BestPage() {
@@ -45,7 +49,7 @@ export default function BestPage() {
 
       {/* Lists grid */}
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <p className="text-sm text-gray-500 mb-8">{LISTS.length} curated lists · Updated for 2026</p>
+        <p className="text-sm text-gray-500 mb-8">{LISTS.length} curated lists · Updated for 2026 · Worldwide coverage</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {LISTS.map(l => (
             <Link

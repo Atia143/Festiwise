@@ -2,13 +2,23 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'When to Buy Festival Tickets 2025 - Best Times & Money-Saving Tips',
-  description: 'Learn when to buy festival tickets in 2025! Get insider tips on presales, pricing patterns, and how to save up to 50% on music festival tickets.',
-  keywords: 'when to buy festival tickets, festival ticket prices, presale tickets, early bird tickets, festival ticket tips',
+  title: 'When to Buy Festival Tickets 2026 - Best Times & Money-Saving Tips',
+  description: 'Learn when to buy festival tickets in 2026! Get insider tips on presales, pricing patterns, and how to save up to 50% on music festival tickets.',
+  keywords: 'when to buy festival tickets 2026, festival ticket prices, presale tickets 2026, early bird tickets, festival ticket tips',
+  alternates: {
+    canonical: 'https://getfestiwise.com/when-to-buy-festival-tickets-2025',
+  },
   openGraph: {
-    title: 'When to Buy Festival Tickets 2025 - Save Money on Music Festivals',
-    description: 'Insider guide to buying festival tickets at the best prices',
+    title: 'When to Buy Festival Tickets 2026 - Save Money on Music Festivals',
+    description: 'Insider guide to buying festival tickets at the best prices in 2026',
     url: 'https://getfestiwise.com/when-to-buy-festival-tickets-2025',
+    type: 'website',
+    images: [{ url: 'https://getfestiwise.com/api/og/best?slug=budget&label=Ticket+Guide&count=100', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'When to Buy Festival Tickets 2026 - Save Money on Music Festivals',
+    description: 'Insider guide to buying festival tickets at the best prices in 2026',
   },
 };
 
@@ -194,14 +204,41 @@ const monthlyGuide = [
   }
 ];
 
+const ticketFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'When is the best time to buy festival tickets in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'The best time is during the presale or early bird window, typically 6-12 months before the festival. This can save 30-50% compared to standard pricing. For major festivals like Coachella, Glastonbury, and Tomorrowland, presales usually open in December or January. Set calendar reminders and join mailing lists to get presale codes.' } },
+    { '@type': 'Question', name: 'How much can I save by buying festival tickets early?', acceptedAnswer: { '@type': 'Answer', text: 'Early bird tickets typically save 30-50% off the peak price. For a $400 festival ticket, that is $120-200 in savings. Tier-based pricing means each batch of tickets is pricier than the last. Some festivals like Tomorrowland sell out completely in presale, so early buying also guarantees entry.' } },
+    { '@type': 'Question', name: 'Do major music festivals sell out in advance?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — most popular festivals sell out months in advance. Glastonbury regularly sells out within hours of presale opening. Tomorrowland, Coachella, and Burning Man frequently sell out their general admission tiers in days. Smaller and boutique festivals rarely sell out, offering more flexibility. Always check the festival website for official sale dates.' } },
+    { '@type': 'Question', name: 'Is it safe to buy festival tickets on the secondary market?', acceptedAnswer: { '@type': 'Answer', text: 'Use only official resale platforms supported by the festival (DICE, Twickets, official resale partners). Avoid Facebook groups and Craigslist — ticket fraud is common. Verify any ticket through the festival\'s official transfer or resale system. Prices on secondary markets sometimes drop in the final days before an event, but the risk of fake tickets is high.' } },
+    { '@type': 'Question', name: 'What is a festival presale ticket?', acceptedAnswer: { '@type': 'Answer', text: 'A presale ticket is sold before the general public sale, usually at a discounted early bird price. Access requires a presale code, which you get by registering on the festival website, signing up to their newsletter, or being a fan club member. Presales typically run 24-72 hours before general sale opens.' } },
+  ],
+};
+
+const ticketArticleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'When to Buy Festival Tickets 2026 — Best Times & Money-Saving Tips',
+  description: 'Insider guide to buying festival tickets in 2026. Save up to 50% with our complete guide to presales, early bird pricing, and timing strategies.',
+  author: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  publisher: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  datePublished: '2025-09-01',
+  dateModified: '2026-03-17',
+  url: 'https://getfestiwise.com/when-to-buy-festival-tickets-2025',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://getfestiwise.com/when-to-buy-festival-tickets-2025' },
+};
+
 export default function WhenToBuyFestivalTickets2025() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ticketFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ticketArticleSchema) }} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center leading-tight">
-            When to Buy Festival Tickets 2025
+            When to Buy Festival Tickets 2026
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto text-center leading-relaxed">
             Master the art of festival ticket buying! Save up to 50% with insider knowledge on timing, 

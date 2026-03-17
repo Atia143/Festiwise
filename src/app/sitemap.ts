@@ -342,7 +342,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'edm-festivals', 'rock-festivals', 'hip-hop-festivals', 'jazz-festivals',
     'world-music-festivals', 'summer-festivals', 'europe-festivals', 'usa-festivals',
     'budget-festivals', 'luxury-festivals', 'camping-festivals', 'family-festivals',
-    'small-festivals',
+    'small-festivals', 'australia-festivals', 'canada-festivals',
+    'latin-america-festivals', 'asia-pacific-festivals',
   ];
   const bestOfPages: MetadataRoute.Sitemap = [
     {

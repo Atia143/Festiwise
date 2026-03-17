@@ -2,13 +2,20 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Electronic Music Festivals USA 2025 - Complete EDM Festival Guide',
-  description: 'Discover the best electronic music festivals in USA 2025! EDC, Ultra, Electric Forest, and 20+ more epic EDM events with dates, tickets & lineups.',
-  keywords: 'electronic music festivals usa, edm festivals america, edc ultra electric forest, electronic dance music events 2025',
+  title: 'Electronic Music Festivals USA 2026 - Complete EDM Festival Guide',
+  description: 'Discover the best electronic music festivals in USA 2026! EDC, Ultra, Electric Forest, and 25+ more epic EDM events with dates, tickets & lineups.',
+  keywords: 'electronic music festivals usa 2026, edm festivals america 2026, edc ultra electric forest 2026, electronic dance music events 2026',
   openGraph: {
-    title: 'Electronic Music Festivals USA 2025 - Ultimate EDM Guide',
-    description: 'Complete guide to America\'s hottest electronic music festivals',
+    title: 'Electronic Music Festivals USA 2026 - Ultimate EDM Guide',
+    description: "Complete guide to America's hottest electronic music festivals in 2026",
     url: 'https://getfestiwise.com/electronic-music-festivals-usa-2025',
+    type: 'website',
+    images: [{ url: 'https://getfestiwise.com/api/og/best?slug=edm&label=EDM+USA&count=25', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Electronic Music Festivals USA 2026 - Ultimate EDM Guide',
+    description: "Complete guide to America's hottest electronic music festivals in 2026",
   },
   alternates: {
     canonical: 'https://getfestiwise.com/electronic-music-festivals-usa-2025',
@@ -19,7 +26,7 @@ const topEDMFestivals = [
   {
     name: 'EDC Las Vegas',
     location: 'Las Vegas, Nevada',
-    dates: 'May 16-18, 2025',
+    dates: 'May 2026',
     price: '$400-$800',
     rating: 4.9,
     capacity: '400,000+',
@@ -31,7 +38,7 @@ const topEDMFestivals = [
   {
     name: 'Ultra Music Festival',
     location: 'Miami, Florida',
-    dates: 'March 28-30, 2025',
+    dates: 'March 2026',
     price: '$350-$600',
     rating: 4.8,
     capacity: '165,000',
@@ -43,7 +50,7 @@ const topEDMFestivals = [
   {
     name: 'Electric Forest',
     location: 'Rothbury, Michigan',
-    dates: 'June 26-29, 2025',
+    dates: 'June 2026',
     price: '$300-$500',
     rating: 4.7,
     capacity: '45,000',
@@ -55,7 +62,7 @@ const topEDMFestivals = [
   {
     name: 'Electric Zoo',
     location: 'New York City',
-    dates: 'September 5-7, 2025',
+    dates: 'September 2026',
     price: '$250-$450',
     rating: 4.6,
     capacity: '100,000',
@@ -132,16 +139,42 @@ const edmGenres = [
   }
 ];
 
+const edmFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'What is the biggest electronic music festival in the USA?', acceptedAnswer: { '@type': 'Answer', text: 'EDC Las Vegas (Electric Daisy Carnival) is the largest electronic music festival in North America, drawing over 400,000 attendees across three nights in May. Ultra Music Festival in Miami (165,000 capacity) is the second largest. Both feature world-class production and headliners like Tiësto, Martin Garrix, and Armin van Buuren.' } },
+    { '@type': 'Question', name: 'How much do US electronic music festival tickets cost in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'US EDM festival ticket prices in 2026 range from $250 for Electric Zoo (New York) to $800+ for EDC Las Vegas VIP packages. Ultra Miami runs $350-600, Electric Forest $300-500, and Spring Awakening $150-300. Early bird tickets typically save 20-30%. Three-day GA passes are the best value.' } },
+    { '@type': 'Question', name: 'What is the difference between house, techno, and dubstep festivals?', acceptedAnswer: { '@type': 'Answer', text: 'House music festivals (Electric Zoo, Spring Awakening) feature four-on-the-floor beats and groovy, danceable energy. Techno events (Movement Detroit, Elements) are darker and more hypnotic with underground vibes. Dubstep and bass festivals (Lost Lands, Bass Canyon) focus on heavy drops and aggressive bass-heavy sounds. EDC and Ultra cover all electronic genres across multiple stages.' } },
+    { '@type': 'Question', name: 'What is the best EDM festival for first-timers in the USA?', acceptedAnswer: { '@type': 'Answer', text: 'Electric Forest in Michigan is ideal for first-timers — it combines electronic music with stunning forest art installations and a welcoming community (45,000 capacity). Spring Awakening in Chicago is another great entry point at a more affordable price. Avoid EDC Las Vegas for your first festival — 400,000 people across three stages can be overwhelming.' } },
+  ],
+};
+
+const edmArticleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Electronic Music Festivals USA 2026 — Complete EDM Festival Guide',
+  description: 'The best electronic music festivals in the USA for 2026. EDC, Ultra, Electric Forest, and 25+ more with dates, ticket prices, and insider tips.',
+  author: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  publisher: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  datePublished: '2025-09-01',
+  dateModified: '2026-03-17',
+  url: 'https://getfestiwise.com/electronic-music-festivals-usa-2025',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://getfestiwise.com/electronic-music-festivals-usa-2025' },
+};
+
 export default function ElectronicMusicFestivalsUSA() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-purple-50 to-pink-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(edmFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(edmArticleSchema) }} />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-cyan-600 via-purple-600 to-pink-600 py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative max-w-6xl mx-auto text-center text-white">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Electronic Music Festivals USA 2025
+            Electronic Music Festivals USA 2026
           </h1>
           <p className="text-xl md:text-2xl text-gray-100 mb-8 max-w-4xl mx-auto">
             From massive desert raves to intimate forest gatherings - discover America's most epic electronic music experiences!
@@ -167,7 +200,7 @@ export default function ElectronicMusicFestivalsUSA() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-4 text-gray-900">
-            🎛️ Top Electronic Music Festivals 2025
+            🎛️ Top Electronic Music Festivals 2026
           </h2>
           <p className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
             These legendary festivals define America's electronic music scene:
@@ -208,7 +241,7 @@ export default function ElectronicMusicFestivalsUSA() {
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <h4 className="font-bold text-gray-900 mb-2">🎵 Headliners 2025</h4>
+                          <h4 className="font-bold text-gray-900 mb-2">🎵 Headliners 2026</h4>
                           <div className="space-y-1">
                             {festival.headliners.map((artist, i) => (
                               <div key={i} className="flex items-center gap-2">

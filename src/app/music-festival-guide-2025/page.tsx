@@ -2,13 +2,23 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Ultimate Music Festival Guide 2025 - Expert Tips & Complete Planning Guide',
-  description: 'Complete music festival guide 2025! Expert tips on tickets, packing, safety, budgeting & more. Your ultimate resource for festival success.',
-  keywords: 'music festival guide 2025, festival planning guide, how to prepare for music festival, festival tips, music festival advice',
+  title: 'Ultimate Music Festival Guide 2026 - Expert Tips & Complete Planning Guide',
+  description: 'Complete music festival guide 2026! Expert tips on tickets, packing, safety, budgeting & more. Your ultimate resource for festival success.',
+  keywords: 'music festival guide 2026, festival planning guide, how to prepare for music festival, festival tips, music festival advice 2026',
+  alternates: {
+    canonical: 'https://getfestiwise.com/music-festival-guide-2025',
+  },
   openGraph: {
-    title: 'Ultimate Music Festival Guide 2025 - Expert Tips & Planning',
-    description: 'Everything you need to know for an epic festival experience',
+    title: 'Ultimate Music Festival Guide 2026 - Expert Tips & Planning',
+    description: 'Everything you need to know for an epic 2026 festival experience',
     url: 'https://getfestiwise.com/music-festival-guide-2025',
+    type: 'website',
+    images: [{ url: 'https://getfestiwise.com/api/og/best?slug=music&label=Festival+Guide&count=100', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ultimate Music Festival Guide 2026 - Expert Tips & Planning',
+    description: 'Everything you need to know for an epic 2026 festival experience',
   },
 };
 
@@ -106,14 +116,41 @@ const festivalTypes = [
   }
 ];
 
+const guideFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'How do I prepare for my first music festival?', acceptedAnswer: { '@type': 'Answer', text: 'Start by choosing a festival that matches your music taste and budget. Buy tickets early for the best prices. Research the venue layout, set times, and facilities. Build a packing list 2-3 weeks before. Arrange travel and accommodation early. For first-timers, single-day city festivals are a great entry point before committing to multi-day camping events.' } },
+    { '@type': 'Question', name: 'How much does a music festival cost in 2026?', acceptedAnswer: { '@type': 'Answer', text: 'Festival costs vary widely. Budget festivals in Europe start at €89-200 for a weekend ticket. Mid-range events like Lollapalooza or Bonnaroo cost $200-500. Premium events like Coachella or Tomorrowland run $400-1,200+. Add accommodation (free if camping, $50-300/night for hotels), food ($30-100/day), and travel for your total budget.' } },
+    { '@type': 'Question', name: 'When should I buy festival tickets?', acceptedAnswer: { '@type': 'Answer', text: 'The earlier the better. Presale tickets (6-12 months out) offer 30-50% savings and often sell out within hours for major events like Coachella, Glastonbury, and Tomorrowland. Join mailing lists and set calendar reminders for presale dates. Early bird tiers typically close by January-February for summer festivals.' } },
+    { '@type': 'Question', name: 'What type of music festival is right for me?', acceptedAnswer: { '@type': 'Answer', text: 'If you want full immersion, choose a multi-day camping festival like Glastonbury or Bonnaroo. For urban convenience, try city festivals like Lollapalooza or Primavera Sound. For dance music, EDM events like Tomorrowland or EDC are unmatched. For an intimate experience, look at boutique festivals under 10,000 people. Take the FestiWise quiz to get a personalised match in 2 minutes.' } },
+    { '@type': 'Question', name: 'How far in advance should I plan a festival trip?', acceptedAnswer: { '@type': 'Answer', text: 'Start planning 6 months ahead for major international festivals. At 6 months: research and join mailing lists. At 3 months: buy tickets, book accommodation, plan travel, request time off work. At 1 month: create your packing list, check weather patterns, download the festival app. At 1 week: pack everything, charge devices, print or save tickets.' } },
+  ],
+};
+
+const guideArticleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Ultimate Music Festival Guide 2026 — Expert Tips & Complete Planning Guide',
+  description: 'Complete music festival guide for 2026. Expert tips on tickets, packing, safety, budgeting and more. Your ultimate resource for festival success.',
+  author: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  publisher: { '@type': 'Organization', name: 'FestiWise', url: 'https://getfestiwise.com' },
+  datePublished: '2025-09-01',
+  dateModified: '2026-03-17',
+  url: 'https://getfestiwise.com/music-festival-guide-2025',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://getfestiwise.com/music-festival-guide-2025' },
+};
+
 export default function MusicFestivalGuide2025() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(guideFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(guideArticleSchema) }} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white overflow-hidden">
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center leading-tight">
-            Ultimate Music Festival Guide 2025
+            Ultimate Music Festival Guide 2026
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-4xl mx-auto text-center leading-relaxed">
             Everything you need to know for an epic festival experience! From first-timer tips to veteran secrets, 
