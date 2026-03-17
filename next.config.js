@@ -96,7 +96,24 @@ const nextConfig = {
         source: '/:path+/',
         destination: '/:path+',
         permanent: true,
-      }
+      },
+      // Redirect 2025 budget guide to 2026
+      {
+        source: '/cheap-music-festivals-europe-2025',
+        destination: '/cheap-music-festivals-europe-2026',
+        permanent: true,
+      },
+      // Redirect apostrophe drum'n'bass genre slug to clean hyphenated version
+      {
+        source: "/festivals/genre/drum'n'bass",
+        destination: '/festivals/genre/drum-n-bass',
+        permanent: true,
+      },
+      {
+        source: "/festivals/drum'n'bass/:region",
+        destination: '/festivals/drum-n-bass/:region',
+        permanent: true,
+      },
     ];
   },
 

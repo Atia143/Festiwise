@@ -157,8 +157,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const f = festivals.find(f => f.id === id);
   if (!f) return { title: 'Festival Not Found' };
 
-  const title = `${f.name} ${new Date().getFullYear()} — Complete Festival Guide`;
-  const description = `Everything you need to know about ${f.name} in ${f.city}, ${f.country}. Dates, tickets, budget, camping, and what to expect.`;
+  const year = new Date().getFullYear();
+  const title = `${f.name} ${year} — Dates, Lineup, Tickets & Guide | FestiWise`;
+  const description = `${f.name} ${year}: ${f.duration_days}-day ${f.genres[0]} festival in ${f.city}, ${f.country}. Tickets from $${f.estimated_cost_usd.min.toLocaleString()}. ${f.months[0]} ${year} dates, lineup & everything you need to know.`;
 
   const ogParams = new URLSearchParams({
     name:    f.name,

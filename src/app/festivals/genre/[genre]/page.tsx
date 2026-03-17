@@ -28,11 +28,16 @@ interface Festival {
 
 const festivals = rawFestivals as Festival[];
 
+// Slug helper — strips apostrophes/special chars so "drum'n'bass" → "drum-n-bass"
+function toSlug(s: string) {
+  return s.toLowerCase().replace(/'/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
+}
+
 // Generate static paths for genre pages
 export async function generateStaticParams() {
   const genres = [...new Set(festivals.flatMap(f => f.genres))];
   return genres.map(genre => ({
-    genre: genre.toLowerCase().replace(/\s+/g, '-')
+    genre: toSlug(genre)
   }));
 }
 
@@ -41,8 +46,8 @@ export async function generateMetadata({ params }: { params: Promise<{ genre: st
   const { genre } = await params;
   const genreName = genre.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   
-  const genreFestivals = festivals.filter(f => 
-    f.genres.some(g => g.toLowerCase().replace(/\s+/g, '-') === genre)
+  const genreFestivals = festivals.filter(f =>
+    f.genres.some(g => toSlug(g) === genre)
   );
 
   if (genreFestivals.length === 0) {
@@ -54,10 +59,11 @@ export async function generateMetadata({ params }: { params: Promise<{ genre: st
 
   const countries = [...new Set(genreFestivals.map(f => f.country))];
   const minPrice = Math.min(...genreFestivals.map(f => f.estimated_cost_usd.min));
+  const year = new Date().getFullYear();
 
   return {
-    title: `${genreFestivals.length} Best ${genreName} Music Festivals ${new Date().getFullYear()} | Complete Guide`,
-    description: `Discover ${genreFestivals.length} incredible ${genreName} music festivals worldwide. From ${countries.slice(0, 3).join(', ')} and more. Tickets from $${minPrice}. Dates, lineup & festival guide.`,
+    title: `${genreFestivals.length} Best ${genreName} Music Festivals ${year} | Complete Guide`,
+    description: `Discover ${genreFestivals.length} incredible ${genreName} music festivals across ${countries.length} countries. From $${minPrice}+ | Complete guide with dates, lineup & tickets.`,
     keywords: [
       `${genreName} festivals`,
       `${genreName} music festivals ${new Date().getFullYear()}`,
@@ -86,8 +92,8 @@ export default async function GenreFestivalsPage({ params }: { params: Promise<{
   const { genre } = await params;
   const genreName = genre.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   
-  const genreFestivals = festivals.filter(f => 
-    f.genres.some(g => g.toLowerCase().replace(/\s+/g, '-') === genre)
+  const genreFestivals = festivals.filter(f =>
+    f.genres.some(g => toSlug(g) === genre)
   );
 
   if (genreFestivals.length === 0) {

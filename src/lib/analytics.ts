@@ -90,7 +90,7 @@ class AnalyticsManager {
   }
 
   // Initialize GA4
-  initialize(gaId: string = 'G-BDQF8TX7MF'): void {
+  initialize(gaId: string = 'G-5Y1Z0CMJ44'): void {
     if (typeof window === 'undefined') return;
     
     // Initialize in all environments for testing

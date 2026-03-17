@@ -64,7 +64,7 @@ export default function ClientAnalytics() {
       if (hasAnalyticsConsent) {
         // Track in GA4 if available
         if (window.gtag) {
-          window.gtag('config', 'G-BDQF8TX7MF', {
+          window.gtag('config', 'G-5Y1Z0CMJ44', {
             page_path: pathname,
           });
         }

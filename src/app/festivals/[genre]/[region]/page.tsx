@@ -62,7 +62,7 @@ const GENRE_COLORS: Record<string, { bg: string; text: string; badge: string }> 
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 function toSlug(s: string) {
-  return s.toLowerCase().replace(/\s+/g, '-');
+  return s.toLowerCase().replace(/'/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
 function fromSlug(s: string) {
