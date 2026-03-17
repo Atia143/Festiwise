@@ -48,7 +48,7 @@ export default function RootLayout({
         <PerformanceOptimizer />
         <ConnectionAwareComponent />
         
-        <GoogleTagManager gtmId="GTM-N9Z2SZGP" />
+        <GoogleTagManager gtmId="G-5Y1Z0CMJ44" />
         <GTMDebugWrapper />
         <ClientStructuredData />
         <ServiceWorkerRegistration />

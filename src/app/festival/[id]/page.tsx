@@ -174,20 +174,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
   const ogImageUrl = `https://getfestiwise.com/api/og/festival?${ogParams.toString()}`;
 
+  const ogTitle = `${f.name} ${year} — Dates, Lineup & Tickets`;
+
   return {
-    title,
+    // Use absolute to bypass the root template and avoid "FestiWise | FestiWise - Music Festival Finder"
+    title: { absolute: title },
     description,
     keywords: [f.name, 'music festival', ...f.genres, f.country, f.city, 'festival guide', 'festival tickets'],
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url: `https://getfestiwise.com/festival/${f.id}`,
-      type: 'article',
+      type: 'website',
       images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `${f.name} festival guide` }],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: ogTitle,
       description,
       images: [ogImageUrl],
     },
@@ -264,7 +267,7 @@ export default async function FestivalPage({ params }: Props) {
             {citySlug ? (
               <>
                 <Link href={`/music-festivals-in/${citySlug}`} className="hover:text-white transition-colors">
-                  {festival.city}
+                  Festivals in {festival.city}
                 </Link>
                 <ChevronRight className="w-3.5 h-3.5" />
               </>
@@ -540,7 +543,7 @@ export default async function FestivalPage({ params }: Props) {
 
                     <Link href={`/festival/${f.id}`} className="block">
                       <h3 className="font-bold text-gray-900 group-hover:text-purple-700 transition-colors mb-1 text-lg">
-                        {f.name}
+                        {f.name} — {f.genres[0] ? f.genres[0].charAt(0).toUpperCase() + f.genres[0].slice(1) : 'Music'} Festival in {f.country}
                       </h3>
                       <p className="text-sm text-gray-500 flex items-center gap-1 mb-2">
                         <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
@@ -571,7 +574,7 @@ export default async function FestivalPage({ params }: Props) {
                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
-                          Compare with {festival.name}
+                          Compare {festival.name} vs {f.name}
                         </Link>
                       );
                     })()}

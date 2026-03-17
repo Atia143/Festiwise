@@ -34,7 +34,7 @@ export default function GTMDebugHelper() {
         <h3 className="text-lg font-bold mb-2">GTM Debug Tool</h3>
         
         <div className="mb-4 text-sm">
-          <p className="mb-2">Container: <span className="font-mono font-bold">GTM-N9Z2SZGP</span></p>
+          <p className="mb-2">Container: <span className="font-mono font-bold">G-5Y1Z0CMJ44</span></p>
           <p>
             Debug Mode: 
             <span className={isDebugMode ? "ml-1 text-green-600 font-bold" : "ml-1 text-red-600"}>

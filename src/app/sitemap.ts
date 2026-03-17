@@ -239,28 +239,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Festival pages
+  // Festival pages — highest priority content
   const festivalPages = festivalsData.map(festival => ({
     url: `${baseUrl}/festival/${festival.id}`,
     lastModified: currentDate,
     changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    priority: 0.9,
   }));
 
   // Country index pages
   const countryIndexes = seoIndexGenerator.generateCountryIndexes().map(country => ({
     url: `${baseUrl}${country.canonical}`,
     lastModified: currentDate,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
   }));
 
-  // Genre index pages
+  // Genre index pages (/festivals/genre/[genre])
   const genreIndexes = seoIndexGenerator.generateGenreIndexes().map(genre => ({
     url: `${baseUrl}${genre.canonical}`,
     lastModified: currentDate,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
   }));
 
   // Month index pages
@@ -285,7 +285,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const genreRegionPages: MetadataRoute.Sitemap = [];
   for (const genre of allGenres) {
     for (const region of allRegions) {
-      const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
+      const slug = (s: string) => s.toLowerCase().replace(/'/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
       const hasFestivals = (festivalsData as { genres: string[]; region?: string; status: string }[]).some(
         f => f.genres.some(g => slug(g) === slug(genre)) && f.region && slug(f.region) === slug(region) && f.status === 'active',
       );
@@ -294,7 +294,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           url: `${baseUrl}/festivals/${slug(genre)}/${slug(region)}`,
           lastModified: currentDate,
           changeFrequency: 'weekly' as const,
-          priority: 0.75,
+          priority: 0.8,
         });
       }
     }
@@ -334,7 +334,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}/compare/${a.replace(/_/g, '-')}-vs-${b.replace(/_/g, '-')}`,
     lastModified: currentDate,
     changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    priority: 0.6,
   }));
 
   // Best-of landing pages
@@ -368,7 +368,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}/music-festivals-in/${cityToSlug(city)}`,
     lastModified: currentDate,
     changeFrequency: 'weekly' as const,
-    priority: 0.75,
+    priority: 0.8,
   }));
 
   return [

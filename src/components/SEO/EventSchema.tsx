@@ -53,23 +53,16 @@ export default function EventSchema({ festival }: EventSchemaProps) {
   const isoStartDate = startDate.toISOString();
   const isoEndDate = endDate.toISOString();
 
-  // Build performers array from vibe or genres if available
-  const performers = festival.vibe || festival.genres || [];
-  
   // Construct schema data object with all required fields for Google Search Console
-  const schemaData = {
+  const schemaData: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'MusicEvent',
     name: festival.name,
-    // Required: description (previously non-critical issue)
     description: `${festival.name} is a ${festival.genres?.join(', ') || 'music'} festival in ${festival.city}, ${festival.country}. Experience ${festival.vibe?.join(', ') || 'amazing'} vibes over ${festival.duration_days} days with ${festival.audience_size} crowds.`,
-    // Required: startDate (was critical issue)
     startDate: isoStartDate,
-    // Required: endDate (previously non-critical issue)
     endDate: isoEndDate,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    // Required: location (was critical issue)
     location: {
       '@type': 'Place',
       name: festival.city,
@@ -79,16 +72,10 @@ export default function EventSchema({ festival }: EventSchemaProps) {
         addressCountry: festival.country
       }
     },
-    // Required: image (previously non-critical issue)
     image: [
       `https://getfestiwise.com/api/og/festival?id=${festival.id}`,
     ],
-    // Required: performer (previously non-critical issue)
-    performer: performers.map(performer => ({
-      '@type': 'MusicGroup',
-      name: performer
-    })),
-    // Required: offers (previously non-critical issue)
+    // performer is omitted — no real lineup data available; wrong values harm rankings
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'USD',
