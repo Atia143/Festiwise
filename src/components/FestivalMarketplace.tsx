@@ -7,12 +7,9 @@ import {
   ChevronUp,
   Grid3x3,
   List,
-  Map,
-  Clock,
   Heart,
   Filter,
   X,
-  Check,
   DollarSign,
   MapPin,
   Calendar,
@@ -21,8 +18,11 @@ import {
   Zap,
   Award,
   AlertCircle,
+  ExternalLink,
+  BarChart3,
 } from 'lucide-react';
 import FestivalListingSchema from '@/components/SEO/FestivalListingSchema';
+import { useCompare } from '@/contexts/CompareContext';
 import festivalsData from '@/data/festivals.json';
 
 type Festival = {
@@ -60,44 +60,60 @@ type Filters = {
   audience: string[];
 };
 
-type ViewMode = 'grid' | 'list' | 'map' | 'timeline';
+type ViewMode = 'grid' | 'list';
 type SortOption = 'trending' | 'price-low' | 'price-high' | 'name' | 'duration' | 'audience';
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
+  exit: { opacity: 0, y: -12 },
 };
 
 const getUnique = (arr: string[][] | string[]) =>
   Array.from(new Set(Array.isArray(arr[0]) ? (arr as string[][]).flat() : (arr as string[]))).filter(Boolean);
 
-// Top 10 festivals manually reviewed and verified by FestiWise editors
 const VERIFIED_FESTIVALS = new Set([
   'tomorrowland', 'coachella', 'glastonbury', 'burning_man', 'ultra_miami',
   'rock_in_rio', 'fuji_rock', 'sziget', 'roskilde', 'primavera',
 ]);
 
-const VerifiedBadge = () => (
-  <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100 select-none">
-    <svg viewBox="0 0 20 20" className="w-3 h-3 fill-current flex-shrink-0" aria-hidden="true">
-      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-    </svg>
-    Verified
-  </div>
-);
+// Genre → gradient for card headers
+const GENRE_GRADIENTS: Record<string, string> = {
+  electronic:  'from-violet-700 via-purple-600 to-blue-700',
+  edm:         'from-violet-700 via-purple-600 to-blue-700',
+  techno:      'from-slate-700 via-violet-700 to-indigo-700',
+  house:       'from-indigo-700 via-violet-600 to-purple-600',
+  rock:        'from-red-700 via-rose-600 to-orange-600',
+  metal:       'from-gray-800 via-zinc-700 to-slate-700',
+  indie:       'from-teal-700 via-emerald-600 to-cyan-600',
+  alternative: 'from-teal-700 via-cyan-600 to-sky-600',
+  pop:         'from-pink-600 via-rose-500 to-fuchsia-600',
+  'hip-hop':   'from-amber-600 via-orange-500 to-yellow-500',
+  jazz:        'from-blue-700 via-indigo-600 to-violet-600',
+  blues:       'from-blue-800 via-blue-700 to-indigo-700',
+  folk:        'from-amber-700 via-yellow-600 to-lime-600',
+  country:     'from-amber-600 via-orange-500 to-yellow-400',
+  world:       'from-green-700 via-emerald-600 to-teal-600',
+  reggae:      'from-green-600 via-yellow-500 to-red-500',
+  classical:   'from-slate-600 via-gray-500 to-zinc-600',
+  soul:        'from-orange-600 via-amber-500 to-yellow-500',
+};
 
+function getGenreGradient(genres: string[]): string {
+  const key = genres[0]?.toLowerCase() ?? '';
+  return GENRE_GRADIENTS[key] ?? 'from-purple-700 via-pink-600 to-blue-700';
+}
 
 const PRO_TIPS: Record<string, string[]> = {
   'tomorrowland': [
     'Book DreamVille camping in January - it sells out in under 30 minutes.',
     'Weekend 2 resale tickets are typically 15-20% cheaper than Weekend 1.',
-    'The Mainstage is spectacular but Atmosphere & Freedom stage have the best acts.',
+    'The Mainstage is spectacular but Atmosphere & Freedom stages have the best acts.',
   ],
   'coachella': [
     'Weekend 2 resale tickets average 20-40% cheaper than Weekend 1.',
@@ -154,13 +170,13 @@ const PRO_TIPS: Record<string, string[]> = {
     'Arrive by Wednesday for the best campsite spots before the main crowds arrive.',
   ],
   'electric-daisy-carnival': [
-    'The festival runs overnight (9pm–7am) - bring layers for the desert cold before sunrise.',
+    'The festival runs overnight (9pm-7am) - bring layers for the desert cold before sunrise.',
     'Shuttle passes from Las Vegas Strip hotels are worth every dollar - avoid the traffic.',
     'The art installations around the venue are best explored just before dawn.',
   ],
   'lollapalooza': [
     'The festival is split between two distinct weekend lineups - check which artists play your weekend.',
-    'Grant Park\'s shade is rare: bring sunscreen and a portable fan.',
+    "Grant Park's shade is rare: bring sunscreen and a portable fan.",
     'VIP Platinum experience includes dedicated entrances and lounge areas.',
   ],
   'melt': [
@@ -170,7 +186,6 @@ const PRO_TIPS: Record<string, string[]> = {
   ],
 };
 
-// Collapsible Pro Tips widget used inside cards
 function ProTips({ festivalId }: { festivalId: string }) {
   const tips = PRO_TIPS[festivalId];
   const [open, setOpen] = useState(false);
@@ -179,7 +194,7 @@ function ProTips({ festivalId }: { festivalId: string }) {
     <div className="mb-3">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1 hover:bg-amber-100 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-full px-3 py-1 hover:bg-amber-400/20 transition-colors"
       >
         <span>PRO TIPS</span>
         {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -187,8 +202,8 @@ function ProTips({ festivalId }: { festivalId: string }) {
       {open && (
         <ul className="mt-2 space-y-1.5">
           {tips.map((tip, i) => (
-            <li key={i} className="flex gap-2 text-xs text-gray-700 bg-amber-50 rounded-lg px-3 py-2">
-              <span className="text-amber-500 font-bold shrink-0">★</span>
+            <li key={i} className="flex gap-2 text-xs text-gray-300 bg-amber-400/8 rounded-lg px-3 py-2 border border-amber-400/10">
+              <span className="text-amber-400 font-bold shrink-0">★</span>
               {tip}
             </li>
           ))}
@@ -198,44 +213,49 @@ function ProTips({ festivalId }: { festivalId: string }) {
   );
 }
 
-
-const PriceBadge = ({ min: _min, max }: { min: number; max: number }) => {
-  const level = max <= 300 ? 'budget' : max <= 700 ? 'mid' : 'premium';
-  const colors = {
-    budget: 'bg-green-50 text-green-700 border-green-200',
-    mid: 'bg-blue-50 text-blue-700 border-blue-200',
-    premium: 'bg-purple-50 text-purple-700 border-purple-200',
-  };
-  const labels = {
-    budget: '💰 Budget Friendly',
-    mid: '💎 Mid-Range',
-    premium: '👑 Premium',
-  };
+function VerifiedBadge() {
   return (
-    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${colors[level]}`}>
-      {labels[level]}
+    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-400/30 select-none">
+      <svg viewBox="0 0 20 20" className="w-3 h-3 fill-current flex-shrink-0">
+        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+      </svg>
+      Verified
+    </div>
+  );
+}
+
+function PriceBadge({ max }: { max: number }) {
+  const level = max <= 300 ? 'budget' : max <= 700 ? 'mid' : 'premium';
+  const config = {
+    budget:  { cls: 'bg-green-500/20 text-green-300 border-green-500/30', label: 'Budget' },
+    mid:     { cls: 'bg-blue-500/20 text-blue-300 border-blue-500/30',   label: 'Mid-Range' },
+    premium: { cls: 'bg-purple-500/20 text-purple-300 border-purple-500/30', label: 'Premium' },
+  };
+  const { cls, label } = config[level];
+  return (
+    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold border ${cls}`}>
+      {label}
     </span>
   );
-};
+}
 
 export default function FestivalMarketplace() {
-  const [festivals, setFestivals] = useState<Festival[]>(() => {
-    // Initialize festivals immediately on client
+  const [festivals] = useState<Festival[]>(() => {
     try {
-      return festivalsData && Array.isArray(festivalsData) ? (festivalsData as Festival[]) : [];
+      return Array.isArray(festivalsData) ? (festivalsData as Festival[]) : [];
     } catch {
       return [];
     }
   });
-  
+
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [sortBy, setSortBy] = useState<SortOption>('trending');
   const [showFilters, setShowFilters] = useState(false);
   const [expandedFilters, setExpandedFilters] = useState<Set<string>>(new Set(['genres']));
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [compare, setCompare] = useState<string[]>([]);
-  const [hoveredFestival, setHoveredFestival] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const { selected: comparing, toggle: toggleCompare } = useCompare();
 
   const [filters, setFilters] = useState<Filters>({
     search: '',
@@ -250,41 +270,27 @@ export default function FestivalMarketplace() {
     audience: [],
   });
 
-  // Load data and favorites on client-side only
   useEffect(() => {
-    try {
-      const data = festivalsData as Festival[];
-      if (data && Array.isArray(data) && data.length > 0) {
-        setFestivals(data);
-      } else {
-        console.warn('No festivals data found:', { data, isArray: Array.isArray(data), length: data?.length });
-      }
-      
-      if (typeof window !== 'undefined') {
-        const fav = JSON.parse(window.localStorage?.getItem('festi_favs') || '[]');
+    if (typeof window !== 'undefined') {
+      try {
+        const fav = JSON.parse(window.localStorage.getItem('festiwise_favorites') || '[]');
         setFavorites(Array.isArray(fav) ? fav : []);
-      }
-    } catch (error) {
-      console.error('Error loading festivals:', error);
-      setFestivals([]);
+      } catch { /* empty */ }
     }
     setIsLoaded(true);
   }, []);
 
-  // Save favorites to localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.localStorage?.setItem('festi_favs', JSON.stringify(favorites));
+    if (typeof window !== 'undefined' && isLoaded) {
+      window.localStorage.setItem('festiwise_favorites', JSON.stringify(favorites));
     }
-  }, [favorites]);
+  }, [favorites, isLoaded]);
 
-  // Get unique values for filter dropdowns
-  const allGenres = useMemo(() => getUnique(festivals.map(f => f.genres)), [festivals]);
-  const allMonths = useMemo(() => getUnique(festivals.map(f => f.months)), [festivals]);
+  const allGenres  = useMemo(() => getUnique(festivals.map(f => f.genres)), [festivals]);
+  const allMonths  = useMemo(() => getUnique(festivals.map(f => f.months)), [festivals]);
   const allRegions = useMemo(() => getUnique(festivals.map(f => f.region)), [festivals]);
-  const allVibes = useMemo(() => getUnique(festivals.map(f => f.vibe)), [festivals]);
+  const allVibes   = useMemo(() => getUnique(festivals.map(f => f.vibe)), [festivals]);
 
-  // Memoized filtering
   const filtered = useMemo(() => {
     return festivals.filter(fest => {
       if (filters.search && !fest.name.toLowerCase().includes(filters.search.toLowerCase())) return false;
@@ -295,202 +301,152 @@ export default function FestivalMarketplace() {
       if (filters.camping !== null && fest.camping !== filters.camping) return false;
       if (filters.vibes.length && !filters.vibes.some(v => fest.vibe.includes(v))) return false;
       if (filters.audience.length && !filters.audience.includes(fest.audience_size)) return false;
-      const min = fest.estimated_cost_usd.min;
-      const max = fest.estimated_cost_usd.max;
+      const { min, max } = fest.estimated_cost_usd;
       if (max < filters.priceMin || min > filters.priceMax) return false;
       return true;
     });
   }, [festivals, filters]);
 
-  // Memoized sorting
   const sorted = useMemo(() => {
     const arr = [...filtered];
+    const sizeOrder = { massive: 4, large: 3, medium: 2, small: 1 };
     switch (sortBy) {
-      case 'price-low':
-        arr.sort((a, b) => a.estimated_cost_usd.min - b.estimated_cost_usd.min);
-        break;
-      case 'price-high':
-        arr.sort((a, b) => b.estimated_cost_usd.max - a.estimated_cost_usd.max);
-        break;
-      case 'duration':
-        arr.sort((a, b) => b.duration_days - a.duration_days);
-        break;
-      case 'name':
-        arr.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'audience': {
-        const order = { 'massive': 4, 'large': 3, 'medium': 2, 'small': 1 };
-        arr.sort(
-          (a, b) =>
-            (order[b.audience_size as keyof typeof order] || 0) -
-            (order[a.audience_size as keyof typeof order] || 0)
+      case 'price-low':  arr.sort((a, b) => a.estimated_cost_usd.min - b.estimated_cost_usd.min); break;
+      case 'price-high': arr.sort((a, b) => b.estimated_cost_usd.max - a.estimated_cost_usd.max); break;
+      case 'duration':   arr.sort((a, b) => b.duration_days - a.duration_days); break;
+      case 'name':       arr.sort((a, b) => a.name.localeCompare(b.name)); break;
+      case 'audience':
+        arr.sort((a, b) =>
+          (sizeOrder[b.audience_size as keyof typeof sizeOrder] || 0) -
+          (sizeOrder[a.audience_size as keyof typeof sizeOrder] || 0)
         );
         break;
-      }
-      case 'trending':
-      default: {
-        const sizeOrder = { 'massive': 4, 'large': 3, 'medium': 2, 'small': 1 };
+      default:
         arr.sort((a, b) => {
-          const sizeDiff =
+          const diff =
             (sizeOrder[b.audience_size as keyof typeof sizeOrder] || 0) -
             (sizeOrder[a.audience_size as keyof typeof sizeOrder] || 0);
-          // Within the same size tier, sort alphabetically so countries are mixed
-          return sizeDiff !== 0 ? sizeDiff : a.name.localeCompare(b.name);
+          return diff !== 0 ? diff : a.name.localeCompare(b.name);
         });
-        break;
-      }
     }
     return arr;
   }, [filtered, sortBy]);
 
   const toggleFavorite = useCallback((id: string) => {
-    setFavorites(prev =>
-      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
-    );
-  }, []);
-
-  const toggleCompare = useCallback((id: string) => {
-    setCompare(prev =>
-      prev.includes(id) ? prev.filter(f => f !== id) : prev.length < 3 ? [...prev, id] : prev
-    );
+    setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
   }, []);
 
   const toggleFilterExpanded = (name: string) => {
     setExpandedFilters(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(name)) newSet.delete(name);
-      else newSet.add(name);
-      return newSet;
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name); else next.add(name);
+      return next;
     });
   };
 
   const resetFilters = () => {
     setFilters({
-      search: '',
-      genres: [],
-      months: [],
-      regions: [],
-      priceMin: 0,
-      priceMax: 5000,
-      family: null,
-      camping: null,
-      vibes: [],
-      audience: [],
+      search: '', genres: [], months: [], regions: [],
+      priceMin: 0, priceMax: 5000,
+      family: null, camping: null, vibes: [], audience: [],
     });
   };
 
-  const activeFilterCount = useMemo(() => {
-    return (
-      (filters.search ? 1 : 0) +
-      filters.genres.length +
-      filters.months.length +
-      filters.regions.length +
-      filters.vibes.length +
-      filters.audience.length +
-      (filters.family !== null ? 1 : 0) +
-      (filters.camping !== null ? 1 : 0)
-    );
-  }, [filters]);
+  const activeFilterCount = useMemo(() =>
+    (filters.search ? 1 : 0) +
+    filters.genres.length + filters.months.length + filters.regions.length +
+    filters.vibes.length + filters.audience.length +
+    (filters.family !== null ? 1 : 0) + (filters.camping !== null ? 1 : 0),
+  [filters]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gray-950">
       <FestivalListingSchema
         festivals={sorted}
         pageTitle="Festival Marketplace | FestiWise"
-        pageDescription="Discover, explore, and compare the world's best music festivals with advanced filtering, comparisons, and personalized recommendations."
+        pageDescription="Discover, explore, and compare the world's best music festivals with advanced filtering and personalized recommendations."
         pageUrl="https://getfestiwise.com/festivals"
       />
 
-      {/* Header */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-50 bg-gray-950/95 backdrop-blur-xl border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
               Festival Marketplace
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
-              {sorted.length} festivals • {activeFilterCount > 0 && `${activeFilterCount} active filters`}
+            <p className="text-xs text-gray-500 mt-0.5">
+              {sorted.length} festivals
+              {activeFilterCount > 0 && ` · ${activeFilterCount} filter${activeFilterCount > 1 ? 's' : ''} active`}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
-            {/* View Mode Toggle */}
-            <div className="inline-flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-              {(['grid', 'list', 'map', 'timeline'] as ViewMode[]).map(mode => (
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* View Mode */}
+            <div className="inline-flex items-center bg-gray-900 border border-white/10 rounded-lg p-1 gap-1">
+              {(['grid', 'list'] as ViewMode[]).map(mode => (
                 <button
                   key={mode}
                   onClick={() => setViewMode(mode)}
                   className={`p-2 rounded transition-all ${
                     viewMode === mode
-                      ? 'bg-white text-purple-600 shadow-md'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-white/10 text-white shadow'
+                      : 'text-gray-500 hover:text-gray-300'
                   }`}
                   title={mode}
                 >
-                  {mode === 'grid' && <Grid3x3 className="w-5 h-5" />}
-                  {mode === 'list' && <List className="w-5 h-5" />}
-                  {mode === 'map' && <Map className="w-5 h-5" />}
-                  {mode === 'timeline' && <Clock className="w-5 h-5" />}
+                  {mode === 'grid' ? <Grid3x3 className="w-4 h-4" /> : <List className="w-4 h-4" />}
                 </button>
               ))}
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Sort */}
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value as SortOption)}
-              className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 text-sm hover:border-gray-400 transition-colors"
+              className="px-3 py-2 rounded-lg border border-white/10 bg-gray-900 text-gray-300 text-sm hover:border-white/20 transition-colors focus:outline-none focus:ring-1 focus:ring-purple-500"
             >
               <option value="trending">Trending</option>
-              <option value="price-low">Price (Low to High)</option>
-              <option value="price-high">Price (High to Low)</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
               <option value="duration">Duration</option>
-              <option value="name">Name (A-Z)</option>
+              <option value="name">A – Z</option>
               <option value="audience">Audience Size</option>
             </select>
 
             {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-all ${
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-all text-sm font-medium ${
                 showFilters
                   ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  : 'bg-gray-900 border border-white/10 text-gray-300 hover:border-white/20'
               }`}
             >
               <Filter className="w-4 h-4" />
-              <span className="text-sm font-medium">Filters</span>
+              Filters
               {activeFilterCount > 0 && (
-                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 bg-red-500 text-white rounded-full text-xs font-bold">
+                <span className="ml-0.5 inline-flex items-center justify-center w-4 h-4 bg-pink-500 text-white rounded-full text-[10px] font-bold">
                   {activeFilterCount}
                 </span>
               )}
             </button>
-
-            {/* Comparison Badge */}
-            {compare.length > 0 && (
-              <button
-                className="px-4 py-2 rounded-lg bg-amber-100 text-amber-900 font-medium text-sm hover:bg-amber-200 transition-colors"
-              >
-                Compare ({compare.length}/3)
-              </button>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Quick-filter tabs: Genre + Month */}
-      <div className="sticky top-[65px] z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      {/* Quick-filter chips: Genre + Month */}
+      <div className="sticky top-[65px] z-40 bg-gray-950/95 backdrop-blur-md border-b border-white/8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Genre row */}
           <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
-            <span className="flex-shrink-0 text-xs font-bold text-gray-400 uppercase tracking-widest pr-1">Genre</span>
+            <span className="flex-shrink-0 text-[10px] font-bold text-gray-600 uppercase tracking-widest pr-1 min-w-[42px]">Genre</span>
             <button
               onClick={() => setFilters(f => ({ ...f, genres: [] }))}
               className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
                 filters.genres.length === 0
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-purple-700'
+                  : 'bg-white/5 text-gray-400 border-white/10 hover:border-white/25 hover:text-white'
               }`}
             >
               All
@@ -509,7 +465,7 @@ export default function FestivalMarketplace() {
                 className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border capitalize ${
                   filters.genres.includes(genre)
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-purple-700'
+                    : 'bg-white/5 text-gray-400 border-white/10 hover:border-white/25 hover:text-white'
                 }`}
               >
                 {genre}
@@ -518,13 +474,13 @@ export default function FestivalMarketplace() {
           </div>
           {/* Month row */}
           <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
-            <span className="flex-shrink-0 text-xs font-bold text-gray-400 uppercase tracking-widest pr-1">Month</span>
+            <span className="flex-shrink-0 text-[10px] font-bold text-gray-600 uppercase tracking-widest pr-1 min-w-[42px]">Month</span>
             <button
               onClick={() => setFilters(f => ({ ...f, months: [] }))}
               className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
                 filters.months.length === 0
                   ? 'bg-gradient-to-r from-violet-600 to-blue-600 text-white border-transparent shadow'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-violet-300 hover:text-violet-700'
+                  : 'bg-white/5 text-gray-400 border-white/10 hover:border-white/25 hover:text-white'
               }`}
             >
               All
@@ -543,7 +499,7 @@ export default function FestivalMarketplace() {
                 className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
                   filters.months.includes(month)
                     ? 'bg-gradient-to-r from-violet-600 to-blue-600 text-white border-transparent shadow'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-violet-300 hover:text-violet-700'
+                    : 'bg-white/5 text-gray-400 border-white/10 hover:border-white/25 hover:text-white'
                 }`}
               >
                 {month.slice(0, 3)}
@@ -555,194 +511,110 @@ export default function FestivalMarketplace() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className={`grid gap-8 ${showFilters ? 'grid-cols-1 lg:grid-cols-4' : 'grid-cols-1'}`}>
+
           {/* Filters Sidebar */}
           <AnimatePresence>
             {showFilters && (
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
+                exit={{ opacity: 0, x: -16 }}
                 className="lg:col-span-1 hidden lg:block"
               >
-                <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24 space-y-6">
+                <div className="bg-gray-900 border border-white/10 rounded-2xl p-6 sticky top-36 space-y-5">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-gray-900">Filters</h2>
+                    <h2 className="text-sm font-bold text-white">Filters</h2>
                     {activeFilterCount > 0 && (
                       <button
                         onClick={resetFilters}
-                        className="text-xs text-purple-600 hover:text-purple-700 font-medium"
+                        className="text-xs text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1"
                       >
-                        Reset
+                        <X className="w-3 h-3" /> Reset
                       </button>
                     )}
                   </div>
 
                   {/* Search */}
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input
                       type="text"
                       placeholder="Search festivals..."
                       value={filters.search}
                       onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
-                      className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/10 bg-gray-800 text-gray-200 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-purple-500"
                     />
                   </div>
 
                   {/* Price Range */}
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <button
                       onClick={() => toggleFilterExpanded('price')}
-                      className="flex items-center justify-between w-full text-sm font-semibold text-gray-900"
+                      className="flex items-center justify-between w-full text-xs font-semibold text-gray-400 hover:text-white transition-colors"
                     >
-                      <span className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4" />
-                        Price Range
-                      </span>
-                      {expandedFilters.has('price') ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      <span className="flex items-center gap-2"><DollarSign className="w-3.5 h-3.5" /> Price Range</span>
+                      {expandedFilters.has('price') ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                     </button>
                     {expandedFilters.has('price') && (
-                      <div className="space-y-3 pl-6">
+                      <div className="space-y-3 pl-4">
                         <div>
-                          <label className="text-xs text-gray-600">Min: ${filters.priceMin}</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="5000"
-                            step="100"
-                            value={filters.priceMin}
+                          <label className="text-xs text-gray-500">Min: ${filters.priceMin}</label>
+                          <input type="range" min="0" max="5000" step="100" value={filters.priceMin}
                             onChange={e => setFilters(f => ({ ...f, priceMin: parseInt(e.target.value) }))}
-                            className="w-full"
-                          />
+                            className="w-full accent-purple-500" />
                         </div>
                         <div>
-                          <label className="text-xs text-gray-600">Max: ${filters.priceMax}</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="5000"
-                            step="100"
-                            value={filters.priceMax}
+                          <label className="text-xs text-gray-500">Max: ${filters.priceMax}</label>
+                          <input type="range" min="0" max="5000" step="100" value={filters.priceMax}
                             onChange={e => setFilters(f => ({ ...f, priceMax: parseInt(e.target.value) }))}
-                            className="w-full"
-                          />
+                            className="w-full accent-purple-500" />
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {/* Genres */}
-                  <FilterSection
-                    title="Genres"
-                    icon={Music}
-                    section="genres"
-                    expanded={expandedFilters.has('genres')}
-                    onToggle={() => toggleFilterExpanded('genres')}
-                    options={allGenres}
-                    selected={filters.genres}
-                    onChange={(genre, checked) =>
-                      setFilters(f => ({
-                        ...f,
-                        genres: checked
-                          ? [...f.genres, genre]
-                          : f.genres.filter(g => g !== genre),
-                      }))
-                    }
+                  <SidebarFilterSection title="Genres" icon={Music} section="genres"
+                    expanded={expandedFilters.has('genres')} onToggle={() => toggleFilterExpanded('genres')}
+                    options={allGenres} selected={filters.genres}
+                    onChange={(g, on) => setFilters(f => ({ ...f, genres: on ? [...f.genres, g] : f.genres.filter(x => x !== g) }))}
                   />
-
-                  {/* Months */}
-                  <FilterSection
-                    title="Months"
-                    icon={Calendar}
-                    section="months"
-                    expanded={expandedFilters.has('months')}
-                    onToggle={() => toggleFilterExpanded('months')}
-                    options={allMonths}
-                    selected={filters.months}
-                    onChange={(month, checked) =>
-                      setFilters(f => ({
-                        ...f,
-                        months: checked
-                          ? [...f.months, month]
-                          : f.months.filter(m => m !== month),
-                      }))
-                    }
+                  <SidebarFilterSection title="Months" icon={Calendar} section="months"
+                    expanded={expandedFilters.has('months')} onToggle={() => toggleFilterExpanded('months')}
+                    options={allMonths} selected={filters.months}
+                    onChange={(m, on) => setFilters(f => ({ ...f, months: on ? [...f.months, m] : f.months.filter(x => x !== m) }))}
                   />
-
-                  {/* Regions */}
-                  <FilterSection
-                    title="Regions"
-                    icon={MapPin}
-                    section="regions"
-                    expanded={expandedFilters.has('regions')}
-                    onToggle={() => toggleFilterExpanded('regions')}
-                    options={allRegions}
-                    selected={filters.regions}
-                    onChange={(region, checked) =>
-                      setFilters(f => ({
-                        ...f,
-                        regions: checked
-                          ? [...f.regions, region]
-                          : f.regions.filter(r => r !== region),
-                      }))
-                    }
+                  <SidebarFilterSection title="Regions" icon={MapPin} section="regions"
+                    expanded={expandedFilters.has('regions')} onToggle={() => toggleFilterExpanded('regions')}
+                    options={allRegions} selected={filters.regions}
+                    onChange={(r, on) => setFilters(f => ({ ...f, regions: on ? [...f.regions, r] : f.regions.filter(x => x !== r) }))}
                   />
-
-                  {/* Vibes */}
-                  <FilterSection
-                    title="Vibes"
-                    icon={Zap}
-                    section="vibes"
-                    expanded={expandedFilters.has('vibes')}
-                    onToggle={() => toggleFilterExpanded('vibes')}
-                    options={allVibes}
-                    selected={filters.vibes}
-                    onChange={(vibe, checked) =>
-                      setFilters(f => ({
-                        ...f,
-                        vibes: checked
-                          ? [...f.vibes, vibe]
-                          : f.vibes.filter(v => v !== vibe),
-                      }))
-                    }
+                  <SidebarFilterSection title="Vibes" icon={Zap} section="vibes"
+                    expanded={expandedFilters.has('vibes')} onToggle={() => toggleFilterExpanded('vibes')}
+                    options={allVibes} selected={filters.vibes}
+                    onChange={(v, on) => setFilters(f => ({ ...f, vibes: on ? [...f.vibes, v] : f.vibes.filter(x => x !== v) }))}
                   />
 
                   {/* Amenities */}
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                      <Award className="w-4 h-4" />
-                      Amenities
+                  <div className="space-y-2">
+                    <h3 className="text-xs font-semibold text-gray-400 flex items-center gap-2">
+                      <Award className="w-3.5 h-3.5" /> Amenities
                     </h3>
-                    <div className="space-y-2 pl-6">
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.family === true}
-                          onChange={e =>
-                            setFilters(f => ({
-                              ...f,
-                              family: e.target.checked ? true : null,
-                            }))
-                          }
-                          className="w-4 h-4 rounded text-purple-600"
-                        />
-                        <span className="text-sm text-gray-700">Family Friendly</span>
-                      </label>
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.camping === true}
-                          onChange={e =>
-                            setFilters(f => ({
-                              ...f,
-                              camping: e.target.checked ? true : null,
-                            }))
-                          }
-                          className="w-4 h-4 rounded text-purple-600"
-                        />
-                        <span className="text-sm text-gray-700">Camping Available</span>
-                      </label>
+                    <div className="space-y-2 pl-4">
+                      {[
+                        { label: 'Family Friendly', field: 'family' as const },
+                        { label: 'Camping Available', field: 'camping' as const },
+                      ].map(({ label, field }) => (
+                        <label key={field} className="flex items-center gap-2.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={filters[field] === true}
+                            onChange={e => setFilters(f => ({ ...f, [field]: e.target.checked ? true : null }))}
+                            className="w-3.5 h-3.5 rounded accent-purple-500"
+                          />
+                          <span className="text-xs text-gray-400">{label}</span>
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -750,95 +622,79 @@ export default function FestivalMarketplace() {
             )}
           </AnimatePresence>
 
-          {/* Results Grid */}
-          <div className="lg:col-span-3">
-            {/* Results Header */}
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-gray-600 text-sm font-medium">
-                {!isLoaded ? 'Loading...' : `Showing ${sorted.length} ${sorted.length === 1 ? 'festival' : 'festivals'}`}
+          {/* Results */}
+          <div className={showFilters ? 'lg:col-span-3' : 'col-span-1'}>
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-gray-500 text-xs font-medium">
+                {!isLoaded ? 'Loading...' : `${sorted.length} ${sorted.length === 1 ? 'festival' : 'festivals'}`}
               </p>
+              {activeFilterCount > 0 && (
+                <button onClick={resetFilters} className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1">
+                  <X className="w-3 h-3" /> Clear filters
+                </button>
+              )}
             </div>
 
-            {/* Festival Grid/List */}
             {!isLoaded ? (
-              <div className="text-center py-16">
-                <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-gray-600">Loading festivals...</p>
+              <div className="text-center py-20">
+                <div className="w-10 h-10 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-gray-500 text-sm">Loading festivals...</p>
               </div>
-            ) : !festivals || festivals.length === 0 ? (
+            ) : sorted.length === 0 ? (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="col-span-full text-center py-16"
+                className="text-center py-20"
               >
-                <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">No festivals available</h3>
-                <p className="text-gray-600 mb-6">Festivals data is currently unavailable</p>
+                <AlertCircle className="w-12 h-12 text-gray-700 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">No festivals found</h3>
+                <p className="text-gray-500 mb-6 text-sm">Try adjusting your filters</p>
+                <button
+                  onClick={resetFilters}
+                  className="px-6 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                >
+                  Reset Filters
+                </button>
               </motion.div>
             ) : (
               <AnimatePresence mode="wait">
-                {sorted.length === 0 ? (
+                {viewMode === 'grid' ? (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="col-span-full text-center py-16"
-                  >
-                    <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">No festivals found</h3>
-                    <p className="text-gray-600 mb-6">Try adjusting your search criteria to discover more festivals</p>
-                    <button
-                      onClick={resetFilters}
-                      className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                    >
-                      Reset Filters
-                    </button>
-                  </motion.div>
-                ) : viewMode === 'grid' ? (
-                  <motion.div
+                    key="grid"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
                   >
                     {sorted.map(festival => (
                       <FestivalCard
                         key={festival.id}
                         festival={festival}
                         isFavorite={favorites.includes(festival.id)}
-                        isComparing={compare.includes(festival.id)}
-                        isHovered={hoveredFestival === festival.id}
+                        isComparing={comparing.some(f => f.id === festival.id)}
                         onFavorite={() => toggleFavorite(festival.id)}
-                        onCompare={() => toggleCompare(festival.id)}
-                        onHover={() => setHoveredFestival(festival.id)}
-                        onUnhover={() => setHoveredFestival(null)}
+                        onCompare={() => toggleCompare(festival)}
                       />
                     ))}
                   </motion.div>
-                ) : viewMode === 'list' ? (
+                ) : (
                   <motion.div
+                    key="list"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="space-y-4"
+                    className="space-y-3"
                   >
                     {sorted.map(festival => (
                       <FestivalListItem
                         key={festival.id}
                         festival={festival}
                         isFavorite={favorites.includes(festival.id)}
-                        isComparing={compare.includes(festival.id)}
+                        isComparing={comparing.some(f => f.id === festival.id)}
                         onFavorite={() => toggleFavorite(festival.id)}
-                        onCompare={() => toggleCompare(festival.id)}
+                        onCompare={() => toggleCompare(festival)}
                       />
                     ))}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-16 text-gray-600"
-                  >
-                    Switch to grid view to browse festivals
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -846,28 +702,14 @@ export default function FestivalMarketplace() {
           </div>
         </div>
       </div>
-
-      {/* Comparison Drawer */}
-      {compare.length > 0 && (
-        <ComparisonDrawer
-          festivals={festivals.filter(f => compare.includes(f.id))}
-          onClose={() => setCompare([])}
-        />
-      )}
     </div>
   );
 }
 
-// Filter Section Component
-function FilterSection({
-  title,
-  icon: Icon,
-  section: _section,
-  expanded,
-  onToggle,
-  options,
-  selected,
-  onChange,
+// ─── Sidebar Filter Section ─────────────────────────────────────────────────
+
+function SidebarFilterSection({
+  title, icon: Icon, section: _section, expanded, onToggle, options, selected, onChange,
 }: {
   title: string;
   icon: React.ComponentType<{ className: string }>;
@@ -879,28 +721,22 @@ function FilterSection({
   onChange: (value: string, checked: boolean) => void;
 }) {
   return (
-    <div className="space-y-3">
-      <button
-        onClick={onToggle}
-        className="flex items-center justify-between w-full text-sm font-semibold text-gray-900"
-      >
-        <span className="flex items-center gap-2">
-          <Icon className="w-4 h-4" />
-          {title}
-        </span>
-        {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+    <div className="space-y-2">
+      <button onClick={onToggle} className="flex items-center justify-between w-full text-xs font-semibold text-gray-400 hover:text-white transition-colors">
+        <span className="flex items-center gap-2"><Icon className="w-3.5 h-3.5" />{title}</span>
+        {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
       </button>
       {expanded && (
-        <div className="space-y-2 pl-6">
+        <div className="space-y-1.5 pl-4 max-h-48 overflow-y-auto scrollbar-hide">
           {options.map(option => (
-            <label key={option} className="flex items-center gap-3 cursor-pointer">
+            <label key={option} className="flex items-center gap-2.5 cursor-pointer">
               <input
                 type="checkbox"
                 checked={selected.includes(option)}
                 onChange={e => onChange(option, e.target.checked)}
-                className="w-4 h-4 rounded text-purple-600"
+                className="w-3.5 h-3.5 rounded accent-purple-500"
               />
-              <span className="text-sm text-gray-700">{option}</span>
+              <span className="text-xs text-gray-400 capitalize">{option}</span>
             </label>
           ))}
         </div>
@@ -909,153 +745,117 @@ function FilterSection({
   );
 }
 
-// Festival Card Component
+// ─── Festival Card ───────────────────────────────────────────────────────────
+
 function FestivalCard({
-  festival,
-  isFavorite,
-  isComparing,
-  isHovered: _isHovered,
-  onFavorite,
-  onCompare,
-  onHover,
-  onUnhover,
+  festival, isFavorite, isComparing, onFavorite, onCompare,
 }: {
   festival: Festival;
   isFavorite: boolean;
   isComparing: boolean;
-  isHovered: boolean;
   onFavorite: () => void;
   onCompare: () => void;
-  onHover: () => void;
-  onUnhover: () => void;
 }) {
-  return (
-    <motion.div
-      variants={itemVariants}
-      onMouseEnter={onHover}
-      onMouseLeave={onUnhover}
-      className="relative group"
-    >
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
-        {/* Image Container */}
-        <div className="relative overflow-hidden h-48 bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400">
-          {/* Dark overlay + festival name watermark */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-          <div className="absolute bottom-12 left-4 right-16">
-            <p className="text-white/80 text-xs font-bold uppercase tracking-widest truncate">{festival.city}, {festival.country}</p>
-          </div>
+  const gradient = getGenreGradient(festival.genres);
 
-          {/* Badges */}
-          <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2">
+  return (
+    <motion.div variants={itemVariants} className="relative group">
+      <div className="bg-gray-900 rounded-2xl border border-white/8 hover:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+
+        {/* Genre-colored header */}
+        <div className={`relative h-36 bg-gradient-to-br ${gradient} overflow-hidden`}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+          {/* Badges top-left */}
+          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
             {VERIFIED_FESTIVALS.has(festival.id) && <VerifiedBadge />}
             {festival.family_friendly && (
-              <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
-                👨‍👩‍👧‍👦 Family
-              </div>
+              <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-300 text-xs font-semibold border border-green-400/30">Family</span>
             )}
             {festival.camping && (
-              <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold">
-                🏕️ Camping
-              </div>
+              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-semibold border border-amber-400/30">Camping</span>
             )}
           </div>
 
-          {/* Action Buttons - Top Right */}
-          <div className="absolute top-4 right-4 flex flex-col gap-2">
+          {/* Action buttons top-right */}
+          <div className="absolute top-3 right-3 flex flex-col gap-1.5">
             <button
               onClick={onFavorite}
-              className={`p-2.5 rounded-full shadow-lg backdrop-blur-sm transition-all ${
-                isFavorite
-                  ? 'bg-red-500 text-white'
-                  : 'bg-white/80 text-gray-700 hover:bg-white'
+              className={`p-2 rounded-full backdrop-blur-sm shadow transition-all ${
+                isFavorite ? 'bg-red-500 text-white' : 'bg-black/40 text-white/70 hover:bg-black/60 hover:text-white'
               }`}
             >
-              <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+              <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
             </button>
             <button
               onClick={onCompare}
-              className={`p-2.5 rounded-full shadow-lg backdrop-blur-sm transition-all ${
-                isComparing
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white/80 text-gray-700 hover:bg-white'
+              className={`p-2 rounded-full backdrop-blur-sm shadow transition-all ${
+                isComparing ? 'bg-purple-600 text-white' : 'bg-black/40 text-white/70 hover:bg-black/60 hover:text-white'
               }`}
+              title="Add to compare"
             >
-              <Check className="w-5 h-5" />
+              <BarChart3 className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Price Badge - Bottom Right */}
-          <div className="absolute bottom-4 right-4">
-            <PriceBadge min={festival.estimated_cost_usd.min} max={festival.estimated_cost_usd.max} />
+          {/* Location + price bottom of header */}
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+            <p className="text-white/70 text-xs font-medium truncate">
+              {festival.city}, {festival.country}
+            </p>
+            <PriceBadge max={festival.estimated_cost_usd.max} />
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-5 flex-1 flex flex-col">
-          {/* Header */}
-          <div className="mb-3">
-            <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-1">
-              {festival.name}
-            </h3>
-            <p className="text-sm text-gray-600 flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
-              {festival.city}, {festival.country}
-            </p>
+        <div className="p-4 flex-1 flex flex-col">
+          <h3 className="text-base font-bold text-white mb-1 line-clamp-1">{festival.name}</h3>
+
+          {/* Meta row */}
+          <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3 h-3" />{festival.months[0]}
+            </span>
+            <span>{festival.duration_days}d</span>
+            <span className="capitalize">{festival.audience_size}</span>
           </div>
 
-          {/* Details Grid */}
-          <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-600 font-medium mb-1">Dates</p>
-              <p className="font-semibold text-gray-900">{festival.months[0]}</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-600 font-medium mb-1">Duration</p>
-              <p className="font-semibold text-gray-900">{festival.duration_days}d</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-600 font-medium mb-1">Genres</p>
-              <p className="font-semibold text-gray-900 truncate">{festival.genres[0]}</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-gray-600 font-medium mb-1">Crowd</p>
-              <p className="font-semibold text-gray-900">{festival.audience_size}</p>
-            </div>
+          {/* Genre pills */}
+          <div className="flex flex-wrap gap-1 mb-3">
+            {festival.genres.slice(0, 3).map(g => (
+              <span key={g} className="px-2 py-0.5 rounded-full bg-white/8 text-gray-300 text-xs border border-white/10 capitalize">{g}</span>
+            ))}
           </div>
 
-          {/* Vibes Tags */}
+          {/* Vibe pills */}
           {festival.vibe.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-4">
-              {festival.vibe.slice(0, 3).map(vibe => (
-                <span key={vibe} className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
-                  {vibe}
-                </span>
+            <div className="flex flex-wrap gap-1 mb-3">
+              {festival.vibe.slice(0, 2).map(v => (
+                <span key={v} className="px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 text-xs border border-purple-400/20 capitalize">{v}</span>
               ))}
             </div>
           )}
 
           <ProTips festivalId={festival.id} />
 
-          {/* CTA Buttons */}
-          <div className="flex gap-2 mt-auto pt-4 border-t border-gray-100">
+          {/* CTAs */}
+          <div className="flex gap-2 mt-auto pt-3 border-t border-white/8">
             <motion.a
               href={`/go/${festival.id}`}
               target="_blank"
               rel="noopener noreferrer sponsored"
               aria-label={`Get tickets for ${festival.name}`}
-              animate={{ boxShadow: ['0 0 0 0 rgba(249,115,22,0.25)', '0 4px 20px 4px rgba(249,115,22,0.18)', '0 0 0 0 rgba(249,115,22,0.25)'] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              className="flex-1 px-3 py-2.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-sm hover:from-orange-600 hover:to-rose-600 transition-colors text-center"
+              animate={{ boxShadow: ['0 0 0 0 rgba(249,115,22,0.2)', '0 4px 18px 4px rgba(249,115,22,0.15)', '0 0 0 0 rgba(249,115,22,0.2)'] }}
+              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex-1 py-2 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-xs hover:from-orange-600 hover:to-rose-600 transition-colors text-center"
             >
-              Get Tickets →
+              Get Tickets
             </motion.a>
             <a
-              href={festival.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-all text-center"
+              href={`/festival/${festival.id}`}
+              className="flex-1 py-2 bg-white/8 border border-white/10 text-gray-300 rounded-lg font-semibold text-xs hover:bg-white/12 transition-colors text-center flex items-center justify-center gap-1"
             >
-              Learn More
+              Details <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </div>
@@ -1064,13 +864,10 @@ function FestivalCard({
   );
 }
 
-// Festival List Item Component
+// ─── Festival List Item ──────────────────────────────────────────────────────
+
 function FestivalListItem({
-  festival,
-  isFavorite,
-  isComparing,
-  onFavorite,
-  onCompare,
+  festival, isFavorite, isComparing, onFavorite, onCompare,
 }: {
   festival: Festival;
   isFavorite: boolean;
@@ -1078,136 +875,80 @@ function FestivalListItem({
   onFavorite: () => void;
   onCompare: () => void;
 }) {
+  const gradient = getGenreGradient(festival.genres);
 
   return (
     <motion.div variants={itemVariants}>
-      <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all border border-gray-100 p-4 flex gap-4">
-        {/* Visual */}
-        <div className="hidden md:block w-24 h-24 rounded-lg bg-gradient-to-br from-purple-400 to-blue-400 flex-shrink-0" />
+      <div className="bg-gray-900 border border-white/8 hover:border-white/18 rounded-xl p-4 flex gap-4 transition-all duration-200">
+        {/* Colour swatch */}
+        <div className={`hidden sm:block w-16 h-16 rounded-xl bg-gradient-to-br ${gradient} flex-shrink-0`} />
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4 mb-2">
+          <div className="flex items-start justify-between gap-3 mb-1">
             <div>
-              <h3 className="text-lg font-bold text-gray-900">{festival.name}</h3>
-              <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
-                <MapPin className="w-4 h-4" />
-                {festival.city}, {festival.country}
+              <h3 className="text-sm font-bold text-white">{festival.name}</h3>
+              <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                <MapPin className="w-3 h-3" />{festival.city}, {festival.country}
               </p>
             </div>
-            <div className="flex gap-2 flex-shrink-0">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
               <button
                 onClick={onFavorite}
-                className={`p-2 rounded-full transition-all ${
-                  isFavorite
-                    ? 'bg-red-50 text-red-600'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                className={`p-1.5 rounded-full transition-all ${
+                  isFavorite ? 'bg-red-500/20 text-red-400' : 'bg-white/5 text-gray-500 hover:text-gray-300'
                 }`}
               >
-                <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+                <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
               </button>
               <button
                 onClick={onCompare}
-                className={`p-2 rounded-full transition-all ${
-                  isComparing
-                    ? 'bg-purple-50 text-purple-600'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                className={`p-1.5 rounded-full transition-all ${
+                  isComparing ? 'bg-purple-500/20 text-purple-400' : 'bg-white/5 text-gray-500 hover:text-gray-300'
                 }`}
               >
-                <Check className="w-5 h-5" />
+                <BarChart3 className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* Stats Row */}
-          <div className="flex items-center gap-4 text-sm mb-3">
-            <span className="text-gray-600">
-              ${festival.estimated_cost_usd.min} - ${festival.estimated_cost_usd.max}
-            </span>
-            <span className="text-gray-600">{festival.months[0]}</span>
-            <span className="text-gray-600">{festival.genres.join(', ')}</span>
+          <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+            <span>${festival.estimated_cost_usd.min}–${festival.estimated_cost_usd.max}</span>
+            <span>{festival.months[0]}</span>
+            <span>{festival.duration_days}d</span>
+            <span className="capitalize">{festival.genres[0]}</span>
           </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {festival.family_friendly && <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs font-medium">Family</span>}
-            {festival.camping && <span className="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs font-medium">Camping</span>}
-            {festival.vibe.map(v => (
-              <span key={v} className="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs font-medium">
-                {v}
-              </span>
+          <div className="flex flex-wrap gap-1 mb-2">
+            {festival.family_friendly && <span className="px-2 py-0.5 bg-green-500/15 text-green-400 rounded text-xs border border-green-400/20">Family</span>}
+            {festival.camping && <span className="px-2 py-0.5 bg-amber-500/15 text-amber-400 rounded text-xs border border-amber-400/20">Camping</span>}
+            {festival.vibe.slice(0, 2).map(v => (
+              <span key={v} className="px-2 py-0.5 bg-purple-500/15 text-purple-300 rounded text-xs border border-purple-400/20 capitalize">{v}</span>
             ))}
           </div>
 
           <ProTips festivalId={festival.id} />
         </div>
 
-        {/* Quick CTAs */}
-        <div className="flex gap-2 flex-shrink-0">
+        {/* CTAs */}
+        <div className="flex flex-col gap-2 flex-shrink-0 justify-center">
           <motion.a
             href={`/go/${festival.id}`}
             target="_blank"
             rel="noopener noreferrer sponsored"
             aria-label={`Get tickets for ${festival.name}`}
-            animate={{ boxShadow: ['0 0 0 0 rgba(249,115,22,0.25)', '0 4px 20px 4px rgba(249,115,22,0.18)', '0 0 0 0 rgba(249,115,22,0.25)'] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-            className="px-4 py-2 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-sm hover:from-orange-600 hover:to-rose-600 transition-colors whitespace-nowrap"
+            animate={{ boxShadow: ['0 0 0 0 rgba(249,115,22,0.2)', '0 4px 14px 2px rgba(249,115,22,0.14)', '0 0 0 0 rgba(249,115,22,0.2)'] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="px-4 py-2 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-lg font-bold text-xs hover:from-orange-600 hover:to-rose-600 transition-colors whitespace-nowrap"
           >
-            Get Tickets →
+            Get Tickets
           </motion.a>
           <a
-            href={festival.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-all"
+            href={`/festival/${festival.id}`}
+            className="px-4 py-2 bg-white/8 border border-white/10 text-gray-300 rounded-lg font-semibold text-xs hover:bg-white/12 transition-colors text-center"
           >
-            Info
+            Details
           </a>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-// Comparison Drawer Component
-function ComparisonDrawer({
-  festivals,
-  onClose,
-}: {
-  festivals: Festival[];
-  onClose: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 100, opacity: 0 }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-2xl rounded-t-2xl max-h-96 overflow-y-auto"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Comparing {festivals.length} Festivals</h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="w-6 h-6 text-gray-600" />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {festivals.map(festival => (
-            <div key={festival.id} className="bg-gradient-to-br from-gray-50 to-white rounded-lg p-4 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">{festival.name}</h3>
-              <div className="space-y-2 text-sm">
-                <p><span className="font-semibold">Price:</span> ${festival.estimated_cost_usd.min} - ${festival.estimated_cost_usd.max}</p>
-                <p><span className="font-semibold">Duration:</span> {festival.duration_days} days</p>
-                <p><span className="font-semibold">Genres:</span> {festival.genres.join(', ')}</p>
-                <p><span className="font-semibold">Audience:</span> {festival.audience_size}</p>
-                <p><span className="font-semibold">Location:</span> {festival.city}, {festival.country}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </motion.div>
