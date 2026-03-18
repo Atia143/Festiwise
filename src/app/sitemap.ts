@@ -292,7 +292,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       );
       if (hasFestivals) {
         genreRegionPages.push({
-          url: `${baseUrl}/festivals/${slug(genre)}/${slug(region)}`,
+          url: `${baseUrl}/festivals/genre/${slug(genre)}/${slug(region)}`,
           lastModified: currentDate,
           changeFrequency: 'weekly' as const,
           priority: 0.8,
