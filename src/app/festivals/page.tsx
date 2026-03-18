@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Browse 100+ Music Festivals Worldwide 2026 | FestiWise',
+  title: 'Browse 100+ Music Festivals Worldwide 2026',
   description: 'Explore and filter 100+ music festivals by genre, month, region, budget, and vibe. Compare festivals side-by-side and find your perfect match.',
   alternates: { canonical: 'https://getfestiwise.com/festivals' },
   openGraph: {

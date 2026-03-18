@@ -102,12 +102,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const ids = parseSlug(slug);
-  if (!ids) return { title: 'Festival Comparison | FestiWise' };
+  if (!ids) return { title: 'Festival Comparison' };
 
   const [a, b] = ids.map(getFestival);
-  if (!a || !b) return { title: 'Festival Comparison | FestiWise' };
+  if (!a || !b) return { title: 'Festival Comparison' };
 
-  const title = `${a.name} vs ${b.name} — Which Festival is Right for You? | FestiWise`;
+  const title = `${a.name} vs ${b.name} — Which Festival is Right for You?`;
   const description = `${a.name} (${a.city}, ${a.country}) vs ${b.name} (${b.city}, ${b.country}). Side-by-side comparison of budget, genres, vibe, duration, and more. Find out which festival matches you.`;
 
   return {

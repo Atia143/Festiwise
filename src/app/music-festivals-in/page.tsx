@@ -50,7 +50,7 @@ const CONTINENT_MAP: Record<string, string> = {
 const CONTINENT_ORDER = ['Europe', 'North America', 'Asia-Pacific', 'South America'];
 
 export const metadata: Metadata = {
-  title: 'Music Festivals by City — Browse Every Festival City | FestiWise',
+  title: 'Music Festivals by City — Browse Every Festival City',
   description:
     'Browse music festivals by city. 80+ festival cities across Europe, North America, Asia, and beyond — from London and Barcelona to Tokyo and Melbourne.',
   alternates: { canonical: 'https://getfestiwise.com/music-festivals-in' },

@@ -8,6 +8,7 @@ import LiveRadarSection from '@/components/LiveRadarSection';
 import FeaturedFestivalsSection from '@/components/FeaturedFestivalsSection';
 import HowItWorks from '@/components/HowItWorks';
 import CompareShowcase from '@/components/CompareShowcase';
+import BlogSection from '@/components/BlogSection';
 import CityExplorer from '@/components/CityExplorer';
 
 export default function HomePage() {
@@ -21,6 +22,7 @@ export default function HomePage() {
       <LiveRadarSection />
       <ForYouSection />
       <CompareShowcase />
+      <BlogSection />
       <CityExplorer />
 
       <section className="py-8 px-4 bg-white">

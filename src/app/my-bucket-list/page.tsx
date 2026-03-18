@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import BucketListClient from './BucketListClient';
 
 export const metadata: Metadata = {
-  title: 'My Festival Bucket List | FestiWise',
+  title: 'My Festival Bucket List',
   description: 'Your personal festival bucket list - saved festivals, total budget estimate, and easy sharing.',
   robots: { index: false },
 };

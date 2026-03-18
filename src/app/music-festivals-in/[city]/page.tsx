@@ -73,14 +73,14 @@ export async function generateMetadata({
   const festivals = festivalsData as Festival[];
   const cityName = slugToCity(citySlug, festivals);
 
-  if (!cityName) return { title: 'Music Festivals | FestiWise' };
+  if (!cityName) return { title: 'Music Festivals' };
 
   const cityFestivals = allFestivalsByCity(cityName);
   const country = cityFestivals[0]?.country ?? '';
   const count = cityFestivals.length;
   const festivalNames = cityFestivals.map(f => f.name).join(', ');
 
-  const title = `Music Festivals in ${cityName} ${new Date().getFullYear()} — ${count === 1 ? cityFestivals[0].name : `${count} Festivals`} | FestiWise`;
+  const title = `Music Festivals in ${cityName} ${new Date().getFullYear()} — ${count === 1 ? cityFestivals[0].name : `${count} Festivals`}`;
   const description =
     count === 1
       ? `Everything you need to know about ${cityFestivals[0].name} in ${cityName}, ${country}. Dates, budget, genres, tickets and more.`

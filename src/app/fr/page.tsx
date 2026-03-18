@@ -4,7 +4,7 @@ import festivalsData from '@/data/festivals.json';
 import type { Festival } from '@/types/festival';
 
 export const metadata: Metadata = {
-  title: 'Festivals de Musique 2026 — Trouve Ton Festival Idéal | FestiWise',
+  title: 'Festivals de Musique 2026 — Trouve Ton Festival Idéal',
   description: 'Découvre les meilleurs festivals de musique 2026 dans le monde. Quiz gratuit : 5 questions pour trouver ton festival parfait selon ton style, budget et disponibilités.',
   keywords: 'festivals de musique 2026, festival de musique France, meilleur festival musique Europe, chercher festival musique, festival été 2026',
   alternates: {

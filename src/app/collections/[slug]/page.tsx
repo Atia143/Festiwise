@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const c = getCollection(slug);
   if (!c) return { title: 'Collection not found' };
   const count = getCollectionFestivals(c, allFestivals).length;
-  const title = `${c.title} — ${count} Expert Picks | FestiWise`;
+  const title = `${c.title} — ${count} Expert Picks`;
   const description = `${c.subtitle}. ${count} hand-curated festivals selected by our editorial team.`;
   const ogParams = new URLSearchParams({
     slug,

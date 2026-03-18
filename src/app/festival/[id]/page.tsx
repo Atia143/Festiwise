@@ -488,7 +488,27 @@ export default async function FestivalPage({ params }: Props) {
         <VibeRadarChart festival={festival} />
 
         {/* Ratings & Reviews */}
-        <FestivalReviews festivalId={festival.id} festivalName={festival.name} />
+        <FestivalReviews
+          festivalId={festival.id}
+          festivalName={festival.name}
+          crowdScaleScore={
+            festival.audience_size === 'massive' ? 9 :
+            festival.audience_size === 'large' ? 7 :
+            festival.audience_size === 'medium' ? 5 : 3
+          }
+          genres={festival.genres}
+          estimatedCostMin={festival.estimated_cost_usd.min}
+          minAge={festival.min_age ?? 0}
+          energyScore={
+            festival.vibe.some(v => ['party', 'rave', 'mainstream'].includes(v)) ? 8 :
+            festival.vibe.some(v => ['chill', 'wellness', 'ambient'].includes(v)) ? 4 : 6
+          }
+          valueScore={
+            festival.estimated_cost_usd.min < 300 ? 9 :
+            festival.estimated_cost_usd.min < 700 ? 7 :
+            festival.estimated_cost_usd.min < 1500 ? 5 : 3
+          }
+        />
 
         {/* Ticket Alert CTA */}
         {festival.ticket_official_url && (

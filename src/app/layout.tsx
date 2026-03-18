@@ -21,7 +21,7 @@ import ConditionalFloatingUI from "@/components/ConditionalFloatingUI";
 import TrustFooter from "@/components/TrustFooter";
 import { Suspense } from "react";
 
-export { generateMetadata as metadata } from '@/lib/metadata';
+export { generateMetadata } from '@/lib/metadata';
 
 import type { Viewport } from 'next';
 export const viewport: Viewport = {

@@ -14,7 +14,7 @@ const LEGACY_REDIRECTS: Record<string, string> = {
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const { pathname, search, host } = url;
-  
+
   // Only handle legacy redirects in middleware
   const redirectTo = LEGACY_REDIRECTS[pathname];
   if (redirectTo) {
@@ -24,17 +24,22 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  return NextResponse.next();
+  // Set x-pathname header so generateMetadata can build hreflang tags
+  const response = NextResponse.next();
+  response.headers.set('x-pathname', pathname);
+  return response;
 }
 
 // Specify which paths the middleware should run on
 export const config = {
   matcher: [
-    // Only match legacy paths that need redirection
+    // Legacy redirects
     '/festival-finder',
     '/festivals.html',
     '/festivals/europe',
     '/festival-finder-quiz',
-    '/about-us.html'
+    '/about-us.html',
+    // All pages (for x-pathname header)
+    '/((?!_next/static|_next/image|favicon|api|.*\\..*).*)',
   ]
 };

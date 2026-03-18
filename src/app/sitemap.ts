@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import festivalsData from '@/data/festivals.json';
 import { seoIndexGenerator } from '@/lib/seoIndexGenerator';
+import { blogPosts } from '@/data/blog-posts';
 
 // Duplicated from compare/[slug]/page.tsx to avoid cross-route imports
 const COMPARISON_PAIRS: [string, string][] = [
@@ -371,6 +372,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Blog index + individual article pages
+  const blogPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    ...blogPosts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.updatedDate),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    })),
+  ];
+
   return [
     ...corePages,
     ...festivalPages,
@@ -384,5 +401,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...comparisonPages,
     ...cityPages,
     ...bestOfPages,
+    ...blogPages,
   ];
 }

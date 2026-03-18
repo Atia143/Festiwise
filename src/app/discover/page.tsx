@@ -4,7 +4,7 @@ import FestivalRadar from '@/components/FestivalRadar';
 import festivalsData from '@/data/festivals.json';
 
 export const metadata = {
-  title: 'Discover Festivals — Trending, Hidden Gems & Editorial Picks | FestiWise',
+  title: 'Discover Festivals — Trending, Hidden Gems & Editorial Picks',
   description: 'Explore trending festivals, hidden gems, and curated picks across 100+ global events. Browse by genre, season, or mood.',
 };
 

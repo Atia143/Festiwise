@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Best Music Festivals 2026 — Curated Lists by Category | FestiWise',
+  title: 'Best Music Festivals 2026 — Curated Lists by Category',
   description: 'Curated lists of the best music festivals for every taste in 2026. Best EDM, rock, jazz, family, budget, Europe, USA, and more.',
   openGraph: {
     title: 'Best Music Festivals 2026 — Curated Lists by Category',

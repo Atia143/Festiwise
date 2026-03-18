@@ -181,7 +181,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const labelDisplay = cat.headline.replace(/^(The |Best )/i, '').replace(/ Festivals.*/i, '').trim();
   const ogImg = `https://getfestiwise.com/api/og/best?slug=${encodeURIComponent(labelSlug)}&label=${encodeURIComponent(labelDisplay)}&count=${count}`;
   return {
-    title: `${cat.title} | FestiWise`,
+    title: cat.title,
     description: cat.description,
     alternates: { canonical: `https://getfestiwise.com/best/${category}` },
     openGraph: {

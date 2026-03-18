@@ -35,7 +35,7 @@ const SIZE_ORDER: Record<string, number> = {
 };
 
 export const metadata: Metadata = {
-  title: 'Music Festival Calendar 2026 — All Festivals by Month | FestiWise',
+  title: 'Music Festival Calendar 2026 — All Festivals by Month',
   description:
     'Complete music festival calendar for 2026. Browse 100+ festivals month by month — January through December. Find the perfect festival for your schedule and budget.',
   alternates: { canonical: 'https://getfestiwise.com/festival-calendar-2026' },

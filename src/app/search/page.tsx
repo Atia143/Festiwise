@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import SearchClient from './SearchClient';
 
 export const metadata: Metadata = {
-  title: 'Search Music Festivals 2026 | FestiWise',
+  title: 'Search Music Festivals 2026',
   description: 'Search and filter 100+ music festivals worldwide. Filter by genre, country, month, and budget. Find the perfect festival for you.',
   openGraph: {
     title: 'Search Music Festivals 2026 | FestiWise',

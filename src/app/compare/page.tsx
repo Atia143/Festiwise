@@ -58,7 +58,7 @@ const CATEGORIES = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Festival Comparisons — Coachella vs Tomorrowland & More | FestiWise',
+  title: 'Festival Comparisons — Coachella vs Tomorrowland & More',
   description:
     'Side-by-side festival comparisons. Coachella vs Tomorrowland, Glastonbury vs Primavera, Ultra vs EDC, and 20+ more head-to-head breakdowns. Find which festival is right for you.',
   alternates: { canonical: 'https://getfestiwise.com/compare' },

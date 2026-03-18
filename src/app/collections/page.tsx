@@ -8,7 +8,7 @@ import type { Festival } from '@/types/festival';
 const festivals = rawFestivals as Festival[];
 
 export const metadata: Metadata = {
-  title: 'Expert Festival Collections | FestiWise',
+  title: 'Expert Festival Collections',
   description: 'Hand-curated expert collections - best sustainable festivals, luxury experiences, budget gems, family picks, underground legends, and more.',
   keywords: ['best music festivals', 'curated festival list', 'expert festival picks', 'festival collections', 'top music festivals 2026'],
   alternates: { canonical: 'https://getfestiwise.com/collections' },

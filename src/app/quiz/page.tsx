@@ -4,7 +4,7 @@ import { QuizProvider } from '@/components/quiz/QuizContext';
 import QuizLanding from './QuizLanding';
 
 export const metadata: Metadata = {
-  title: 'Festival Finder Quiz — Find Your Perfect Festival in 2 Minutes | FestiWise',
+  title: 'Festival Finder Quiz — Find Your Perfect Festival in 2 Minutes',
   description: 'Answer 5 quick questions about your music taste, budget, and travel style. Get personalised festival recommendations from 100+ world-class events worldwide. Free, no sign-up needed.',
   alternates: { canonical: 'https://getfestiwise.com/quiz' },
   openGraph: {
