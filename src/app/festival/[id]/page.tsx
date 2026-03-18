@@ -24,6 +24,13 @@ import FestivalReviews from '@/components/FestivalReviews';
 
 const festivals = rawFestivals as Festival[];
 
+// ── SSG: pre-render all festival pages at build time ─────────────────────────
+export const revalidate = 86400; // refresh once per day (ISR)
+
+export async function generateStaticParams() {
+  return festivals.map(f => ({ id: f.id }));
+}
+
 // ── City slug (mirrors music-festivals-in/[city]/page.tsx) ────────────────────
 function cityToSlug(city: string): string {
   return city

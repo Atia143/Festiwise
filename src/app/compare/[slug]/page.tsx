@@ -85,6 +85,8 @@ function audienceLabel(size: string) {
   return map[size.toLowerCase()] ?? size;
 }
 
+export const revalidate = 86400;
+
 // ─── Static params ────────────────────────────────────────────────────────────
 export async function generateStaticParams() {
   return COMPARISON_PAIRS.map(([a, b]) => ({

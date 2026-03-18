@@ -52,6 +52,8 @@ const AUDIENCE_LABEL: Record<string, string> = {
   intimate: 'Intimate',
 };
 
+export const revalidate = 86400;
+
 // ─── Static params — one page per unique city ─────────────────────────────────
 export async function generateStaticParams() {
   const festivals = festivalsData as Festival[];

@@ -31,11 +31,6 @@ export function generateMetadata(): Metadata {
       address: false,
       telephone: false,
     },
-    viewport: {
-      width: 'device-width',
-      initialScale: 1,
-      maximumScale: 5,
-    },
     category: 'entertainment',
     openGraph: {
       title: 'FestiWise: Find Your Perfect Music Festival in 2 Minutes',

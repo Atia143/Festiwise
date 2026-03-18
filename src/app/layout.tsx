@@ -23,6 +23,13 @@ import { Suspense } from "react";
 
 export { generateMetadata as metadata } from '@/lib/metadata';
 
+import type { Viewport } from 'next';
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -48,7 +55,7 @@ export default function RootLayout({
         <PerformanceOptimizer />
         <ConnectionAwareComponent />
         
-        <GoogleTagManager gtmId="G-5Y1Z0CMJ44" />
+        <GoogleTagManager gtmId="GTM-N9Z2SZGP" />
         <GTMDebugWrapper />
         <ClientStructuredData />
         <ServiceWorkerRegistration />

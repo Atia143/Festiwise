@@ -33,6 +33,8 @@ function toSlug(s: string) {
   return s.toLowerCase().replace(/'/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
+export const revalidate = 86400;
+
 // Generate static paths for genre pages
 export async function generateStaticParams() {
   const genres = [...new Set(festivals.flatMap(f => f.genres))];

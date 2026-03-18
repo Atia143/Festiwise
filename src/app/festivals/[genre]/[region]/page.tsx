@@ -81,6 +81,8 @@ function getFilteredFestivals(genre: string, region: string): Festival[] {
   });
 }
 
+export const revalidate = 86400;
+
 // ── Static Params (pre-render all non-empty combos) ────────────────────────────
 export async function generateStaticParams() {
   const params: { genre: string; region: string }[] = [];
